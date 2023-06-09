@@ -12,12 +12,13 @@
     <default>
         <payment>
             <upstream_pay>
-                <active>1</active>
+                <active>0</active>
                 <model>UpStreamPay\Core\Model\UpStreamPay</model>
                 <order_status>pending</order_status>
                 <title>UpStream Pay</title>
                 <allowspecific>0</allowspecific>
                 <group>upstream_pay</group>
+                <mode>sandbox</mode>
             </upstream_pay>
         </payment>
     </default>
