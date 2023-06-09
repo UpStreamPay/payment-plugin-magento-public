@@ -1,0 +1,150 @@
+<?php
+/**
+ * UpStream Pay
+ *
+ * Copyright (c) 2019-2023 UpStream Pay.
+ * This file is open source and available under the MIT license.
+ * See the LICENSE file for more info.
+ *
+ * Author: Claranet France <info@fr.clara.net>
+ */
+declare(strict_types=1);
+
+namespace UpStreamPay\Client\Model\Client;
+
+use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\RequestOptions;
+use Magento\Framework\Encryption\EncryptorInterface;
+use Throwable;
+use UpStreamPay\Core\Model\Config;
+use UpStreamPay\Core\Model\Config\Source\Mode;
+use GuzzleHttp\ClientFactory;
+
+/**
+ * Class Client
+ *
+ * @package UpStreamPay\Client\Model\Client
+ */
+class Client implements ClientInterface
+{
+    private const API_ENDPOINT = [
+        Mode::SANDBOX_VALUE => 'https://api.preprod.upstreampay.com',
+        Mode::PRODUCTION_VALUE => ''
+    ];
+
+    private const HEADERS = 'headers';
+    private const API_KEY_PARAM = 'x-api-key';
+    private const FORM_PARAMS = 'form_params';
+    private const POST = 'POST';
+    private const GET = 'GET';
+    private const OAUTH_TOKEN_URI = '/oauth/token';
+    private const CREATE_SESSION_URI = '/sessions/create';
+
+    /**
+     * @param ClientFactory $httpClientFactory
+     * @param Config $config
+     * @param EncryptorInterface $encryptor
+     */
+    public function __construct(
+        private readonly ClientFactory $httpClientFactory,
+        private readonly Config $config,
+        private readonly EncryptorInterface $encryptor
+    ) {}
+
+    /**
+     * Get token to authenticate on further API calls.
+     *
+     * @return array
+     */
+    public function getToken(): array
+    {
+        $headers = [
+            'Authorization' => sprintf(
+                'Basic %s',
+                base64_encode($this->config->getClientId() . ':' . $this->decryptConfig($this->config->getClientSecret()))
+            ),
+            self::API_KEY_PARAM => $this->decryptConfig($this->config->getApiKey()),
+            'Content-Type' => 'application/x-www-form-urlencoded'
+        ];
+
+        $params = [
+            'grant_type' => 'client_credentials',
+        ];
+
+        return $this->callApi($headers, [], self::POST, self::OAUTH_TOKEN_URI, $params);
+    }
+
+    /**
+     * Create UpStream Pay session.
+     *
+     * @param array $orderSession
+     *
+     * @return array
+     */
+    public function createSession(array $orderSession): array
+    {
+        //TODO Remove hardcoded value & provide real token (once we have cache feature to save it).
+        $token = 'FOO';
+
+        $headers = [
+            'Authorization' => 'Bearer ' . $token,
+            self::API_KEY_PARAM => $this->decryptConfig($this->config->getApiKey()),
+            'Content-Type' => 'application/json'
+        ];
+
+        return $this->callApi($headers, $orderSession, self::POST, $this->config->getEntityId() . self::CREATE_SESSION_URI, []);
+    }
+
+    /**
+     * Call the API to perform a request.
+     *
+     * @param array $headers
+     * @param array $body
+     * @param string $protocol
+     * @param string $uri
+     * @param array $params
+     *
+     * @return array
+     */
+    private function callApi(array $headers, array $body, string $protocol, string $uri, array $params): array
+    {
+        $response = [];
+
+        try {
+            /** @var GuzzleClient $client */
+            $client = $this->httpClientFactory->create(
+                [
+                    'config' => [
+                        'base_uri' => self::API_ENDPOINT[$this->config->getMode()
+                        ]
+                    ]
+                ]
+            );
+
+            $rawResponse = $client->request($protocol, $uri, [
+                self::HEADERS => $headers,
+                self::FORM_PARAMS => $params,
+                RequestOptions::JSON => $body,
+            ]);
+
+            $response = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (Throwable $exception) {
+            //TODO Remove this when error management is done. This is WIP while in early dev stages.
+            throw new \Exception($exception->getMessage());
+            //DEAL WITH EXCEPTION
+        }
+
+        return $response;
+    }
+
+    /**
+     * Decrypt obscure configuration from database.
+     *
+     * @param string $config
+     * @return string
+     */
+    private function decryptConfig(string $config): string
+    {
+        return $this->encryptor->decrypt(trim($config));
+    }
+}

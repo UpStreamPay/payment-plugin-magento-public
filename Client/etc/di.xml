@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  UpStream Pay
+
+  Copyright (c) 2019-2023 UpStream Pay.
+  This file is open source and available under the MIT license.
+  See the LICENSE file for more info.
+
+  Author: Claranet France <info@fr.clara.net>
+  -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="UpStreamPay\Client\Model\Client\ClientInterface" type="UpStreamPay\Client\Model\Client\Client"/>
+</config>
