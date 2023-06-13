@@ -9,8 +9,11 @@
  */
 define([
     'Magento_Checkout/js/view/payment/default',
+    'Magento_Ui/js/model/messageList',
+    'Magento_Customer/js/customer-data',
+    'jquery',
     'UpStreamPay_Core/js/upstream-pay-sdk'
-], function (Component, UpStreamPaySdk) {
+], function (Component, messageList, customerData, $, UpStreamPaySdk) {
     'use strict';
 
     return Component.extend({
@@ -29,22 +32,37 @@ define([
                         "apiKey": window.checkoutConfig.payment.UpStreamPay.apiKey,
                     });
 
-                    console.log(manager);
+                    // Get the session data (order) so we can have a cart context to send to UpStream Pay.
+                    this.getSessionData()
+                        .done(function (jsonResponse) {
+                            const [session] = jsonResponse;
+                            manager.setPaymentSession(session).then(() => {
+                                const widgetPaymentPromise = manager.createWidget({
+                                    interface: "PAYMENT",
+                                    ui: {
+                                        layout: {name: "ACCORDION",}
+                                    }
+                                });
 
-                    //TODO GET SESSION FROM PHP => AJAX NEEDED.
-                    const session = '';
-                    manager.setPaymentSession(session);
+                                const widgetButtonPromise = manager.createWidget({interface: 'PAY_BUTTON'});
 
-                    const widget = manager.createWidget({
-                        interface: "PAYMENT",
-                        ui:{
-                            layout:{name: "ACCORDION",}
-                        }
-                    });
+                                widgetPaymentPromise.then((widgetPayment) => {
+                                    widgetPayment.mount("widget-payment");
 
-                    console.log(widget);
+                                    widgetButtonPromise.then((widgetButton) => {
+                                        widgetButton.mount("widget-button");
+                                    })
+                                })
+                            })
+                        })
+                        .fail(function (xhr) {
+                            // Handle the error and display the error message
+                            const errorMessage = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'An error occurred.';
 
-                    widget.mount("widget-payment");
+                            messageList.addErrorMessage({
+                                message: errorMessage
+                            });
+                        });
                 });
         },
 
@@ -54,6 +72,20 @@ define([
          */
         loadUpStreamPaySdk: function () {
             return UpStreamPaySdk();
+        },
+
+        /**
+         * Retrieve session data (order) to send to UpStream Pay, so we can get all the payment methods avaible for
+         * the cart.
+         *
+         * @returns {Promise}
+         */
+        getSessionData: function () {
+            return $.ajax({
+                url: '/rest/V1/upstreampay/session', // Replace with your actual API endpoint URL
+                type: 'GET',
+                dataType: 'json'
+            });
         },
     });
 });
