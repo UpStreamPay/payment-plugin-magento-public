@@ -16,6 +16,7 @@ use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\RequestOptions;
 use Magento\Framework\Encryption\EncryptorInterface;
 use Throwable;
+use UpStreamPay\Client\Model\Token\TokenService;
 use UpStreamPay\Core\Model\Config;
 use UpStreamPay\Core\Model\Config\Source\Mode;
 use GuzzleHttp\ClientFactory;
@@ -34,7 +35,7 @@ class Client implements ClientInterface
 
     private const HEADERS = 'headers';
     private const API_KEY_PARAM = 'x-api-key';
-    private const FORM_PARAMS = 'form_params';
+    private const QUERY = 'query';
     private const POST = 'POST';
     private const GET = 'GET';
     private const OAUTH_TOKEN_URI = '/oauth/token';
@@ -44,11 +45,13 @@ class Client implements ClientInterface
      * @param ClientFactory $httpClientFactory
      * @param Config $config
      * @param EncryptorInterface $encryptor
+     * @param TokenService $tokenService
      */
     public function __construct(
         private readonly ClientFactory $httpClientFactory,
         private readonly Config $config,
-        private readonly EncryptorInterface $encryptor
+        private readonly EncryptorInterface $encryptor,
+        private readonly TokenService $tokenService
     ) {}
 
     /**
@@ -67,11 +70,11 @@ class Client implements ClientInterface
             'Content-Type' => 'application/x-www-form-urlencoded'
         ];
 
-        $params = [
+        $query = [
             'grant_type' => 'client_credentials',
         ];
 
-        return $this->callApi($headers, [], self::POST, self::OAUTH_TOKEN_URI, $params);
+        return $this->callApi($headers, [], self::POST, self::OAUTH_TOKEN_URI, $query);
     }
 
     /**
@@ -83,11 +86,18 @@ class Client implements ClientInterface
      */
     public function createSession(array $orderSession): array
     {
-        //TODO Remove hardcoded value & provide real token (once we have cache feature to save it).
-        $token = 'FOO';
+        $token = $this->tokenService->getToken();
+
+        if ($token->hasExpired()) {
+            try {
+                $token = $this->tokenService->setToken($this->getToken());
+            } catch (\Exception $exception) {
+                return [];
+            }
+        }
 
         $headers = [
-            'Authorization' => 'Bearer ' . $token,
+            'Authorization' => 'Bearer ' . $token->getValue(),
             self::API_KEY_PARAM => $this->decryptConfig($this->config->getApiKey()),
             'Content-Type' => 'application/json'
         ];
@@ -102,11 +112,11 @@ class Client implements ClientInterface
      * @param array $body
      * @param string $protocol
      * @param string $uri
-     * @param array $params
+     * @param array $query
      *
      * @return array
      */
-    private function callApi(array $headers, array $body, string $protocol, string $uri, array $params): array
+    private function callApi(array $headers, array $body, string $protocol, string $uri, array $query): array
     {
         $response = [];
 
@@ -123,7 +133,7 @@ class Client implements ClientInterface
 
             $rawResponse = $client->request($protocol, $uri, [
                 self::HEADERS => $headers,
-                self::FORM_PARAMS => $params,
+                self::QUERY => $query,
                 RequestOptions::JSON => $body,
             ]);
 
