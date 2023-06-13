@@ -12,12 +12,21 @@
     <policies>
         <policy id="script-src">
             <values>
-                <value id="upstream-pay-script" type="host">https://widget.upstreampay.com</value>
+                <value id="upstream-pay-widget-script" type="host">https://widget.upstreampay.com</value>
+                <value id="upstream-pay-api-preprod" type="host">https://api.preprod.upstreampay.com</value>
+                <value id="upstream-pay-api-prod" type="host">https://api.upstreampay.com</value>
             </values>
         </policy>
         <policy id="connect-src">
             <values>
-                <value id="upstream-pay-connect" type="host">https://widget.upstreampay.com</value>
+                <value id="upstream-pay-widget-connect" type="host">https://widget.upstreampay.com</value>
+                <value id="upstream-pay-api-preprod-connect" type="host">https://api.preprod.upstreampay.com</value>
+                <value id="upstream-pay-api-prod-connect" type="host">https://api.upstreampay.com</value>
+            </values>
+        </policy>
+        <policy id="img-src">
+            <values>
+                <value id="upstream-pay-widget-img" type="host">https://widget.upstreampay.com</value>
             </values>
         </policy>
     </policies>
