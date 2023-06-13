@@ -1,0 +1,2 @@
+"UpStream Pay cache", "UpStream Pay cache"
+"API token, cache must never be disabled. Should only be cleaned / flushed if needed.", "API token, cache must never be disabled. Should only be cleaned / flushed if needed."
