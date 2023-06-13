@@ -23,11 +23,10 @@ define([
 
             this.loadUpStreamPaySdk()
                 .then((UpStreamPay) => {
-                    //MAKE DYNAMIC FROM BACK THROUGH PAYMENT INIT
                     const manager = UpStreamPay.WidgetManager.buildForCredentials({
-                        "environment": "sandbox",
-                        "entityId": "foo",
-                        "apiKey": "foo",
+                        "environment": window.checkoutConfig.payment.UpStreamPay.mode,
+                        "entityId": window.checkoutConfig.payment.UpStreamPay.entityId,
+                        "apiKey": window.checkoutConfig.payment.UpStreamPay.apiKey,
                     });
 
                     console.log(manager);
