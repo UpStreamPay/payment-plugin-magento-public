@@ -10,4 +10,5 @@
   -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="UpStreamPay\Client\Model\Client\ClientInterface" type="UpStreamPay\Client\Model\Client\Client"/>
+    <preference for="UpStreamPay\Client\Api\Data\TokenInterface" type="UpStreamPay\Client\Model\Token\Token"/>
 </config>
