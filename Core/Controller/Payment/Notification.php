@@ -25,6 +25,8 @@ use Magento\Framework\Controller\ResultFactory;
  */
 class Notification implements HttpGetActionInterface
 {
+    public const URL_PATH = 'upstreampay/payment/notification';
+
     public function __construct(
         private readonly RequestInterface $request,
         private readonly ResultFactory $resultFactory

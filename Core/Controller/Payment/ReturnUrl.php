@@ -24,6 +24,8 @@ use Magento\Framework\Controller\ResultFactory;
  */
 class ReturnUrl implements HttpGetActionInterface
 {
+    public const URL_PATH = 'upstreampay/payment/returnurl';
+
     /**
      * @param ResultFactory $resultFactory
      */
