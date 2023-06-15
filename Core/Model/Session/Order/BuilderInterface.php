@@ -10,7 +10,7 @@
  */
 namespace UpStreamPay\Core\Model\Session\Order;
 
-use Magento\Quote\Model\Quote;
+use Magento\Quote\Api\Data\CartInterface;
 
 /**
  * Interface BuilderInterface
@@ -22,9 +22,9 @@ interface BuilderInterface
     /**
      * Build data needed to create an order so that we can request a session from UpStream Pay.
      *
-     * @param Quote $quote
+     * @param CartInterface $quote
      *
      * @return array
      */
-    public function execute(Quote $quote): array;
+    public function execute(CartInterface $quote): array;
 }
