@@ -25,6 +25,8 @@ interface BuilderInterface
      * @param CartInterface $quote
      *
      * @return array
+     *
+     * @see UpStream Pay documentation regarding all the fields & format.
      */
     public function execute(CartInterface $quote): array;
 }
