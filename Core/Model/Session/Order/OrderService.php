@@ -35,15 +35,19 @@ class OrderService
     }
 
     /**
+     * Build the order that UpStream Pay needs to create a session.
+     *
      * @param Quote $quote
      *
      * @return array
+     *
+     * @see UpStream Pay documentation regarding all the fields & format.
      */
     public function execute(Quote $quote): array
     {
         $order = [];
 
-        $netAmount = $quote->getSubtotal() + $quote->getShippingAddress()->getShippingAmount();
+        $netAmount = $quote->getSubtotalWithDiscount() + $quote->getShippingAddress()->getShippingAmount();
 
         $order['hook'] = $this->url->getUrl(Notification::URL_PATH);
         $order['amount'] = $quote->getGrandTotal();
