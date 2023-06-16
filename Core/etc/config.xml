@@ -19,6 +19,7 @@
                 <allowspecific>0</allowspecific>
                 <group>upstream_pay</group>
                 <mode>sandbox</mode>
+                <payment_action>authorize_capture</payment_action>
             </upstream_pay>
         </payment>
     </default>

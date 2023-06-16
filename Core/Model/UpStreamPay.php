@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace UpStreamPay\Core\Model;
 
+use Magento\Payment\Model\InfoInterface;
 use Magento\Payment\Model\Method\AbstractMethod;
 
 /**
@@ -23,27 +24,47 @@ class UpStreamPay extends AbstractMethod
 {
     protected $_code = Config::METHOD_CODE_UPSTREAM_PAY;
 
-    protected $_isGateway = false;
+    protected $_isGateway = true;
 
     protected $_canOrder = true;
 
-    protected $_canAuthorize = false;
+    protected $_canAuthorize = true;
 
-    protected $_canCapture = false;
+    protected $_canCapture = true;
+    protected $_canCapturePartial = true;
 
-    protected $_canRefund = false;
+    protected $_canRefund = true;
+    protected $_canRefundInvoicePartial = true;
 
-    protected $_canVoid = false;
+    protected $_canVoid = true;
 
     protected $_canUseCheckout = true;
 
-    public function isActive($storeId = null)
+    protected $_canUseInternal = false;
+
+    protected $_canFetchTransactionInfo = false;
+
+    protected $_canReviewPayment = false;
+
+    /**
+     * @return string
+     */
+    public function getPaymentAction(): string
     {
-        return true;
+        return AbstractMethod::ACTION_AUTHORIZE_CAPTURE;
     }
 
-    public function isAvailable(\Magento\Quote\Api\Data\CartInterface $quote = null)
+    public function authorize(InfoInterface $payment, $amount)
     {
-        return true;
+        $payment->setIsTransactionPending(true);
+
+        return $this;
+    }
+
+    public function capture(InfoInterface $payment, $amount)
+    {
+        $payment->setIsTransactionPending(true);
+
+        return $this;
     }
 }
