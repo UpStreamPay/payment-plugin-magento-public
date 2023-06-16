@@ -12,21 +12,38 @@ define([
     'Magento_Ui/js/model/messageList',
     'Magento_Customer/js/customer-data',
     'jquery',
-    'UpStreamPay_Core/js/upstream-pay-sdk'
-], function (Component, messageList, customerData, $, UpStreamPaySdk) {
+    'UpStreamPay_Core/js/upstream-pay-sdk',
+    'Magento_Checkout/js/model/full-screen-loader',
+    'Magento_Checkout/js/action/place-order',
+    'Magento_Ui/js/model/messages',
+    'uiLayout',
+], function (
+    Component,
+    messageList,
+    customerData,
+    $,
+    UpStreamPaySdk,
+    fullScreenLoader,
+    placeOrderAction,
+    Messages,
+    layout
+) {
     'use strict';
 
     return Component.extend({
         defaults: {
-            template: 'UpStreamPay_Core/payment/upstream-pay'
+            template: 'UpStreamPay_Core/payment/upstream-pay',
+            manager: {},
         },
 
         initialize: function () {
             this._super();
+            this.initChildren();
+            const self = this;
 
             this.loadUpStreamPaySdk()
                 .then((UpStreamPay) => {
-                    const manager = UpStreamPay.WidgetManager.buildForCredentials({
+                    self.manager = UpStreamPay.WidgetManager.buildForCredentials({
                         "environment": window.checkoutConfig.payment.UpStreamPay.mode,
                         "entityId": window.checkoutConfig.payment.UpStreamPay.entityId,
                         "apiKey": window.checkoutConfig.payment.UpStreamPay.apiKey,
@@ -36,8 +53,8 @@ define([
                     this.getSessionData()
                         .done(function (jsonResponse) {
                             const [session] = jsonResponse;
-                            manager.setPaymentSession(session).then(() => {
-                                const widgetPaymentPromise = manager.createWidget({
+                            self.manager.setPaymentSession(session).then(() => {
+                                const widgetPaymentPromise = self.manager.createWidget({
                                     interface: "PAYMENT",
                                     ui: {
                                         layout: {name: "ACCORDION",}
@@ -70,6 +87,51 @@ define([
         },
 
         /**
+         * Place the order in Magento then place the order in UpStream Pay if everything is ok.
+         */
+        placeOrderUpStreamPay: function () {
+            const self = this;
+
+            this.getPlaceOrderDeferredObject()
+                .done(
+                    function () {
+                        //Needed?
+                        // self.afterPlaceOrder();
+                        console.log('payment is success.');
+                        self.manager.submitPayment();
+                    }
+                ).fail(
+                    function () {
+                        console.log('it has failed.');
+                    }
+                );
+        },
+
+        /**
+         * Get native place order deferrer.
+         * (This is Magento native behaviour).
+         *
+         * @return {*}
+         */
+        getPlaceOrderDeferredObject: function () {
+            return $.when(
+                placeOrderAction(this.getData(), this.messageContainer)
+            );
+        },
+
+        /**
+         * Get payment method data
+         * (This is Magento native behaviour).
+         */
+        getData: function () {
+            return {
+                'method': window.checkoutConfig.payment.UpStreamPay.paymentMethodCode,
+                'po_number': null,
+                'additional_data': null
+            };
+        },
+
+        /**
          * Load UpStream Pay SDK.
          *
          */
@@ -89,6 +151,42 @@ define([
                 type: 'GET',
                 dataType: 'json'
             });
+        },
+
+        /**
+         * Initialize child elements
+         * (This is Magento native behaviour).
+         *
+         * @returns {Component} Chainable.
+         */
+        initChildren: function () {
+            this.messageContainer = new Messages();
+            this.createMessagesComponent();
+
+            return this;
+        },
+
+        /**
+         * Create child message renderer component
+         * (This is Magento native behaviour).
+         *
+         * @returns {Component} Chainable.
+         */
+        createMessagesComponent: function () {
+
+            var messagesComponent = {
+                parent: this.name,
+                name: this.name + '.messages',
+                displayArea: 'messages',
+                component: 'Magento_Ui/js/view/messages',
+                config: {
+                    messageContainer: this.messageContainer
+                }
+            };
+
+            layout([messagesComponent]);
+
+            return this;
         },
     });
 });
