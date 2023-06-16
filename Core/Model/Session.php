@@ -14,6 +14,8 @@ namespace UpStreamPay\Core\Model;
 
 use Exception;
 use Magento\Checkout\Model\Session as CheckoutSession;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Psr\Log\LoggerInterface;
 use UpStreamPay\Client\Model\Client\ClientInterface;
 use UpStreamPay\Core\Api\SessionInterface;
@@ -26,9 +28,15 @@ use UpStreamPay\Core\Model\Session\Order\OrderService;
  */
 class Session implements SessionInterface
 {
+    /**
+     * @param ClientInterface $client
+     * @param OrderService $orderService
+     * @param CheckoutSession $checkoutSession
+     * @param LoggerInterface $logger
+     */
     public function __construct(
         private readonly ClientInterface $client,
-        private readonly OrderService    $orderService,
+        private readonly OrderService $orderService,
         private readonly CheckoutSession $checkoutSession,
         private readonly LoggerInterface $logger
     ) {
@@ -38,43 +46,21 @@ class Session implements SessionInterface
      * Return the session data (build the order) in order to indicate to UpStream Pay what payment methods to return.
      *
      * @return array
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
      */
     public function getSession(): array
     {
-        try {
-            $quote = $this->checkoutSession->getQuote();
+        $quote = $this->checkoutSession->getQuote();
 
-            if (!$quote || !$quote->getId()) {
-                throw new Exception(
-                    'Tried to retrieve a quote to create UpStream Pay session but it appears it is invalid.'
-                );
-            }
-        } catch (Exception $exception) {
-            $this->logger->critical(
-                sprintf(
-                'Error getting UpStream Pay session. Impossible to get current customer quote because %s',
-                    $exception->getMessage()
-                ),
-                ['exception' => $exception->getTraceAsString()]
-            );
+        if (!$quote || !$quote->getId()) {
+            $errorMessage = 'Tried to retrieve a quote to create UpStream Pay session but it appears it is invalid.';
+            $this->logger->critical($errorMessage);
 
-            return [];
+            throw new Exception($errorMessage);
         }
 
-        try {
-            $order = $this->orderService->execute($quote);
-        } catch (Exception $exception) {
-            $this->logger->critical(
-                sprintf(
-                'Error while creating order to init UpStream Pay session for quote with id %s.',
-                    $exception->getMessage(),
-                ),
-                ['exception' => $exception->getTraceAsString()]
-            );
-
-            return [];
-        }
-
+        $order = $this->orderService->execute($quote);
         $response = $this->client->createSession($order);
 
         return [$response];
