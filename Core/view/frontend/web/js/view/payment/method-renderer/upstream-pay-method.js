@@ -55,12 +55,9 @@ define([
                                 })
                             })
                         })
-                        .fail(function (xhr) {
-                            // Handle the error and display the error message
-                            const errorMessage = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'An error occurred.';
-
+                        .fail(function () {
                             messageList.addErrorMessage({
-                                message: errorMessage
+                                message: window.checkoutConfig.payment.UpStreamPay.errorMessage
                             });
                         });
                 });

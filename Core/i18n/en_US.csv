@@ -10,3 +10,5 @@
 "Entity ID", "Entity ID"
 "Client secret", "Client secret"
 "API key", "API key"
+"Error message", "Error message"
+"Generic error message to display on frontend in case of an error.", "Generic error message to display on frontend in case of an error."

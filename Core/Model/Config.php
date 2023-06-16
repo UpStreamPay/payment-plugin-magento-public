@@ -28,6 +28,7 @@ class Config
     public const DEBUG_MODE_CONFIG_PATH = 'payment/upstream_pay/debug';
     public const MODE_CONFIG_PATH = 'payment/upstream_pay/mode';
     public const TITLE_CONFIG_PATH = 'payment/upstream_pay/title';
+    public const ERROR_MESSAGE_CONFIG_PATH = 'payment/upstream_pay/error_message';
     public const ORDER_STATUS_CONFIG_PATH = 'payment/upstream_pay/order_status';
     public const CLIENT_ID_CONFIG_PATH = 'payment/upstream_pay/api_config/client_id';
     public const ENTITY_ID_CONFIG_PATH = 'payment/upstream_pay/api_config/entity_id';
@@ -78,7 +79,12 @@ class Config
      */
     public function getTitle(): string
     {
-        return $this->config->getValue(self::TITLE_CONFIG_PATH);
+        return $this->config->getValue(self::TITLE_CONFIG_PATH, ScopeInterface::SCOPE_STORE);
+    }
+
+    public function getErrorMessage(): string
+    {
+        return $this->config->getValue(self::ERROR_MESSAGE_CONFIG_PATH, ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -88,7 +94,7 @@ class Config
      */
     public function getDefaultOrderStatus(): string
     {
-        return $this->config->getValue(self::ORDER_STATUS_CONFIG_PATH);
+        return $this->config->getValue(self::ORDER_STATUS_CONFIG_PATH, ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -98,7 +104,7 @@ class Config
      */
     public function getClientId(): string
     {
-        return $this->config->getValue(self::CLIENT_ID_CONFIG_PATH);
+        return $this->config->getValue(self::CLIENT_ID_CONFIG_PATH, ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -108,7 +114,7 @@ class Config
      */
     public function getEntityId(): string
     {
-        return $this->config->getValue(self::ENTITY_ID_CONFIG_PATH);
+        return $this->config->getValue(self::ENTITY_ID_CONFIG_PATH, ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -119,7 +125,7 @@ class Config
      */
     public function getClientSecret(): string
     {
-        return $this->config->getValue(self::CLIENT_SECRET_CONFIG_PATH);
+        return $this->config->getValue(self::CLIENT_SECRET_CONFIG_PATH, ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -130,6 +136,6 @@ class Config
      */
     public function getApiKey(): string
     {
-        return $this->config->getValue(self::API_KEY_CONFIG_PATH);
+        return $this->config->getValue(self::API_KEY_CONFIG_PATH, ScopeInterface::SCOPE_STORE);
     }
 }

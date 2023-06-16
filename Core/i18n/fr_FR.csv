@@ -10,3 +10,5 @@
 "Entity ID", "Entity ID"
 "Client secret", "Client secret"
 "API key", "API key"
+"Error message", "Message d'erreur"
+"Generic error message to display on frontend in case of an error.", "Message d'erreur générique à afficher en front en cas d'erreur."

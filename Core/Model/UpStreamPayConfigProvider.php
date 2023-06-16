@@ -44,7 +44,8 @@ class UpStreamPayConfigProvider implements ConfigProviderInterface
                 'UpStreamPay' => [
                     'entityId' => $this->config->getEntityId(),
                     'mode' => $this->config->getMode(),
-                    'apiKey' => $this->encryptor->decrypt($this->config->getApiKey())
+                    'apiKey' => $this->encryptor->decrypt($this->config->getApiKey()),
+                    'errorMessage' => $this->config->getErrorMessage()
                 ]
             ]
         ];
