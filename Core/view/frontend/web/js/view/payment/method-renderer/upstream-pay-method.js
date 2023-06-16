@@ -44,14 +44,20 @@ define([
                                     }
                                 });
 
-                                const widgetButtonPromise = manager.createWidget({interface: 'PAY_BUTTON'});
 
                                 widgetPaymentPromise.then((widgetPayment) => {
                                     widgetPayment.mount("widget-payment");
-
-                                    widgetButtonPromise.then((widgetButton) => {
-                                        widgetButton.mount("widget-button");
-                                    })
+                                    self.manager.subscribe(event => {
+                                        if (event.code === 'CHECKOUT_PAYMENT_FULFILLED_CHANGES') {
+                                            if (event.payload.isFulfilled) {
+                                                console.log('PAYMENT OK');
+                                                document.getElementById('submit-ups-payment').removeAttribute('disabled');
+                                            } else {
+                                                console.log('PAYMENT KO');
+                                                document.getElementById('submit-ups-payment').setAttribute('disabled', true);
+                                            }
+                                        }
+                                    });
                                 })
                             })
                         })
