@@ -34,4 +34,14 @@ interface ClientInterface
      * @return array
      */
     public function createSession(array $orderSession): array;
+
+    /**
+     * Get each transaction made for an order.
+     * This will return every transaction no matter the type & status.
+     *
+     * @param int $orderId
+     *
+     * @return array
+     */
+    public function getAllTransactionsForOrder(int $orderId): array;
 }

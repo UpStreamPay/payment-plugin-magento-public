@@ -40,6 +40,7 @@ class Client implements ClientInterface
     private const GET = 'GET';
     private const OAUTH_TOKEN_URI = '/oauth/token';
     private const CREATE_SESSION_URI = '/sessions/create';
+    private const ORDERS_URI = '/orders/';
 
     /**
      * @param ClientFactory $httpClientFactory
@@ -103,6 +104,40 @@ class Client implements ClientInterface
         ];
 
         return $this->callApi($headers, $orderSession, self::POST, $this->config->getEntityId() . self::CREATE_SESSION_URI, []);
+    }
+
+    /**
+     * @param int $orderId
+     *
+     * @return array
+     * @throws \Exception
+     */
+    public function getAllTransactionsForOrder(int $orderId): array
+    {
+        $token = $this->tokenService->getToken();
+
+        if ($token->hasExpired()) {
+            try {
+                $token = $this->tokenService->setToken($this->getToken());
+            } catch (\Exception $exception) {
+                return [];
+            }
+        }
+
+        $headers = [
+            'Authorization' => 'Bearer ' . $token->getValue(),
+            self::API_KEY_PARAM => $this->decryptConfig($this->config->getApiKey()),
+            'Content-Type' => 'application/json'
+        ];
+
+        $uri = sprintf(
+            '%s%s%s',
+            $this->config->getEntityId(),
+            self::ORDERS_URI,
+            $orderId
+        );
+
+        return $this->callApi($headers, [], self::GET, $uri, []);
     }
 
     /**
