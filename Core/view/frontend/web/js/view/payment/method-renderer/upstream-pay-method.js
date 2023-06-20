@@ -67,10 +67,8 @@ define([
                                     self.manager.subscribe(event => {
                                         if (event.code === 'CHECKOUT_PAYMENT_FULFILLED_CHANGES') {
                                             if (event.payload.isFulfilled) {
-                                                console.log('PAYMENT OK');
                                                 document.getElementById('submit-ups-payment').removeAttribute('disabled');
                                             } else {
-                                                console.log('PAYMENT KO');
                                                 document.getElementById('submit-ups-payment').setAttribute('disabled', true);
                                             }
                                         }
@@ -102,7 +100,9 @@ define([
                     }
                 ).fail(
                     function () {
-                        console.log('it has failed.');
+                        messageList.addErrorMessage({
+                            message: window.checkoutConfig.payment.UpStreamPay.errorMessage
+                        });
                     }
                 );
         },
@@ -147,7 +147,7 @@ define([
          */
         getSessionData: function () {
             return $.ajax({
-                url: '/rest/V1/upstreampay/session', // Replace with your actual API endpoint URL
+                url: '/rest/V1/upstreampay/session',
                 type: 'GET',
                 dataType: 'json'
             });
