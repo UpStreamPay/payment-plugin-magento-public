@@ -13,6 +13,7 @@
     <preference for="UpStreamPay\Core\Api\SessionInterface" type="UpStreamPay\Core\Model\Session"/>
     <preference for="UpStreamPay\Core\Model\Session\Order\BuilderInterface" type="UpStreamPay\Core\Model\Session\Order\Builder\AccountBuilder"/>
     <preference for="UpStreamPay\Core\Model\Session\Order\AddressBuilderInterface" type="UpStreamPay\Core\Model\Session\Order\Builder\AddressBuilder"/>
+    <preference for="UpStreamPay\Core\Api\Data\UpStreamPayOrderPaymentInterface" type="UpStreamPay\Core\Model\UpStreamPayOrderPayment"/>
 
     <type name="UpStreamPay\Core\Model\Session\Order\OrderService">
         <arguments>
