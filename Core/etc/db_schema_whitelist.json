@@ -1,0 +1,61 @@
+{
+    "upstream_pay_order_payment": {
+        "column": {
+            "entity_id": true,
+            "session_id": true,
+            "method": true,
+            "type": true,
+            "quote_id": true,
+            "order_id": true,
+            "payment_id": true,
+            "amount": true,
+            "amount_captured": true,
+            "amount_refunded": true,
+            "created_at": true,
+            "updated_at": true
+        },
+        "index": {
+            "UPSTREAM_PAY_ORDER_PAYMENT_SESSION_ID": true,
+            "UPSTREAM_PAY_ORDER_PAYMENT_QUOTE_ID": true,
+            "UPSTREAM_PAY_ORDER_PAYMENT_ORDER_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "UPSTREAM_PAY_ORDER_PAYMENT_QUOTE_ID_QUOTE_ENTITY_ID": true,
+            "UPSTREAM_PAY_ORDER_PAYMENT_ORDER_ID_SALES_ORDER_ENTITY_ID": true,
+            "FK_796C997EBE3A9F144AB4F43A319D8CD2": true
+        }
+    },
+    "upstream_pay_order_transactions": {
+        "column": {
+            "entity_id": true,
+            "order_payment_id": true,
+            "transaction_id": true,
+            "method": true,
+            "transaction_type": true,
+            "quote_id": true,
+            "order_id": true,
+            "invoice_id": true,
+            "creditmemo_id": true,
+            "amount": true,
+            "status": true,
+            "created_at": true,
+            "updated_at": true
+        },
+        "index": {
+            "UPSTREAM_PAY_ORDER_TRANSACTIONS_TRANSACTION_ID": true,
+            "UPSTREAM_PAY_ORDER_TRANSACTIONS_QUOTE_ID": true,
+            "UPSTREAM_PAY_ORDER_TRANSACTIONS_ORDER_ID": true,
+            "UPSTREAM_PAY_ORDER_TRANSACTIONS_INVOICE_ID": true,
+            "UPSTREAM_PAY_ORDER_TRANSACTIONS_CREDITMEMO_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "UPSTREAM_PAY_ORDER_TRANSACTIONS_QUOTE_ID_QUOTE_ENTITY_ID": true,
+            "UPSTREAM_PAY_ORDER_TRANSACTIONS_ORDER_ID_SALES_ORDER_ENTITY_ID": true,
+            "UPSTREAM_PAY_ORDER_TRANSACTIONS_INVOICE_ID_SALES_INVOICE_ENTT_ID": true,
+            "FK_E4DDDCAB33CBCD09FD77D3514CC176FE": true,
+            "FK_4CC3AF1AB2A2EFA0E51C88DFBB3B614D": true
+        }
+    }
+}
