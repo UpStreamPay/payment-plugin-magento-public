@@ -71,7 +71,7 @@
 
     <table name="upstream_pay_order_transactions" resource="default" engine="innodb" comment="Upstream Pay order transactions table">
         <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
-        <column xsi:type="int" name="order_payment_id" unsigned="true" nullable="false" comment="Order payment IDD"/>
+        <column xsi:type="varchar" name="session_id" length="255" nullable="false" comment="Session ID"/>
         <column xsi:type="varchar" name="transaction_id" nullable="false" length="255" comment="Transaction ID"/>
         <column xsi:type="varchar" name="parent_transaction_id" nullable="true" length="255" comment="Parent transaction ID"/>
         <column xsi:type="varchar" name="method" nullable="false" length="255" comment="Payment Method"/>
@@ -101,27 +101,15 @@
                     table="upstream_pay_order_transactions" column="order_id" referenceTable="sales_order"
                     referenceColumn="entity_id" onDelete="CASCADE"/>
 
-        <!-- sales_order table foreign key-->
-        <constraint xsi:type="foreign" referenceId="UPSTREAM_PAY_ORDER_TRANSACTIONS_INVOICE_ID_SALES_INVOICE_ENTITY_ID"
-                    table="upstream_pay_order_transactions" column="invoice_id" referenceTable="sales_invoice"
-                    referenceColumn="entity_id" onDelete="CASCADE"/>
-
-        <!-- sales_order table foreign key-->
-        <constraint xsi:type="foreign" referenceId="UPSTREAM_PAY_ORDER_TRANSACTIONS_CREDITMEMO_ID_SALES_CREDITMEMO_ENTITY_ID"
-                    table="upstream_pay_order_transactions" column="order_id" referenceTable="sales_creditmemo"
-                    referenceColumn="entity_id" onDelete="CASCADE"/>
-
-        <!-- sales_order table foreign key-->
-        <constraint xsi:type="foreign" referenceId="UPSTREAM_PAY_ORDER_TRANSACTIONS_ORDER_PAYMENT_ID_UPSTREAM_PAY_ORDER_PAYMENT_ENTITY_ID"
-                    table="upstream_pay_order_transactions" column="order_payment_id" referenceTable="upstream_pay_order_payment"
-                    referenceColumn="entity_id" onDelete="CASCADE"/>
+        <!-- We can't have two rows with the same session id & transaction id. -->
+        <constraint xsi:type="unique" referenceId="UPSTREAM_PAY_ORDER_PAYMENT_SESSION_ID_TRANSACTION_ID">
+            <column name="session_id"/>
+            <column name="transaction_id"/>
+        </constraint>
 
         <!-- Index colmumns -->
         <index referenceId="UPSTREAM_PAY_ORDER_TRANSACTIONS_TRANSACTION_ID" indexType="btree">
             <column name="transaction_id"/>
-        </index>
-        <index referenceId="UPSTREAM_PAY_ORDER_TRANSACTIONS_PARENT_TRANSACTION_ID" indexType="btree">
-            <column name="parent_transaction_id"/>
         </index>
         <index referenceId="UPSTREAM_PAY_ORDER_TRANSACTIONS_QUOTE_ID" indexType="btree">
             <column name="quote_id"/>
@@ -134,6 +122,9 @@
         </index>
         <index referenceId="UPSTREAM_PAY_ORDER_TRANSACTIONS_CREDITMEMO_ID" indexType="btree">
             <column name="creditmemo_id"/>
+        </index>
+        <index referenceId="UPSTREAM_PAY_ORDER_TRANSACTIONS_SESSION_ID" indexType="btree">
+            <column name="session_id"/>
         </index>
     </table>
 </schema>

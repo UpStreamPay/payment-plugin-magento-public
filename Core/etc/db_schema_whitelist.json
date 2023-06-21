@@ -44,7 +44,8 @@
             "status": true,
             "created_at": true,
             "updated_at": true,
-            "parent_transaction_id": true
+            "parent_transaction_id": true,
+            "session_id": true
         },
         "index": {
             "UPSTREAM_PAY_ORDER_TRANSACTIONS_TRANSACTION_ID": true,
@@ -52,15 +53,16 @@
             "UPSTREAM_PAY_ORDER_TRANSACTIONS_ORDER_ID": true,
             "UPSTREAM_PAY_ORDER_TRANSACTIONS_INVOICE_ID": true,
             "UPSTREAM_PAY_ORDER_TRANSACTIONS_CREDITMEMO_ID": true,
-            "UPSTREAM_PAY_ORDER_TRANSACTIONS_PARENT_TRANSACTION_ID": true
+            "UPSTREAM_PAY_ORDER_TRANSACTIONS_PARENT_TRANSACTION_ID": true,
+            "UPSTREAM_PAY_ORDER_TRANSACTIONS_SESSION_ID": true
         },
         "constraint": {
             "PRIMARY": true,
             "UPSTREAM_PAY_ORDER_TRANSACTIONS_QUOTE_ID_QUOTE_ENTITY_ID": true,
             "UPSTREAM_PAY_ORDER_TRANSACTIONS_ORDER_ID_SALES_ORDER_ENTITY_ID": true,
-            "UPSTREAM_PAY_ORDER_TRANSACTIONS_INVOICE_ID_SALES_INVOICE_ENTT_ID": true,
             "FK_E4DDDCAB33CBCD09FD77D3514CC176FE": true,
-            "FK_4CC3AF1AB2A2EFA0E51C88DFBB3B614D": true
+            "FK_4CC3AF1AB2A2EFA0E51C88DFBB3B614D": true,
+            "UPSTREAM_PAY_ORDER_TRANSACTIONS_SESSION_ID_TRANSACTION_ID": true
         }
     }
 }
