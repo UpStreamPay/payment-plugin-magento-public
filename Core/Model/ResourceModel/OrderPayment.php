@@ -15,11 +15,11 @@ namespace UpStreamPay\Core\Model\ResourceModel;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 
 /**
- * Class UpStreamPayOrderPayment
+ * Class OrderPayment
  *
  * @package UpStreamPay\Core\Model\ResourceModel
  */
-class UpStreamPayOrderPayment extends AbstractDb
+class OrderPayment extends AbstractDb
 {
     /**
      * @inheritDoc

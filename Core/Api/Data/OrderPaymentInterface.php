@@ -11,11 +11,11 @@
 namespace UpStreamPay\Core\Api\Data;
 
 /**
- * Interface UpStreamPayOrderPaymentInterface
+ * Interface OrderPaymentInterface
  *
  * @package UpStreamPay\Core\Api\Data
  */
-interface UpStreamPayOrderPaymentInterface
+interface OrderPaymentInterface
 {
     public const ENTITY_ID = 'entity_id';
     public const SESSION_ID = 'session_id';
