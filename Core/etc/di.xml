@@ -13,7 +13,9 @@
     <preference for="UpStreamPay\Core\Api\SessionInterface" type="UpStreamPay\Core\Model\Session"/>
     <preference for="UpStreamPay\Core\Model\Session\Order\BuilderInterface" type="UpStreamPay\Core\Model\Session\Order\Builder\AccountBuilder"/>
     <preference for="UpStreamPay\Core\Model\Session\Order\AddressBuilderInterface" type="UpStreamPay\Core\Model\Session\Order\Builder\AddressBuilder"/>
-    <preference for="UpStreamPay\Core\Api\Data\UpStreamPayOrderPaymentInterface" type="UpStreamPay\Core\Model\UpStreamPayOrderPayment"/>
+    <preference for="UpStreamPay\Core\Api\Data\OrderPaymentInterface" type="UpStreamPay\Core\Model\OrderPayment"/>
+    <preference for="UpStreamPay\Core\Api\Data\OrderPaymentSearchResultsInterface" type="UpStreamPay\Core\Model\OrderPaymentSearchResults"/>
+    <preference for="UpStreamPay\Core\Api\OrderPaymentRepositoryInterface" type="UpStreamPay\Core\Model\OrderPaymentRepository"/>
 
     <type name="UpStreamPay\Core\Model\Session\Order\OrderService">
         <arguments>
