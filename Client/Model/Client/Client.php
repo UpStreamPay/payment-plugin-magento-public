@@ -166,12 +166,17 @@ class Client implements ClientInterface
                 ]
             );
 
-            $rawResponse = $client->request($protocol, $uri, [
+            $options = [
                 self::HEADERS => $headers,
                 self::QUERY => $query,
-                RequestOptions::JSON => $body,
-            ]);
+            ];
 
+            //Don't pass the body if there is nothing to pass or it will create an error.
+            if (count($body) > 0) {
+                $options[RequestOptions::JSON] = $body;
+            }
+
+            $rawResponse = $client->request($protocol, $uri, $options);
             $response = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
         } catch (Throwable $exception) {
             //TODO Remove this when error management is done. This is WIP while in early dev stages.
