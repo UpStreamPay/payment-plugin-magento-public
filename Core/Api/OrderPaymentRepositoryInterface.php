@@ -14,6 +14,7 @@ use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use UpStreamPay\Core\Api\Data\OrderPaymentInterface;
+use UpStreamPay\Core\Api\Data\OrderPaymentSearchResultsInterface;
 
 /**
  * Interface OrderPaymentRepositoryInterface
@@ -80,10 +81,10 @@ interface OrderPaymentRepositoryInterface
      *
      * @param SearchCriteriaInterface $searchCriteria
      *
-     * @return OrderPaymentInterface
+     * @return OrderPaymentSearchResultsInterface
      * @throws LocalizedException
      */
-    public function getList(SearchCriteriaInterface $searchCriteria): OrderPaymentInterface;
+    public function getList(SearchCriteriaInterface $searchCriteria): OrderPaymentSearchResultsInterface;
 
     /**
      * Delete UpStream Pay order payment.
@@ -98,7 +99,7 @@ interface OrderPaymentRepositoryInterface
     /**
      * Delete UpStream Pay order payment by ID.
      *
-     * @param string $orderPaymentId
+     * @param int $orderPaymentId
      * @return bool true on success
      * @throws NoSuchEntityException
      * @throws LocalizedException

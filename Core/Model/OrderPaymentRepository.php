@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace UpStreamPay\Core\Model;
 
+use Exception;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SearchCriteriaInterface;
@@ -19,6 +20,7 @@ use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use UpStreamPay\Core\Api\Data\OrderPaymentInterface;
+use UpStreamPay\Core\Api\Data\OrderPaymentSearchResultsInterface;
 use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
 use UpStreamPay\Core\Model\ResourceModel\OrderPayment as resourceModel;
 use UpStreamPay\Core\Model\ResourceModel\OrderPayment\CollectionFactory;
@@ -47,7 +49,7 @@ class OrderPaymentRepository implements OrderPaymentRepositoryInterface
     {
         try {
             $this->resourceModel->save($orderPayment);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             throw new CouldNotSaveException(__($exception->getMessage()));
         }
 
@@ -112,10 +114,11 @@ class OrderPaymentRepository implements OrderPaymentRepositoryInterface
     /**
      * @inheritDoc
      */
-    public function getList(SearchCriteriaInterface $searchCriteria): OrderPaymentInterface
+    public function getList(SearchCriteriaInterface $searchCriteria): OrderPaymentSearchResultsInterface
     {
         $collection = $this->collectionFactory->create();
 
+        /** @var OrderPaymentSearchResultsInterface $searchResults */
         $searchResults = $this->searchResultsFactory->create();
         $searchResults->setSearchCriteria($searchCriteria);
 
@@ -127,7 +130,10 @@ class OrderPaymentRepository implements OrderPaymentRepositoryInterface
             $searchResults->setTotalCount(count($collection));
         }
 
-        $searchResults->setItems($collection->getItems());
+        //Force type for IDE inspection.
+        /** @var OrderPaymentInterface[] $items */
+        $items = $collection->getItems();
+        $searchResults->setItems($items);
 
         return $searchResults;
     }
@@ -139,7 +145,7 @@ class OrderPaymentRepository implements OrderPaymentRepositoryInterface
     {
         try {
             $this->resourceModel->delete($orderPayment);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             throw new CouldNotDeleteException(__($exception->getMessage()));
         }
 
