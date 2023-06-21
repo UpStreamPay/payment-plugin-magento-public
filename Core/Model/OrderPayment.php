@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace UpStreamPay\Core\Model;
 
-use Magento\Framework\Model\AbstractModel;
+use Magento\Framework\Model\AbstractExtensibleModel;
 use UpStreamPay\Core\Api\Data\OrderPaymentInterface;
 use UpStreamPay\Core\Model\ResourceModel\OrderPayment as PaymentResource;
 
@@ -21,14 +21,14 @@ use UpStreamPay\Core\Model\ResourceModel\OrderPayment as PaymentResource;
  *
  * @package UpStreamPay\Core\Model
  */
-class OrderPayment extends AbstractModel implements OrderPaymentInterface
+class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterface
 {
     protected $_eventPrefix = 'upstream_pay_order_payment';
 
-    protected $_eventObject = 'upstream_pay_order_payment';
+    protected $_eventObject = 'order_payment';
 
     /**
-     * @return void
+     * @inheritDoc
      */
     protected function _construct()
     {

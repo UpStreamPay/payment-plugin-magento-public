@@ -10,12 +10,14 @@
  */
 namespace UpStreamPay\Core\Api\Data;
 
+use Magento\Framework\Api\ExtensibleDataInterface;
+
 /**
  * Interface OrderPaymentInterface
  *
  * @package UpStreamPay\Core\Api\Data
  */
-interface OrderPaymentInterface
+interface OrderPaymentInterface extends ExtensibleDataInterface
 {
     public const ENTITY_ID = 'entity_id';
     public const SESSION_ID = 'session_id';
