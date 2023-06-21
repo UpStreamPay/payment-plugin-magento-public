@@ -13,9 +13,11 @@ declare(strict_types=1);
 namespace UpStreamPay\Client\Model\Client;
 
 use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
 use Magento\Framework\Encryption\EncryptorInterface;
 use Throwable;
+use UpStreamPay\Client\Exception\NoOrderFoundException;
 use UpStreamPay\Client\Model\Token\TokenService;
 use UpStreamPay\Core\Model\Config;
 use UpStreamPay\Core\Model\Config\Source\Mode;
@@ -41,6 +43,8 @@ class Client implements ClientInterface
     private const OAUTH_TOKEN_URI = '/oauth/token';
     private const CREATE_SESSION_URI = '/sessions/create';
     private const ORDERS_URI = '/orders/';
+    private const TRANSACTIONS_URI = '/transactions/';
+    private const CAPTURE_URI = '/capture';
 
     /**
      * @param ClientFactory $httpClientFactory
@@ -110,7 +114,9 @@ class Client implements ClientInterface
      * @param int $orderId
      *
      * @return array
-     * @throws \Exception
+     * @throws NoOrderFoundException
+     * @throws \JsonException
+     * @throws GuzzleException
      */
     public function getAllTransactionsForOrder(int $orderId): array
     {
@@ -137,7 +143,47 @@ class Client implements ClientInterface
             $orderId
         );
 
-        return $this->callApi($headers, [], self::GET, $uri, []);
+        try {
+            return $this->callApi($headers, [], self::GET, $uri, []);
+        } catch (GuzzleException $exception) {
+            if ($exception->getCode() === 404) {
+                //We most likely have no order found on UpStream Pay side.
+                throw new NoOrderFoundException(
+                    'There was a 404 error while trying to retrieve transactions for order ' . $orderId
+                );
+            } else {
+                throw $exception;
+            }
+        }
+    }
+
+    public function capture(string $transactionId, array $body): array
+    {
+        $token = $this->tokenService->getToken();
+
+        if ($token->hasExpired()) {
+            try {
+                $token = $this->tokenService->setToken($this->getToken());
+            } catch (\Exception $exception) {
+                return [];
+            }
+        }
+
+        $headers = [
+            'Authorization' => 'Bearer ' . $token->getValue(),
+            self::API_KEY_PARAM => $this->decryptConfig($this->config->getApiKey()),
+            'Content-Type' => 'application/json'
+        ];
+
+        $uri = sprintf(
+            '%s%s%s%s',
+            $this->config->getEntityId(),
+            self::TRANSACTIONS_URI,
+            $transactionId,
+            self::CAPTURE_URI,
+        );
+
+        return $this->callApi($headers, $body, self::POST, $uri, []);
     }
 
     /**
@@ -150,39 +196,35 @@ class Client implements ClientInterface
      * @param array $query
      *
      * @return array
+     * @throws GuzzleException
+     * @throws \JsonException
      */
     private function callApi(array $headers, array $body, string $protocol, string $uri, array $query): array
     {
         $response = [];
 
-        try {
-            /** @var GuzzleClient $client */
-            $client = $this->httpClientFactory->create(
-                [
-                    'config' => [
-                        'base_uri' => self::API_ENDPOINT[$this->config->getMode()
-                        ]
+        /** @var GuzzleClient $client */
+        $client = $this->httpClientFactory->create(
+            [
+                'config' => [
+                    'base_uri' => self::API_ENDPOINT[$this->config->getMode()
                     ]
                 ]
-            );
+            ]
+        );
 
-            $options = [
-                self::HEADERS => $headers,
-                self::QUERY => $query,
-            ];
+        $options = [
+            self::HEADERS => $headers,
+            self::QUERY => $query,
+        ];
 
-            //Don't pass the body if there is nothing to pass or it will create an error.
-            if (count($body) > 0) {
-                $options[RequestOptions::JSON] = $body;
-            }
-
-            $rawResponse = $client->request($protocol, $uri, $options);
-            $response = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
-        } catch (Throwable $exception) {
-            //TODO Remove this when error management is done. This is WIP while in early dev stages.
-            throw new \Exception($exception->getMessage());
-            //DEAL WITH EXCEPTION
+        //Don't pass the body if there is nothing to pass or it will create an error.
+        if (count($body) > 0) {
+            $options[RequestOptions::JSON] = $body;
         }
+
+        $rawResponse = $client->request($protocol, $uri, $options);
+        $response = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
 
         return $response;
     }
