@@ -16,6 +16,9 @@
     <preference for="UpStreamPay\Core\Api\Data\OrderPaymentInterface" type="UpStreamPay\Core\Model\OrderPayment"/>
     <preference for="UpStreamPay\Core\Api\Data\OrderPaymentSearchResultsInterface" type="UpStreamPay\Core\Model\OrderPaymentSearchResults"/>
     <preference for="UpStreamPay\Core\Api\OrderPaymentRepositoryInterface" type="UpStreamPay\Core\Model\OrderPaymentRepository"/>
+    <preference for="UpStreamPay\Core\Api\Data\OrderTransactionsInterface" type="UpStreamPay\Core\Model\OrderTransactions"/>
+    <preference for="UpStreamPay\Core\Api\Data\OrderTransactionsSearchResultsInterface" type="UpStreamPay\Core\Model\OrderTransactionsSearchResults"/>
+    <preference for="UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface" type="UpStreamPay\Core\Model\OrderTransactionsRepository"/>
 
     <type name="UpStreamPay\Core\Model\Session\Order\OrderService">
         <arguments>
