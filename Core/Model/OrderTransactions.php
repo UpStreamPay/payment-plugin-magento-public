@@ -62,9 +62,12 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getEntityId(): ?int
     {
-        return $this->getData(self::ENTITY_ID);
+        return (int)$this->getData(self::ENTITY_ID);
     }
 
     /**
@@ -216,7 +219,7 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
      */
     public function getAmount(): float
     {
-        return $this->getData(self::AMOUNT);
+        return (float)$this->getData(self::AMOUNT);
     }
 
     /**
@@ -302,7 +305,7 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
             ->setOrderId($orderId)
             ->setInvoiceId(null)
             ->setCreditmemoId(null)
-            ->setAmount($transactionResponse['plugin_result']['amount'])
+            ->setAmount((float)$transactionResponse['plugin_result']['amount'])
             ->setStatus($transactionResponse['status']['state'])
         ;
 
