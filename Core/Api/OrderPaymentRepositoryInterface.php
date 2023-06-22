@@ -77,6 +77,16 @@ interface OrderPaymentRepositoryInterface
     public function getByOrderId(int $orderId): array;
 
     /**
+     * Get UpStream Pay order payment by default transaction ID (that is unique).
+     * So we only return one element.
+     *
+     * @param string $defaultTransactionId
+     *
+     * @return OrderPaymentInterface
+     */
+    public function getByDefaultTransactionId(string $defaultTransactionId): OrderPaymentInterface;
+
+    /**
      * Retrieve UpStream Pay order payment matching the specified criteria.
      *
      * @param SearchCriteriaInterface $searchCriteria

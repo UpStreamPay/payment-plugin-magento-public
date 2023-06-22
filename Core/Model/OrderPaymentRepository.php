@@ -114,6 +114,18 @@ class OrderPaymentRepository implements OrderPaymentRepositoryInterface
     /**
      * @inheritDoc
      */
+    public function getByDefaultTransactionId(string $defaultTransactionId): OrderPaymentInterface
+    {
+        /** @var OrderPaymentInterface $orderPayment */
+        $orderPayment = $this->orderPaymentFactory->create();
+        $this->resourceModel->load($orderPayment, $defaultTransactionId, OrderPaymentInterface::DEFAULT_TRANSACTION_ID);
+
+        return $orderPayment;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getList(SearchCriteriaInterface $searchCriteria): OrderPaymentSearchResultsInterface
     {
         $collection = $this->collectionFactory->create();
