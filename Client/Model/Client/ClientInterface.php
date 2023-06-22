@@ -11,6 +11,10 @@
 
 namespace UpStreamPay\Client\Model\Client;
 
+use GuzzleHttp\Exception\GuzzleException;
+use JsonException;
+use UpStreamPay\Client\Exception\NoOrderFoundException;
+
 /**
  * Interface ClientInterface
  *
@@ -42,6 +46,31 @@ interface ClientInterface
      * @param int $orderId
      *
      * @return array
+     *
+     * @throws NoOrderFoundException
+     * @throws JsonException
+     * @throws GuzzleException
      */
     public function getAllTransactionsForOrder(int $orderId): array;
+
+    /**
+     * Capture the given transaction through transaction ID & body parameters.
+     *
+     * The body contains the amount to capture:
+     * {
+     *      "order": {
+     *          "amount": 271.92,
+     *          "currency_code": "EUR"
+     *      },
+     *      "amount": 270.92
+     * }
+     *
+     * @param string $transactionId
+     * @param array $body
+     *
+     * @return array
+     * @throws GuzzleException
+     * @throws \JsonException
+     */
+    public function capture(string $transactionId, array $body): array;
 }

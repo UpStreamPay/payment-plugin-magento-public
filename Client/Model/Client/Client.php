@@ -16,7 +16,6 @@ use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
 use Magento\Framework\Encryption\EncryptorInterface;
-use Throwable;
 use UpStreamPay\Client\Exception\NoOrderFoundException;
 use UpStreamPay\Client\Model\Token\TokenService;
 use UpStreamPay\Core\Model\Config;
@@ -60,9 +59,7 @@ class Client implements ClientInterface
     ) {}
 
     /**
-     * Get token to authenticate on further API calls.
-     *
-     * @return array
+     * @inheritDoc
      */
     public function getToken(): array
     {
@@ -83,11 +80,7 @@ class Client implements ClientInterface
     }
 
     /**
-     * Create UpStream Pay session.
-     *
-     * @param array $orderSession
-     *
-     * @return array
+     * @inheritDoc
      */
     public function createSession(array $orderSession): array
     {
@@ -111,12 +104,7 @@ class Client implements ClientInterface
     }
 
     /**
-     * @param int $orderId
-     *
-     * @return array
-     * @throws NoOrderFoundException
-     * @throws \JsonException
-     * @throws GuzzleException
+     * @inheritDoc
      */
     public function getAllTransactionsForOrder(int $orderId): array
     {
@@ -157,6 +145,9 @@ class Client implements ClientInterface
         }
     }
 
+    /**
+     * @inheritDoc
+     */
     public function capture(string $transactionId, array $body): array
     {
         $token = $this->tokenService->getToken();
