@@ -76,11 +76,11 @@ class OrderTransactionsRepository implements OrderTransactionsRepositoryInterfac
      */
     public function getByTransactionId(string $transactionId): OrderTransactionsInterface
     {
-        $searchCriteria = $this->searchCriteriaBuilder
-            ->addFilter(OrderTransactionsInterface::TRANSACTION_ID, $transactionId)
-            ->create();
+        /** @var OrderTransactionsInterface $orderTransaction */
+        $orderTransaction = $this->orderTransactionsFactory->create();
+        $this->resourceModel->load($orderTransaction, $transactionId, OrderTransactionsInterface::TRANSACTION_ID);
 
-        return reset($this->getList($searchCriteria)->getItems());
+        return $orderTransaction;
     }
 
     /**
