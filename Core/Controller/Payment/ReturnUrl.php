@@ -17,6 +17,7 @@ use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\Controller\Result\RedirectFactory;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Payment\Model\MethodInterface;
+use Magento\Sales\Api\Data\InvoiceInterface;
 use Magento\Sales\Api\OrderManagementInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Sales\Model\Order\Payment\Processor;
@@ -58,6 +59,7 @@ class ReturnUrl implements HttpGetActionInterface
 
     /**
      * Handle the redirect coming from UpStream Pay.
+     * //@TODO WIP, calling external class might be needed.
      *
      * @return ResultInterface
      */
@@ -70,9 +72,12 @@ class ReturnUrl implements HttpGetActionInterface
             $payment = $order->getPayment();
 
             if ($this->config->getPaymentAction() === MethodInterface::ACTION_AUTHORIZE) {
-                $this->paymentProcessor->authorize($payment, true, $order->getGrandTotal());
+                $this->paymentProcessor->authorize($payment, true, $order->getTotalDue());
             } elseif ($this->config->getPaymentAction() === MethodInterface::ACTION_AUTHORIZE_CAPTURE) {
-                $this->orderSynchronizeService->synchronizeAndCapture($order);
+                /** @var InvoiceInterface $invoice */
+                //We can only have one invoice because we come back from the redirect url.
+                $invoice = $order->getInvoiceCollection()->getFirstItem();
+                $this->paymentProcessor->capture($payment, $invoice);
             }
 
             $this->orderRepository->save($order);
