@@ -101,9 +101,9 @@ class Config
     /**
      * Get the client ID (API).
      *
-     * @return string
+     * @return ?string
      */
-    public function getClientId(): string
+    public function getClientId(): ?string
     {
         return $this->config->getValue(self::CLIENT_ID_CONFIG_PATH, ScopeInterface::SCOPE_STORE);
     }
@@ -111,9 +111,9 @@ class Config
     /**
      * Get the entity ID (API).
      *
-     * @return string
+     * @return ?string
      */
-    public function getEntityId(): string
+    public function getEntityId(): ?string
     {
         return $this->config->getValue(self::ENTITY_ID_CONFIG_PATH, ScopeInterface::SCOPE_STORE);
     }
@@ -122,9 +122,9 @@ class Config
      * Get client secret value (API).
      * It's a config with an obscure type.
      *
-     * @return string
+     * @return ?string
      */
-    public function getClientSecret(): string
+    public function getClientSecret(): ?string
     {
         return $this->config->getValue(self::CLIENT_SECRET_CONFIG_PATH, ScopeInterface::SCOPE_STORE);
     }
@@ -133,9 +133,9 @@ class Config
      * Get the API key (API).
      * It's a config with an obscure type.
      *
-     * @return string
+     * @return ?string
      */
-    public function getApiKey(): string
+    public function getApiKey(): ?string
     {
         return $this->config->getValue(self::API_KEY_CONFIG_PATH, ScopeInterface::SCOPE_STORE);
     }
