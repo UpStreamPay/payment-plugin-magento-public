@@ -14,9 +14,7 @@ namespace UpStreamPay\Core\Model\Synchronize;
 
 use GuzzleHttp\Exception\GuzzleException;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Payment\Model\InfoInterface;
-use Magento\Sales\Api\Data\OrderInterface;
 use NoTransactionsException;
 use UpStreamPay\Client\Exception\NoOrderFoundException;
 use UpStreamPay\Client\Model\Client\ClientInterface;
@@ -81,44 +79,7 @@ class OrderSynchronizeService
         if ($action === OrderTransactions::AUTHORIZE_ACTION) {
             $this->authorizeService->execute($payment, $amount);
         } elseif ($action === OrderTransactions::CAPTURE_ACTION) {
-            //@TODO Capture.
+            $this->captureService->execute($payment, $amount);
         }
-    }
-
-    /**
-     * Synchronize the UpStream Pay order with Magento custom payment & transaction table.
-     * @TODO Move into execute function.
-     *
-     * @param OrderInterface $order
-     *
-     * @return void
-     * @throws GuzzleException
-     * @throws LocalizedException
-     * @throws NoOrderFoundException
-     * @throws NoSuchEntityException
-     * @throws NoTransactionsException
-     * @throws \JsonException
-     */
-    public function synchronizeAndCapture(OrderInterface $order): void
-    {
-        $quoteId = (int) $order->getQuoteId();
-        $orderId = (int) $order->getEntityId();
-
-        $orderTransactionsResponse = $this->client->getAllTransactionsForOrder($quoteId);
-
-        if (count($orderTransactionsResponse) === 0) {
-            throw new NoTransactionsException('No transactions found in API for the order with ID ' . $order->getId());
-        }
-
-        //Save UpStream Pay payment & transaction data to DB.
-        $this->synchronizeUpStreamPayPaymentData->execute(
-            $orderTransactionsResponse,
-            $orderId,
-            $quoteId,
-            (int) $order->getPayment()->getEntityId()
-        );
-
-        //Capture & update order.
-        $this->captureService->capture($order);
     }
 }
