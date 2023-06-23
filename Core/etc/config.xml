@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+  UpStream Pay
+
+  Copyright (c) 2019-2023 UpStream Pay.
+  This file is open source and available under the MIT license.
+  See the LICENSE file for more info.
+
+  Author: Claranet France <info@fr.clara.net>
+  -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <payment>
+            <upstream_pay>
+                <active>0</active>
+                <model>UpStreamPay\Core\Model\UpStreamPay</model>
+                <order_status>pending</order_status>
+                <title>UpStream Pay</title>
+                <allowspecific>0</allowspecific>
+                <group>upstream_pay</group>
+                <mode>sandbox</mode>
+                <payment_action>authorize_capture</payment_action>
+            </upstream_pay>
+        </payment>
+    </default>
+</config>
