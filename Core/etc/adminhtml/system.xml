@@ -28,6 +28,11 @@
                     <label>New Order Status</label>
                     <source_model>Magento\Sales\Model\Config\Source\Order\Status\NewStatus</source_model>
                 </field>
+                <field id="payment_action" translate="label comment" type="select" sortOrder="31" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Payment action</label>
+                    <source_model>UpStreamPay\Core\Model\Config\Source\PaymentAction</source_model>
+                    <comment><![CDATA[Authorize only will require manual capture. Immediate capture will capture after place order.]]></comment>
+                </field>
                 <field id="debug" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Debug mode</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
