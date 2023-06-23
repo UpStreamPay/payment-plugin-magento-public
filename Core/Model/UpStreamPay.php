@@ -154,13 +154,9 @@ class UpStreamPay extends AbstractMethod
             //No order found because authorize is done before UpStream Pay has the order.
             //No operation has been done so nothing to void.
             $payment->setIsTransactionPending(true);
-
-            return $this;
         } catch (Throwable $exception) {
             //@TODO Should void authorize?
             $payment->setIsTransactionApproved(false);
-
-            return $this;
         }
 
         return $this;
@@ -185,9 +181,6 @@ class UpStreamPay extends AbstractMethod
             //On initial place order this will always throw an exception because UpStream Pay doesnt have the data yet.
             //Initial capture is done after redirection or through webhook.
             $this->orderSynchronizeService->execute($payment, $amount, OrderTransactions::CAPTURE_ACTION);
-
-            $payment->setIsTransactionPending(false);
-            $payment->setIsTransactionApproved(true);
         } catch (NoOrderFoundException $exception) {
             //No order found because capture is done before UpStream Pay has the order.
             //No operation has been done so nothing to void or refund.

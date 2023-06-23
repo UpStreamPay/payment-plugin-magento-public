@@ -84,6 +84,7 @@ class CaptureService
             $payment
                 ->setTransactionId($upStreamPaySessionId)
                 ->setIsTransactionClosed(false)
+                ->setIsTransactionPending(false)
                 ->setIsTransactionApproved(true)
                 ->setCurrencyCode($payment->getOrder()->getOrderCurrencyCode())
             ;
