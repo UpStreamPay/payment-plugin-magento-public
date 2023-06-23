@@ -34,6 +34,7 @@ class Config
     public const ENTITY_ID_CONFIG_PATH = 'payment/upstream_pay/api_config/entity_id';
     public const CLIENT_SECRET_CONFIG_PATH = 'payment/upstream_pay/api_config/client_secret';
     public const API_KEY_CONFIG_PATH = 'payment/upstream_pay/api_config/api_key';
+    public const PAYMENT_ACTION_CONFIG_PATH = 'payment/upstream_pay/payment_action';
 
     /**
      * @param ScopeConfigInterface $config
@@ -137,5 +138,15 @@ class Config
     public function getApiKey(): string
     {
         return $this->config->getValue(self::API_KEY_CONFIG_PATH, ScopeInterface::SCOPE_STORE);
+    }
+
+    /**
+     * Get the payment action (authorize or authorize_capture).
+     *
+     * @return string
+     */
+    public function getPaymentAction(): string
+    {
+        return $this->config->getValue(self::PAYMENT_ACTION_CONFIG_PATH, ScopeInterface::SCOPE_STORE);
     }
 }
