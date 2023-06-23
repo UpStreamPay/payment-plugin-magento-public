@@ -13,7 +13,7 @@
 "Error message", "Message d'erreur"
 "Generic error message to display on frontend in case of an error.", "Message d'erreur générique à afficher en front en cas d'erreur."
 "Authorize only", "Authorisation uniquement"
-"Immediate capture", "Immediate capture"
+"Immediate capture", "Capture immédiate"
 "Payment action", "Action de paiement"
 "Authorize only will require manual capture. Immediate capture will capture after place order.", "L'authorisation uniquement va nécessiter une capture manuelle. La capture immédiate sera déclenchée après le passage de commande."
 "Yes", "Oui"
