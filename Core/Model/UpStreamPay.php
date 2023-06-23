@@ -169,8 +169,10 @@ class UpStreamPay extends AbstractMethod
     /**
      * Capture the order.
      *
-     * We capture using custom functions, this has no special logic.
+     * Synchronize the transactions data.
+     * Check if capture is success & update payment.
      *
+     * Magento will continue the workflow based on what's set on the payment.
      *
      * @param InfoInterface $payment
      * @param $amount
@@ -180,27 +182,21 @@ class UpStreamPay extends AbstractMethod
     public function capture(InfoInterface $payment, $amount)
     {
         try {
-            //@TODO we should pass the amount to capture in the future.
-            //@TODO for now this is WIP & will be dealt with later when we do partial capture.
             //On initial place order this will always throw an exception because UpStream Pay doesnt have the data yet.
             //Initial capture is done after redirection or through webhook.
-            $this->orderSynchronizeService->synchronizeAndCapture($payment->getOrder());
+            $this->orderSynchronizeService->execute($payment, $amount, OrderTransactions::CAPTURE_ACTION);
+
+            $payment->setIsTransactionPending(false);
+            $payment->setIsTransactionApproved(true);
         } catch (NoOrderFoundException $exception) {
             //No order found because capture is done before UpStream Pay has the order.
             //No operation has been done so nothing to void or refund.
             $payment->setIsTransactionPending(true);
-
-            return $this;
         } catch (Throwable $exception) {
             //Handle errors better.
             $payment->setIsTransactionPending(true);
             $payment->setIsTransactionApproved(false);
-
-            return $this;
         }
-
-        $payment->setIsTransactionPending(false);
-        $payment->setIsTransactionApproved(true);
 
         return $this;
     }
