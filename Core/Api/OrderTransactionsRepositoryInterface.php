@@ -14,6 +14,7 @@ use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
+use UpStreamPay\Core\Api\Data\OrderTransactionsSearchResultsInterface;
 
 /**
  * Interface OrderTransactionsRepositoryInterface
@@ -97,10 +98,10 @@ interface OrderTransactionsRepositoryInterface
     /**
      * @param SearchCriteriaInterface $searchCriteria
      *
-     * @return OrderTransactionsInterface[]
+     * @return OrderTransactionsSearchResultsInterface
      * @throws LocalizedException
      */
-    public function getList(SearchCriteriaInterface $searchCriteria): array;
+    public function getList(SearchCriteriaInterface $searchCriteria): OrderTransactionsSearchResultsInterface;
 
     /**
      * @param OrderTransactionsInterface $orderTransactions
