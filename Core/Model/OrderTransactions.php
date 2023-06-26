@@ -290,7 +290,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
      */
     public function createTransactionFromResponse(
         array $transactionResponse,
-        int $orderId, int $quoteId
+        int $orderId,
+        int $quoteId
     ): OrderTransactionsInterface
     {
         $orderTransaction = $this->orderTransactionsFactory->create();
