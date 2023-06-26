@@ -15,12 +15,14 @@ namespace UpStreamPay\Core\Model\Synchronize;
 use GuzzleHttp\Exception\GuzzleException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Payment\Model\InfoInterface;
-use NoTransactionsException;
 use UpStreamPay\Client\Exception\NoOrderFoundException;
 use UpStreamPay\Client\Model\Client\ClientInterface;
+use UpStreamPay\Core\Exception\AuthorizeErrorException;
+use UpStreamPay\Core\Exception\NoTransactionsException;
 use UpStreamPay\Core\Model\AuthorizeService;
 use UpStreamPay\Core\Model\CaptureService;
 use UpStreamPay\Core\Model\OrderTransactions;
+use UpStreamPay\Core\Model\VoidService;
 
 /**
  * Class OrderSynchronizeService
@@ -34,12 +36,14 @@ class OrderSynchronizeService
      * @param SynchronizeUpStreamPayPaymentData $synchronizeUpStreamPayPaymentData
      * @param CaptureService $captureService
      * @param AuthorizeService $authorizeService
+     * @param VoidService $voidService
      */
     public function __construct(
         private readonly ClientInterface $client,
         private readonly SynchronizeUpStreamPayPaymentData $synchronizeUpStreamPayPaymentData,
         private readonly CaptureService $captureService,
-        private readonly AuthorizeService $authorizeService
+        private readonly AuthorizeService $authorizeService,
+        private readonly VoidService $voidService
     ) {
     }
 
@@ -56,6 +60,7 @@ class OrderSynchronizeService
      * @throws NoOrderFoundException
      * @throws NoTransactionsException
      * @throws \JsonException
+     * @throws AuthorizeErrorException
      */
     public function execute(InfoInterface $payment, float $amount, string $action): void
     {
@@ -80,6 +85,8 @@ class OrderSynchronizeService
             $this->authorizeService->execute($payment, $amount);
         } elseif ($action === OrderTransactions::CAPTURE_ACTION) {
             $this->captureService->execute($payment, $amount);
+        } elseif ($action === OrderTransactions::VOID_ACTION) {
+            $this->voidService->execute($payment);
         }
     }
 }
