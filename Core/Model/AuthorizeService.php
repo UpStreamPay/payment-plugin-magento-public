@@ -17,6 +17,7 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Payment\Model\InfoInterface;
 use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
 use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
+use UpStreamPay\Core\Exception\AuthorizeErrorException;
 
 /**
  * Class AuthorizeService
@@ -46,10 +47,12 @@ class AuthorizeService
      *
      * @return void
      * @throws LocalizedException
+     * @throws AuthorizeErrorException
      */
     public function execute(InfoInterface $payment, float $amount): void
     {
-        $authorizeNotInSuccessFound = false;
+        $authorizeIsSuccess = true;
+        $atLeastOneAuthorizeWaiting = false;
         $upStreamPaySessionId = '';
         $amountAuthorized = 0.00;
 
@@ -57,9 +60,6 @@ class AuthorizeService
         $this->searchCriteriaBuilder->addFilter(
             OrderTransactionsInterface::TRANSACTION_TYPE,
             OrderTransactions::AUTHORIZE_ACTION
-        )->addFilter(
-            OrderTransactionsInterface::STATUS,
-            OrderTransactions::SUCCESS_STATUS
         )->addFilter(
             OrderTransactionsInterface::ORDER_ID,
             $payment->getOrder()->getEntityId()
@@ -73,16 +73,18 @@ class AuthorizeService
                 $upStreamPaySessionId = $authorizeTransaction->getSessionId();
             }
 
-            if ($authorizeTransaction->getStatus() !== OrderTransactions::SUCCESS_STATUS) {
+            if ($authorizeTransaction->getStatus() === OrderTransactions::ERROR_STATUS) {
                 //Handle errors better here. Not the scope of this US.
-                $authorizeNotInSuccessFound = true;
+                $authorizeIsSuccess = false;
+            } elseif ($authorizeTransaction->getStatus() === OrderTransactions::WAITING_STATUS) {
+                $atLeastOneAuthorizeWaiting = true;
             } elseif ($authorizeTransaction->getStatus() === OrderTransactions::SUCCESS_STATUS) {
                 $amountAuthorized += $authorizeTransaction->getAmount();
             }
         }
 
         //Every transaction has an authorize success & the amount to authorize matches the amount authorized.
-        if ($authorizeNotInSuccessFound === false && $amountAuthorized === $amount) {
+        if ($authorizeIsSuccess && $amountAuthorized === $amount) {
             //Every authorize is a success, so the payment is authorized.
             $payment
                 ->setTransactionId($upStreamPaySessionId)
@@ -90,8 +92,13 @@ class AuthorizeService
                 ->setIsTransactionApproved(true)
                 ->setCurrencyCode($payment->getOrder()->getOrderCurrencyCode())
             ;
-        } else {
-            //Handle errors better here, not the scope of this US.
+        } elseif ($atLeastOneAuthorizeWaiting) {
+            //waiting found, handle in waiting US.
+        } elseif (!$authorizeIsSuccess) {
+            //No authorize waiting has been found & at least one authorize error found.
+            throw new AuthorizeErrorException(
+                'At least one Authorize transaction is in error, void all Authorize in success.'
+            );
         }
     }
 }
