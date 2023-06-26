@@ -10,6 +10,9 @@
  */
 declare(strict_types=1);
 
+namespace UpStreamPay\Core\Exception;
+
+use Exception;
 
 /**
  * Class NoTransactionsException
