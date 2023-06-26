@@ -24,6 +24,7 @@ use Magento\Payment\Helper\Data;
 use Magento\Payment\Model\InfoInterface;
 use Magento\Payment\Model\Method\AbstractMethod;
 use Magento\Payment\Model\Method\Logger;
+use Magento\Payment\Model\MethodInterface;
 use Throwable;
 use UpStreamPay\Client\Exception\NoOrderFoundException;
 use UpStreamPay\Core\Model\Synchronize\OrderSynchronizeService;
@@ -61,6 +62,7 @@ class UpStreamPay extends AbstractMethod
 
     /**
      * @param OrderSynchronizeService $orderSynchronizeService
+     * @param Config $config
      * @param Context $context
      * @param Registry $registry
      * @param ExtensionAttributesFactory $extensionFactory
@@ -75,6 +77,7 @@ class UpStreamPay extends AbstractMethod
      */
     public function __construct(
         private readonly OrderSynchronizeService $orderSynchronizeService,
+        private readonly Config $config,
         Context $context,
         Registry $registry,
         ExtensionAttributesFactory $extensionFactory,
@@ -107,12 +110,54 @@ class UpStreamPay extends AbstractMethod
      */
     public function getPaymentAction(): string
     {
-        return AbstractMethod::ACTION_AUTHORIZE_CAPTURE;
+        return $this->config->getPaymentAction();
     }
 
+    /**
+     * Can authorize if payment method configured to do so.
+     *
+     * @return bool
+     */
+    public function canAuthorize(): bool
+    {
+        return $this->getPaymentAction() === MethodInterface::ACTION_AUTHORIZE;
+    }
+
+    /**
+     * Can capture if payment method configured to do so.
+     *
+     * @return bool
+     */
+    public function canCapture(): bool
+    {
+        return $this->getPaymentAction() === MethodInterface::ACTION_AUTHORIZE_CAPTURE;
+    }
+
+    /**
+     * Authorize the order.
+     *
+     * Synchronize the transactions data.
+     * Check if authorize is success & update payment.
+     *
+     * Magento will continue the workflow based on what's set on the payment.
+     *
+     * @param InfoInterface $payment
+     * @param $amount
+     *
+     * @return $this|UpStreamPay
+     */
     public function authorize(InfoInterface $payment, $amount)
     {
-        $payment->setIsTransactionPending(true);
+        try {
+            $this->orderSynchronizeService->execute($payment, $amount, OrderTransactions::CAPTURE_ACTION);
+        } catch (NoOrderFoundException $exception) {
+            //No order found because authorize is done before UpStream Pay has the order.
+            //No operation has been done so nothing to void.
+            $payment->setIsTransactionPending(true);
+        } catch (Throwable $exception) {
+            //@TODO Should void authorize?
+            $payment->setIsTransactionApproved(false);
+        }
 
         return $this;
     }
@@ -120,8 +165,10 @@ class UpStreamPay extends AbstractMethod
     /**
      * Capture the order.
      *
-     * We capture using custom functions, this has no special logic.
+     * Synchronize the transactions data.
+     * Check if capture is success & update payment.
      *
+     * Magento will continue the workflow based on what's set on the payment.
      *
      * @param InfoInterface $payment
      * @param $amount
@@ -131,27 +178,18 @@ class UpStreamPay extends AbstractMethod
     public function capture(InfoInterface $payment, $amount)
     {
         try {
-            //@TODO we should pass the amount to capture in the future.
-            //@TODO for now this is WIP & will be dealt with later when we do partial capture.
             //On initial place order this will always throw an exception because UpStream Pay doesnt have the data yet.
             //Initial capture is done after redirection or through webhook.
-            $this->orderSynchronizeService->synchronizeAndCapture($payment->getOrder());
+            $this->orderSynchronizeService->execute($payment, $amount, OrderTransactions::CAPTURE_ACTION);
         } catch (NoOrderFoundException $exception) {
             //No order found because capture is done before UpStream Pay has the order.
-            //No operation has been done so nothing to cancel or refund.
+            //No operation has been done so nothing to void or refund.
             $payment->setIsTransactionPending(true);
-
-            return $this;
         } catch (Throwable $exception) {
             //Handle errors better.
             $payment->setIsTransactionPending(true);
             $payment->setIsTransactionApproved(false);
-
-            return $this;
         }
-
-        $payment->setIsTransactionPending(false);
-        $payment->setIsTransactionApproved(true);
 
         return $this;
     }

@@ -19,11 +19,11 @@ use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
 use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
 
 /**
- * Class CaptureService
+ * Class AuthorizeService
  *
  * @package UpStreamPay\Core\Model
  */
-class CaptureService
+class AuthorizeService
 {
     /**
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
@@ -36,7 +36,10 @@ class CaptureService
     }
 
     /**
-     * Capture order.
+     * Check if we can authorize the given amount.
+     * This class doesn't call any API, it only checks & set the payment transaction state.
+     *
+     * If everything is ok => setIsTransactionApproved to true.
      *
      * @param InfoInterface $payment
      * @param float $amount
@@ -46,14 +49,14 @@ class CaptureService
      */
     public function execute(InfoInterface $payment, float $amount): void
     {
-        $captureNotInSuccessFound = false;
+        $authorizeNotInSuccessFound = false;
         $upStreamPaySessionId = '';
-        $amountCaptured = 0.00;
+        $amountAuthorized = 0.00;
 
         //Get the authorized transactions with a success status for the current order.
         $this->searchCriteriaBuilder->addFilter(
             OrderTransactionsInterface::TRANSACTION_TYPE,
-            OrderTransactions::CAPTURE_ACTION
+            OrderTransactions::AUTHORIZE_ACTION
         )->addFilter(
             OrderTransactionsInterface::STATUS,
             OrderTransactions::SUCCESS_STATUS
@@ -63,28 +66,27 @@ class CaptureService
         );
 
         $searchCriteria = $this->searchCriteriaBuilder->create();
-        $captureTransactions = $this->orderTransactionsRepository->getList($searchCriteria);
+        $authorizeTransactions = $this->orderTransactionsRepository->getList($searchCriteria);
 
-        foreach ($captureTransactions->getItems() as $captureTransaction) {
+        foreach ($authorizeTransactions->getItems() as $authorizeTransaction) {
             if ($upStreamPaySessionId === '') {
-                $upStreamPaySessionId = $captureTransaction->getSessionId();
+                $upStreamPaySessionId = $authorizeTransaction->getSessionId();
             }
 
-            if ($captureTransaction->getStatus() !== OrderTransactions::SUCCESS_STATUS) {
+            if ($authorizeTransaction->getStatus() !== OrderTransactions::SUCCESS_STATUS) {
                 //Handle errors better here. Not the scope of this US.
-                $captureNotInSuccessFound = true;
-            } elseif ($captureTransaction->getStatus() === OrderTransactions::SUCCESS_STATUS) {
-                $amountCaptured += $captureTransaction->getAmount();
+                $authorizeNotInSuccessFound = true;
+            } elseif ($authorizeTransaction->getStatus() === OrderTransactions::SUCCESS_STATUS) {
+                $amountAuthorized += $authorizeTransaction->getAmount();
             }
         }
 
-        //Every transaction has a capture success & the amount to capture matches the amount captured.
-        if ($captureNotInSuccessFound === false && $amountCaptured === $amount) {
-            //Every capture is a success, so the payment is captured.
+        //Every transaction has an authorize success & the amount to authorize matches the amount authorized.
+        if ($authorizeNotInSuccessFound === false && $amountAuthorized === $amount) {
+            //Every authorize is a success, so the payment is authorized.
             $payment
                 ->setTransactionId($upStreamPaySessionId)
                 ->setIsTransactionClosed(false)
-                ->setIsTransactionPending(false)
                 ->setIsTransactionApproved(true)
                 ->setCurrencyCode($payment->getOrder()->getOrderCurrencyCode())
             ;

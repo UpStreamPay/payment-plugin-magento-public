@@ -60,8 +60,8 @@ class SynchronizeUpStreamPayPaymentData
 
                 //We can only create this, the payment methods should never be updated unless we are doing a capture
                 //Or refund then the amount captured or refunded will be updated, but just that.
-                if ($orderPayment && $orderPayment->getEntityId()
-                    && $orderTransactionResponse['parent_transaction_id'] !== $orderPayment->getDefaultTransactionId()
+                if (!$orderPayment || !$orderPayment->getEntityId()
+                    && $orderTransactionResponse['transaction_id'] !== $orderPayment->getDefaultTransactionId()
                 ) {
                     //Create.
                     $this->orderPayment->createPaymentFromResponse(

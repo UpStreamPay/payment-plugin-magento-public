@@ -13,13 +13,14 @@
         <payment>
             <upstream_pay>
                 <active>0</active>
+                <debug>0</debug>
                 <model>UpStreamPay\Core\Model\UpStreamPay</model>
                 <order_status>pending</order_status>
                 <title>UpStream Pay</title>
                 <allowspecific>0</allowspecific>
                 <group>upstream_pay</group>
                 <mode>sandbox</mode>
-                <payment_action>authorize_capture</payment_action>
+                <error_message>An error occured, please try again.</error_message>
             </upstream_pay>
         </payment>
     </default>

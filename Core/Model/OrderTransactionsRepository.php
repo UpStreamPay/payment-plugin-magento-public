@@ -20,6 +20,7 @@ use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
+use UpStreamPay\Core\Api\Data\OrderTransactionsSearchResultsInterface;
 use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
 use UpStreamPay\Core\Model\ResourceModel\OrderTransactions as ResourceModel;
 use UpStreamPay\Core\Model\ResourceModel\OrderTransactions\CollectionFactory;
@@ -158,7 +159,7 @@ class OrderTransactionsRepository implements OrderTransactionsRepositoryInterfac
     /**
      * @inheritDoc
      */
-    public function getList(SearchCriteriaInterface $searchCriteria = null): array
+    public function getList(SearchCriteriaInterface $searchCriteria = null): OrderTransactionsSearchResultsInterface
     {
         $collection = $this->collectionFactory->create();
 

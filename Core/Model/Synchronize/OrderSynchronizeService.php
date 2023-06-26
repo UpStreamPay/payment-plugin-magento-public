@@ -14,12 +14,13 @@ namespace UpStreamPay\Core\Model\Synchronize;
 
 use GuzzleHttp\Exception\GuzzleException;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Sales\Api\Data\OrderInterface;
+use Magento\Payment\Model\InfoInterface;
 use NoTransactionsException;
 use UpStreamPay\Client\Exception\NoOrderFoundException;
 use UpStreamPay\Client\Model\Client\ClientInterface;
+use UpStreamPay\Core\Model\AuthorizeService;
 use UpStreamPay\Core\Model\CaptureService;
+use UpStreamPay\Core\Model\OrderTransactions;
 
 /**
  * Class OrderSynchronizeService
@@ -32,36 +33,39 @@ class OrderSynchronizeService
      * @param ClientInterface $client
      * @param SynchronizeUpStreamPayPaymentData $synchronizeUpStreamPayPaymentData
      * @param CaptureService $captureService
+     * @param AuthorizeService $authorizeService
      */
     public function __construct(
         private readonly ClientInterface $client,
         private readonly SynchronizeUpStreamPayPaymentData $synchronizeUpStreamPayPaymentData,
-        private readonly CaptureService $captureService
+        private readonly CaptureService $captureService,
+        private readonly AuthorizeService $authorizeService
     ) {
     }
 
     /**
-     * Synchronize the UpStream Pay order with Magento custom payment & transaction table.
+     * Synchronize the order & execute the given action.
      *
-     * @param OrderInterface $order
+     * @param InfoInterface $payment
+     * @param float $amount
+     * @param string $action
      *
      * @return void
      * @throws GuzzleException
      * @throws LocalizedException
      * @throws NoOrderFoundException
-     * @throws NoSuchEntityException
      * @throws NoTransactionsException
      * @throws \JsonException
      */
-    public function synchronizeAndCapture(OrderInterface $order): void
+    public function execute(InfoInterface $payment, float $amount, string $action): void
     {
-        $quoteId = (int) $order->getQuoteId();
-        $orderId = (int) $order->getEntityId();
+        $quoteId = (int) $payment->getOrder()->getQuoteId();
+        $orderId = (int) $payment->getParentId();
 
         $orderTransactionsResponse = $this->client->getAllTransactionsForOrder($quoteId);
 
         if (count($orderTransactionsResponse) === 0) {
-            throw new NoTransactionsException('No transactions found in API for the order with ID ' . $order->getId());
+            throw new NoTransactionsException('No transactions found in API for the order with ID ' . $orderId);
         }
 
         //Save UpStream Pay payment & transaction data to DB.
@@ -69,10 +73,13 @@ class OrderSynchronizeService
             $orderTransactionsResponse,
             $orderId,
             $quoteId,
-            (int) $order->getPayment()->getEntityId()
+            (int) $payment->getEntityId()
         );
 
-        //Capture & update order.
-        $this->captureService->capture($order);
+        if ($action === OrderTransactions::AUTHORIZE_ACTION) {
+            $this->authorizeService->execute($payment, $amount);
+        } elseif ($action === OrderTransactions::CAPTURE_ACTION) {
+            $this->captureService->execute($payment, $amount);
+        }
     }
 }

@@ -16,8 +16,13 @@ use Magento\Checkout\Model\Session;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\Controller\Result\RedirectFactory;
 use Magento\Framework\Controller\ResultInterface;
+use Magento\Payment\Model\MethodInterface;
+use Magento\Sales\Api\Data\InvoiceInterface;
 use Magento\Sales\Api\OrderManagementInterface;
+use Magento\Sales\Api\OrderRepositoryInterface;
+use Magento\Sales\Model\Order\Payment\Processor;
 use Psr\Log\LoggerInterface;
+use UpStreamPay\Core\Model\Config;
 use UpStreamPay\Core\Model\Synchronize\OrderSynchronizeService;
 
 /**
@@ -34,17 +39,27 @@ class ReturnUrl implements HttpGetActionInterface
     /**
      * @param OrderSynchronizeService $orderSynchronizeService
      * @param Session $checkoutSession
+     * @param RedirectFactory $redirectFactory
+     * @param LoggerInterface $logger
+     * @param OrderManagementInterface $orderManagement
+     * @param Config $config
+     * @param OrderRepositoryInterface $orderRepository
+     * @param Processor $paymentProcessor
      */
     public function __construct(
         private readonly OrderSynchronizeService $orderSynchronizeService,
         private readonly Session $checkoutSession,
         private readonly RedirectFactory $redirectFactory,
         private readonly LoggerInterface $logger,
-        private readonly OrderManagementInterface $orderManagement
+        private readonly OrderManagementInterface $orderManagement,
+        private readonly Config $config,
+        private readonly OrderRepositoryInterface $orderRepository,
+        private readonly Processor $paymentProcessor
     ) {}
 
     /**
      * Handle the redirect coming from UpStream Pay.
+     * //@TODO WIP, calling external class might be needed.
      *
      * @return ResultInterface
      */
@@ -54,8 +69,18 @@ class ReturnUrl implements HttpGetActionInterface
 
         try {
             $order = $this->checkoutSession->getLastRealOrder();
-            $this->orderSynchronizeService->synchronizeAndCapture($order);
+            $payment = $order->getPayment();
 
+            if ($this->config->getPaymentAction() === MethodInterface::ACTION_AUTHORIZE) {
+                $this->paymentProcessor->authorize($payment, true, $order->getTotalDue());
+            } elseif ($this->config->getPaymentAction() === MethodInterface::ACTION_AUTHORIZE_CAPTURE) {
+                /** @var InvoiceInterface $invoice */
+                //We can only have one invoice because we come back from the redirect url.
+                $invoice = $order->getInvoiceCollection()->getFirstItem();
+                $this->paymentProcessor->capture($payment, $invoice);
+            }
+
+            $this->orderRepository->save($order);
             $resultRedirect->setPath('checkout/onepage/success', ['_secure' => true]);
         } catch (\Throwable $exception) {
             $this->logger->critical('Error while trying to handle the order after redirect from UpStream Pay');
