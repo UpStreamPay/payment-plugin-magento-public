@@ -45,11 +45,11 @@ class AuthorizeService
      * @param InfoInterface $payment
      * @param float $amount
      *
-     * @return void
+     * @return InfoInterface
      * @throws LocalizedException
      * @throws AuthorizeErrorException
      */
-    public function execute(InfoInterface $payment, float $amount): void
+    public function execute(InfoInterface $payment, float $amount): InfoInterface
     {
         $authorizeIsSuccess = true;
         $atLeastOneAuthorizeWaiting = false;
@@ -91,6 +91,7 @@ class AuthorizeService
                 ->setIsTransactionClosed(false)
                 ->setIsTransactionApproved(true)
                 ->setCurrencyCode($payment->getOrder()->getOrderCurrencyCode())
+                ->setIsTransactionPending(false)
             ;
         } elseif ($atLeastOneAuthorizeWaiting) {
             //waiting found, handle in waiting US.
@@ -100,5 +101,7 @@ class AuthorizeService
                 'At least one Authorize transaction is in error, void all Authorize in success.'
             );
         }
+
+        return $payment;
     }
 }

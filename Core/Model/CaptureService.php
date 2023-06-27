@@ -41,10 +41,10 @@ class CaptureService
      * @param InfoInterface $payment
      * @param float $amount
      *
-     * @return void
+     * @return InfoInterface
      * @throws LocalizedException
      */
-    public function execute(InfoInterface $payment, float $amount): void
+    public function execute(InfoInterface $payment, float $amount): InfoInterface
     {
         $captureNotInSuccessFound = false;
         $upStreamPaySessionId = '';
@@ -91,5 +91,7 @@ class CaptureService
         } else {
             //Handle errors better here, not the scope of this US.
         }
+
+        return $payment;
     }
 }

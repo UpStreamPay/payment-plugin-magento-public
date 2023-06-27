@@ -54,7 +54,7 @@ class OrderSynchronizeService
      * @param float $amount
      * @param string $action
      *
-     * @return void
+     * @return InfoInterface
      * @throws GuzzleException
      * @throws LocalizedException
      * @throws NoOrderFoundException
@@ -62,7 +62,7 @@ class OrderSynchronizeService
      * @throws \JsonException
      * @throws AuthorizeErrorException
      */
-    public function execute(InfoInterface $payment, float $amount, string $action): void
+    public function execute(InfoInterface $payment, float $amount, string $action): InfoInterface
     {
         $quoteId = (int) $payment->getOrder()->getQuoteId();
         $orderId = (int) $payment->getParentId();
@@ -82,11 +82,11 @@ class OrderSynchronizeService
         );
 
         if ($action === OrderTransactions::AUTHORIZE_ACTION) {
-            $this->authorizeService->execute($payment, $amount);
+            return $this->authorizeService->execute($payment, $amount);
         } elseif ($action === OrderTransactions::CAPTURE_ACTION) {
-            $this->captureService->execute($payment, $amount);
+           return  $this->captureService->execute($payment, $amount);
         } elseif ($action === OrderTransactions::VOID_ACTION) {
-            $this->voidService->execute($payment);
+            return $this->voidService->execute($payment);
         }
     }
 }

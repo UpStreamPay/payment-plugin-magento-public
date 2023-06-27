@@ -46,10 +46,10 @@ class VoidService
      *
      * @param InfoInterface $payment
      *
-     * @return void
+     * @return InfoInterface
      * @throws LocalizedException
      */
-    public function execute(InfoInterface $payment): void
+    public function execute(InfoInterface $payment): InfoInterface
     {
         /** @var OrderInterface $order */
         $order = $payment->getOrder();
@@ -88,5 +88,7 @@ class VoidService
                 (int) $order->getQuoteId()
             );
         }
+
+        return $payment;
     }
 }
