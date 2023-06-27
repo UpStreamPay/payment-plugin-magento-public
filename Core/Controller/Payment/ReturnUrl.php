@@ -78,6 +78,7 @@ class ReturnUrl implements HttpGetActionInterface
                 $this->paymentProcessor->capture($payment, $invoice);
             }
 
+            $this->orderRepository->save($order);
             $resultRedirect->setPath('checkout/onepage/success', ['_secure' => true]);
 
             return $resultRedirect;
