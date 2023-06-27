@@ -14,6 +14,7 @@ namespace UpStreamPay\Core\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\ScopeInterface;
+use UpStreamPay\Core\Model\Config\Source\Mode;
 
 /**
  * Class Config
@@ -34,6 +35,8 @@ class Config
     public const ENTITY_ID_CONFIG_PATH = 'payment/upstream_pay/api_config/entity_id';
     public const CLIENT_SECRET_CONFIG_PATH = 'payment/upstream_pay/api_config/client_secret';
     public const API_KEY_CONFIG_PATH = 'payment/upstream_pay/api_config/api_key';
+    public const RSA_SANDBOX_KEY_CONFIG_PATH = 'payment/upstream_pay/api_config/rsa_sandbox_key';
+    public const RSA_PRODUCTION_KEY_CONFIG_PATH = 'payment/upstream_pay/api_config/rsa_production_key';
     public const PAYMENT_ACTION_CONFIG_PATH = 'payment/upstream_pay/payment_action';
 
     /**
@@ -148,5 +151,19 @@ class Config
     public function getPaymentAction(): string
     {
         return $this->config->getValue(self::PAYMENT_ACTION_CONFIG_PATH, ScopeInterface::SCOPE_STORE);
+    }
+
+    /**
+     * Get the proper RSA key based on current mode.
+     *
+     * @return string
+     */
+    public function getRsaKey(): string
+    {
+        if ($this->getMode() === Mode::SANDBOX_VALUE) {
+            return $this->config->getValue(self::RSA_SANDBOX_KEY_CONFIG_PATH);
+        } else {
+            return $this->config->getValue(self::RSA_PRODUCTION_KEY_CONFIG_PATH);
+        }
     }
 }
