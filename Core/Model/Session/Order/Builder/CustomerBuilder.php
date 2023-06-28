@@ -19,6 +19,7 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Quote\Api\Data\CartInterface;
+use Magento\Store\Model\ScopeInterface;
 use UpStreamPay\Core\Model\Session\Order\AddressBuilderInterface;
 use UpStreamPay\Core\Model\Session\Order\BuilderInterface;
 
@@ -91,7 +92,7 @@ class CustomerBuilder implements BuilderInterface
         $customerData['locale_code'] = str_replace(
             '_',
             '-',
-            $this->config->getValue(Data::XML_PATH_DEFAULT_LOCALE)
+            $this->config->getValue(Data::XML_PATH_DEFAULT_LOCALE, ScopeInterface::SCOPE_STORE)
         );
 
         $customerData['billing_address'] = $this->billingAddressBuilder->execute(
