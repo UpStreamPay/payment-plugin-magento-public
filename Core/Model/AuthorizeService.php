@@ -94,7 +94,11 @@ class AuthorizeService
                 ->setIsTransactionPending(false)
             ;
         } elseif ($atLeastOneAuthorizeWaiting) {
-            //waiting found, handle in waiting US.
+            $payment
+                ->setTransactionId($upStreamPaySessionId)
+                ->setIsTransactionClosed(false)
+                ->setIsTransactionPending(true)
+            ;
         } elseif (!$authorizeIsSuccess) {
             //No authorize waiting has been found & at least one authorize error found.
             throw new AuthorizeErrorException(
