@@ -12,11 +12,14 @@ declare(strict_types=1);
 
 namespace UpStreamPay\Core\Model;
 
+use GuzzleHttp\Exception\GuzzleException;
+use JsonException;
 use Magento\Directory\Helper\Data as DirectoryHelper;
 use Magento\Framework\Api\AttributeValueFactory;
 use Magento\Framework\Api\ExtensionAttributesFactory;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Data\Collection\AbstractDb;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Model\Context;
 use Magento\Framework\Model\ResourceModel\AbstractResource;
 use Magento\Framework\Registry;
@@ -27,6 +30,8 @@ use Magento\Payment\Model\Method\Logger;
 use Magento\Payment\Model\MethodInterface;
 use Throwable;
 use UpStreamPay\Client\Exception\NoOrderFoundException;
+use UpStreamPay\Core\Exception\AuthorizeErrorException;
+use UpStreamPay\Core\Exception\NoTransactionsException;
 use UpStreamPay\Core\Model\Synchronize\OrderSynchronizeService;
 
 /**
@@ -145,18 +150,24 @@ class UpStreamPay extends AbstractMethod
      * @param $amount
      *
      * @return $this|UpStreamPay
+     * @throws AuthorizeErrorException
+     * @throws GuzzleException
+     * @throws LocalizedException
+     * @throws JsonException
      */
     public function authorize(InfoInterface $payment, $amount)
     {
+        //Before we can verify anything, the transaction is pending.
+        $payment->setIsTransactionPending(true);
+
         try {
-            $this->orderSynchronizeService->execute($payment, $amount, OrderTransactions::CAPTURE_ACTION);
-        } catch (NoOrderFoundException $exception) {
+            $this->orderSynchronizeService->execute($payment, $amount, OrderTransactions::AUTHORIZE_ACTION);
+        } catch (NoOrderFoundException | NoTransactionsException $exception) {
             //No order found because authorize is done before UpStream Pay has the order.
-            //No operation has been done so nothing to void.
+            //No transaction has been found.
+
+            //In this scenario nothing to void.
             $payment->setIsTransactionPending(true);
-        } catch (Throwable $exception) {
-            //@TODO Should void authorize?
-            $payment->setIsTransactionApproved(false);
         }
 
         return $this;
@@ -187,10 +198,71 @@ class UpStreamPay extends AbstractMethod
             $payment->setIsTransactionPending(true);
         } catch (Throwable $exception) {
             //Handle errors better.
-            $payment->setIsTransactionPending(true);
+            $payment->setIsTransactionPending(false);
             $payment->setIsTransactionApproved(false);
         }
 
         return $this;
+    }
+
+    /**
+     * Cancel the order. This will trigger a void on the authorized transactions.
+     *
+     * @param InfoInterface $payment
+     *
+     * @return UpStreamPay|$this
+     * @throws AuthorizeErrorException cannot be thrown here if we trigger void action.
+     * @throws GuzzleException
+     * @throws LocalizedException
+     * @throws NoOrderFoundException cannot be thrown at this point.
+     * @throws NoTransactionsException
+     * @throws JsonException
+     */
+    public function cancel(InfoInterface $payment)
+    {
+        $this->orderSynchronizeService->execute($payment, 0.00, OrderTransactions::VOID_ACTION);
+
+        return $this;
+    }
+
+    /**
+     * Void the payment.
+     *
+     * @param InfoInterface $payment
+     *
+     * @return $this|UpStreamPay
+     * @throws AuthorizeErrorException
+     * @throws GuzzleException
+     * @throws JsonException
+     * @throws LocalizedException
+     * @throws NoOrderFoundException
+     * @throws NoTransactionsException
+     */
+    public function void(InfoInterface $payment)
+    {
+        $this->orderSynchronizeService->execute($payment, 0.00, OrderTransactions::VOID_ACTION);
+
+        return $this;
+    }
+
+    /**
+     * Deny payment.
+     *
+     * @param InfoInterface $payment
+     *
+     * @return true
+     * @throws AuthorizeErrorException
+     * @throws GuzzleException
+     * @throws JsonException
+     * @throws LocalizedException
+     * @throws NoOrderFoundException
+     * @throws NoTransactionsException
+     */
+    public function denyPayment(InfoInterface $payment)
+    {
+        $this->orderSynchronizeService->execute($payment, 0.00, OrderTransactions::VOID_ACTION);
+        $payment->setIsTransactionDenied(true);
+
+        return true;
     }
 }

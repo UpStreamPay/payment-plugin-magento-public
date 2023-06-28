@@ -1,0 +1,77 @@
+<?php
+/**
+ * UpStream Pay
+ *
+ * Copyright (c) 2019-2023 UpStream Pay.
+ * This file is open source and available under the MIT license.
+ * See the LICENSE file for more info.
+ *
+ * Author: Claranet France <info@fr.clara.net>
+ */
+declare(strict_types=1);
+
+namespace UpStreamPay\Core\Model;
+
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Payment\Model\MethodInterface;
+use Magento\Sales\Api\OrderRepositoryInterface;
+use Magento\Sales\Model\Order\Payment\Processor;
+use Psr\Log\LoggerInterface;
+use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
+use UpStreamPay\Core\Exception\AuthorizeErrorException;
+use UpStreamPay\Core\Exception\NoTransactionsException;
+
+/**
+ * Class NotificationService
+ *
+ * @package UpStreamPay\Core\Model
+ */
+class NotificationService
+{
+    public function __construct(
+        private readonly Config $config,
+        private readonly Processor $paymentProcessor,
+        private readonly OrderRepositoryInterface $orderRepository,
+        private readonly OrderTransactionsRepositoryInterface $orderTransactionsRepository,
+        private readonly LoggerInterface $logger
+    ) {
+    }
+
+    /**
+     * @param array $notification
+     *
+     * @return void
+     * @throws LocalizedException
+     */
+    public function execute(array $notification)
+    {
+        $transaction = $this->orderTransactionsRepository->getByTransactionId($notification['id']);
+
+        //Only deal with known transactions in case of a real status update.
+        if ($transaction && $transaction->getEntityId() && $transaction->getStatus() !== $notification['status']['state']) {
+            $order = $this->orderRepository->get($transaction->getOrderId());
+            $payment = $order->getPayment();
+
+            //@TODO Add more case as we implement more things.
+            switch ($notification['status']['action']) {
+                case OrderTransactions::AUTHORIZE_ACTION:
+                    if ($this->config->getPaymentAction() === MethodInterface::ACTION_AUTHORIZE) {
+                        $transaction->setStatus($notification['status']['state']);
+                        $this->orderTransactionsRepository->save($transaction);
+
+                        try {
+                            $this->paymentProcessor->authorize($payment, true, $order->getTotalDue());
+                        } catch (AuthorizeErrorException $authorizeErrorException) {
+                            //This is thrown by the authorize function in UpStream Pay payment method.
+                            $payment->deny();
+                        }
+
+                        $this->orderRepository->save($order);
+
+                    }
+
+                    break;
+            }
+        }
+    }
+}

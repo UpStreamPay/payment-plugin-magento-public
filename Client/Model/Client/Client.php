@@ -44,6 +44,7 @@ class Client implements ClientInterface
     private const ORDERS_URI = '/orders/';
     private const TRANSACTIONS_URI = '/transactions/';
     private const CAPTURE_URI = '/capture';
+    private const VOID_URI = '/void';
 
     /**
      * @param ClientFactory $httpClientFactory
@@ -172,6 +173,38 @@ class Client implements ClientInterface
             self::TRANSACTIONS_URI,
             $transactionId,
             self::CAPTURE_URI,
+        );
+
+        return $this->callApi($headers, $body, self::POST, $uri, []);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function void(string $transactionId, array $body): array
+    {
+        $token = $this->tokenService->getToken();
+
+        if ($token->hasExpired()) {
+            try {
+                $token = $this->tokenService->setToken($this->getToken());
+            } catch (\Exception $exception) {
+                return [];
+            }
+        }
+
+        $headers = [
+            'Authorization' => 'Bearer ' . $token->getValue(),
+            self::API_KEY_PARAM => $this->decryptConfig($this->config->getApiKey()),
+            'Content-Type' => 'application/json'
+        ];
+
+        $uri = sprintf(
+            '%s%s%s%s',
+            $this->config->getEntityId(),
+            self::TRANSACTIONS_URI,
+            $transactionId,
+            self::VOID_URI,
         );
 
         return $this->callApi($headers, $body, self::POST, $uri, []);

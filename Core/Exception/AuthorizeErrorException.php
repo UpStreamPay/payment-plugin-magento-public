@@ -15,10 +15,9 @@ namespace UpStreamPay\Core\Exception;
 use Exception;
 
 /**
- * Class NoTransactionsException
+ * Class AuthorizeErrorException
  *
  */
-class NoTransactionsException extends Exception
+class AuthorizeErrorException extends Exception
 {
-
 }

@@ -139,7 +139,7 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
      */
     public function getQuoteId(): int
     {
-        return $this->getData(self::QUOTE_ID);
+        return (int)$this->getData(self::QUOTE_ID);
     }
 
     /**
@@ -155,7 +155,7 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
      */
     public function getOrderId(): int
     {
-        return $this->getData(self::ORDER_ID);
+        return (int)$this->getData(self::ORDER_ID);
     }
 
     /**
@@ -171,7 +171,7 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
      */
     public function getInvoiceId(): ?int
     {
-        return $this->getData(self::INVOICE_ID);
+        return (int)$this->getData(self::INVOICE_ID);
     }
 
     /**
@@ -187,7 +187,7 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
      */
     public function getCreditmemoId(): ?int
     {
-        return $this->getData(self::CREDITMEMO_ID);
+        return (int)$this->getData(self::CREDITMEMO_ID);
     }
 
     /**
@@ -290,7 +290,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
      */
     public function createTransactionFromResponse(
         array $transactionResponse,
-        int $orderId, int $quoteId
+        int $orderId,
+        int $quoteId
     ): OrderTransactionsInterface
     {
         $orderTransaction = $this->orderTransactionsFactory->create();

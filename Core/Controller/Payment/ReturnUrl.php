@@ -16,14 +16,16 @@ use Magento\Checkout\Model\Session;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\Controller\Result\RedirectFactory;
 use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Payment\Model\MethodInterface;
 use Magento\Sales\Api\Data\InvoiceInterface;
+use Magento\Sales\Api\InvoiceRepositoryInterface;
 use Magento\Sales\Api\OrderManagementInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Sales\Model\Order\Payment\Processor;
 use Psr\Log\LoggerInterface;
+use UpStreamPay\Core\Exception\AuthorizeErrorException;
 use UpStreamPay\Core\Model\Config;
-use UpStreamPay\Core\Model\Synchronize\OrderSynchronizeService;
 
 /**
  * Class ReturnUrl
@@ -37,7 +39,6 @@ class ReturnUrl implements HttpGetActionInterface
     public const URL_PATH = 'upstreampay/payment/returnurl';
 
     /**
-     * @param OrderSynchronizeService $orderSynchronizeService
      * @param Session $checkoutSession
      * @param RedirectFactory $redirectFactory
      * @param LoggerInterface $logger
@@ -45,16 +46,17 @@ class ReturnUrl implements HttpGetActionInterface
      * @param Config $config
      * @param OrderRepositoryInterface $orderRepository
      * @param Processor $paymentProcessor
+     * @param InvoiceRepositoryInterface $invoiceRepository
      */
     public function __construct(
-        private readonly OrderSynchronizeService $orderSynchronizeService,
         private readonly Session $checkoutSession,
         private readonly RedirectFactory $redirectFactory,
         private readonly LoggerInterface $logger,
         private readonly OrderManagementInterface $orderManagement,
         private readonly Config $config,
         private readonly OrderRepositoryInterface $orderRepository,
-        private readonly Processor $paymentProcessor
+        private readonly Processor $paymentProcessor,
+        private readonly InvoiceRepositoryInterface $invoiceRepository
     ) {}
 
     /**
@@ -62,6 +64,7 @@ class ReturnUrl implements HttpGetActionInterface
      * //@TODO WIP, calling external class might be needed.
      *
      * @return ResultInterface
+     * @throws LocalizedException
      */
     public function execute(): ResultInterface
     {
@@ -73,25 +76,41 @@ class ReturnUrl implements HttpGetActionInterface
 
             if ($this->config->getPaymentAction() === MethodInterface::ACTION_AUTHORIZE) {
                 $this->paymentProcessor->authorize($payment, true, $order->getTotalDue());
+                $this->orderRepository->save($order);
             } elseif ($this->config->getPaymentAction() === MethodInterface::ACTION_AUTHORIZE_CAPTURE) {
                 /** @var InvoiceInterface $invoice */
                 //We can only have one invoice because we come back from the redirect url.
                 $invoice = $order->getInvoiceCollection()->getFirstItem();
                 $this->paymentProcessor->capture($payment, $invoice);
+
+                //After capture is done trigger pay of the invoice.
+                if ($invoice->getIsPaid()) {
+                    $invoice->pay();
+                }
+
+                $this->orderRepository->save($order);
+                $this->invoiceRepository->save($invoice);
             }
 
-            $this->orderRepository->save($order);
             $resultRedirect->setPath('checkout/onepage/success', ['_secure' => true]);
+
+            return $resultRedirect;
+        } catch (AuthorizeErrorException $exception) {
+            //@TODO WIP => this can only happen in authorize action for now. Check this when we implement order action.
+            //An authorize error has been found => we can deny the payment, it will cancel the order.
+            $payment->deny();
         } catch (\Throwable $exception) {
             $this->logger->critical('Error while trying to handle the order after redirect from UpStream Pay');
             $this->logger->critical('Order ID was ' . $order->getEntityId());
             $this->logger->critical($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
 
-            //Restore the user quote & redirect to cart.
-            $this->checkoutSession->restoreQuote();
             $this->orderManagement->cancel($order->getEntityId());
-            $resultRedirect->setPath('checkout/cart', ['_secure' => true]);
         }
+
+        //Restore the user quote & redirect to cart.
+        $this->orderRepository->save($order);
+        $this->checkoutSession->restoreQuote();
+        $resultRedirect->setPath('checkout/cart', ['_secure' => true]);
 
         return $resultRedirect;
     }
