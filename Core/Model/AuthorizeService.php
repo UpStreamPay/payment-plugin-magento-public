@@ -74,7 +74,6 @@ class AuthorizeService
             }
 
             if ($authorizeTransaction->getStatus() === OrderTransactions::ERROR_STATUS) {
-                //Handle errors better here. Not the scope of this US.
                 $authorizeIsSuccess = false;
             } elseif ($authorizeTransaction->getStatus() === OrderTransactions::WAITING_STATUS) {
                 $atLeastOneAuthorizeWaiting = true;
