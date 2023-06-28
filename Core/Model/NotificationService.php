@@ -41,7 +41,6 @@ class NotificationService
      * @param array $notification
      *
      * @return void
-     * @throws NoTransactionsException
      * @throws LocalizedException
      */
     public function execute(array $notification)
@@ -51,6 +50,7 @@ class NotificationService
         //Only deal with known transactions in case of a real status update.
         if ($transaction && $transaction->getEntityId() && $transaction->getStatus() !== $notification['status']['state']) {
             $order = $this->orderRepository->get($transaction->getOrderId());
+            $payment = $order->getPayment();
 
             //@TODO Add more case as we implement more things.
             switch ($notification['status']['action']) {
@@ -60,9 +60,10 @@ class NotificationService
                         $this->orderTransactionsRepository->save($transaction);
 
                         try {
-                            $this->paymentProcessor->authorize($order->getPayment(), true, $order->getTotalDue());
+                            $this->paymentProcessor->authorize($payment, true, $order->getTotalDue());
                         } catch (AuthorizeErrorException $authorizeErrorException) {
-                            $order->getPayment()->deny();
+                            //This is thrown by the authorize function in UpStream Pay payment method.
+                            $payment->deny();
                         }
 
                         $this->orderRepository->save($order);
