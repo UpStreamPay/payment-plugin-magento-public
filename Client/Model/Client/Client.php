@@ -15,7 +15,6 @@ namespace UpStreamPay\Client\Model\Client;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
-use Magento\Framework\Encryption\EncryptorInterface;
 use UpStreamPay\Client\Exception\NoOrderFoundException;
 use UpStreamPay\Client\Model\Token\TokenService;
 use UpStreamPay\Core\Model\Config;
@@ -49,13 +48,11 @@ class Client implements ClientInterface
     /**
      * @param ClientFactory $httpClientFactory
      * @param Config $config
-     * @param EncryptorInterface $encryptor
      * @param TokenService $tokenService
      */
     public function __construct(
         private readonly ClientFactory $httpClientFactory,
         private readonly Config $config,
-        private readonly EncryptorInterface $encryptor,
         private readonly TokenService $tokenService
     ) {}
 
@@ -251,16 +248,5 @@ class Client implements ClientInterface
         $response = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
 
         return $response;
-    }
-
-    /**
-     * Decrypt obscure configuration from database.
-     *
-     * @param string $config
-     * @return string
-     */
-    private function decryptConfig(string $config): string
-    {
-        return $this->encryptor->decrypt(trim($config));
     }
 }

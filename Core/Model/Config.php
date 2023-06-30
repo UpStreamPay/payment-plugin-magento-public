@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace UpStreamPay\Core\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Encryption\EncryptorInterface;
 use Magento\Store\Model\ScopeInterface;
 use UpStreamPay\Core\Model\Config\Source\Mode;
 
@@ -41,9 +42,11 @@ class Config
 
     /**
      * @param ScopeConfigInterface $config
+     * @param EncryptorInterface $encryptor
      */
     public function __construct(
-        private readonly ScopeConfigInterface $config
+        private readonly ScopeConfigInterface $config,
+        private readonly EncryptorInterface $encryptor
     ) {}
 
     /**
@@ -129,7 +132,9 @@ class Config
      */
     public function getClientSecret(): ?string
     {
-        return $this->config->getValue(self::CLIENT_SECRET_CONFIG_PATH, ScopeInterface::SCOPE_STORE);
+        return $this->encryptor->decrypt(
+            trim($this->config->getValue(self::CLIENT_SECRET_CONFIG_PATH, ScopeInterface::SCOPE_STORE))
+        );
     }
 
     /**
@@ -140,7 +145,9 @@ class Config
      */
     public function getApiKey(): ?string
     {
-        return $this->config->getValue(self::API_KEY_CONFIG_PATH, ScopeInterface::SCOPE_STORE);
+        return $this->encryptor->decrypt(
+            trim($this->config->getValue(self::API_KEY_CONFIG_PATH, ScopeInterface::SCOPE_STORE))
+        );
     }
 
     /**
