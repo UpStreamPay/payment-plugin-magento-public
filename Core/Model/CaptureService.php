@@ -80,17 +80,18 @@ class CaptureService
         }
 
         //Every transaction has a capture success & the amount to capture matches the amount captured.
-        if (!$atLeastOneCaptureError && $amountCaptured === $amount) {
+        if (!$atLeastOneCaptureError && !$atLeastOneCaptureWaiting && $amountCaptured === $amount) {
             //Every capture is a success, so the payment is captured.
             $payment
                 ->setTransactionId($upStreamPaySessionId)
                 ->setIsTransactionClosed(false)
                 ->setIsTransactionPending(false)
                 ->setIsTransactionApproved(true)
-                ->setCurrencyCode($payment->getOrder()->getOrderCurrencyCode())
-            ;
+                ->setCurrencyCode($payment->getOrder()->getOrderCurrencyCode());
+        } elseif ($atLeastOneCaptureWaiting) {
+            $payment->setIsTransactionPending(true);
         } elseif ($atLeastOneCaptureError && !$atLeastOneCaptureWaiting) {
-            //There is at least one capture in error and no capture in waiting so we can safely perform a refund on all
+            //There is at least one capture in error and no capture in waiting, so we can safely perform a refund on all
             //capture for this order.
             throw new CaptureErrorException(
                 'At least one Capture transaction is in error, refund all Capture in success.'
