@@ -93,9 +93,6 @@ define([
             this.getPlaceOrderDeferredObject()
                 .done(
                     function () {
-                        //Needed?
-                        // self.afterPlaceOrder();
-                        console.log('payment is success.');
                         self.manager.submitPayment();
                     }
                 ).fail(
