@@ -15,7 +15,7 @@ define([
     var dfd = $.Deferred();
 
     /**
-     * Loads the PayPal SDK object
+     * Loads the UpStreamPay SDK object
      */
     return function loadUpstreamPayScript() {
         //configuration for loaded UpStream Pay script
