@@ -17,6 +17,7 @@ use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\Controller\Result\RedirectFactory;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Message\ManagerInterface;
 use Magento\Payment\Model\MethodInterface;
 use Magento\Sales\Api\Data\InvoiceInterface;
 use Magento\Sales\Api\InvoiceRepositoryInterface;
@@ -48,6 +49,7 @@ class ReturnUrl implements HttpGetActionInterface
      * @param OrderRepositoryInterface $orderRepository
      * @param Processor $paymentProcessor
      * @param InvoiceRepositoryInterface $invoiceRepository
+     * @param ManagerInterface $messageManager
      */
     public function __construct(
         private readonly Session $checkoutSession,
@@ -57,7 +59,8 @@ class ReturnUrl implements HttpGetActionInterface
         private readonly Config $config,
         private readonly OrderRepositoryInterface $orderRepository,
         private readonly Processor $paymentProcessor,
-        private readonly InvoiceRepositoryInterface $invoiceRepository
+        private readonly InvoiceRepositoryInterface $invoiceRepository,
+        private readonly ManagerInterface $messageManager
     ) {}
 
     /**
@@ -110,6 +113,7 @@ class ReturnUrl implements HttpGetActionInterface
         //Restore the user quote & redirect to cart.
         $this->orderRepository->save($order);
         $this->checkoutSession->restoreQuote();
+        $this->messageManager->addErrorMessage($this->config->getErrorMessage());
         $resultRedirect->setPath('checkout/cart', ['_secure' => true]);
 
         return $resultRedirect;
