@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace UpStreamPay\Core\Model;
 
 use Magento\Checkout\Model\ConfigProviderInterface;
-use Magento\Framework\Encryption\EncryptorInterface;
 
 /**
  * Class UpStreamPayConfigProvider
@@ -24,11 +23,9 @@ class UpStreamPayConfigProvider implements ConfigProviderInterface
 {
     /**
      * @param Config $config
-     * @param EncryptorInterface $encryptor
      */
     public function __construct(
         private readonly Config $config,
-        private readonly EncryptorInterface $encryptor
     ) {
     }
 
@@ -44,7 +41,7 @@ class UpStreamPayConfigProvider implements ConfigProviderInterface
                 'UpStreamPay' => [
                     'entityId' => $this->config->getEntityId(),
                     'mode' => $this->config->getMode(),
-                    'apiKey' => $this->encryptor->decrypt($this->config->getApiKey()),
+                    'apiKey' => $this->config->getApiKey(),
                     'errorMessage' => $this->config->getErrorMessage(),
                     'paymentMethodCode' => Config::METHOD_CODE_UPSTREAM_PAY
                 ]

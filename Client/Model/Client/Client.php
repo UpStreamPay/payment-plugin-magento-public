@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace UpStreamPay\Client\Model\Client;
 
-use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
-use Magento\Framework\Encryption\EncryptorInterface;
+use JsonException;
 use UpStreamPay\Client\Exception\NoOrderFoundException;
+use UpStreamPay\Client\Exception\TokenValidatorException;
 use UpStreamPay\Client\Model\Token\TokenService;
 use UpStreamPay\Core\Model\Config;
 use UpStreamPay\Core\Model\Config\Source\Mode;
@@ -45,31 +45,34 @@ class Client implements ClientInterface
     private const TRANSACTIONS_URI = '/transactions/';
     private const CAPTURE_URI = '/capture';
     private const VOID_URI = '/void';
+    private const REFUND_URI = '/refund';
 
     /**
      * @param ClientFactory $httpClientFactory
      * @param Config $config
-     * @param EncryptorInterface $encryptor
      * @param TokenService $tokenService
      */
     public function __construct(
         private readonly ClientFactory $httpClientFactory,
         private readonly Config $config,
-        private readonly EncryptorInterface $encryptor,
         private readonly TokenService $tokenService
     ) {}
 
     /**
-     * @inheritDoc
+     * Get token to authenticate on further API calls.
+     *
+     * @return array
+     * @throws GuzzleException
+     * @throws JsonException
      */
     public function getToken(): array
     {
         $headers = [
             'Authorization' => sprintf(
                 'Basic %s',
-                base64_encode($this->config->getClientId() . ':' . $this->decryptConfig($this->config->getClientSecret()))
+                base64_encode($this->config->getClientId() . ':' . $this->config->getClientSecret())
             ),
-            self::API_KEY_PARAM => $this->decryptConfig($this->config->getApiKey()),
+            self::API_KEY_PARAM => $this->config->getApiKey(),
             'Content-Type' => 'application/x-www-form-urlencoded'
         ];
 
@@ -81,50 +84,38 @@ class Client implements ClientInterface
     }
 
     /**
-     * @inheritDoc
+     * Create UpStream Pay session.
+     *
+     * @param array $orderSession
+     *
+     * @return array
+     * @throws GuzzleException
+     * @throws JsonException
+     * @throws TokenValidatorException
      */
     public function createSession(array $orderSession): array
     {
-        $token = $this->tokenService->getToken();
-
-        if ($token->hasExpired()) {
-            try {
-                $token = $this->tokenService->setToken($this->getToken());
-            } catch (\Exception $exception) {
-                return [];
-            }
-        }
-
-        $headers = [
-            'Authorization' => 'Bearer ' . $token->getValue(),
-            self::API_KEY_PARAM => $this->decryptConfig($this->config->getApiKey()),
-            'Content-Type' => 'application/json'
-        ];
-
-        return $this->callApi($headers, $orderSession, self::POST, $this->config->getEntityId() . self::CREATE_SESSION_URI, []);
+        return $this->callApi(
+            $this->buildHeader(),
+            $orderSession,
+            self::POST,
+            $this->config->getEntityId() . self::CREATE_SESSION_URI, []
+        );
     }
 
     /**
-     * @inheritDoc
+     * Get each transaction made for an order.
+     *
+     * @param int $orderId
+     *
+     * @return array
+     * @throws GuzzleException
+     * @throws JsonException
+     * @throws NoOrderFoundException
+     * @throws TokenValidatorException
      */
     public function getAllTransactionsForOrder(int $orderId): array
     {
-        $token = $this->tokenService->getToken();
-
-        if ($token->hasExpired()) {
-            try {
-                $token = $this->tokenService->setToken($this->getToken());
-            } catch (\Exception $exception) {
-                return [];
-            }
-        }
-
-        $headers = [
-            'Authorization' => 'Bearer ' . $token->getValue(),
-            self::API_KEY_PARAM => $this->decryptConfig($this->config->getApiKey()),
-            'Content-Type' => 'application/json'
-        ];
-
         $uri = sprintf(
             '%s%s%s',
             $this->config->getEntityId(),
@@ -133,7 +124,7 @@ class Client implements ClientInterface
         );
 
         try {
-            return $this->callApi($headers, [], self::GET, $uri, []);
+            return $this->callApi($this->buildHeader(), [], self::GET, $uri, []);
         } catch (GuzzleException $exception) {
             if ($exception->getCode() === 404) {
                 //We most likely have no order found on UpStream Pay side.
@@ -147,26 +138,27 @@ class Client implements ClientInterface
     }
 
     /**
-     * @inheritDoc
+     * Capture the given transaction through transaction ID & body parameters.
+     *
+     * The body contains the amount to capture:
+     * {
+     *      "order": {
+     *          "amount": 271.92,
+     *          "currency_code": "EUR"
+     *      },
+     *      "amount": 270.92
+     * }
+     *
+     * @param string $transactionId
+     * @param array $body
+     *
+     * @return array
+     * @throws GuzzleException
+     * @throws JsonException
+     * @throws TokenValidatorException
      */
     public function capture(string $transactionId, array $body): array
     {
-        $token = $this->tokenService->getToken();
-
-        if ($token->hasExpired()) {
-            try {
-                $token = $this->tokenService->setToken($this->getToken());
-            } catch (\Exception $exception) {
-                return [];
-            }
-        }
-
-        $headers = [
-            'Authorization' => 'Bearer ' . $token->getValue(),
-            self::API_KEY_PARAM => $this->decryptConfig($this->config->getApiKey()),
-            'Content-Type' => 'application/json'
-        ];
-
         $uri = sprintf(
             '%s%s%s%s',
             $this->config->getEntityId(),
@@ -175,30 +167,31 @@ class Client implements ClientInterface
             self::CAPTURE_URI,
         );
 
-        return $this->callApi($headers, $body, self::POST, $uri, []);
+        return $this->callApi($this->buildHeader(), $body, self::POST, $uri, []);
     }
 
     /**
-     * @inheritDoc
+     * Void the given transaction through transaction ID & body parameters.
+     *
+     * The body contains the amount to void:
+     * {
+     *      "order": {
+     *          "amount": 271.92,
+     *          "currency_code": "EUR"
+     *      },
+     *      "amount": 270.92
+     * }
+     *
+     * @param string $transactionId
+     * @param array $body
+     *
+     * @return array
+     * @throws GuzzleException
+     * @throws JsonException
+     * @throws TokenValidatorException
      */
     public function void(string $transactionId, array $body): array
     {
-        $token = $this->tokenService->getToken();
-
-        if ($token->hasExpired()) {
-            try {
-                $token = $this->tokenService->setToken($this->getToken());
-            } catch (\Exception $exception) {
-                return [];
-            }
-        }
-
-        $headers = [
-            'Authorization' => 'Bearer ' . $token->getValue(),
-            self::API_KEY_PARAM => $this->decryptConfig($this->config->getApiKey()),
-            'Content-Type' => 'application/json'
-        ];
-
         $uri = sprintf(
             '%s%s%s%s',
             $this->config->getEntityId(),
@@ -207,7 +200,40 @@ class Client implements ClientInterface
             self::VOID_URI,
         );
 
-        return $this->callApi($headers, $body, self::POST, $uri, []);
+        return $this->callApi($this->buildHeader(), $body, self::POST, $uri, []);
+    }
+
+    /**
+     * Refund the given transaction through transaction ID & body parameters.
+     *
+     * The body contains the amount to refund:
+     * {
+     *      "order": {
+     *          "amount": 271.92,
+     *          "currency_code": "EUR"
+     *      },
+     *      "amount": 270.92
+     * }
+     *
+     * @param string $transactionId
+     * @param array $body
+     *
+     * @return array
+     * @throws GuzzleException
+     * @throws JsonException
+     * @throws TokenValidatorException
+     */
+    public function refund(string $transactionId, array $body): array
+    {
+        $uri = sprintf(
+            '%s%s%s%s',
+            $this->config->getEntityId(),
+            self::TRANSACTIONS_URI,
+            $transactionId,
+            self::REFUND_URI,
+        );
+
+        return $this->callApi($this->buildHeader(), $body, self::POST, $uri, []);
     }
 
     /**
@@ -221,13 +247,10 @@ class Client implements ClientInterface
      *
      * @return array
      * @throws GuzzleException
-     * @throws \JsonException
+     * @throws JsonException
      */
     private function callApi(array $headers, array $body, string $protocol, string $uri, array $query): array
     {
-        $response = [];
-
-        /** @var GuzzleClient $client */
         $client = $this->httpClientFactory->create(
             [
                 'config' => [
@@ -242,25 +265,35 @@ class Client implements ClientInterface
             self::QUERY => $query,
         ];
 
-        //Don't pass the body if there is nothing to pass or it will create an error.
+        //Don't pass the body if there is nothing to pass, or it will create an error.
         if (count($body) > 0) {
             $options[RequestOptions::JSON] = $body;
         }
 
         $rawResponse = $client->request($protocol, $uri, $options);
-        $response = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
-
-        return $response;
+        return json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
     }
 
     /**
-     * Decrypt obscure configuration from database.
+     * Build header for API request.
      *
-     * @param string $config
-     * @return string
+     * @return array
+     * @throws GuzzleException
+     * @throws JsonException
+     * @throws TokenValidatorException
      */
-    private function decryptConfig(string $config): string
+    private function buildHeader(): array
     {
-        return $this->encryptor->decrypt(trim($config));
+        $token = $this->tokenService->getToken();
+
+        if ($token->hasExpired()) {
+            $token = $this->tokenService->setToken($this->getToken());
+        }
+
+        return [
+            'Authorization' => 'Bearer ' . $token->getValue(),
+            self::API_KEY_PARAM => $this->config->getApiKey(),
+            'Content-Type' => 'application/json'
+        ];
     }
 }

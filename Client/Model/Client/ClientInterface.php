@@ -92,4 +92,23 @@ interface ClientInterface
      * @return array
      */
     public function void(string $transactionId, array $body): array;
+
+    /**
+     * Refund the given transaction through transaction ID & body parameters.
+     *
+     * The body contains the amount to refund:
+     * {
+     *      "order": {
+     *          "amount": 271.92,
+     *          "currency_code": "EUR"
+     *      },
+     *      "amount": 270.92
+     * }
+     *
+     * @param string $transactionId
+     * @param array $body
+     *
+     * @return array
+     */
+    public function refund(string $transactionId, array $body): array;
 }

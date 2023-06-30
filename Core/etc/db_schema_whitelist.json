@@ -45,7 +45,8 @@
             "created_at": true,
             "updated_at": true,
             "parent_transaction_id": true,
-            "session_id": true
+            "session_id": true,
+            "parent_payment_id": true
         },
         "index": {
             "UPSTREAM_PAY_ORDER_TRANSACTIONS_TRANSACTION_ID": true,

@@ -21,6 +21,7 @@ interface OrderTransactionsInterface
     public const SESSION_ID = 'session_id';
     public const TRANSACTION_ID = 'transaction_id';
     public const PARENT_TRANSACTION_ID = 'parent_transaction_id';
+    public const PARENT_PAYMENT_ID = 'parent_payment_id';
     public const METHOD = 'method';
     public const TRANSACTION_TYPE = 'transaction_type';
     public const QUOTE_ID = 'quote_id';
@@ -87,6 +88,23 @@ interface OrderTransactionsInterface
      * @return $this
      */
     public function setParentTransactionId(?string $parentTransactionId): self;
+
+    /**
+     * Get the parent payment ID, if it exists.
+     *
+     * @return null|int
+     */
+    public function getParentPaymentId(): ?int;
+
+    /**
+     * Set the parent payment if, if it exists.
+     * Only set when creating the row. Should never change after.
+     *
+     * @param null|int $parentPaymentId
+     *
+     * @return $this
+     */
+    public function setParentPaymentId(?int $parentPaymentId): self;
 
     /**
      * Get payment method name. Concat of partner / method.

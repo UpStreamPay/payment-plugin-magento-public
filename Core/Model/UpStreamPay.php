@@ -28,9 +28,9 @@ use Magento\Payment\Model\InfoInterface;
 use Magento\Payment\Model\Method\AbstractMethod;
 use Magento\Payment\Model\Method\Logger;
 use Magento\Payment\Model\MethodInterface;
-use Throwable;
 use UpStreamPay\Client\Exception\NoOrderFoundException;
 use UpStreamPay\Core\Exception\AuthorizeErrorException;
+use UpStreamPay\Core\Exception\CaptureErrorException;
 use UpStreamPay\Core\Exception\NoTransactionsException;
 use UpStreamPay\Core\Model\Synchronize\OrderSynchronizeService;
 
@@ -139,21 +139,7 @@ class UpStreamPay extends AbstractMethod
     }
 
     /**
-     * Authorize the order.
-     *
-     * Synchronize the transactions data.
-     * Check if authorize is success & update payment.
-     *
-     * Magento will continue the workflow based on what's set on the payment.
-     *
-     * @param InfoInterface $payment
-     * @param $amount
-     *
-     * @return $this|UpStreamPay
-     * @throws AuthorizeErrorException
-     * @throws GuzzleException
-     * @throws LocalizedException
-     * @throws JsonException
+     * @inheritDoc
      */
     public function authorize(InfoInterface $payment, $amount)
     {
@@ -174,32 +160,21 @@ class UpStreamPay extends AbstractMethod
     }
 
     /**
-     * Capture the order.
-     *
-     * Synchronize the transactions data.
-     * Check if capture is success & update payment.
-     *
-     * Magento will continue the workflow based on what's set on the payment.
-     *
-     * @param InfoInterface $payment
-     * @param $amount
-     *
-     * @return $this|UpStreamPay
+     * @inheritDoc
      */
     public function capture(InfoInterface $payment, $amount)
     {
+        //Before we can verify anything, the transaction is pending.
+        $payment->setIsTransactionPending(true);
+
         try {
             //On initial place order this will always throw an exception because UpStream Pay doesnt have the data yet.
             //Initial capture is done after redirection or through webhook.
             $this->orderSynchronizeService->execute($payment, $amount, OrderTransactions::CAPTURE_ACTION);
-        } catch (NoOrderFoundException $exception) {
+        } catch (NoOrderFoundException | NoTransactionsException $exception) {
             //No order found because capture is done before UpStream Pay has the order.
             //No operation has been done so nothing to void or refund.
             $payment->setIsTransactionPending(true);
-        } catch (Throwable $exception) {
-            //Handle errors better.
-            $payment->setIsTransactionPending(false);
-            $payment->setIsTransactionApproved(false);
         }
 
         return $this;

@@ -15,13 +15,15 @@ define([
     var dfd = $.Deferred();
 
     /**
-     * Loads the PayPal SDK object
+     * Loads the UpStreamPay SDK object
      */
     return function loadUpstreamPayScript() {
         //configuration for loaded UpStream Pay script
         require.config({
             paths: {
-                upStreamPayScript: 'https://widget.upstreampay.com/v3-current/UpStreamPay'
+                // upStreamPayScript: 'https://widget.upstreampay.com/v3-current/UpStreamPay'
+                //Temp widget to allow for more testing options.
+                upStreamPayScript: 'https://widget.dev.upstreampay.com/latest/UpStreamPay'
             },
             shim: {
                 upStreamPayScript: {
