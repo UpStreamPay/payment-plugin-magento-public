@@ -17,6 +17,7 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Payment\Model\InfoInterface;
 use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
 use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
+use UpStreamPay\Core\Exception\CaptureErrorException;
 
 /**
  * Class CaptureService
@@ -43,20 +44,19 @@ class CaptureService
      *
      * @return InfoInterface
      * @throws LocalizedException
+     * @throws CaptureErrorException
      */
     public function execute(InfoInterface $payment, float $amount): InfoInterface
     {
-        $captureNotInSuccessFound = false;
+        $atLeastOneCaptureError = false;
+        $atLeastOneCaptureWaiting = false;
         $upStreamPaySessionId = '';
         $amountCaptured = 0.00;
 
-        //Get the authorized transactions with a success status for the current order.
+        //Get the capture transactions with a success status for the current order.
         $this->searchCriteriaBuilder->addFilter(
             OrderTransactionsInterface::TRANSACTION_TYPE,
             OrderTransactions::CAPTURE_ACTION
-        )->addFilter(
-            OrderTransactionsInterface::STATUS,
-            OrderTransactions::SUCCESS_STATUS
         )->addFilter(
             OrderTransactionsInterface::ORDER_ID,
             $payment->getOrder()->getEntityId()
@@ -70,16 +70,17 @@ class CaptureService
                 $upStreamPaySessionId = $captureTransaction->getSessionId();
             }
 
-            if ($captureTransaction->getStatus() !== OrderTransactions::SUCCESS_STATUS) {
-                //Handle errors better here. Not the scope of this US.
-                $captureNotInSuccessFound = true;
+            if ($captureTransaction->getStatus() === OrderTransactions::ERROR_STATUS) {
+                $atLeastOneCaptureError = true;
             } elseif ($captureTransaction->getStatus() === OrderTransactions::SUCCESS_STATUS) {
                 $amountCaptured += $captureTransaction->getAmount();
+            } elseif ($captureTransaction->getStatus() === OrderTransactions::WAITING_STATUS) {
+                $atLeastOneCaptureWaiting = true;
             }
         }
 
         //Every transaction has a capture success & the amount to capture matches the amount captured.
-        if ($captureNotInSuccessFound === false && $amountCaptured === $amount) {
+        if (!$atLeastOneCaptureError && $amountCaptured === $amount) {
             //Every capture is a success, so the payment is captured.
             $payment
                 ->setTransactionId($upStreamPaySessionId)
@@ -88,8 +89,12 @@ class CaptureService
                 ->setIsTransactionApproved(true)
                 ->setCurrencyCode($payment->getOrder()->getOrderCurrencyCode())
             ;
-        } else {
-            //Handle errors better here, not the scope of this US.
+        } elseif ($atLeastOneCaptureError && !$atLeastOneCaptureWaiting) {
+            //There is at least one capture in error and no capture in waiting so we can safely perform a refund on all
+            //capture for this order.
+            throw new CaptureErrorException(
+                'At least one Capture transaction is in error, refund all Capture in success.'
+            );
         }
 
         return $payment;
