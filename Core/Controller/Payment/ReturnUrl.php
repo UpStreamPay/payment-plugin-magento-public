@@ -25,6 +25,7 @@ use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Sales\Model\Order\Payment\Processor;
 use Psr\Log\LoggerInterface;
 use UpStreamPay\Core\Exception\AuthorizeErrorException;
+use UpStreamPay\Core\Exception\CaptureErrorException;
 use UpStreamPay\Core\Model\Config;
 
 /**
@@ -95,8 +96,7 @@ class ReturnUrl implements HttpGetActionInterface
             $resultRedirect->setPath('checkout/onepage/success', ['_secure' => true]);
 
             return $resultRedirect;
-        } catch (AuthorizeErrorException $exception) {
-            //@TODO WIP => this can only happen in authorize action for now. Check this when we implement order action.
+        } catch (AuthorizeErrorException | CaptureErrorException $exception) {
             //An authorize error has been found => we can deny the payment, it will cancel the order.
             $payment->deny();
         } catch (\Throwable $exception) {
