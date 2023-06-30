@@ -53,6 +53,8 @@ class SynchronizeUpStreamPayPaymentData
      */
     public function execute(array $orderTransactionsResponse, int $orderId, int $quoteId, int $paymentId): void
     {
+        $parentPaymentId = null;
+
         foreach ($orderTransactionsResponse as $orderTransactionResponse) {
             //Create a row in payment table for each original transaction, it means transactions without a parent_id.
             if (!isset($orderTransactionResponse['parent_transaction_id'])) {
@@ -64,12 +66,14 @@ class SynchronizeUpStreamPayPaymentData
                     && $orderTransactionResponse['transaction_id'] !== $orderPayment->getDefaultTransactionId()
                 ) {
                     //Create.
-                    $this->orderPayment->createPaymentFromResponse(
+                    $upStreamPayPayment = $this->orderPayment->createPaymentFromResponse(
                         $orderTransactionResponse,
                         $orderId,
                         $quoteId,
                         $paymentId
                     );
+
+                    $parentPaymentId = $upStreamPayPayment->getEntityId();
                 }
             }
 
@@ -80,7 +84,12 @@ class SynchronizeUpStreamPayPaymentData
                 //@TODO update in case of action on the transaction (should only update the status).
             } else {
                 //Create.
-                $this->orderTransactions->createTransactionFromResponse($orderTransactionResponse, $orderId, $quoteId);
+                $this->orderTransactions->createTransactionFromResponse(
+                    $orderTransactionResponse,
+                    $orderId,
+                    $quoteId,
+                    $parentPaymentId
+                );
             }
         }
     }
