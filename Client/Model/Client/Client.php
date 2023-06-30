@@ -65,9 +65,9 @@ class Client implements ClientInterface
         $headers = [
             'Authorization' => sprintf(
                 'Basic %s',
-                base64_encode($this->config->getClientId() . ':' . $this->decryptConfig($this->config->getClientSecret()))
+                base64_encode($this->config->getClientId() . ':' . $this->config->getClientSecret())
             ),
-            self::API_KEY_PARAM => $this->decryptConfig($this->config->getApiKey()),
+            self::API_KEY_PARAM => $this->config->getApiKey(),
             'Content-Type' => 'application/x-www-form-urlencoded'
         ];
 
@@ -95,7 +95,7 @@ class Client implements ClientInterface
 
         $headers = [
             'Authorization' => 'Bearer ' . $token->getValue(),
-            self::API_KEY_PARAM => $this->decryptConfig($this->config->getApiKey()),
+            self::API_KEY_PARAM => $this->config->getApiKey(),
             'Content-Type' => 'application/json'
         ];
 
@@ -119,7 +119,7 @@ class Client implements ClientInterface
 
         $headers = [
             'Authorization' => 'Bearer ' . $token->getValue(),
-            self::API_KEY_PARAM => $this->decryptConfig($this->config->getApiKey()),
+            self::API_KEY_PARAM => $this->config->getApiKey(),
             'Content-Type' => 'application/json'
         ];
 
@@ -161,7 +161,7 @@ class Client implements ClientInterface
 
         $headers = [
             'Authorization' => 'Bearer ' . $token->getValue(),
-            self::API_KEY_PARAM => $this->decryptConfig($this->config->getApiKey()),
+            self::API_KEY_PARAM => $this->config->getApiKey(),
             'Content-Type' => 'application/json'
         ];
 
@@ -193,7 +193,7 @@ class Client implements ClientInterface
 
         $headers = [
             'Authorization' => 'Bearer ' . $token->getValue(),
-            self::API_KEY_PARAM => $this->decryptConfig($this->config->getApiKey()),
+            self::API_KEY_PARAM => $this->config->getApiKey(),
             'Content-Type' => 'application/json'
         ];
 
@@ -225,7 +225,7 @@ class Client implements ClientInterface
 
         $headers = [
             'Authorization' => 'Bearer ' . $token->getValue(),
-            self::API_KEY_PARAM => $this->decryptConfig($this->config->getApiKey()),
+            self::API_KEY_PARAM => $this->config->getApiKey(),
             'Content-Type' => 'application/json'
         ];
 
@@ -255,8 +255,6 @@ class Client implements ClientInterface
      */
     private function callApi(array $headers, array $body, string $protocol, string $uri, array $query): array
     {
-        $response = [];
-
         /** @var GuzzleClient $client */
         $client = $this->httpClientFactory->create(
             [
@@ -278,8 +276,6 @@ class Client implements ClientInterface
         }
 
         $rawResponse = $client->request($protocol, $uri, $options);
-        $response = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
-
-        return $response;
+        return json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
     }
 }
