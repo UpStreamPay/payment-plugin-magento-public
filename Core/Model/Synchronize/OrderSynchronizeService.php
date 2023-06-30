@@ -18,6 +18,7 @@ use Magento\Payment\Model\InfoInterface;
 use UpStreamPay\Client\Exception\NoOrderFoundException;
 use UpStreamPay\Client\Model\Client\ClientInterface;
 use UpStreamPay\Core\Exception\AuthorizeErrorException;
+use UpStreamPay\Core\Exception\CaptureErrorException;
 use UpStreamPay\Core\Exception\NoTransactionsException;
 use UpStreamPay\Core\Model\AuthorizeService;
 use UpStreamPay\Core\Model\CaptureService;
@@ -61,6 +62,7 @@ class OrderSynchronizeService
      * @throws NoTransactionsException
      * @throws \JsonException
      * @throws AuthorizeErrorException
+     * @throws CaptureErrorException
      */
     public function execute(InfoInterface $payment, float $amount, string $action): InfoInterface
     {
