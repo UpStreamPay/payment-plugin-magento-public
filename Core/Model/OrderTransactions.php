@@ -279,11 +279,28 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     }
 
     /**
+     * @inheritDoc
+     */
+    public function getParentPaymentId(): ?int
+    {
+        return (int)$this->getData(self::PARENT_PAYMENT_ID);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setParentPaymentId(?int $parentPaymentId): self
+    {
+        return $this->setData(self::PARENT_PAYMENT_ID, $parentPaymentId);
+    }
+
+    /**
      * Create an order transaction based on an API response.
      *
      * @param array $transactionResponse
      * @param int $orderId
      * @param int $quoteId
+     * @param null|int $parentPaymentId
      *
      * @return OrderTransactionsInterface
      * @throws LocalizedException
@@ -291,7 +308,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     public function createTransactionFromResponse(
         array $transactionResponse,
         int $orderId,
-        int $quoteId
+        int $quoteId,
+        ?int $parentPaymentId
     ): OrderTransactionsInterface
     {
         $orderTransaction = $this->orderTransactionsFactory->create();
@@ -300,6 +318,7 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
             ->setTransactionId($transactionResponse['id'])
             ->setSessionId($transactionResponse['session_id'])
             ->setParentTransactionId($transactionResponse['parent_transaction_id'] ?? null)
+            ->setParentPaymentId($parentPaymentId)
             ->setMethod($transactionResponse['partner'] . ' / ' . $transactionResponse['method'])
             ->setTransactionType($transactionResponse['status']['action'])
             ->setQuoteId($quoteId)
