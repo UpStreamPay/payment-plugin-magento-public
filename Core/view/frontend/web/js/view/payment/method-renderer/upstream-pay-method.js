@@ -17,6 +17,8 @@ define([
     'Magento_Checkout/js/action/place-order',
     'Magento_Ui/js/model/messages',
     'uiLayout',
+    'Magento_Checkout/js/model/url-builder',
+    'mage/storage',
 ], function (
     Component,
     messageList,
@@ -26,7 +28,9 @@ define([
     fullScreenLoader,
     placeOrderAction,
     Messages,
-    layout
+    layout,
+    urlBuilder,
+    storage
 ) {
     'use strict';
 
@@ -143,11 +147,7 @@ define([
          * @returns {Promise}
          */
         getSessionData: function () {
-            return $.ajax({
-                url: '/rest/V1/upstreampay/session',
-                type: 'GET',
-                dataType: 'json'
-            });
+            return storage.post(urlBuilder.createUrl('/upstreampay/session', {}));
         },
 
         /**
