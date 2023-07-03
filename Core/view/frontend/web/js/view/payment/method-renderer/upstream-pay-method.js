@@ -61,7 +61,6 @@ define([
                                     }
                                 });
 
-
                                 widgetPaymentPromise.then((widgetPayment) => {
                                     widgetPayment.mount("widget-payment");
                                     self.manager.subscribe(event => {
@@ -74,6 +73,16 @@ define([
                                         }
                                     });
                                 })
+                                .catch(() => {
+                                    messageList.addErrorMessage({
+                                        message: window.checkoutConfig.payment.UpStreamPay.errorMessage
+                                    });
+                                })
+                            })
+                            .catch(() => {
+                                messageList.addErrorMessage({
+                                    message: window.checkoutConfig.payment.UpStreamPay.errorMessage
+                                });
                             })
                         })
                         .fail(function () {
