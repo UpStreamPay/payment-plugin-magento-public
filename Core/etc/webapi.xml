@@ -13,7 +13,8 @@
     <route url="/V1/upstreampay/session" method="POST">
         <service class="UpStreamPay\Core\Api\SessionInterface" method="getSession"/>
         <resources>
-            <resource ref="self"/>
+<!--            @TODO check if we need a dedicated endpoint for guests (additional checks). Leaving anonymous for now or guest mode wont work-->
+            <resource ref="anonymous"/>
         </resources>
     </route>
 </routes>
