@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  UpStream Pay
+
+  Copyright (c) 2019-2023 UpStream Pay.
+  This file is open source and available under the MIT license.
+  See the LICENSE file for more info.
+
+  Author: Claranet France <info@fr.clara.net>
+  -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="admin">
+        <route id="upstreampay" frontName="upstreampay">
+            <module name="UpStreamPay_Core" before="Magento_Backend" />
+        </route>
+    </router>
+</config>
