@@ -1,2 +1,2 @@
 # payment-plugin-magento
-Implémentation du plugin sur Magento
+CMS Payment plugin for Magento
