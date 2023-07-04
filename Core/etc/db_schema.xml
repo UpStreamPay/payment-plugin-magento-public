@@ -15,6 +15,8 @@
         <column xsi:type="varchar" name="session_id" nullable="false" length="255" comment="Session ID"/>
         <column xsi:type="varchar" name="method" nullable="false" length="255" comment="Payment Method"/>
         <column xsi:type="varchar" name="default_transaction_id" nullable="false" length="255" comment="First transaction ID"/>
+<!--        This field is not a foreign key of table upstream_pay_payment_method because the type could change between-->
+<!--        transactions. Once we have a payment method linked to an order, it keeps its type.-->
         <column xsi:type="varchar" name="type" nullable="false" length="255" comment="Primary or secondary payment method"/>
         <column xsi:type="int" name="quote_id" unsigned="true" nullable="false" comment="Quote ID"/>
         <column xsi:type="int" name="order_id" unsigned="true" nullable="false" comment="Order ID"/>
@@ -126,6 +128,24 @@
         </index>
         <index referenceId="UPSTREAM_PAY_ORDER_TRANSACTIONS_SESSION_ID" indexType="btree">
             <column name="session_id"/>
+        </index>
+    </table>
+
+    <table name="upstream_pay_payment_method" resource="default" engine="innodb" comment="Upstream Pay payment methods">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+        <column xsi:type="varchar" name="method" nullable="false" length="255" comment="Payment Method"/>
+        <column xsi:type="varchar" name="type" nullable="false" length="255" comment="Type"/>
+        <column xsi:type="timestamp" name="created_at" nullable="false" on_update="false" default="CURRENT_TIMESTAMP"
+                comment="Creation Time"/>
+        <column xsi:type="timestamp" name="updated_at" nullable="false" on_update="true" default="CURRENT_TIMESTAMP"
+                comment="Update Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+
+        <!-- Index colmumns -->
+        <index referenceId="UPSTREAM_PAY_PAYMENT_METHOD_METHOD" indexType="btree">
+            <column name="method"/>
         </index>
     </table>
 </schema>

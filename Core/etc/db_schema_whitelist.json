@@ -65,5 +65,20 @@
             "FK_4CC3AF1AB2A2EFA0E51C88DFBB3B614D": true,
             "UPSTREAM_PAY_ORDER_TRANSACTIONS_SESSION_ID_TRANSACTION_ID": true
         }
+    },
+    "upstream_pay_payment_method": {
+        "column": {
+            "entity_id": true,
+            "method": true,
+            "type": true,
+            "created_at": true,
+            "updated_at": true
+        },
+        "index": {
+            "UPSTREAM_PAY_PAYMENT_METHOD_METHOD": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
     }
 }

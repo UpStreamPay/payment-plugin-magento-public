@@ -21,7 +21,7 @@ use UpStreamPay\Client\Model\Client\ClientInterface;
 use UpStreamPay\Core\Api\Data\OrderPaymentInterface;
 use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
 use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
-use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
+use UpStreamPay\Core\Model\PaymentFinder\FindAllTransactions;
 
 /**
  * Class VoidService
@@ -32,19 +32,19 @@ class VoidService
 {
     /**
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param OrderTransactionsRepositoryInterface $orderTransactionsRepository
      * @param ClientInterface $client
      * @param OrderTransactions $orderTransactions
      * @param OrderPaymentRepositoryInterface $orderPaymentRepository
      * @param Config $config
+     * @param FindAllTransactions $findAllTransactions
      */
     public function __construct(
         private readonly SearchCriteriaBuilder $searchCriteriaBuilder,
-        private readonly OrderTransactionsRepositoryInterface $orderTransactionsRepository,
         private readonly ClientInterface $client,
         private readonly OrderTransactions $orderTransactions,
         private readonly OrderPaymentRepositoryInterface $orderPaymentRepository,
-        private readonly Config $config
+        private readonly Config $config,
+        private readonly FindAllTransactions $findAllTransactions
     ) {
     }
 
@@ -81,21 +81,13 @@ class VoidService
     private function voidAllAuthorizeTransactions(OrderInterface $order): void
     {
         //Get the authorized transactions with a success status for the current order.
-        $this->searchCriteriaBuilder->addFilter(
-            OrderTransactionsInterface::TRANSACTION_TYPE,
-            OrderTransactions::AUTHORIZE_ACTION
-        )->addFilter(
-            OrderTransactionsInterface::ORDER_ID,
-            $order->getEntityId()
-        )->addFilter(
-            OrderTransactionsInterface::STATUS,
+        $authorizeTransactions = $this->findAllTransactions->execute(
+            OrderTransactions::AUTHORIZE_ACTION,
+            (int)$order->getEntityId(),
             OrderTransactions::SUCCESS_STATUS
         );
 
-        $searchCriteria = $this->searchCriteriaBuilder->create();
-        $authorizeTransactions = $this->orderTransactionsRepository->getList($searchCriteria);
-
-        foreach ($authorizeTransactions->getItems() as $authorizeTransaction) {
+        foreach ($authorizeTransactions as $authorizeTransaction) {
             $body = [
                 'order' => [
                     'amount' => $order->getGrandTotal(),
@@ -133,21 +125,14 @@ class VoidService
         $refunds = [];
 
         //Get the captured transactions with a success status for the current order.
-        $this->searchCriteriaBuilder->addFilter(
-            OrderTransactionsInterface::TRANSACTION_TYPE,
-            OrderTransactions::CAPTURE_ACTION
-        )->addFilter(
-            OrderTransactionsInterface::ORDER_ID,
-            $order->getEntityId()
-        )->addFilter(
-            OrderTransactionsInterface::STATUS,
+        $captureTransactions = $this->findAllTransactions->execute(
+            OrderTransactions::CAPTURE_ACTION,
+            (int)$order->getEntityId(),
             OrderTransactions::SUCCESS_STATUS
         );
 
-        $searchCriteria = $this->searchCriteriaBuilder->create();
-        $captureTransactions = $this->orderTransactionsRepository->getList($searchCriteria);
-
-        foreach ($captureTransactions->getItems() as $captureTransaction) {
+        /** @var OrderTransactionsInterface $captureTransaction */
+        foreach ($captureTransactions as $captureTransaction) {
             $body = [
                 'order' => [
                     'amount' => $order->getGrandTotal(),
@@ -159,7 +144,7 @@ class VoidService
             //Refund from API.
             $refundResponse = $this->client->refund($captureTransaction->getTransactionId(), $body);
 
-            //Save the void transaction in DB.
+            //Save the refund transaction in DB.
             $refundTransaction = $this->orderTransactions->createTransactionFromResponse(
                 $refundResponse,
                 (int) $order->getEntityId(),
@@ -170,6 +155,7 @@ class VoidService
             $refunds[$refundTransaction->getParentPaymentId()][] = $refundTransaction;
         }
 
+        //Get all payment related to the refunds done above.
         $this->searchCriteriaBuilder->addFilter(
             OrderPaymentInterface::ENTITY_ID,
             array_keys($refunds),

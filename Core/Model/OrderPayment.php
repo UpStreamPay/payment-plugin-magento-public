@@ -272,6 +272,7 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
      * @param int $orderId
      * @param int $quoteId
      * @param int $paymentId
+     * @param string $paymentMethodType
      *
      * @return OrderPaymentInterface
      * @throws LocalizedException
@@ -280,7 +281,8 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
         array $paymentResponse,
         int $orderId,
         int $quoteId,
-        int $paymentId
+        int $paymentId,
+        string $paymentMethodType
     ): OrderPaymentInterface
     {
         /** @var OrderPaymentInterface $orderPayment */
@@ -290,7 +292,7 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
             ->setSessionId($paymentResponse['session_id'])
             ->setDefaultTransactionId($paymentResponse['id'])
             ->setMethod($paymentResponse['partner'] . ' / ' . $paymentResponse['method'])
-            ->setType('primary')
+            ->setType($paymentMethodType)
             ->setQuoteId($quoteId)
             ->setOrderId($orderId)
             ->setPaymentId($paymentId)

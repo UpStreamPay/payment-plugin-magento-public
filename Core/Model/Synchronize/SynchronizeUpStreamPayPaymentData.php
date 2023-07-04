@@ -13,10 +13,15 @@ declare(strict_types=1);
 namespace UpStreamPay\Core\Model\Synchronize;
 
 use Magento\Framework\Exception\LocalizedException;
+use Psr\Log\LoggerInterface;
 use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
 use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
+use UpStreamPay\Core\Api\PaymentMethodRepositoryInterface;
+use UpStreamPay\Core\Exception\NoPaymentMethodFound;
+use UpStreamPay\Core\Exception\NoPaymentMethodFoundException;
 use UpStreamPay\Core\Model\OrderPayment;
 use UpStreamPay\Core\Model\OrderTransactions;
+use UpStreamPay\Core\Model\Config;
 
 /**
  * Class SynchronizeUpStreamPayPaymentData
@@ -30,12 +35,18 @@ class SynchronizeUpStreamPayPaymentData
      * @param OrderTransactions $orderTransactions
      * @param OrderPaymentRepositoryInterface $orderPaymentRepository
      * @param OrderTransactionsRepositoryInterface $orderTransactionsRepository
+     * @param PaymentMethodRepositoryInterface $paymentMethodRepository
+     * @param Config $config
+     * @param LoggerInterface $logger
      */
     public function __construct(
         private readonly OrderPayment $orderPayment,
         private readonly OrderTransactions $orderTransactions,
         private readonly OrderPaymentRepositoryInterface $orderPaymentRepository,
-        private readonly OrderTransactionsRepositoryInterface $orderTransactionsRepository
+        private readonly OrderTransactionsRepositoryInterface $orderTransactionsRepository,
+        private readonly PaymentMethodRepositoryInterface $paymentMethodRepository,
+        private readonly Config $config,
+        private readonly LoggerInterface $logger,
     ) {
     }
 
@@ -56,6 +67,11 @@ class SynchronizeUpStreamPayPaymentData
         $parentPaymentId = null;
 
         foreach ($orderTransactionsResponse as $orderTransactionResponse) {
+            if ($this->config->getIsDebugEnabled()) {
+                $this->logger->debug(sprintf('Creating transaction for order with ID %s', $orderId));
+                $this->logger->debug(print_r($orderTransactionResponse, true));
+            }
+
             //Create a row in payment table for each original transaction, it means transactions without a parent_id.
             if (!isset($orderTransactionResponse['parent_transaction_id'])) {
                 $orderPayment = $this->orderPaymentRepository->getByDefaultTransactionId($orderTransactionResponse['id']);
@@ -65,12 +81,15 @@ class SynchronizeUpStreamPayPaymentData
                 if (!$orderPayment || !$orderPayment->getEntityId()
                     && $orderTransactionResponse['transaction_id'] !== $orderPayment->getDefaultTransactionId()
                 ) {
+                    $paymentMethodType = $this->getPaymentMethodTypeFromResponse($orderTransactionResponse, $orderId);
+
                     //Create.
                     $upStreamPayPayment = $this->orderPayment->createPaymentFromResponse(
                         $orderTransactionResponse,
                         $orderId,
                         $quoteId,
-                        $paymentId
+                        $paymentId,
+                        $paymentMethodType
                     );
 
                     $parentPaymentId = $upStreamPayPayment->getEntityId();
@@ -92,5 +111,35 @@ class SynchronizeUpStreamPayPaymentData
                 );
             }
         }
+    }
+
+    /**
+     * Get the payment method type.
+     *
+     * @param array $orderTransactionResponse
+     * @param int $orderId
+     *
+     * @return string
+     * @throws LocalizedException
+     * @throws NoPaymentMethodFoundException
+     */
+    private function getPaymentMethodTypeFromResponse(array $orderTransactionResponse, int $orderId): string
+    {
+        $paymentMethodName = $orderTransactionResponse['partner'] . ' / ' . $orderTransactionResponse['method'];
+        $paymentMethod = $this->paymentMethodRepository->getByMethod($paymentMethodName);
+
+        if ($paymentMethod && $paymentMethod->getEntityId()) {
+            return $paymentMethod->getType();
+        }
+
+        $errorMessage = sprintf(
+            'Payment method %s not found in DB when creationg transaction for order with ID %s.',
+            $paymentMethodName,
+            $orderId
+        );
+
+        $this->logger->critical($errorMessage);
+
+        throw new NoPaymentMethodFoundException($errorMessage);
     }
 }
