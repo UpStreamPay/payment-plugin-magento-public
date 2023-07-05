@@ -90,19 +90,7 @@ class OrderTransactionsRepository implements OrderTransactionsRepositoryInterfac
     public function getByParentTransactionId(string $parentTransactionId): array
     {
         $searchCriteria = $this->searchCriteriaBuilder
-            ->addFilter(OrderTransactionsInterface::SESSION_ID, $parentTransactionId)
-            ->create();
-
-        return $this->getList($searchCriteria)->getItems();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getByOrderPaymentId(int $orderPaymentId): array
-    {
-        $searchCriteria = $this->searchCriteriaBuilder
-            ->addFilter(OrderTransactionsInterface::ORDER_PAYMENT_ID, $orderPaymentId)
+            ->addFilter(OrderTransactionsInterface::PARENT_TRANSACTION_ID, $parentTransactionId)
             ->create();
 
         return $this->getList($searchCriteria)->getItems();

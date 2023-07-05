@@ -56,14 +56,6 @@ interface OrderTransactionsRepositoryInterface
     public function getByParentTransactionId(string $parentTransactionId): array;
 
     /**
-     * @param int $orderPaymentId
-     *
-     * @return OrderTransactionsInterface[]
-     * @throws LocalizedException
-     */
-    public function getByOrderPaymentId(int $orderPaymentId): array;
-
-    /**
      * @param int $orderId
      *
      * @return OrderTransactionsInterface[]
