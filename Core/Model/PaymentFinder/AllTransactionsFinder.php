@@ -47,11 +47,17 @@ class AllTransactionsFinder
      * @param string $transactionType
      * @param int $orderId
      * @param string $status
+     * @param null|int $invoiceId
      *
-     * @return array
+     * @return OrderTransactionsInterface[]
      * @throws LocalizedException
      */
-    public function execute(string $transactionType, int $orderId, string $status): array
+    public function execute(
+        string $transactionType,
+        int $orderId,
+        string $status,
+        ?int $invoiceId = null,
+    ): array
     {
         $secondaryPaymentsEntityId = [];
         $primaryPaymentsEntityId = [];
@@ -65,6 +71,7 @@ class AllTransactionsFinder
         $searchCriteria = $this->searchCriteriaBuilder->create();
         $orderPayments = $this->orderPaymentRepository->getList($searchCriteria);
 
+        //Get all payment methods that are secondary or primary.
         foreach ($orderPayments->getItems() as $orderPayment) {
             if ($orderPayment->getType() === PaymentMethod::SECONDARY) {
                 $secondaryPaymentsEntityId[$orderPayment->getEntityId()][] = $orderPayment;
@@ -73,6 +80,7 @@ class AllTransactionsFinder
             }
         }
 
+        //Get all secondary transactions.
         $this->searchCriteriaBuilder->addFilter(
             OrderTransactionsInterface::PARENT_PAYMENT_ID,
             array_keys($secondaryPaymentsEntityId),
@@ -88,9 +96,18 @@ class AllTransactionsFinder
             $status
         );
 
+        //Optionnals filters.
+        if ($invoiceId !== null) {
+            $this->searchCriteriaBuilder->addFilter(
+                OrderTransactionsInterface::INVOICE_ID,
+                $invoiceId
+            );
+        }
+
         $searchCriteria = $this->searchCriteriaBuilder->create();
         $secondaryTransactions = $this->orderTransactionsRepository->getList($searchCriteria)->getItems();
 
+        //Get all primary transactions.
         $this->searchCriteriaBuilder->addFilter(
             OrderTransactionsInterface::PARENT_PAYMENT_ID,
             array_keys($primaryPaymentsEntityId),
@@ -105,6 +122,14 @@ class AllTransactionsFinder
             OrderTransactionsInterface::STATUS,
             $status
         );
+
+        //Optionnals filters.
+        if ($invoiceId !== null) {
+            $this->searchCriteriaBuilder->addFilter(
+                OrderTransactionsInterface::INVOICE_ID,
+                $invoiceId
+            );
+        }
 
         $searchCriteria = $this->searchCriteriaBuilder->create();
         $primaryTransactions = $this->orderTransactionsRepository->getList($searchCriteria)->getItems();
