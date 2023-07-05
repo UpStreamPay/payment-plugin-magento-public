@@ -85,6 +85,7 @@ class ReturnUrl implements HttpGetActionInterface
                 /** @var InvoiceInterface $invoice */
                 //We can only have one invoice because we come back from the redirect url.
                 $invoice = $order->getInvoiceCollection()->getFirstItem();
+                $payment->setCreatedInvoice($invoice);
                 $this->paymentProcessor->capture($payment, $invoice);
 
                 //After capture is done trigger pay of the invoice.
