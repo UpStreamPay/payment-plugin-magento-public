@@ -23,6 +23,7 @@
 "Transactions listing", "Liste des transactions"
 "Payments listing", "Liste des paiements"
 "Transaction ID", "ID transaction"
+"Parent transaction ID", "ID transaction parente"
 "Session ID", "ID session"
 "Order ID", "ID commande"
 "Quote ID", "ID panier"
