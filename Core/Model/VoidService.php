@@ -21,7 +21,7 @@ use UpStreamPay\Client\Model\Client\ClientInterface;
 use UpStreamPay\Core\Api\Data\OrderPaymentInterface;
 use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
 use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
-use UpStreamPay\Core\Model\PaymentFinder\FindAllTransactions;
+use UpStreamPay\Core\Model\PaymentFinder\AllTransactionsFinder;
 
 /**
  * Class VoidService
@@ -36,7 +36,7 @@ class VoidService
      * @param OrderTransactions $orderTransactions
      * @param OrderPaymentRepositoryInterface $orderPaymentRepository
      * @param Config $config
-     * @param FindAllTransactions $findAllTransactions
+     * @param AllTransactionsFinder $findAllTransactions
      */
     public function __construct(
         private readonly SearchCriteriaBuilder $searchCriteriaBuilder,
@@ -44,7 +44,7 @@ class VoidService
         private readonly OrderTransactions $orderTransactions,
         private readonly OrderPaymentRepositoryInterface $orderPaymentRepository,
         private readonly Config $config,
-        private readonly FindAllTransactions $findAllTransactions
+        private readonly AllTransactionsFinder $findAllTransactions
     ) {
     }
 

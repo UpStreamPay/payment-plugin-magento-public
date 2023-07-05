@@ -21,11 +21,11 @@ use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
 use UpStreamPay\Core\Model\PaymentMethod;
 
 /**
- * Class FindAllTransactions
+ * Class AllTransactionsFinder
  *
  * @package UpStreamPay\Core\Model\PaymentFinder
  */
-class FindAllTransactions
+class AllTransactionsFinder
 {
     /**
      * @param OrderPaymentRepositoryInterface $orderPaymentRepository
