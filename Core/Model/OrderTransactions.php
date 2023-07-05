@@ -301,6 +301,7 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
      * @param int $orderId
      * @param int $quoteId
      * @param null|int $parentPaymentId
+     * @param null|int $invoiceId
      *
      * @return OrderTransactionsInterface
      * @throws LocalizedException
@@ -309,7 +310,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
         array $transactionResponse,
         int $orderId,
         int $quoteId,
-        ?int $parentPaymentId
+        ?int $parentPaymentId = null,
+        ?int $invoiceId = null,
     ): OrderTransactionsInterface
     {
         $orderTransaction = $this->orderTransactionsFactory->create();
@@ -323,7 +325,7 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
             ->setTransactionType($transactionResponse['status']['action'])
             ->setQuoteId($quoteId)
             ->setOrderId($orderId)
-            ->setInvoiceId(null)
+            ->setInvoiceId($invoiceId)
             ->setCreditmemoId(null)
             ->setAmount((float)$transactionResponse['plugin_result']['amount'])
             ->setStatus($transactionResponse['status']['state'])
