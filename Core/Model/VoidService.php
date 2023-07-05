@@ -149,7 +149,8 @@ class VoidService
                 $refundResponse,
                 (int) $order->getEntityId(),
                 (int) $order->getQuoteId(),
-                (int) $captureTransaction->getParentPaymentId()
+                (int) $captureTransaction->getParentPaymentId(),
+                $captureTransaction->getInvoiceId()
             );
 
             $refunds[$refundTransaction->getParentPaymentId()][] = $refundTransaction;
