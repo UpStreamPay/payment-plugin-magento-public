@@ -12,14 +12,11 @@ declare(strict_types=1);
 
 namespace UpStreamPay\Core\Model;
 
-use GuzzleHttp\Exception\GuzzleException;
-use JsonException;
 use Magento\Directory\Helper\Data as DirectoryHelper;
 use Magento\Framework\Api\AttributeValueFactory;
 use Magento\Framework\Api\ExtensionAttributesFactory;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Data\Collection\AbstractDb;
-use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Model\Context;
 use Magento\Framework\Model\ResourceModel\AbstractResource;
 use Magento\Framework\Registry;
@@ -29,8 +26,6 @@ use Magento\Payment\Model\Method\AbstractMethod;
 use Magento\Payment\Model\Method\Logger;
 use Magento\Payment\Model\MethodInterface;
 use UpStreamPay\Client\Exception\NoOrderFoundException;
-use UpStreamPay\Core\Exception\AuthorizeErrorException;
-use UpStreamPay\Core\Exception\CaptureErrorException;
 use UpStreamPay\Core\Exception\NoTransactionsException;
 use UpStreamPay\Core\Model\Synchronize\OrderSynchronizeService;
 
@@ -181,17 +176,7 @@ class UpStreamPay extends AbstractMethod
     }
 
     /**
-     * Cancel the order. This will trigger a void on the authorized transactions.
-     *
-     * @param InfoInterface $payment
-     *
-     * @return UpStreamPay|$this
-     * @throws AuthorizeErrorException cannot be thrown here if we trigger void action.
-     * @throws GuzzleException
-     * @throws LocalizedException
-     * @throws NoOrderFoundException cannot be thrown at this point.
-     * @throws NoTransactionsException
-     * @throws JsonException
+     * @inheritDoc
      */
     public function cancel(InfoInterface $payment)
     {
@@ -201,17 +186,7 @@ class UpStreamPay extends AbstractMethod
     }
 
     /**
-     * Void the payment.
-     *
-     * @param InfoInterface $payment
-     *
-     * @return $this|UpStreamPay
-     * @throws AuthorizeErrorException
-     * @throws GuzzleException
-     * @throws JsonException
-     * @throws LocalizedException
-     * @throws NoOrderFoundException
-     * @throws NoTransactionsException
+     * @inheritDoc
      */
     public function void(InfoInterface $payment)
     {
@@ -221,17 +196,7 @@ class UpStreamPay extends AbstractMethod
     }
 
     /**
-     * Deny payment.
-     *
-     * @param InfoInterface $payment
-     *
-     * @return true
-     * @throws AuthorizeErrorException
-     * @throws GuzzleException
-     * @throws JsonException
-     * @throws LocalizedException
-     * @throws NoOrderFoundException
-     * @throws NoTransactionsException
+     * @inheritDoc
      */
     public function denyPayment(InfoInterface $payment)
     {
@@ -239,5 +204,16 @@ class UpStreamPay extends AbstractMethod
         $payment->setIsTransactionDenied(true);
 
         return true;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function refund(InfoInterface $payment, $amount)
+    {
+        //Cast to float because yes, magento sends back a string here....
+        $this->orderSynchronizeService->execute($payment, (float)$amount, OrderTransactions::REFUND_ACTION);
+
+        return $this;
     }
 }

@@ -21,9 +21,7 @@ define([
         //configuration for loaded UpStream Pay script
         require.config({
             paths: {
-                // upStreamPayScript: 'https://widget.upstreampay.com/v3-current/UpStreamPay'
-                //Temp widget to allow for more testing options.
-                upStreamPayScript: 'https://widget.dev.upstreampay.com/latest/UpStreamPay'
+                upStreamPayScript: 'https://widget.upstreampay.com/v3-current/UpStreamPay'
             },
             shim: {
                 upStreamPayScript: {

@@ -27,6 +27,7 @@ interface OrderTransactionsInterface
     public const QUOTE_ID = 'quote_id';
     public const ORDER_ID = 'order_id';
     public const INVOICE_ID = 'invoice_id';
+    //@TODO remove because useless.
     public const CREDITMEMO_ID = 'creditmemo_id';
     public const AMOUNT = 'amount';
     public const STATUS = 'status';
