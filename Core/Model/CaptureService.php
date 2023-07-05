@@ -15,7 +15,9 @@ namespace UpStreamPay\Core\Model;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Payment\Model\InfoInterface;
+use UpStreamPay\Core\Api\Data\OrderPaymentInterface;
 use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
+use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
 use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
 use UpStreamPay\Core\Exception\CaptureErrorException;
 
@@ -32,7 +34,8 @@ class CaptureService
      */
     public function __construct(
         private readonly SearchCriteriaBuilder $searchCriteriaBuilder,
-        private readonly OrderTransactionsRepositoryInterface $orderTransactionsRepository
+        private readonly OrderTransactionsRepositoryInterface $orderTransactionsRepository,
+        private readonly OrderPaymentRepositoryInterface $orderPaymentRepository
     ) {
     }
 
@@ -52,6 +55,7 @@ class CaptureService
         $atLeastOneCaptureWaiting = false;
         $upStreamPaySessionId = '';
         $amountCaptured = 0.00;
+        $captures = [];
 
         //Get the capture transactions with a success status for the current order.
         $this->searchCriteriaBuilder->addFilter(
@@ -70,13 +74,39 @@ class CaptureService
                 $upStreamPaySessionId = $captureTransaction->getSessionId();
             }
 
+            $captureTransaction->setInvoiceId((int)$payment->getCreatedInvoice()->getEntityId());
+            $this->orderTransactionsRepository->save($captureTransaction);
+
             if ($captureTransaction->getStatus() === OrderTransactions::ERROR_STATUS) {
                 $atLeastOneCaptureError = true;
             } elseif ($captureTransaction->getStatus() === OrderTransactions::SUCCESS_STATUS) {
                 $amountCaptured += $captureTransaction->getAmount();
+                $captures[$captureTransaction->getParentPaymentId()][] = $captureTransaction;
             } elseif ($captureTransaction->getStatus() === OrderTransactions::WAITING_STATUS) {
                 $atLeastOneCaptureWaiting = true;
             }
+        }
+
+        //Get all payments related to the captures done above.
+        $this->searchCriteriaBuilder->addFilter(
+            OrderPaymentInterface::ENTITY_ID,
+            array_keys($captures),
+            'in'
+        );
+
+        $searchCriteria = $this->searchCriteriaBuilder->create();
+        $orderPayments = $this->orderPaymentRepository->getList($searchCriteria);
+
+        //Set on each payment the total captured.
+        foreach ($orderPayments->getItems() as $orderPayment) {
+            $totalRefundForPayment = 0.00;
+            /** @var OrderTransactionsInterface $capture */
+            foreach ($captures[$orderPayment->getEntityId()] as $capture) {
+                $totalRefundForPayment += $capture->getAmount();
+            }
+
+            $orderPayment->setAmountCaptured($orderPayment->getAmountCaptured() + $totalRefundForPayment);
+            $this->orderPaymentRepository->save($orderPayment);
         }
 
         //Every transaction has a capture success & the amount to capture matches the amount captured.
