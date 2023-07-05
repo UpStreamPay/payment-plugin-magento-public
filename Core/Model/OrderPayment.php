@@ -158,7 +158,7 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
      */
     public function getAmount(): float
     {
-        return $this->getData(OrderPaymentInterface::AMOUNT);
+        return (float)$this->getData(OrderPaymentInterface::AMOUNT);
     }
 
     /**
@@ -174,7 +174,7 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
      */
     public function getAmountCaptured(): float
     {
-        return $this->getData(OrderPaymentInterface::AMOUNT_CAPTURED);
+        return (float)$this->getData(OrderPaymentInterface::AMOUNT_CAPTURED);
     }
 
     /**
@@ -190,7 +190,7 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
      */
     public function getAmountRefunded(): float
     {
-        return $this->getData(OrderPaymentInterface::AMOUNT_REFUNDED);
+        return (float)$this->getData(OrderPaymentInterface::AMOUNT_REFUNDED);
     }
 
     /**
