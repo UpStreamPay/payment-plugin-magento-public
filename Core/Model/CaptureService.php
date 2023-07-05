@@ -99,14 +99,16 @@ class CaptureService
 
         //Set on each payment the total captured.
         foreach ($orderPayments->getItems() as $orderPayment) {
-            $totalRefundForPayment = 0.00;
-            /** @var OrderTransactionsInterface $capture */
-            foreach ($captures[$orderPayment->getEntityId()] as $capture) {
-                $totalRefundForPayment += $capture->getAmount();
-            }
+            if ($orderPayment->getAmountCaptured() < $orderPayment->getAmount()) {
+                $totalCapturedPayment = 0.00;
+                /** @var OrderTransactionsInterface $capture */
+                foreach ($captures[$orderPayment->getEntityId()] as $capture) {
+                    $totalCapturedPayment += $capture->getAmount();
+                }
 
-            $orderPayment->setAmountCaptured($orderPayment->getAmountCaptured() + $totalRefundForPayment);
-            $this->orderPaymentRepository->save($orderPayment);
+                $orderPayment->setAmountCaptured($orderPayment->getAmountCaptured() + $totalCapturedPayment);
+                $this->orderPaymentRepository->save($orderPayment);
+            }
         }
 
         //Every transaction has a capture success & the amount to capture matches the amount captured.
