@@ -14,12 +14,13 @@ namespace UpStreamPay\Core\Model;
 
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Payment\Model\MethodInterface;
+use Magento\Sales\Api\InvoiceRepositoryInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Sales\Model\Order\Payment\Processor;
 use Psr\Log\LoggerInterface;
 use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
 use UpStreamPay\Core\Exception\AuthorizeErrorException;
-use UpStreamPay\Core\Exception\NoTransactionsException;
+use UpStreamPay\Core\Exception\CaptureErrorException;
 
 /**
  * Class NotificationService
@@ -33,7 +34,8 @@ class NotificationService
         private readonly Processor $paymentProcessor,
         private readonly OrderRepositoryInterface $orderRepository,
         private readonly OrderTransactionsRepositoryInterface $orderTransactionsRepository,
-        private readonly LoggerInterface $logger
+        private readonly LoggerInterface $logger,
+        private readonly InvoiceRepositoryInterface $invoiceRepository,
     ) {
     }
 
@@ -71,6 +73,24 @@ class NotificationService
                     }
 
                     break;
+
+                case OrderTransactions::CAPTURE_ACTION:
+                    if ($this->config->getPaymentAction() === MethodInterface::ACTION_AUTHORIZE_CAPTURE) {
+                        $transaction->setStatus($notification['status']['state']);
+                        $this->orderTransactionsRepository->save($transaction);
+
+                        $invoice = $this->invoiceRepository->get($transaction->getInvoiceId());
+                        $payment->setCreatedInvoice($invoice);
+
+                        try {
+                            $this->paymentProcessor->capture($payment, $invoice);
+                        } catch (CaptureErrorException $captureErrorException) {
+                            //This is thrown by the capture function in UpStream Pay payment method.
+                            $payment->deny();
+                        }
+
+                        $this->orderRepository->save($order);
+                    }
             }
         }
     }
