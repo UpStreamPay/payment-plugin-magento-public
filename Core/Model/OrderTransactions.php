@@ -333,4 +333,17 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
 
         return $this->transactionsRepository->save($orderTransaction);
     }
+
+    /**
+     * Get all refunds transactions linked to a given capture transaction ID.
+     *
+     * @param string $captureTransactionId
+     *
+     * @return OrderTransactionsInterface[]
+     * @throws LocalizedException
+     */
+    public function getRefundTransactionsFromCapture(string $captureTransactionId): array
+    {
+        return $this->transactionsRepository->getByParentTransactionId($captureTransactionId);
+    }
 }
