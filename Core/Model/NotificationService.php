@@ -49,6 +49,17 @@ class NotificationService
     {
         $transaction = $this->orderTransactionsRepository->getByTransactionId($notification['id']);
 
+        if ($this->config->getIsDebugEnabled()) {
+            $this->logger->debug(
+                sprintf(
+                    'Receiving notification for transaction regarding order %s & invoice %s:',
+                    $transaction->getOrderId(),
+                    $transaction->getInvoiceId()
+                )
+            );
+            $this->logger->debug(print_r($notification, true));
+        }
+
         //Only deal with known transactions in case of a real status update.
         if ($transaction && $transaction->getEntityId() && $transaction->getStatus() !== $notification['status']['state']) {
             $order = $this->orderRepository->get($transaction->getOrderId());
