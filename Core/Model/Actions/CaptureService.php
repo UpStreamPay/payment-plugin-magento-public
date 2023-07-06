@@ -10,7 +10,7 @@
  */
 declare(strict_types=1);
 
-namespace UpStreamPay\Core\Model;
+namespace UpStreamPay\Core\Model\Actions;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Exception\LocalizedException;
@@ -20,6 +20,7 @@ use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
 use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
 use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
 use UpStreamPay\Core\Exception\CaptureErrorException;
+use UpStreamPay\Core\Model\OrderTransactions;
 
 /**
  * Class CaptureService
@@ -31,6 +32,7 @@ class CaptureService
     /**
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param OrderTransactionsRepositoryInterface $orderTransactionsRepository
+     * @param OrderPaymentRepositoryInterface $orderPaymentRepository
      */
     public function __construct(
         private readonly SearchCriteriaBuilder $searchCriteriaBuilder,
@@ -69,6 +71,7 @@ class CaptureService
         $searchCriteria = $this->searchCriteriaBuilder->create();
         $captureTransactions = $this->orderTransactionsRepository->getList($searchCriteria);
 
+        //For each capture transaction check the status & determine what to do based on the result.
         foreach ($captureTransactions->getItems() as $captureTransaction) {
             if ($upStreamPaySessionId === '') {
                 $upStreamPaySessionId = $captureTransaction->getSessionId();
@@ -85,6 +88,15 @@ class CaptureService
             } elseif ($captureTransaction->getStatus() === OrderTransactions::WAITING_STATUS) {
                 $atLeastOneCaptureWaiting = true;
             }
+
+            $payment->getOrder()->addCommentToStatusHistory(sprintf(
+                'Transaction %s %s for %s with amount %s in status %s',
+                $captureTransaction->getTransactionType(),
+                $captureTransaction->getTransactionId(),
+                $captureTransaction->getMethod(),
+                $captureTransaction->getAmount(),
+                $captureTransaction->getStatus()
+            ));
         }
 
         //Get all payments related to the captures done above.
@@ -99,14 +111,16 @@ class CaptureService
 
         //Set on each payment the total captured.
         foreach ($orderPayments->getItems() as $orderPayment) {
-            $totalRefundForPayment = 0.00;
-            /** @var OrderTransactionsInterface $capture */
-            foreach ($captures[$orderPayment->getEntityId()] as $capture) {
-                $totalRefundForPayment += $capture->getAmount();
-            }
+            if ($orderPayment->getAmountCaptured() < $orderPayment->getAmount()) {
+                $totalCapturedPayment = 0.00;
+                /** @var OrderTransactionsInterface $capture */
+                foreach ($captures[$orderPayment->getEntityId()] as $capture) {
+                    $totalCapturedPayment += $capture->getAmount();
+                }
 
-            $orderPayment->setAmountCaptured($orderPayment->getAmountCaptured() + $totalRefundForPayment);
-            $this->orderPaymentRepository->save($orderPayment);
+                $orderPayment->setAmountCaptured($orderPayment->getAmountCaptured() + $totalCapturedPayment);
+                $this->orderPaymentRepository->save($orderPayment);
+            }
         }
 
         //Every transaction has a capture success & the amount to capture matches the amount captured.
@@ -119,6 +133,7 @@ class CaptureService
                 ->setIsTransactionApproved(true)
                 ->setCurrencyCode($payment->getOrder()->getOrderCurrencyCode());
         } elseif ($atLeastOneCaptureWaiting) {
+            //At least one transaction is in waiting, tell Magento that the payment is still pending.
             $payment->setIsTransactionPending(true);
         } elseif ($atLeastOneCaptureError && !$atLeastOneCaptureWaiting) {
             //There is at least one capture in error and no capture in waiting, so we can safely perform a refund on all

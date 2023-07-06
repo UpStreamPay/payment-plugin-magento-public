@@ -108,7 +108,7 @@ class ReturnUrl implements HttpGetActionInterface
             $this->logger->critical('Order ID was ' . $order->getEntityId());
             $this->logger->critical($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
 
-            $this->orderManagement->cancel($order->getEntityId());
+            $payment->deny();
         }
 
         //Restore the user quote & redirect to cart.

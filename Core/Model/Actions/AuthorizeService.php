@@ -10,7 +10,7 @@
  */
 declare(strict_types=1);
 
-namespace UpStreamPay\Core\Model;
+namespace UpStreamPay\Core\Model\Actions;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Exception\LocalizedException;
@@ -18,6 +18,7 @@ use Magento\Payment\Model\InfoInterface;
 use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
 use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
 use UpStreamPay\Core\Exception\AuthorizeErrorException;
+use UpStreamPay\Core\Model\OrderTransactions;
 
 /**
  * Class AuthorizeService
@@ -80,6 +81,15 @@ class AuthorizeService
             } elseif ($authorizeTransaction->getStatus() === OrderTransactions::SUCCESS_STATUS) {
                 $amountAuthorized += $authorizeTransaction->getAmount();
             }
+
+            $payment->getOrder()->addCommentToStatusHistory(sprintf(
+                'Transaction %s %s for %s with amount %s in status %s',
+                $authorizeTransaction->getTransactionType(),
+                $authorizeTransaction->getTransactionId(),
+                $authorizeTransaction->getMethod(),
+                $authorizeTransaction->getAmount(),
+                $authorizeTransaction->getStatus()
+            ));
         }
 
         //Every transaction has an authorize success & the amount to authorize matches the amount authorized.
@@ -93,6 +103,7 @@ class AuthorizeService
                 ->setIsTransactionPending(false)
             ;
         } elseif ($atLeastOneAuthorizeWaiting) {
+            //At least one transaction is in waiting, tell Magento that the payment is still pending.
             $payment
                 ->setTransactionId($upStreamPaySessionId)
                 ->setIsTransactionClosed(false)
