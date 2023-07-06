@@ -80,6 +80,15 @@ class AuthorizeService
             } elseif ($authorizeTransaction->getStatus() === OrderTransactions::SUCCESS_STATUS) {
                 $amountAuthorized += $authorizeTransaction->getAmount();
             }
+
+            $payment->getOrder()->addCommentToStatusHistory(sprintf(
+                'Transaction %s %s for %s with amount %s in status %s',
+                $authorizeTransaction->getTransactionType(),
+                $authorizeTransaction->getTransactionId(),
+                $authorizeTransaction->getMethod(),
+                $authorizeTransaction->getAmount(),
+                $authorizeTransaction->getStatus()
+            ));
         }
 
         //Every transaction has an authorize success & the amount to authorize matches the amount authorized.
@@ -93,6 +102,7 @@ class AuthorizeService
                 ->setIsTransactionPending(false)
             ;
         } elseif ($atLeastOneAuthorizeWaiting) {
+            //At least one transaction is in waiting, tell Magento that the payment is still pending.
             $payment
                 ->setTransactionId($upStreamPaySessionId)
                 ->setIsTransactionClosed(false)
