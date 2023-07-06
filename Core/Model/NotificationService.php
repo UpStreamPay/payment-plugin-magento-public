@@ -29,6 +29,14 @@ use UpStreamPay\Core\Exception\CaptureErrorException;
  */
 class NotificationService
 {
+    /**
+     * @param Config $config
+     * @param Processor $paymentProcessor
+     * @param OrderRepositoryInterface $orderRepository
+     * @param OrderTransactionsRepositoryInterface $orderTransactionsRepository
+     * @param LoggerInterface $logger
+     * @param InvoiceRepositoryInterface $invoiceRepository
+     */
     public function __construct(
         private readonly Config $config,
         private readonly Processor $paymentProcessor,
@@ -117,6 +125,38 @@ class NotificationService
                             $this->orderRepository->save($payment->getOrder());
                         }
                     }
+
+                    break;
+                case OrderTransactions::REFUND_ACTION:
+                    //In case of a refund notification we only need to update the transaction
+                    //And add a comment on the order, that's it.
+                    $transaction->setStatus($notification['status']['state']);
+                    $this->orderTransactionsRepository->save($transaction);
+
+                    $order = $this->orderRepository->get($transaction->getOrderId());
+
+                    $order->addCommentToStatusHistory(sprintf(
+                        'Transaction %s %s for %s with amount %s in status %s',
+                        $transaction->getTransactionType(),
+                        $transaction->getTransactionId(),
+                        $transaction->getMethod(),
+                        $transaction->getAmount(),
+                        $transaction->getStatus()
+                    ));
+
+                    //In case of an error a manual refund must be done.
+                    if ($transaction->getStatus() === OrderTransactions::ERROR_STATUS) {
+                        $errorMessage = sprintf(
+                            'Transaction refund with ID %s is in error, refund it in UpStream admin panel.',
+                            $transaction->getTransactionId()
+                        );
+                        $this->logger->critical($errorMessage);
+                        $order->addCommentToStatusHistory($errorMessage);
+                    }
+
+                    $this->orderRepository->save($order);
+
+                    break;
             }
         }
     }
