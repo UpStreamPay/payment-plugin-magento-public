@@ -23,8 +23,8 @@ use UpStreamPay\Core\Exception\NoTransactionsException;
 use UpStreamPay\Core\Model\Actions\AuthorizeService;
 use UpStreamPay\Core\Model\Actions\CaptureService;
 use UpStreamPay\Core\Model\Actions\RefundService;
+use UpStreamPay\Core\Model\Actions\VoidService;
 use UpStreamPay\Core\Model\OrderTransactions;
-use UpStreamPay\Core\Model\VoidService;
 
 /**
  * Class OrderSynchronizeService

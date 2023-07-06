@@ -10,7 +10,7 @@
  */
 declare(strict_types=1);
 
-namespace UpStreamPay\Core\Model;
+namespace UpStreamPay\Core\Model\Actions;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Exception\LocalizedException;
@@ -21,6 +21,8 @@ use UpStreamPay\Client\Model\Client\ClientInterface;
 use UpStreamPay\Core\Api\Data\OrderPaymentInterface;
 use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
 use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
+use UpStreamPay\Core\Model\Config;
+use UpStreamPay\Core\Model\OrderTransactions;
 use UpStreamPay\Core\Model\PaymentFinder\AllTransactionsFinder;
 
 /**
