@@ -16,7 +16,7 @@ use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Payment\Model\InfoInterface;
 use Magento\Payment\Model\MethodInterface;
-use Magento\Sales\Api\Data\OrderInterface;
+use Psr\Log\LoggerInterface;
 use UpStreamPay\Client\Model\Client\ClientInterface;
 use UpStreamPay\Core\Api\Data\OrderPaymentInterface;
 use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
@@ -37,6 +37,7 @@ class VoidService
      * @param OrderPaymentRepositoryInterface $orderPaymentRepository
      * @param Config $config
      * @param AllTransactionsFinder $findAllTransactions
+     * @param LoggerInterface $logger
      */
     public function __construct(
         private readonly SearchCriteriaBuilder $searchCriteriaBuilder,
@@ -44,7 +45,8 @@ class VoidService
         private readonly OrderTransactions $orderTransactions,
         private readonly OrderPaymentRepositoryInterface $orderPaymentRepository,
         private readonly Config $config,
-        private readonly AllTransactionsFinder $findAllTransactions
+        private readonly AllTransactionsFinder $findAllTransactions,
+        private readonly LoggerInterface $logger
     ) {
     }
 
@@ -58,40 +60,35 @@ class VoidService
      */
     public function execute(InfoInterface $payment): InfoInterface
     {
-        /** @var OrderInterface $order */
-        $order = $payment->getOrder();
-
         if ($this->config->getPaymentAction() === MethodInterface::ACTION_AUTHORIZE) {
-            $this->voidAllAuthorizeTransactions($order);
+            return $this->voidAllAuthorizeTransactions($payment);
         } elseif ($this->config->getPaymentAction() === MethodInterface::ACTION_AUTHORIZE_CAPTURE) {
-            $this->voidAllCaptureTransactions($order);
+            return $this->voidAllCaptureTransactions($payment);
         }
-
-        return $payment;
     }
 
     /**
      * Void all authorize transactions.
      *
-     * @param OrderInterface $order
+     * @param InfoInterface $payment
      *
-     * @return void
+     * @return InfoInterface
      * @throws LocalizedException
      */
-    private function voidAllAuthorizeTransactions(OrderInterface $order): void
+    private function voidAllAuthorizeTransactions(InfoInterface $payment): InfoInterface
     {
         //Get the authorized transactions with a success status for the current order.
         $authorizeTransactions = $this->findAllTransactions->execute(
             OrderTransactions::AUTHORIZE_ACTION,
-            (int)$order->getEntityId(),
+            (int)$payment->getOrder()->getEntityId(),
             OrderTransactions::SUCCESS_STATUS
         );
 
         foreach ($authorizeTransactions as $authorizeTransaction) {
             $body = [
                 'order' => [
-                    'amount' => $order->getGrandTotal(),
-                    'currency_code' => $order->getOrderCurrencyCode(),
+                    'amount' => $payment->getOrder()->getGrandTotal(),
+                    'currency_code' => $payment->getOrder()->getOrderCurrencyCode(),
                 ],
                 'amount' => $authorizeTransaction->getAmount(),
             ];
@@ -99,14 +96,33 @@ class VoidService
             //Void from API.
             $voidResponse = $this->client->void($authorizeTransaction->getTransactionId(), $body);
 
+            if ($this->config->getIsDebugEnabled()) {
+                $this->logger->debug(
+                    sprintf(
+                        'Payment denied for order %s, void transaction response:',
+                        $payment->getOrder()->getEntityId()
+                    )
+                );
+                $this->logger->debug(print_r($voidResponse, true));
+            }
+
             //Save the void transaction in DB.
-            $this->orderTransactions->createTransactionFromResponse(
+            $voidTransaction = $this->orderTransactions->createTransactionFromResponse(
                 $voidResponse,
-                (int) $order->getEntityId(),
-                (int) $order->getQuoteId(),
+                (int) $payment->getOrder()->getEntityId(),
+                (int) $payment->getOrder()->getQuoteId(),
                 (int) $authorizeTransaction->getParentPaymentId()
             );
+
+            $payment->getOrder()->addCommentToStatusHistory(sprintf(
+                'Voiding authorize transaction %s for payment %s with void transaction %s',
+                $authorizeTransaction->getTransactionId(),
+                $authorizeTransaction->getMethod(),
+                $voidTransaction->getTransactionId()
+            ));
         }
+
+        return $payment;
     }
 
     /**
@@ -115,19 +131,19 @@ class VoidService
      * A capture transaction has to be refunded on the API.
      * In this scenario this takes place if an error is detected right after the place order.
      *
-     * @param OrderInterface $order
+     * @param InfoInterface $payment
      *
-     * @return void
+     * @return InfoInterface
      * @throws LocalizedException
      */
-    private function voidAllCaptureTransactions(OrderInterface $order): void
+    private function voidAllCaptureTransactions(InfoInterface $payment): InfoInterface
     {
         $refunds = [];
 
         //Get the captured transactions with a success status for the current order.
         $captureTransactions = $this->findAllTransactions->execute(
             OrderTransactions::CAPTURE_ACTION,
-            (int)$order->getEntityId(),
+            (int)$payment->getOrder()->getEntityId(),
             OrderTransactions::SUCCESS_STATUS
         );
 
@@ -135,8 +151,8 @@ class VoidService
         foreach ($captureTransactions as $captureTransaction) {
             $body = [
                 'order' => [
-                    'amount' => $order->getGrandTotal(),
-                    'currency_code' => $order->getOrderCurrencyCode(),
+                    'amount' => $payment->getOrder()->getGrandTotal(),
+                    'currency_code' => $payment->getOrder()->getOrderCurrencyCode(),
                 ],
                 'amount' => $captureTransaction->getAmount(),
             ];
@@ -144,14 +160,42 @@ class VoidService
             //Refund from API.
             $refundResponse = $this->client->refund($captureTransaction->getTransactionId(), $body);
 
+            if ($this->config->getIsDebugEnabled()) {
+                $this->logger->debug(
+                    sprintf(
+                        'Payment refunded for order %s, refund transaction response:',
+                        $payment->getOrder()->getEntityId()
+                    )
+                );
+                $this->logger->debug(print_r($refundResponse, true));
+            }
+
             //Save the refund transaction in DB.
             $refundTransaction = $this->orderTransactions->createTransactionFromResponse(
                 $refundResponse,
-                (int) $order->getEntityId(),
-                (int) $order->getQuoteId(),
+                (int) $payment->getOrder()->getEntityId(),
+                (int) $payment->getOrder()->getQuoteId(),
                 (int) $captureTransaction->getParentPaymentId(),
                 $captureTransaction->getInvoiceId()
             );
+
+            $payment->getOrder()->addCommentToStatusHistory(sprintf(
+                'Voiding capture transaction %s & refunding %s with refund transaction %s for payment %s',
+                $captureTransaction->getTransactionId(),
+                $refundTransaction->getAmount(),
+                $refundTransaction->getTransactionId(),
+                $refundTransaction->getMethod(),
+            ));
+
+            if ($refundTransaction->getStatus() === OrderTransactions::ERROR_STATUS) {
+                $errorMessage = sprintf(
+                    'Transaction refund with ID %s for amount %s is in error, refund it in UpStream admin panel.',
+                    $refundTransaction->getTransactionId(),
+                    $refundTransaction->getAmount()
+                );
+                $this->logger->critical($errorMessage);
+                $payment->getOrder()->addCommentToStatusHistory($errorMessage);
+            }
 
             $refunds[$refundTransaction->getParentPaymentId()][] = $refundTransaction;
         }
@@ -177,5 +221,7 @@ class VoidService
             $orderPayment->setAmountRefunded($totalRefundForPayment);
             $this->orderPaymentRepository->save($orderPayment);
         }
+
+        return $payment;
     }
 }
