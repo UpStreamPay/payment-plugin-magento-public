@@ -10,7 +10,7 @@
  */
 declare(strict_types=1);
 
-namespace UpStreamPay\Core\Model;
+namespace UpStreamPay\Core\Model\Actions;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Exception\LocalizedException;
@@ -20,6 +20,7 @@ use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
 use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
 use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
 use UpStreamPay\Core\Exception\CaptureErrorException;
+use UpStreamPay\Core\Model\OrderTransactions;
 
 /**
  * Class CaptureService
