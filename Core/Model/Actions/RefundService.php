@@ -104,10 +104,21 @@ class RefundService
                         (int) $invoice->getEntityId()
                     );
 
+                    $payment->getOrder()->addCommentToStatusHistory(sprintf(
+                        'Transaction %s %s for %s with amount %s in status %s',
+                        $refundTransaction->getTransactionType(),
+                        $refundTransaction->getTransactionId(),
+                        $refundTransaction->getMethod(),
+                        $refundTransaction->getAmount(),
+                        $refundTransaction->getStatus()
+                    ));
+
+                    //In case of an error a manual refund must be done.
                     if ($refundTransaction->getStatus() === OrderTransactions::ERROR_STATUS) {
                         $errorMessage = sprintf(
-                            'The refund for order with ID %s is in error, please refund it in UpStream admin panel.',
-                            $payment->getOrder()->getEntityId()
+                            'Transaction refund with ID %s for amount %s is in error, refund it in UpStream admin panel.',
+                            $refundTransaction->getTransactionId(),
+                            $refundTransaction->getAmount()
                         );
                         $this->logger->critical($errorMessage);
                         $payment->getOrder()->addCommentToStatusHistory($errorMessage);
