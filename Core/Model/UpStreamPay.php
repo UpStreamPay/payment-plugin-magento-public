@@ -216,4 +216,30 @@ class UpStreamPay extends AbstractMethod
 
         return $this;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function canOrder()
+    {
+        return $this->getPaymentAction() === MethodInterface::ACTION_ORDER;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function order(InfoInterface $payment, $amount)
+    {
+        $payment->setIsTransactionPending(true);
+
+        try {
+            $this->orderSynchronizeService->execute($payment, $amount, OrderTransactions::ORDER_ACTION);
+        } catch (NoOrderFoundException | NoTransactionsException $exception) {
+            //No order found because order action is done before UpStream Pay has the order.
+            //No operation has been done so nothing to void or refund.
+            $payment->setIsTransactionPending(true);
+        }
+
+        return $this;
+    }
 }

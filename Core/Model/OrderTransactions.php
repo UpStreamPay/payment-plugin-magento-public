@@ -33,6 +33,7 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     public const CAPTURE_ACTION = 'CAPTURE';
     public const REFUND_ACTION = 'REFUND';
     public const VOID_ACTION = 'VOID';
+    public const ORDER_ACTION = 'ORDER';
 
     public const WAITING_STATUS = 'WAITING';
     public const SUCCESS_STATUS = 'SUCCESS';
@@ -171,7 +172,7 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
      */
     public function getInvoiceId(): ?int
     {
-        return (int)$this->getData(self::INVOICE_ID);
+        return $this->getData(self::INVOICE_ID) === null ? null : (int)$this->getData(self::INVOICE_ID);
     }
 
     /**

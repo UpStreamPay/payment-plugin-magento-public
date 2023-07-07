@@ -16,11 +16,13 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Payment\Model\MethodInterface;
 use Magento\Sales\Api\InvoiceRepositoryInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
+use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Payment\Processor;
 use Psr\Log\LoggerInterface;
 use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
 use UpStreamPay\Core\Exception\AuthorizeErrorException;
 use UpStreamPay\Core\Exception\CaptureErrorException;
+use UpStreamPay\Core\Exception\OrderErrorException;
 
 /**
  * Class NotificationService
@@ -60,9 +62,8 @@ class NotificationService
         if ($this->config->getIsDebugEnabled()) {
             $this->logger->debug(
                 sprintf(
-                    'Receiving notification for transaction regarding order %s & invoice %s:',
+                    'Receiving notification for transaction regarding order %s:',
                     $transaction->getOrderId(),
-                    $transaction->getInvoiceId()
                 )
             );
             $this->logger->debug(print_r($notification, true));
@@ -70,32 +71,33 @@ class NotificationService
 
         //Only deal with known transactions in case of a real status update.
         if ($transaction && $transaction->getEntityId() && $transaction->getStatus() !== $notification['status']['state']) {
-            //@TODO Add more case as we implement more things.
             switch ($notification['status']['action']) {
                 case OrderTransactions::AUTHORIZE_ACTION:
                     $order = $this->orderRepository->get($transaction->getOrderId());
                     $payment = $order->getPayment();
 
-                    if ($this->config->getPaymentAction() === MethodInterface::ACTION_AUTHORIZE) {
-                        $transaction->setStatus($notification['status']['state']);
-                        $this->orderTransactionsRepository->save($transaction);
+                    $transaction->setStatus($notification['status']['state']);
+                    $this->orderTransactionsRepository->save($transaction);
 
-                        try {
+                    try {
+                        if ($this->config->getPaymentAction() === MethodInterface::ACTION_AUTHORIZE) {
                             $this->paymentProcessor->authorize($payment, true, $order->getTotalDue());
-                        } catch (AuthorizeErrorException $authorizeErrorException) {
-                            //This is thrown by the authorize function in UpStream Pay payment method.
-                            $payment->deny();
+                        } elseif ($this->config->getPaymentAction() === MethodInterface::ACTION_ORDER) {
+                            $this->paymentProcessor->order($payment, $order->getTotalDue());
                         }
-
-                        $this->orderRepository->save($order);
+                    } catch (AuthorizeErrorException | OrderErrorException $authorizeErrorException) {
+                        //This is thrown by the authorize / order function in UpStream Pay payment method.
+                        $payment->deny();
                     }
+
+                    $this->orderRepository->save($order);
 
                     break;
                 case OrderTransactions::CAPTURE_ACTION:
-                    if ($this->config->getPaymentAction() === MethodInterface::ACTION_AUTHORIZE_CAPTURE) {
-                        $transaction->setStatus($notification['status']['state']);
-                        $this->orderTransactionsRepository->save($transaction);
+                    $transaction->setStatus($notification['status']['state']);
+                    $this->orderTransactionsRepository->save($transaction);
 
+                    if ($transaction->getInvoiceId() !== null) {
                         //Get all the object we need & set invoice on payment.
                         $invoice = $this->invoiceRepository->get($transaction->getInvoiceId());
                         //Very important to retrieve the order from the invoice because this is the object Magento
@@ -103,8 +105,14 @@ class NotificationService
                         $order = $invoice->getOrder();
                         $payment = $order->getPayment();
                         $payment->setCreatedInvoice($invoice);
+                    } else {
+                        //If invoice id is null on transaction then we probably are in an action order context.
+                        $order = $this->orderRepository->get($transaction->getOrderId());
+                        $payment = $order->getPayment();
+                    }
 
-                        try {
+                    try {
+                        if ($transaction->getInvoiceId() !== null) {
                             $this->paymentProcessor->capture($payment, $invoice);
 
                             //After capture is done trigger pay of the invoice.
@@ -114,16 +122,23 @@ class NotificationService
 
                             $this->orderRepository->save($order);
                             $this->invoiceRepository->save($invoice);
-                        } catch (CaptureErrorException $captureErrorException) {
-                            //This is thrown by the capture function in UpStream Pay payment method.
-                            $order->addCommentToStatusHistory(
-                                'Notification has error on capture transaction, denying the payment'
-                            );
-                            $payment->deny();
-                            //Very important to save the order coming from the payment because several things will be
-                            //set on this object.
-                            $this->orderRepository->save($payment->getOrder());
+                        } elseif ($this->config->getPaymentAction() === MethodInterface::ACTION_ORDER
+                            && $transaction->getInvoiceId() === null
+                            && $order->getStatus() === Order::STATE_PAYMENT_REVIEW) {
+                            //Make sure that we trigger this only when we are in order action, with no invoice &
+                            //an order that is in payment review.
+                            $this->paymentProcessor->order($payment, $order->getTotalDue());
+                            $this->orderRepository->save($order);
                         }
+                    } catch (CaptureErrorException | OrderErrorException $captureErrorException) {
+                        //This is thrown by the capture / order function in UpStream Pay payment method.
+                        $order->addCommentToStatusHistory(
+                            'Notification has error on capture transaction, denying the payment'
+                        );
+                        $payment->deny();
+                        //Very important to save the order coming from the payment because several things will be
+                        //set on this object.
+                        $this->orderRepository->save($payment->getOrder());
                     }
 
                     break;
