@@ -15,11 +15,13 @@ namespace UpStreamPay\Core\Model\Actions;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Payment\Model\InfoInterface;
+use Magento\Payment\Model\MethodInterface;
 use UpStreamPay\Core\Api\Data\OrderPaymentInterface;
 use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
 use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
 use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
 use UpStreamPay\Core\Exception\CaptureErrorException;
+use UpstreamPay\Core\Model\Config;
 use UpStreamPay\Core\Model\OrderTransactions;
 
 /**
@@ -37,7 +39,8 @@ class CaptureService
     public function __construct(
         private readonly SearchCriteriaBuilder $searchCriteriaBuilder,
         private readonly OrderTransactionsRepositoryInterface $orderTransactionsRepository,
-        private readonly OrderPaymentRepositoryInterface $orderPaymentRepository
+        private readonly OrderPaymentRepositoryInterface $orderPaymentRepository,
+        private readonly Config $config
     ) {
     }
 
@@ -69,16 +72,24 @@ class CaptureService
         );
 
         $searchCriteria = $this->searchCriteriaBuilder->create();
-        $captureTransactions = $this->orderTransactionsRepository->getList($searchCriteria);
+        $captureTransactions = $this->orderTransactionsRepository->getList($searchCriteria)->getItems();
+
+        //If there are no capture transactions & we are using the order action then don't bother going any further.
+        if ($this->config->getPaymentAction() === MethodInterface::ACTION_ORDER && count($captureTransactions) === 0) {
+            return $payment;
+        }
 
         //For each capture transaction check the status & determine what to do based on the result.
-        foreach ($captureTransactions->getItems() as $captureTransaction) {
+        foreach ($captureTransactions as $captureTransaction) {
             if ($upStreamPaySessionId === '') {
                 $upStreamPaySessionId = $captureTransaction->getSessionId();
             }
 
-            $captureTransaction->setInvoiceId((int)$payment->getCreatedInvoice()->getEntityId());
-            $this->orderTransactionsRepository->save($captureTransaction);
+            //In case of order action there will be no invoice here after place order.
+            if ($payment->getCreatedInvoice() !== null) {
+                $captureTransaction->setInvoiceId((int)$payment->getCreatedInvoice()->getEntityId());
+                $this->orderTransactionsRepository->save($captureTransaction);
+            }
 
             if ($captureTransaction->getStatus() === OrderTransactions::ERROR_STATUS) {
                 $atLeastOneCaptureError = true;

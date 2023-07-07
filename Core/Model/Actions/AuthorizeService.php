@@ -15,10 +15,12 @@ namespace UpStreamPay\Core\Model\Actions;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Payment\Model\InfoInterface;
+use Magento\Payment\Model\MethodInterface;
 use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
 use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
 use UpStreamPay\Core\Exception\AuthorizeErrorException;
 use UpStreamPay\Core\Model\OrderTransactions;
+use UpStreamPay\Core\Model\Config;
 
 /**
  * Class AuthorizeService
@@ -30,10 +32,12 @@ class AuthorizeService
     /**
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param OrderTransactionsRepositoryInterface $orderTransactionsRepository
+     * @param Config $config
      */
     public function __construct(
         private readonly SearchCriteriaBuilder $searchCriteriaBuilder,
-        private readonly OrderTransactionsRepositoryInterface $orderTransactionsRepository
+        private readonly OrderTransactionsRepositoryInterface $orderTransactionsRepository,
+        private readonly Config $config
     ) {
     }
 
@@ -67,9 +71,14 @@ class AuthorizeService
         );
 
         $searchCriteria = $this->searchCriteriaBuilder->create();
-        $authorizeTransactions = $this->orderTransactionsRepository->getList($searchCriteria);
+        $authorizeTransactions = $this->orderTransactionsRepository->getList($searchCriteria)->getItems();
 
-        foreach ($authorizeTransactions->getItems() as $authorizeTransaction) {
+        //If there are no authorize transactions & we are using the order action then don't bother going any further.
+        if ($this->config->getPaymentAction() === MethodInterface::ACTION_ORDER && count($authorizeTransactions) === 0) {
+            return $payment;
+        }
+
+        foreach ($authorizeTransactions as $authorizeTransaction) {
             if ($upStreamPaySessionId === '') {
                 $upStreamPaySessionId = $authorizeTransaction->getSessionId();
             }

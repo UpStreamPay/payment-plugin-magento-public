@@ -18,8 +18,10 @@ use Magento\Framework\Controller\Result\RedirectFactory;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Message\ManagerInterface;
+use Magento\Payment\Model\InfoInterface;
 use Magento\Payment\Model\MethodInterface;
 use Magento\Sales\Api\Data\InvoiceInterface;
+use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\InvoiceRepositoryInterface;
 use Magento\Sales\Api\OrderManagementInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
@@ -27,6 +29,7 @@ use Magento\Sales\Model\Order\Payment\Processor;
 use Psr\Log\LoggerInterface;
 use UpStreamPay\Core\Exception\AuthorizeErrorException;
 use UpStreamPay\Core\Exception\CaptureErrorException;
+use UpStreamPay\Core\Exception\OrderErrorException;
 use UpStreamPay\Core\Model\Config;
 
 /**
@@ -95,20 +98,23 @@ class ReturnUrl implements HttpGetActionInterface
 
                 $this->orderRepository->save($order);
                 $this->invoiceRepository->save($invoice);
+            } elseif ($this->config->getPaymentAction() === MethodInterface::ACTION_ORDER) {
+                $this->paymentProcessor->order($payment, $order->getTotalDue());
+                $this->orderRepository->save($order);
             }
 
             $resultRedirect->setPath('checkout/onepage/success', ['_secure' => true]);
 
             return $resultRedirect;
-        } catch (AuthorizeErrorException | CaptureErrorException $exception) {
+        } catch (AuthorizeErrorException | CaptureErrorException | OrderErrorException $exception) {
             //An authorize error has been found => we can deny the payment, it will cancel the order.
-            $payment->deny();
+            $this->denyPayment($payment, $order);
         } catch (\Throwable $exception) {
             $this->logger->critical('Error while trying to handle the order after redirect from UpStream Pay');
             $this->logger->critical('Order ID was ' . $order->getEntityId());
             $this->logger->critical($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
 
-            $payment->deny();
+            $this->denyPayment($payment, $order);
         }
 
         //Restore the user quote & redirect to cart.
@@ -118,5 +124,32 @@ class ReturnUrl implements HttpGetActionInterface
         $resultRedirect->setPath('checkout/cart', ['_secure' => true]);
 
         return $resultRedirect;
+    }
+
+    /**
+     * Deny the payment & handle exception.
+     *
+     * @param InfoInterface $payment
+     * @param OrderInterface $order
+     *
+     * @return void
+     */
+    private function denyPayment(InfoInterface $payment, OrderInterface $order): void
+    {
+        try {
+            $payment->deny();
+        } catch (\Throwable $throwable) {
+            //If even the denyPayment doesn't work (it could happen if the API is down) then log but nothing else.
+            $this->logger->critical(
+                'Error while trying to deny payment for the order after redirect from UpStream Pay'
+            );
+            $this->logger->critical('Order ID was ' . $order->getEntityId());
+            $this->logger->critical(
+                sprintf(
+                    'All transactions for the order with ID %s must be refunded / canceled in UpStream Pay BO.',
+                    $order->getQuoteId()
+                )
+            );
+        }
     }
 }

@@ -37,6 +37,10 @@ class PaymentAction implements OptionSourceInterface
             [
                 'value' => MethodInterface::ACTION_AUTHORIZE_CAPTURE,
                 'label' => __('Immediate capture')
+            ],
+            [
+                'value' => MethodInterface::ACTION_ORDER,
+                'label' => __('Order')
             ]
         ];
     }
