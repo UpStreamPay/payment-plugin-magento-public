@@ -10,14 +10,6 @@
   -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <type name="Magento\Framework\Console\CommandListInterface">
-        <arguments>
-            <argument name="commands" xsi:type="array">
-                <item name="upstreampay_default" xsi:type="object">UpStreamPay\Core\Console\Command\DefaultCommand</item>
-            </argument>
-        </arguments>
-    </type>
-
     <preference for="UpStreamPay\Core\Api\SessionInterface" type="UpStreamPay\Core\Model\Session"/>
     <preference for="UpStreamPay\Core\Model\Session\Order\BuilderInterface" type="UpStreamPay\Core\Model\Session\Order\Builder\AccountBuilder"/>
     <preference for="UpStreamPay\Core\Model\Session\Order\AddressBuilderInterface" type="UpStreamPay\Core\Model\Session\Order\Builder\AddressBuilder"/>
