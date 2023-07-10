@@ -82,7 +82,7 @@ class ReturnUrl implements HttpGetActionInterface
             $payment = $order->getPayment();
 
             if ($this->config->getPaymentAction() === MethodInterface::ACTION_AUTHORIZE) {
-                $this->paymentProcessor->authorize($payment, true, $order->getTotalDue());
+                $this->paymentProcessor->authorize($payment, true, $order->getBaseTotalDue());
                 $this->orderRepository->save($order);
             } elseif ($this->config->getPaymentAction() === MethodInterface::ACTION_AUTHORIZE_CAPTURE) {
                 /** @var InvoiceInterface $invoice */
@@ -99,7 +99,7 @@ class ReturnUrl implements HttpGetActionInterface
                 $this->orderRepository->save($order);
                 $this->invoiceRepository->save($invoice);
             } elseif ($this->config->getPaymentAction() === MethodInterface::ACTION_ORDER) {
-                $this->paymentProcessor->order($payment, $order->getTotalDue());
+                $this->paymentProcessor->order($payment, $order->getBaseTotalDue());
                 $this->orderRepository->save($order);
             }
 

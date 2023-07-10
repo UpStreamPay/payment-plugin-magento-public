@@ -42,7 +42,7 @@ class TaxBuilder implements BuilderInterface
         /** @var Item $item */
         foreach ($quote->getAllVisibleItems() as $item) {
             $taxPercent = $item->getTaxPercent();
-            $taxAmount = $item->getTaxAmount();
+            $taxAmount = $item->getBaseTaxAmount();
 
             if ($taxPercent === 0.00 || $taxAmount === 0.00) {
                 continue;

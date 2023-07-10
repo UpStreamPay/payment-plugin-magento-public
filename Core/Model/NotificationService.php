@@ -81,9 +81,9 @@ class NotificationService
 
                     try {
                         if ($this->config->getPaymentAction() === MethodInterface::ACTION_AUTHORIZE) {
-                            $this->paymentProcessor->authorize($payment, true, $order->getTotalDue());
+                            $this->paymentProcessor->authorize($payment, true, $order->getBaseTotalDue());
                         } elseif ($this->config->getPaymentAction() === MethodInterface::ACTION_ORDER) {
-                            $this->paymentProcessor->order($payment, $order->getTotalDue());
+                            $this->paymentProcessor->order($payment, $order->getBaseTotalDue());
                         }
                     } catch (AuthorizeErrorException | OrderErrorException $authorizeErrorException) {
                         //This is thrown by the authorize / order function in UpStream Pay payment method.
@@ -127,7 +127,7 @@ class NotificationService
                             && $order->getStatus() === Order::STATE_PAYMENT_REVIEW) {
                             //Make sure that we trigger this only when we are in order action, with no invoice &
                             //an order that is in payment review.
-                            $this->paymentProcessor->order($payment, $order->getTotalDue());
+                            $this->paymentProcessor->order($payment, $order->getBaseTotalDue());
                             $this->orderRepository->save($order);
                         }
                     } catch (CaptureErrorException | OrderErrorException $captureErrorException) {

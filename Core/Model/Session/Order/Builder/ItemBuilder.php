@@ -41,15 +41,15 @@ class ItemBuilder implements BuilderInterface
                 'type_code' => $item->getProductType() === Type::TYPE_VIRTUAL ? 'digital' : 'product',
                 'sku_reference' => $item->getSku(),
                 'name' => $item->getName(),
-                'price' => $item->getPrice(),
+                'price' => $item->getBasePrice(),
                 'quantity' => $item->getQty(),
-                'amount' => $item->getRowTotal() - $item->getDiscountAmount() + $item->getTaxAmount(),
+                'amount' => $item->getBaseRowTotal() - $item->getBaseDiscountAmount() + $item->getBaseTaxAmount(),
                 'tax_lines' => [
                     0 => [
                         'type_code' => 'vat',
                         'subtype_code' => 'standard',
                         'rate' => $item->getTaxPercent(),
-                        'amount' => $item->getTaxAmount()
+                        'amount' => $item->getBaseTaxAmount()
                     ]
                 ]
             ];
