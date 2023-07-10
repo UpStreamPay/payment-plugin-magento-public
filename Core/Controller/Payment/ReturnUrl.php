@@ -109,17 +109,23 @@ class ReturnUrl implements HttpGetActionInterface
         } catch (AuthorizeErrorException | CaptureErrorException | OrderErrorException $exception) {
             //An authorize error has been found => we can deny the payment, it will cancel the order.
             $this->denyPayment($payment, $order);
+
+            //Restore the user quote
+            $this->orderRepository->save($order);
+            $this->checkoutSession->restoreQuote();
         } catch (\Throwable $exception) {
+            //In case of another exception, payment has to be denied but the quote can't be restored.
+            //This catch means something went wrong on the API side (409 conflict for instance or other weird issue).
+            //To avoid risks & having a cart that will produce errors down the line when we try to pay it's better
+            //to not restore the quote & cancel the payment. This case should not happen very often.
             $this->logger->critical('Error while trying to handle the order after redirect from UpStream Pay');
             $this->logger->critical('Order ID was ' . $order->getEntityId());
             $this->logger->critical($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
 
             $this->denyPayment($payment, $order);
+            $this->orderRepository->save($order);
         }
 
-        //Restore the user quote & redirect to cart.
-        $this->orderRepository->save($order);
-        $this->checkoutSession->restoreQuote();
         $this->messageManager->addErrorMessage($this->config->getErrorMessage());
         $resultRedirect->setPath('checkout/cart', ['_secure' => true]);
 
