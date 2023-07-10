@@ -21,6 +21,7 @@ use UpStreamPay\Client\Model\Client\ClientInterface;
 use UpStreamPay\Core\Api\Data\OrderPaymentInterface;
 use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
 use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
+use UpStreamPay\Core\Exception\ConflictRetrieveTransactionsException;
 use UpStreamPay\Core\Model\Config;
 use UpStreamPay\Core\Model\OrderTransactions;
 use UpStreamPay\Core\Model\PaymentFinder\AllTransactionsFinder;
@@ -66,6 +67,9 @@ class VoidService
             return $this->voidAllAuthorizeTransactions($payment);
         } elseif ($this->config->getPaymentAction() === MethodInterface::ACTION_AUTHORIZE_CAPTURE) {
             return $this->voidAllCaptureTransactions($payment);
+        } elseif ($this->config->getPaymentAction() === MethodInterface::ACTION_ORDER) {
+            $payment = $this->voidAllAuthorizeTransactions($payment);
+            return $this->voidAllCaptureTransactions($payment);
         }
     }
 
@@ -86,6 +90,11 @@ class VoidService
             OrderTransactions::SUCCESS_STATUS
         );
 
+        //If there are no authorize transactions then there is no need to go further.
+        if (count($authorizeTransactions) === 0) {
+            return $payment;
+        }
+
         foreach ($authorizeTransactions as $authorizeTransaction) {
             $body = [
                 'order' => [
@@ -95,8 +104,15 @@ class VoidService
                 'amount' => $authorizeTransaction->getAmount(),
             ];
 
-            //Void from API.
-            $voidResponse = $this->client->void($authorizeTransaction->getTransactionId(), $body);
+            try {
+                //Void from API.
+                $voidResponse = $this->client->void($authorizeTransaction->getTransactionId(), $body);
+            } catch (ConflictRetrieveTransactionsException $exception) {
+                //A conflict on the API call has been found, don't block the process. This is not a standard error
+                //& it should not happen most of the time. In case it does, try to void as many transactions as
+                //we can.
+                continue;
+            }
 
             if ($this->config->getIsDebugEnabled()) {
                 $this->logger->debug(
@@ -149,6 +165,11 @@ class VoidService
             OrderTransactions::SUCCESS_STATUS
         );
 
+        //If there are no capture transactions then there is no need to go further.
+        if (count($captureTransactions) === 0) {
+            return $payment;
+        }
+
         /** @var OrderTransactionsInterface $captureTransaction */
         foreach ($captureTransactions as $captureTransaction) {
             $body = [
@@ -159,8 +180,15 @@ class VoidService
                 'amount' => $captureTransaction->getAmount(),
             ];
 
-            //Refund from API.
-            $refundResponse = $this->client->refund($captureTransaction->getTransactionId(), $body);
+            try {
+                //Refund from API.
+                $refundResponse = $this->client->refund($captureTransaction->getTransactionId(), $body);
+            } catch (ConflictRetrieveTransactionsException $exception) {
+                //A conflict on the API call has been found, don't block the process. This is not a standard error
+                //& it should not happen most of the time. In case it does, try to void as many transactions as
+                //we can.
+                continue;
+            }
 
             if ($this->config->getIsDebugEnabled()) {
                 $this->logger->debug(
@@ -220,7 +248,7 @@ class VoidService
                 $totalRefundForPayment += $refund->getAmount();
             }
 
-            $orderPayment->setAmountRefunded($totalRefundForPayment);
+            $orderPayment->setAmountRefunded($orderPayment->getAmountRefunded() + $totalRefundForPayment);
             $this->orderPaymentRepository->save($orderPayment);
         }
 
