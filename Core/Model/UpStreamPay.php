@@ -130,7 +130,7 @@ class UpStreamPay extends AbstractMethod
      */
     public function canCapture(): bool
     {
-        return $this->getPaymentAction() === MethodInterface::ACTION_AUTHORIZE_CAPTURE;
+        return $this->getPaymentAction() !== MethodInterface::ACTION_AUTHORIZE;
     }
 
     /**
@@ -191,6 +191,7 @@ class UpStreamPay extends AbstractMethod
     public function void(InfoInterface $payment)
     {
         $this->orderSynchronizeService->execute($payment, 0.00, OrderTransactions::VOID_ACTION);
+        $payment->setIsTransactionDenied(true);
 
         return $this;
     }
