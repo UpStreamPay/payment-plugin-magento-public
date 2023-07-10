@@ -66,49 +66,51 @@ class SynchronizeUpStreamPayPaymentData
     {
         $parentPaymentId = null;
 
-        foreach ($orderTransactionsResponse as $orderTransactionResponse) {
-            if ($this->config->getIsDebugEnabled()) {
-                $this->logger->debug(sprintf('Creating transaction for order with ID %s', $orderId));
-                $this->logger->debug(print_r($orderTransactionResponse, true));
-            }
+        if ($orderId !== 0) {
+            foreach ($orderTransactionsResponse as $orderTransactionResponse) {
+                if ($this->config->getIsDebugEnabled()) {
+                    $this->logger->debug(sprintf('Creating transaction for order with ID %s', $orderId));
+                    $this->logger->debug(print_r($orderTransactionResponse, true));
+                }
 
-            //Create a row in payment table for each original transaction, it means transactions without a parent_id.
-            if (!isset($orderTransactionResponse['parent_transaction_id'])) {
-                $orderPayment = $this->orderPaymentRepository->getByDefaultTransactionId($orderTransactionResponse['id']);
+                //Create a row in payment table for each original transaction, it means transactions without a parent_id.
+                if (!isset($orderTransactionResponse['parent_transaction_id'])) {
+                    $orderPayment = $this->orderPaymentRepository->getByDefaultTransactionId($orderTransactionResponse['id']);
 
-                //We can only create this, the payment methods should never be updated unless we are doing a capture
-                //Or refund then the amount captured or refunded will be updated, but just that.
-                if (!$orderPayment || !$orderPayment->getEntityId()
-                    && $orderTransactionResponse['transaction_id'] !== $orderPayment->getDefaultTransactionId()
-                ) {
-                    $paymentMethodType = $this->getPaymentMethodTypeFromResponse($orderTransactionResponse, $orderId);
+                    //We can only create this, the payment methods should never be updated unless we are doing a capture
+                    //Or refund then the amount captured or refunded will be updated, but just that.
+                    if (!$orderPayment || !$orderPayment->getEntityId()
+                        && $orderTransactionResponse['transaction_id'] !== $orderPayment->getDefaultTransactionId()
+                    ) {
+                        $paymentMethodType = $this->getPaymentMethodTypeFromResponse($orderTransactionResponse, $orderId);
 
+                        //Create.
+                        $upStreamPayPayment = $this->orderPayment->createPaymentFromResponse(
+                            $orderTransactionResponse,
+                            $orderId,
+                            $quoteId,
+                            $paymentId,
+                            $paymentMethodType
+                        );
+
+                        $parentPaymentId = $upStreamPayPayment->getEntityId();
+                    }
+                }
+
+                $orderTransaction = $this->orderTransactionsRepository->getByTransactionId($orderTransactionResponse['id']);
+
+                if ($orderTransaction && $orderTransaction->getEntityId()) {
+                    //Update.
+                    //@TODO update in case of action on the transaction (should only update the status).
+                } else {
                     //Create.
-                    $upStreamPayPayment = $this->orderPayment->createPaymentFromResponse(
+                    $this->orderTransactions->createTransactionFromResponse(
                         $orderTransactionResponse,
                         $orderId,
                         $quoteId,
-                        $paymentId,
-                        $paymentMethodType
+                        $parentPaymentId
                     );
-
-                    $parentPaymentId = $upStreamPayPayment->getEntityId();
                 }
-            }
-
-            $orderTransaction = $this->orderTransactionsRepository->getByTransactionId($orderTransactionResponse['id']);
-
-            if ($orderTransaction && $orderTransaction->getEntityId()) {
-                //Update.
-                //@TODO update in case of action on the transaction (should only update the status).
-            } else {
-                //Create.
-                $this->orderTransactions->createTransactionFromResponse(
-                    $orderTransactionResponse,
-                    $orderId,
-                    $quoteId,
-                    $parentPaymentId
-                );
             }
         }
     }
