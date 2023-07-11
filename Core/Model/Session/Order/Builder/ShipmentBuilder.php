@@ -15,6 +15,7 @@ namespace UpStreamPay\Core\Model\Session\Order\Builder;
 use Magento\Quote\Api\Data\CartInterface;
 use UpStreamPay\Core\Model\Session\Order\AddressBuilderInterface;
 use UpStreamPay\Core\Model\Session\Order\BuilderInterface;
+use Magento\Framework\Event\ManagerInterface as EventManager;
 
 /**
  * Class ShipmentBuilder
@@ -29,7 +30,8 @@ class ShipmentBuilder implements BuilderInterface
      */
     public function __construct(
        private readonly array $builders,
-       private readonly AddressBuilderInterface $addressBuilder
+       private readonly AddressBuilderInterface $addressBuilder,
+       private readonly EventManager $eventManager
     ) {
     }
 
@@ -44,6 +46,8 @@ class ShipmentBuilder implements BuilderInterface
      */
     public function execute(CartInterface $quote): array
     {
+        $this->eventManager->dispatch('sales_order_usp_before_shipment', ['quote' => $quote]);
+
         $shipmentData = [];
         $shipmentData['delivery_type_code'] = $quote->getIsVirtual() ? 'digital' : 'user_delivery';
 
@@ -64,6 +68,8 @@ class ShipmentBuilder implements BuilderInterface
         foreach ($this->builders as $builderName => $builder) {
             $shipmentData[$builderName] = $builder->execute($quote);
         }
+
+        $this->eventManager->dispatch('sales_order_usp_after_shipment', ['quote' => $quote, 'shipmentData' => $shipmentData]);
 
         return [$shipmentData];
     }

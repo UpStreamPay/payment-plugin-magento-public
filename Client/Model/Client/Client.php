@@ -23,6 +23,7 @@ use UpStreamPay\Core\Exception\ConflictRetrieveTransactionsException;
 use UpStreamPay\Core\Model\Config;
 use UpStreamPay\Core\Model\Config\Source\Mode;
 use GuzzleHttp\ClientFactory;
+use Magento\Framework\Event\ManagerInterface as EventManager;
 
 /**
  * Class Client
@@ -59,6 +60,7 @@ class Client implements ClientInterface
         private readonly ClientFactory $httpClientFactory,
         private readonly Config $config,
         private readonly TokenService $tokenService,
+        private readonly EventManager $eventManager,
         private readonly LoggerInterface $logger
     ) {}
 
@@ -99,12 +101,15 @@ class Client implements ClientInterface
      */
     public function createSession(array $orderSession): array
     {
-        return $this->callApi(
+        $this->eventManager->dispatch('payment_usp_before_session', ['orderSession' => $orderSession]);
+        $apiResponse = $this->callApi(
             $this->buildHeader(),
             $orderSession,
             self::POST,
             $this->config->getEntityId() . self::CREATE_SESSION_URI, []
         );
+        $this->eventManager->dispatch('payment_usp_after_session', ['orderSession' => $orderSession, 'apiResponse' => $apiResponse]);
+        return $apiResponse;
     }
 
     /**
@@ -173,6 +178,8 @@ class Client implements ClientInterface
      */
     public function capture(string $transactionId, array $body): array
     {
+        $this->eventManager->dispatch('sales_order_usp_before_capture', ['transactionId' => $transactionId, 'body' => $body]);
+
         $uri = sprintf(
             '%s%s%s%s',
             $this->config->getEntityId(),
@@ -181,7 +188,15 @@ class Client implements ClientInterface
             self::CAPTURE_URI,
         );
 
-        return $this->callApi($this->buildHeader(), $body, self::POST, $uri, []);
+        $captureResponse = $this->callApi($this->buildHeader(), $body, self::POST, $uri, []);
+
+        $this->eventManager->dispatch('sales_order_usp_after_capture', [
+            'transactionId' => $transactionId,
+            'body' => $body,
+            'captureResponse' => $captureResponse
+        ]);
+
+        return $captureResponse;
     }
 
     /**
@@ -256,6 +271,8 @@ class Client implements ClientInterface
      */
     public function refund(string $transactionId, array $body): array
     {
+        $this->eventManager->dispatch('sales_order_usp_before_refund', ['transactionId' => $transactionId, 'body' => $body]);
+
         $uri = sprintf(
             '%s%s%s%s',
             $this->config->getEntityId(),
@@ -265,7 +282,15 @@ class Client implements ClientInterface
         );
 
         try {
-            return $this->callApi($this->buildHeader(), $body, self::POST, $uri, []);
+            $refundResponse = $this->callApi($this->buildHeader(), $body, self::POST, $uri, []);
+
+            $this->eventManager->dispatch('sales_order_usp_after_refund', [
+                'transactionId' => $transactionId,
+                'body' => $body,
+                'refundResponse' => $refundResponse
+            ]);
+
+            return $refundResponse;
         } catch (GuzzleException $exception) {
             if ($exception->getCode() === 409) {
                 $errorMessage = sprintf(

@@ -21,6 +21,7 @@ use Magento\Framework\Registry;
 use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
 use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
 use UpStreamPay\Core\Model\ResourceModel\OrderTransactions as ResourceModel;
+use Magento\Framework\Event\ManagerInterface as EventManager;
 
 /**
  * Class OrderTransactions
@@ -54,6 +55,7 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     public function __construct(
         private readonly OrderTransactionsFactory $orderTransactionsFactory,
         private readonly OrderTransactionsRepositoryInterface $transactionsRepository,
+        private readonly EventManager $eventManager,
         Context $context,
         Registry $registry,
         AbstractResource $resource = null,
@@ -315,6 +317,14 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
         ?int $invoiceId = null,
     ): OrderTransactionsInterface
     {
+        $this->eventManager->dispatch('payment_usp_write_log', [
+            'transactionResponse' => $transactionResponse,
+            'orderId' => $orderId,
+            'quoteId' => $quoteId,
+            'parentPaymentId' => $parentPaymentId,
+            'invoiceId' => $invoiceId
+        ]);
+
         $orderTransaction = $this->orderTransactionsFactory->create();
 
         $orderTransaction
