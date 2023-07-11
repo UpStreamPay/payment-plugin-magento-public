@@ -23,6 +23,7 @@ use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
 use UpStreamPay\Core\Exception\CaptureErrorException;
 use UpstreamPay\Core\Model\Config;
 use UpStreamPay\Core\Model\OrderTransactions;
+use Magento\Framework\Event\ManagerInterface as EventManager;
 
 /**
  * Class CaptureService
@@ -41,7 +42,8 @@ class CaptureService
         private readonly SearchCriteriaBuilder $searchCriteriaBuilder,
         private readonly OrderTransactionsRepositoryInterface $orderTransactionsRepository,
         private readonly OrderPaymentRepositoryInterface $orderPaymentRepository,
-        private readonly Config $config
+        private readonly Config $config,
+        private readonly EventManager $eventManager
     ) {
     }
 
@@ -130,6 +132,7 @@ class CaptureService
                     $totalCapturedPayment += $capture->getAmount();
                 }
 
+                $this->eventManager->dispatch('payment_usp_write_log', ['orderPayment' => $orderPayment]);
                 $orderPayment->setAmountCaptured($orderPayment->getAmountCaptured() + $totalCapturedPayment);
                 $this->orderPaymentRepository->save($orderPayment);
             }

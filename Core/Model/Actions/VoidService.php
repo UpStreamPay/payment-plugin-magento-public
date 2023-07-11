@@ -25,6 +25,7 @@ use UpStreamPay\Core\Exception\ConflictRetrieveTransactionsException;
 use UpStreamPay\Core\Model\Config;
 use UpStreamPay\Core\Model\OrderTransactions;
 use UpStreamPay\Core\Model\PaymentFinder\AllTransactionsFinder;
+use Magento\Framework\Event\ManagerInterface as EventManager;
 
 /**
  * Class VoidService
@@ -49,7 +50,8 @@ class VoidService
         private readonly OrderPaymentRepositoryInterface $orderPaymentRepository,
         private readonly Config $config,
         private readonly AllTransactionsFinder $findAllTransactions,
-        private readonly LoggerInterface $logger
+        private readonly LoggerInterface $logger,
+        private readonly EventManager $eventManager
     ) {
     }
 
@@ -248,6 +250,7 @@ class VoidService
                 $totalRefundForPayment += $refund->getAmount();
             }
 
+            $this->eventManager->dispatch('payment_usp_write_log', ['orderPayment' => $orderPayment]);
             $orderPayment->setAmountRefunded($orderPayment->getAmountRefunded() + $totalRefundForPayment);
             $this->orderPaymentRepository->save($orderPayment);
         }

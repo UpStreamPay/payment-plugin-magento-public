@@ -23,6 +23,7 @@ use Magento\Framework\Registry;
 use UpStreamPay\Core\Api\Data\PaymentMethodInterface;
 use UpStreamPay\Core\Api\PaymentMethodRepositoryInterface;
 use UpStreamPay\Core\Model\ResourceModel\OrderPayment as OrderPaymentResourceModel;
+use Magento\Framework\Event\ManagerInterface as EventManager;
 
 /**
  * Class PaymentMethod
@@ -59,6 +60,7 @@ class PaymentMethod extends AbstractExtensibleModel implements PaymentMethodInte
     public function __construct(
         private readonly PaymentMethodRepositoryInterface $paymentMethodRepository,
         private readonly PaymentMethodFactory $paymentMethodFactory,
+        private readonly EventManager $eventManager,
         Context $context,
         Registry $registry,
         ExtensionAttributesFactory $extensionFactory,
@@ -161,6 +163,8 @@ class PaymentMethod extends AbstractExtensibleModel implements PaymentMethodInte
      */
     public function updateOrCreate(string $method, string $type): PaymentMethodInterface
     {
+        $this->eventManager->dispatch('payment_usp_write_method', ['method' => $method, 'type' => $type]);
+
         $paymentMethod = $this->paymentMethodRepository->getByMethod($method);
 
         if ($paymentMethod && $paymentMethod->getEntityId()) {

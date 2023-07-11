@@ -23,6 +23,7 @@ use Magento\Framework\Registry;
 use UpStreamPay\Core\Api\Data\OrderPaymentInterface;
 use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
 use UpStreamPay\Core\Model\ResourceModel\OrderPayment as PaymentResource;
+use Magento\Framework\Event\ManagerInterface as EventManager;
 
 /**
  * Class OrderPayment
@@ -38,6 +39,7 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
     public function __construct(
         private readonly OrderPaymentFactory $orderPaymentFactory,
         private readonly OrderPaymentRepositoryInterface $orderPaymentRepository,
+        private readonly EventManager $eventManager,
         Context $context,
         Registry $registry,
         ExtensionAttributesFactory $extensionFactory,
@@ -285,6 +287,13 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
         string $paymentMethodType
     ): OrderPaymentInterface
     {
+        $this->eventManager->dispatch('payment_usp_write_log', [
+            'paymentResponse' => $paymentResponse,
+            'orderId' => $orderId,
+            'quoteId' => $quoteId,
+            'paymentId' => $paymentId,
+            'paymentMethodType' => $paymentMethodType
+        ]);
         /** @var OrderPaymentInterface $orderPayment */
         $orderPayment = $this->orderPaymentFactory->create();
 

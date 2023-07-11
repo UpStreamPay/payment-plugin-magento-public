@@ -21,6 +21,7 @@ use phpseclib3\Crypt\PublicKeyLoader;
 use Psr\Log\LoggerInterface;
 use UpStreamPay\Core\Model\Config;
 use UpStreamPay\Core\Model\NotificationService;
+use Magento\Framework\Event\ManagerInterface as EventManager;
 
 /**
  * Class Notification
@@ -45,7 +46,8 @@ class Notification implements CsrfAwareActionInterface, HttpPostActionInterface
         private readonly LoggerInterface $logger,
         private readonly Config $config,
         private readonly NotificationService $notificationService,
-        private readonly JsonFactory $jsonFactory
+        private readonly JsonFactory $jsonFactory,
+        private readonly EventManager $eventManager
     ) {}
 
     /**
@@ -55,6 +57,8 @@ class Notification implements CsrfAwareActionInterface, HttpPostActionInterface
     {
         $notification = json_decode($this->request->getContent(), true, 512);
 
+        $this->eventManager->dispatch('payment_usp_before_webhook', ['notification' => $notification]);
+
         if ($this->config->getIsDebugEnabled()) {
             $this->logger->debug('Incoming notification:');
             $this->logger->debug(print_r($notification, true));
@@ -63,6 +67,8 @@ class Notification implements CsrfAwareActionInterface, HttpPostActionInterface
         $this->notificationService->execute($notification);
 
         $resultJson = $this->jsonFactory->create();
+
+        $this->eventManager->dispatch('payment_usp_after_webhook', ['notification' => $notification, 'resultJson' => $resultJson]);
 
         return $resultJson;
     }

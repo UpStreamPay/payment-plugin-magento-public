@@ -23,6 +23,7 @@ use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
 use UpStreamPay\Core\Exception\AuthorizeErrorException;
 use UpStreamPay\Core\Exception\CaptureErrorException;
 use UpStreamPay\Core\Exception\OrderErrorException;
+use Magento\Framework\Event\ManagerInterface as EventManager;
 
 /**
  * Class NotificationService
@@ -46,6 +47,7 @@ class NotificationService
         private readonly OrderTransactionsRepositoryInterface $orderTransactionsRepository,
         private readonly LoggerInterface $logger,
         private readonly InvoiceRepositoryInterface $invoiceRepository,
+        private readonly EventManager $eventManager
     ) {
     }
 
@@ -87,6 +89,7 @@ class NotificationService
                         }
                     } catch (AuthorizeErrorException | OrderErrorException $authorizeErrorException) {
                         //This is thrown by the authorize / order function in UpStream Pay payment method.
+                        $this->eventManager->dispatch('sales_order_usp_payment_error', ['payment' => $payment]);
                         $payment->deny();
                     }
 
@@ -131,6 +134,7 @@ class NotificationService
                             $this->orderRepository->save($order);
                         }
                     } catch (CaptureErrorException | OrderErrorException $captureErrorException) {
+                        $this->eventManager->dispatch('sales_order_usp_payment_error', ['payment' => $payment]);
                         //This is thrown by the capture / order function in UpStream Pay payment method.
                         $order->addCommentToStatusHistory(
                             'Notification has error on capture transaction, denying the payment'
@@ -161,6 +165,7 @@ class NotificationService
 
                     //In case of an error a manual refund must be done.
                     if ($transaction->getStatus() === OrderTransactions::ERROR_STATUS) {
+                        $this->eventManager->dispatch('sales_order_usp_payment_error', ['order' => $order]);
                         $errorMessage = sprintf(
                             'Transaction refund with ID %s is in error, refund it in UpStream admin panel.',
                             $transaction->getTransactionId()

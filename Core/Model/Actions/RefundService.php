@@ -21,6 +21,7 @@ use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
 use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
 use UpStreamPay\Core\Model\OrderTransactions;
 use UpStreamPay\Core\Model\PaymentFinder\allTransactionsToRefundFinder;
+use Magento\Framework\Event\ManagerInterface as EventManager;
 
 /**
  * Class RefundService
@@ -41,7 +42,8 @@ class RefundService
         private readonly ClientInterface $client,
         private readonly OrderTransactions $orderTransactions,
         private readonly OrderPaymentRepositoryInterface $orderPaymentRepository,
-        private readonly LoggerInterface $logger
+        private readonly LoggerInterface $logger,
+        private readonly EventManager $eventManager
     ) {
     }
 
@@ -124,6 +126,7 @@ class RefundService
                         $payment->getOrder()->addCommentToStatusHistory($errorMessage);
                     }
 
+                    $this->eventManager->dispatch('payment_usp_write_log', ['orderPayment' => $orderPayment]);
                     $orderPayment->setAmountRefunded($orderPayment->getAmountRefunded() + $refundTransaction->getAmount());
                     $this->orderPaymentRepository->save($orderPayment);
 
