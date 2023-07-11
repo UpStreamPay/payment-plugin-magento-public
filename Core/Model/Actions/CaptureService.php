@@ -35,6 +35,7 @@ class CaptureService
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param OrderTransactionsRepositoryInterface $orderTransactionsRepository
      * @param OrderPaymentRepositoryInterface $orderPaymentRepository
+     * @param Config $config
      */
     public function __construct(
         private readonly SearchCriteriaBuilder $searchCriteriaBuilder,

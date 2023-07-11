@@ -77,19 +77,21 @@ class OrderSynchronizeService
         $quoteId = (int) $payment->getOrder()->getQuoteId();
         $orderId = (int) $payment->getParentId();
 
-        $orderTransactionsResponse = $this->client->getAllTransactionsForOrder($quoteId);
+        if ($action !== OrderTransactions::VOID_ACTION && $action !== OrderTransactions::REFUND_ACTION) {
+            $orderTransactionsResponse = $this->client->getAllTransactionsForOrder($quoteId);
 
-        if (count($orderTransactionsResponse) === 0) {
-            throw new NoTransactionsException('No transactions found in API for the order with ID ' . $orderId);
+            if (count($orderTransactionsResponse) === 0) {
+                throw new NoTransactionsException('No transactions found in API for the order with ID ' . $orderId);
+            }
+
+            //Save UpStream Pay payment & transaction data to DB.
+            $this->synchronizeUpStreamPayPaymentData->execute(
+                $orderTransactionsResponse,
+                $orderId,
+                $quoteId,
+                (int)$payment->getEntityId()
+            );
         }
-
-        //Save UpStream Pay payment & transaction data to DB.
-        $this->synchronizeUpStreamPayPaymentData->execute(
-            $orderTransactionsResponse,
-            $orderId,
-            $quoteId,
-            (int) $payment->getEntityId()
-        );
 
         if ($action === OrderTransactions::AUTHORIZE_ACTION) {
             return $this->authorizeService->execute($payment, $amount);

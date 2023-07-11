@@ -67,14 +67,29 @@ class OrderService
         $amountToAuthorize = 0;
         $amountToCapture = 0;
 
-        //Get the transactions with a success status for the current order.
+        //Get the transactions for the current order.
         $this->searchCriteriaBuilder->addFilter(
             OrderTransactionsInterface::ORDER_ID,
             $payment->getOrder()->getEntityId()
-        );
+        )->addFilter(
+            OrderTransactions::TRANSACTION_TYPE,
+            [
+                OrderTransactions::CAPTURE_ACTION,
+                OrderTransactions::AUTHORIZE_ACTION
+            ],
+            'in'
+        )
+        ;
 
         $searchCriteria = $this->searchCriteriaBuilder->create();
         $transactions = $this->orderTransactionsRepository->getList($searchCriteria)->getItems();
+
+        //If there are no transactions, no need to go further.
+        if (count($transactions) === 0) {
+            $payment->setIsTransactionPending(true);
+
+            return $payment;
+        }
 
         foreach ($transactions as $transaction) {
             if ($transaction->getTransactionType() === OrderTransactions::CAPTURE_ACTION) {

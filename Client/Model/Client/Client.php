@@ -15,9 +15,11 @@ namespace UpStreamPay\Client\Model\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
 use JsonException;
+use Psr\Log\LoggerInterface;
 use UpStreamPay\Client\Exception\NoOrderFoundException;
 use UpStreamPay\Client\Exception\TokenValidatorException;
 use UpStreamPay\Client\Model\Token\TokenService;
+use UpStreamPay\Core\Exception\ConflictRetrieveTransactionsException;
 use UpStreamPay\Core\Model\Config;
 use UpStreamPay\Core\Model\Config\Source\Mode;
 use GuzzleHttp\ClientFactory;
@@ -51,11 +53,13 @@ class Client implements ClientInterface
      * @param ClientFactory $httpClientFactory
      * @param Config $config
      * @param TokenService $tokenService
+     * @param LoggerInterface $logger
      */
     public function __construct(
         private readonly ClientFactory $httpClientFactory,
         private readonly Config $config,
-        private readonly TokenService $tokenService
+        private readonly TokenService $tokenService,
+        private readonly LoggerInterface $logger
     ) {}
 
     /**
@@ -113,6 +117,7 @@ class Client implements ClientInterface
      * @throws JsonException
      * @throws NoOrderFoundException
      * @throws TokenValidatorException
+     * @throws ConflictRetrieveTransactionsException
      */
     public function getAllTransactionsForOrder(int $orderId): array
     {
@@ -131,6 +136,15 @@ class Client implements ClientInterface
                 throw new NoOrderFoundException(
                     'There was a 404 error while trying to retrieve transactions for order ' . $orderId
                 );
+            } elseif ($exception->getCode() === 409) {
+                $errorMessage = sprintf(
+                    'Impossible to process upstream pay order with id %s. Please refund it in UpStream Pay BO',
+                    $orderId
+                );
+                $this->logger->critical($errorMessage);
+
+                //This happens sometimes in case of a conflict, we can't even retrieve the transactions from upstream.
+                throw new ConflictRetrieveTransactionsException($errorMessage);
             } else {
                 throw $exception;
             }
@@ -189,6 +203,7 @@ class Client implements ClientInterface
      * @throws GuzzleException
      * @throws JsonException
      * @throws TokenValidatorException
+     * @throws ConflictRetrieveTransactionsException
      */
     public function void(string $transactionId, array $body): array
     {
@@ -200,7 +215,22 @@ class Client implements ClientInterface
             self::VOID_URI,
         );
 
-        return $this->callApi($this->buildHeader(), $body, self::POST, $uri, []);
+        try {
+            return $this->callApi($this->buildHeader(), $body, self::POST, $uri, []);
+        } catch (GuzzleException $exception) {
+            if ($exception->getCode() === 409) {
+                $errorMessage = sprintf(
+                    'Impossible to process upstream pay transaction with id %s. Please void it in UpStream Pay BO',
+                    $transactionId
+                );
+                $this->logger->critical($errorMessage);
+
+                //This happens sometimes in case of a conflict, we can't even retrieve the transactions from upstream.
+                throw new ConflictRetrieveTransactionsException($errorMessage);
+            } else {
+                throw $exception;
+            }
+        }
     }
 
     /**
@@ -222,6 +252,7 @@ class Client implements ClientInterface
      * @throws GuzzleException
      * @throws JsonException
      * @throws TokenValidatorException
+     * @throws ConflictRetrieveTransactionsException
      */
     public function refund(string $transactionId, array $body): array
     {
@@ -233,7 +264,22 @@ class Client implements ClientInterface
             self::REFUND_URI,
         );
 
-        return $this->callApi($this->buildHeader(), $body, self::POST, $uri, []);
+        try {
+            return $this->callApi($this->buildHeader(), $body, self::POST, $uri, []);
+        } catch (GuzzleException $exception) {
+            if ($exception->getCode() === 409) {
+                $errorMessage = sprintf(
+                    'Impossible to process upstream pay transaction with id %s. Please refund it in UpStream Pay BO',
+                    $transactionId
+                );
+                $this->logger->critical($errorMessage);
+
+                //This happens sometimes in case of a conflict, we can't even retrieve the transactions from upstream.
+                throw new ConflictRetrieveTransactionsException($errorMessage);
+            } else {
+                throw $exception;
+            }
+        }
     }
 
     /**
