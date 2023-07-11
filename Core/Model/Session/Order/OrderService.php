@@ -47,16 +47,17 @@ class OrderService
     {
         $order = [];
 
-        $netAmount = $quote->getSubtotalWithDiscount() + $quote->getShippingAddress()->getShippingAmount();
+        $netAmount = $quote->getBaseSubtotalWithDiscount() + $quote->getShippingAddress()->getBaseShippingAmount();
 
-        $order['hook'] = $this->url->getUrl(Notification::URL_PATH);
-        $order['amount'] = $quote->getGrandTotal();
+//        $order['hook'] = $this->url->getUrl(Notification::URL_PATH);
+        $order['hook'] = 'https://2bc0-78-113-62-47.ngrok-free.app/upstreampay/payment/notification';
+        $order['amount'] = $quote->getBaseGrandTotal();
         $order['order']['redirection'] = $this->url->getUrl(ReturnUrl::URL_PATH);
         $order['order']['reference'] = $quote->getId();
-        $order['order']['amount'] = $quote->getGrandTotal();
+        $order['order']['amount'] = $quote->getBaseGrandTotal();
         $order['order']['net_amount'] = $netAmount;
-        $order['order']['tax_amount'] = $quote->getGrandTotal() - $netAmount;
-        $order['order']['currency_code'] = $quote->getQuoteCurrencyCode();
+        $order['order']['tax_amount'] = $quote->getBaseGrandTotal() - $netAmount;
+        $order['order']['currency_code'] = $quote->getBaseCurrencyCode();
 
         /** @var BuilderInterface $builder */
         foreach ($this->builders as $builderName => $builder) {

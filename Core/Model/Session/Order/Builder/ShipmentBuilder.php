@@ -48,9 +48,9 @@ class ShipmentBuilder implements BuilderInterface
         $shipmentData['delivery_type_code'] = $quote->getIsVirtual() ? 'digital' : 'user_delivery';
 
         if (!$quote->getIsVirtual()) {
-            $shipmentData['amount'] = $quote->getShippingAddress()->getShippingInclTax();
-            $shipmentData['net_amount'] = $quote->getShippingAddress()->getShippingAmount();
-            $shipmentData['tax_amount'] = $quote->getShippingAddress()->getShippingTaxAmount();
+            $shipmentData['amount'] = $quote->getShippingAddress()->getBaseShippingInclTax();
+            $shipmentData['net_amount'] = $quote->getShippingAddress()->getBaseShippingAmount();
+            $shipmentData['tax_amount'] = $quote->getShippingAddress()->getBaseShippingTaxAmount();
             $shipmentData['delivery_method_reference'] = $quote->getShippingAddress()->getShippingMethod();
         }
 
