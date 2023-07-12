@@ -112,7 +112,7 @@ class AuthorizeService
                 ->setTransactionId($upStreamPaySessionId)
                 ->setIsTransactionClosed(false)
                 ->setIsTransactionApproved(true)
-                ->setCurrencyCode($payment->getOrder()->getOrderCurrencyCode())
+                ->setCurrencyCode($payment->getOrder()->getGlobalCurrencyCode())
                 ->setIsTransactionPending(false)
             ;
         } elseif ($atLeastOneAuthorizeWaiting) {

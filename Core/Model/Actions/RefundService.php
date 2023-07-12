@@ -90,8 +90,8 @@ class RefundService
                 if ($amountToRefundOnTransaction > 0) {
                     $body = [
                         'order' => [
-                            'amount' => $payment->getOrder()->getGrandTotal(),
-                            'currency_code' => $payment->getOrder()->getOrderCurrencyCode(),
+                            'amount' => $payment->getOrder()->getBaseGrandTotal(),
+                            'currency_code' => $payment->getOrder()->getGlobalCurrencyCode(),
                         ],
                         'amount' => $amountToRefundOnTransaction,
                     ];

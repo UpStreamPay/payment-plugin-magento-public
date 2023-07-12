@@ -100,8 +100,8 @@ class VoidService
         foreach ($authorizeTransactions as $authorizeTransaction) {
             $body = [
                 'order' => [
-                    'amount' => $payment->getOrder()->getGrandTotal(),
-                    'currency_code' => $payment->getOrder()->getOrderCurrencyCode(),
+                    'amount' => $payment->getOrder()->getBaseGrandTotal(),
+                    'currency_code' => $payment->getOrder()->getGlobalCurrencyCode(),
                 ],
                 'amount' => $authorizeTransaction->getAmount(),
             ];
@@ -176,8 +176,8 @@ class VoidService
         foreach ($captureTransactions as $captureTransaction) {
             $body = [
                 'order' => [
-                    'amount' => $payment->getOrder()->getGrandTotal(),
-                    'currency_code' => $payment->getOrder()->getOrderCurrencyCode(),
+                    'amount' => $payment->getOrder()->getBaseGrandTotal(),
+                    'currency_code' => $payment->getOrder()->getGlobalCurrencyCode(),
                 ],
                 'amount' => $captureTransaction->getAmount(),
             ];

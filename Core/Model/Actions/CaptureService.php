@@ -151,7 +151,7 @@ class CaptureService
                 ->setIsTransactionClosed(false)
                 ->setIsTransactionPending(false)
                 ->setIsTransactionApproved(true)
-                ->setCurrencyCode($payment->getOrder()->getOrderCurrencyCode());
+                ->setCurrencyCode($payment->getOrder()->getGlobalCurrencyCode());
         } elseif ($atLeastOneCaptureWaiting) {
             //At least one transaction is in waiting, tell Magento that the payment is still pending.
             $payment->setIsTransactionPending(true);
