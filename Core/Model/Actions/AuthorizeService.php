@@ -14,6 +14,7 @@ namespace UpStreamPay\Core\Model\Actions;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Math\FloatComparator;
 use Magento\Payment\Model\InfoInterface;
 use Magento\Payment\Model\MethodInterface;
 use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
@@ -33,11 +34,13 @@ class AuthorizeService
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param OrderTransactionsRepositoryInterface $orderTransactionsRepository
      * @param Config $config
+     * @param FloatComparator $floatComparator
      */
     public function __construct(
         private readonly SearchCriteriaBuilder $searchCriteriaBuilder,
         private readonly OrderTransactionsRepositoryInterface $orderTransactionsRepository,
-        private readonly Config $config
+        private readonly Config $config,
+        private readonly FloatComparator $floatComparator
     ) {
     }
 
@@ -102,7 +105,8 @@ class AuthorizeService
         }
 
         //Every transaction has an authorize success & the amount to authorize matches the amount authorized.
-        if ($authorizeIsSuccess && $amountAuthorized === $amount) {
+        //To avoid issue when comparing floats, use built-in magento feature (it uses an epsilon of 0.00001).
+        if ($authorizeIsSuccess && $this->floatComparator->equal($amountAuthorized, $amount)) {
             //Every authorize is a success, so the payment is authorized.
             $payment
                 ->setTransactionId($upStreamPaySessionId)

@@ -14,6 +14,7 @@ namespace UpStreamPay\Core\Model\Actions;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Math\FloatComparator;
 use Magento\Payment\Model\InfoInterface;
 use Magento\Payment\Model\MethodInterface;
 use UpStreamPay\Core\Api\Data\OrderPaymentInterface;
@@ -37,13 +38,16 @@ class CaptureService
      * @param OrderTransactionsRepositoryInterface $orderTransactionsRepository
      * @param OrderPaymentRepositoryInterface $orderPaymentRepository
      * @param Config $config
+     * @param EventManager $eventManager
+     * @param FloatComparator $floatComparator
      */
     public function __construct(
         private readonly SearchCriteriaBuilder $searchCriteriaBuilder,
         private readonly OrderTransactionsRepositoryInterface $orderTransactionsRepository,
         private readonly OrderPaymentRepositoryInterface $orderPaymentRepository,
         private readonly Config $config,
-        private readonly EventManager $eventManager
+        private readonly EventManager $eventManager,
+        private readonly FloatComparator $floatComparator
     ) {
     }
 
@@ -139,7 +143,8 @@ class CaptureService
         }
 
         //Every transaction has a capture success & the amount to capture matches the amount captured.
-        if (!$atLeastOneCaptureError && !$atLeastOneCaptureWaiting && $amountCaptured === $amount) {
+        //To avoid issue when comparing floats, use built-in magento feature (it uses an epsilon of 0.00001).
+        if (!$atLeastOneCaptureError && !$atLeastOneCaptureWaiting && $this->floatComparator->equal($amountCaptured, $amount)) {
             //Every capture is a success, so the payment is captured.
             $payment
                 ->setTransactionId($upStreamPaySessionId)
