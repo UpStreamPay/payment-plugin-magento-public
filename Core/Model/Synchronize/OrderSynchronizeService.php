@@ -23,6 +23,7 @@ use UpStreamPay\Core\Exception\NoTransactionsException;
 use UpStreamPay\Core\Exception\OrderErrorException;
 use UpStreamPay\Core\Model\Actions\AuthorizeService;
 use UpStreamPay\Core\Model\Actions\CaptureService;
+use UpStreamPay\Core\Model\Actions\OrderActionCaptureService;
 use UpStreamPay\Core\Model\Actions\OrderService;
 use UpStreamPay\Core\Model\Actions\RefundService;
 use UpStreamPay\Core\Model\Actions\VoidService;
@@ -43,6 +44,7 @@ class OrderSynchronizeService
      * @param VoidService $voidService
      * @param RefundService $refundService
      * @param OrderService $orderService
+     * @param OrderActionCaptureService $orderActionCaptureService
      */
     public function __construct(
         private readonly ClientInterface $client,
@@ -51,7 +53,8 @@ class OrderSynchronizeService
         private readonly AuthorizeService $authorizeService,
         private readonly VoidService $voidService,
         private readonly RefundService $refundService,
-        private readonly OrderService $orderService
+        private readonly OrderService $orderService,
+        private readonly OrderActionCaptureService $orderActionCaptureService
     ) {
     }
 
@@ -103,6 +106,8 @@ class OrderSynchronizeService
             return $this->refundService->execute($payment, $amount);
         } elseif ($action === OrderTransactions::ORDER_ACTION) {
             return $this->orderService->execute($payment, $amount);
+        } elseif ($action === OrderTransactions::ORDER_CAPTURE_ACTION) {
+            return $this->orderActionCaptureService->execute($payment, $amount);
         }
     }
 }

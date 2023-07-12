@@ -47,7 +47,7 @@ class AllTransactionsFinder
      * @param string $transactionType
      * @param int $orderId
      * @param string $status
-     * @param null|int $invoiceId
+     * @param null|bool|int $invoiceId
      *
      * @return OrderTransactionsInterface[]
      * @throws LocalizedException
@@ -56,7 +56,7 @@ class AllTransactionsFinder
         string $transactionType,
         int $orderId,
         string $status,
-        ?int $invoiceId = null,
+        null|bool|int $invoiceId = false,
     ): array
     {
         $secondaryPaymentsEntityId = [];
@@ -97,7 +97,13 @@ class AllTransactionsFinder
         );
 
         //Optionnals filters.
-        if ($invoiceId !== null) {
+        if ($invoiceId !== false && $invoiceId === null) {
+            $this->searchCriteriaBuilder->addFilter(
+                OrderTransactionsInterface::INVOICE_ID,
+                $invoiceId,
+                'null'
+            );
+        } elseif ($invoiceId !== false) {
             $this->searchCriteriaBuilder->addFilter(
                 OrderTransactionsInterface::INVOICE_ID,
                 $invoiceId
@@ -124,7 +130,13 @@ class AllTransactionsFinder
         );
 
         //Optionnals filters.
-        if ($invoiceId !== null) {
+        if ($invoiceId !== false && $invoiceId === null) {
+            $this->searchCriteriaBuilder->addFilter(
+                OrderTransactionsInterface::INVOICE_ID,
+                $invoiceId,
+                'null'
+            );
+        } elseif ($invoiceId !== false) {
             $this->searchCriteriaBuilder->addFilter(
                 OrderTransactionsInterface::INVOICE_ID,
                 $invoiceId

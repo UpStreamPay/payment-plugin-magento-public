@@ -14,6 +14,7 @@ namespace UpStreamPay\Core\Model\Actions;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Math\FloatComparator;
 use Magento\Payment\Model\InfoInterface;
 use Magento\Payment\Model\MethodInterface;
 use UpStreamPay\Core\Api\Data\OrderPaymentInterface;
@@ -37,13 +38,16 @@ class CaptureService
      * @param OrderTransactionsRepositoryInterface $orderTransactionsRepository
      * @param OrderPaymentRepositoryInterface $orderPaymentRepository
      * @param Config $config
+     * @param EventManager $eventManager
+     * @param FloatComparator $floatComparator
      */
     public function __construct(
         private readonly SearchCriteriaBuilder $searchCriteriaBuilder,
         private readonly OrderTransactionsRepositoryInterface $orderTransactionsRepository,
         private readonly OrderPaymentRepositoryInterface $orderPaymentRepository,
         private readonly Config $config,
-        private readonly EventManager $eventManager
+        private readonly EventManager $eventManager,
+        private readonly FloatComparator $floatComparator
     ) {
     }
 
@@ -113,40 +117,45 @@ class CaptureService
             ));
         }
 
-        //Get all payments related to the captures done above.
-        $this->searchCriteriaBuilder->addFilter(
-            OrderPaymentInterface::ENTITY_ID,
-            array_keys($captures),
-            'in'
-        );
+        //If order action mode is used, don't set the captured amount on the payment method because it has not been
+        //used on an invoice yet. It's captured but not used, so don't set it.
+        if ($this->config->getPaymentAction() === MethodInterface::ACTION_AUTHORIZE_CAPTURE) {
+            //Get all payments related to the captures done above.
+            $this->searchCriteriaBuilder->addFilter(
+                OrderPaymentInterface::ENTITY_ID,
+                array_keys($captures),
+                'in'
+            );
 
-        $searchCriteria = $this->searchCriteriaBuilder->create();
-        $orderPayments = $this->orderPaymentRepository->getList($searchCriteria);
+            $searchCriteria = $this->searchCriteriaBuilder->create();
+            $orderPayments = $this->orderPaymentRepository->getList($searchCriteria);
 
-        //Set on each payment the total captured.
-        foreach ($orderPayments->getItems() as $orderPayment) {
-            if ($orderPayment->getAmountCaptured() < $orderPayment->getAmount()) {
-                $totalCapturedPayment = 0.00;
-                /** @var OrderTransactionsInterface $capture */
-                foreach ($captures[$orderPayment->getEntityId()] as $capture) {
-                    $totalCapturedPayment += $capture->getAmount();
+            //Set on each payment the total captured.
+            foreach ($orderPayments->getItems() as $orderPayment) {
+                if ($orderPayment->getAmountCaptured() < $orderPayment->getAmount()) {
+                    $totalCapturedPayment = 0.00;
+                    /** @var OrderTransactionsInterface $capture */
+                    foreach ($captures[$orderPayment->getEntityId()] as $capture) {
+                        $totalCapturedPayment += $capture->getAmount();
+                    }
+
+                    $this->eventManager->dispatch('payment_usp_write_log', ['orderPayment' => $orderPayment]);
+                    $orderPayment->setAmountCaptured($orderPayment->getAmountCaptured() + $totalCapturedPayment);
+                    $this->orderPaymentRepository->save($orderPayment);
                 }
-
-                $this->eventManager->dispatch('payment_usp_write_log', ['orderPayment' => $orderPayment]);
-                $orderPayment->setAmountCaptured($orderPayment->getAmountCaptured() + $totalCapturedPayment);
-                $this->orderPaymentRepository->save($orderPayment);
             }
         }
 
         //Every transaction has a capture success & the amount to capture matches the amount captured.
-        if (!$atLeastOneCaptureError && !$atLeastOneCaptureWaiting && $amountCaptured === $amount) {
+        //To avoid issue when comparing floats, use built-in magento feature (it uses an epsilon of 0.00001).
+        if (!$atLeastOneCaptureError && !$atLeastOneCaptureWaiting && $this->floatComparator->equal($amountCaptured, $amount)) {
             //Every capture is a success, so the payment is captured.
             $payment
                 ->setTransactionId($upStreamPaySessionId)
                 ->setIsTransactionClosed(false)
                 ->setIsTransactionPending(false)
                 ->setIsTransactionApproved(true)
-                ->setCurrencyCode($payment->getOrder()->getOrderCurrencyCode());
+                ->setCurrencyCode($payment->getOrder()->getGlobalCurrencyCode());
         } elseif ($atLeastOneCaptureWaiting) {
             //At least one transaction is in waiting, tell Magento that the payment is still pending.
             $payment->setIsTransactionPending(true);

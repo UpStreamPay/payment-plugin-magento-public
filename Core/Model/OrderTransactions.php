@@ -18,7 +18,9 @@ use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\Context;
 use Magento\Framework\Model\ResourceModel\AbstractResource;
 use Magento\Framework\Registry;
+use UpStreamPay\Core\Api\Data\OrderPaymentInterface;
 use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
+use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
 use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
 use UpStreamPay\Core\Model\ResourceModel\OrderTransactions as ResourceModel;
 use Magento\Framework\Event\ManagerInterface as EventManager;
@@ -35,6 +37,7 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     public const REFUND_ACTION = 'REFUND';
     public const VOID_ACTION = 'VOID';
     public const ORDER_ACTION = 'ORDER';
+    public const ORDER_CAPTURE_ACTION = 'ORDER_CAPTURE';
 
     public const WAITING_STATUS = 'WAITING';
     public const SUCCESS_STATUS = 'SUCCESS';
@@ -52,9 +55,20 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
         $this->_init(ResourceModel::class);
     }
 
+    /**
+     * @param OrderTransactionsFactory $orderTransactionsFactory
+     * @param OrderTransactionsRepositoryInterface $transactionsRepository
+     * @param OrderPaymentRepositoryInterface $orderPaymentRepository
+     * @param Context $context
+     * @param Registry $registry
+     * @param AbstractResource|null $resource
+     * @param AbstractDb|null $resourceCollection
+     * @param array $data
+     */
     public function __construct(
         private readonly OrderTransactionsFactory $orderTransactionsFactory,
         private readonly OrderTransactionsRepositoryInterface $transactionsRepository,
+        private readonly OrderPaymentRepositoryInterface $orderPaymentRepository,
         private readonly EventManager $eventManager,
         Context $context,
         Registry $registry,
@@ -356,5 +370,132 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     public function getRefundTransactionsFromCapture(string $captureTransactionId): array
     {
         return $this->transactionsRepository->getByParentTransactionId($captureTransactionId);
+    }
+
+    /**
+     * Get all child captures from a parent capture.
+     * In case of a partial capture on a capture transaction, we have to create child capture to have the details of
+     * what has been captured, linked to what invoice etc...
+     *
+     * @param string $parentCaptureTransactionId
+     *
+     * @return OrderTransactionsInterface[]
+     * @throws LocalizedException
+     */
+    public function getChildCapturesTransactionsFromCapture(string $parentCaptureTransactionId): array
+    {
+        return $this->transactionsRepository->getByParentTransactionId($parentCaptureTransactionId);
+    }
+
+    /**
+     * Get amount captured on every child capture transaction of parent capture transaction.
+     *
+     * @param string $parentCaptureTransactionId
+     *
+     * @return float
+     * @throws LocalizedException
+     */
+    public function getAmountCapturedOnChildCapturesTransaction(string $parentCaptureTransactionId): float
+    {
+        $amountCaptured = 0;
+        $childCapturesTransactions = $this->getChildCapturesTransactionsFromCapture($parentCaptureTransactionId);
+
+        foreach ($childCapturesTransactions as $childCaptureTransaction) {
+            $amountCaptured += $childCaptureTransaction->getAmount();
+        }
+
+        return $amountCaptured;
+    }
+
+    /**
+     * Get the amount left to capture on transaction based on what has been capture on the UpStream Pay payment.
+     *
+     * @param int $upsPaymentId
+     *
+     * @return float
+     * @throws LocalizedException
+     */
+    public function getAmountLeftToCaptureOnTransaction(int $upsPaymentId): float
+    {
+        $upsPayment = $this->getPaymentLinkedToTransaction($upsPaymentId);
+
+        return $upsPayment->getAmount() - $upsPayment->getAmountCaptured();
+    }
+
+    /**
+     * Calculate the amount used on an authorize transaction.
+     * This means any amount that is not linked to a capture success or waiting.
+     * And any amount that is not linked to a void transaction.
+     *
+     * This calculates the amount we can use to capture on a given authorize transaction.
+     *
+     * @param string $authorizeTransactionId
+     *
+     * @return float
+     * @throws LocalizedException
+     */
+    public function getAmountUsedOnAuthorizeTransaction(string $authorizeTransactionId): float
+    {
+        $transactions = $this->transactionsRepository->getByParentTransactionId($authorizeTransactionId);
+        $amountUsed = 0;
+
+        foreach ($transactions as $transaction)
+        {
+            //The amount used on an authorize transaction is any amount that is captured in status success or waiting.
+            //And any amount that is on a transaction of type void.
+            //Any capture in error generates a void transaction but not all void transactions come from a capture error.
+            if (($transaction->getTransactionType() === self::CAPTURE_ACTION
+                    && $transaction->getStatus() !== self::ERROR_STATUS)
+                || $transaction->getTransactionType() === self::VOID_ACTION) {
+                $amountUsed += $transaction->getAmount();
+            }
+        }
+
+        return $amountUsed;
+    }
+
+    /**
+     * Get the payment linked to the given transaction.
+     *
+     * @param int $paymentId
+     *
+     * @return OrderPaymentInterface
+     * @throws LocalizedException
+     */
+    public function getPaymentLinkedToTransaction(int $paymentId): OrderPaymentInterface
+    {
+        return $this->orderPaymentRepository->getById($paymentId);
+    }
+
+    /**
+     * Create a child capture transaction.
+     *
+     * @param OrderTransactions $captureTransaction
+     * @param float $amount
+     * @param int $invoiceId
+     *
+     * @return $this
+     * @throws LocalizedException
+     */
+    public function createChildCaptureTransaction(self $captureTransaction, float $amount, int $invoiceId): self
+    {
+        $childCaptureTransaction = $this->orderTransactionsFactory->create();
+
+        $childCaptureTransaction
+            ->setSessionId($captureTransaction->getSessionId())
+            ->setTransactionId($captureTransaction->getTransactionId() . '_invoice_' . $invoiceId)
+            ->setParentTransactionId($captureTransaction->getTransactionId())
+            ->setMethod($captureTransaction->getMethod())
+            ->setTransactionType('CHILD_' . $captureTransaction->getTransactionType())
+            ->setQuoteId($captureTransaction->getQuoteId())
+            ->setOrderId($captureTransaction->getOrderId())
+            ->setInvoiceId($invoiceId)
+            ->setCreditmemoId(null)
+            ->setAmount($amount)
+            ->setStatus($captureTransaction->getStatus())
+            ->setParentPaymentId($captureTransaction->getParentPaymentId())
+        ;
+
+        return $this->transactionsRepository->save($childCaptureTransaction);
     }
 }
