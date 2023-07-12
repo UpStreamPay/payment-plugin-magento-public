@@ -117,28 +117,32 @@ class CaptureService
             ));
         }
 
-        //Get all payments related to the captures done above.
-        $this->searchCriteriaBuilder->addFilter(
-            OrderPaymentInterface::ENTITY_ID,
-            array_keys($captures),
-            'in'
-        );
+        //If order action mode is used, don't set the captured amount on the payment method because it has not been
+        //used on an invoice yet. It's captured but not used, so don't set it.
+        if ($this->config->getPaymentAction() === MethodInterface::ACTION_AUTHORIZE_CAPTURE) {
+            //Get all payments related to the captures done above.
+            $this->searchCriteriaBuilder->addFilter(
+                OrderPaymentInterface::ENTITY_ID,
+                array_keys($captures),
+                'in'
+            );
 
-        $searchCriteria = $this->searchCriteriaBuilder->create();
-        $orderPayments = $this->orderPaymentRepository->getList($searchCriteria);
+            $searchCriteria = $this->searchCriteriaBuilder->create();
+            $orderPayments = $this->orderPaymentRepository->getList($searchCriteria);
 
-        //Set on each payment the total captured.
-        foreach ($orderPayments->getItems() as $orderPayment) {
-            if ($orderPayment->getAmountCaptured() < $orderPayment->getAmount()) {
-                $totalCapturedPayment = 0.00;
-                /** @var OrderTransactionsInterface $capture */
-                foreach ($captures[$orderPayment->getEntityId()] as $capture) {
-                    $totalCapturedPayment += $capture->getAmount();
+            //Set on each payment the total captured.
+            foreach ($orderPayments->getItems() as $orderPayment) {
+                if ($orderPayment->getAmountCaptured() < $orderPayment->getAmount()) {
+                    $totalCapturedPayment = 0.00;
+                    /** @var OrderTransactionsInterface $capture */
+                    foreach ($captures[$orderPayment->getEntityId()] as $capture) {
+                        $totalCapturedPayment += $capture->getAmount();
+                    }
+
+                    $this->eventManager->dispatch('payment_usp_write_log', ['orderPayment' => $orderPayment]);
+                    $orderPayment->setAmountCaptured($orderPayment->getAmountCaptured() + $totalCapturedPayment);
+                    $this->orderPaymentRepository->save($orderPayment);
                 }
-
-                $this->eventManager->dispatch('payment_usp_write_log', ['orderPayment' => $orderPayment]);
-                $orderPayment->setAmountCaptured($orderPayment->getAmountCaptured() + $totalCapturedPayment);
-                $this->orderPaymentRepository->save($orderPayment);
             }
         }
 
