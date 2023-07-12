@@ -117,15 +117,16 @@ class OrderService
         }
 
         $payment = $this->authorizeService->execute($payment, $amountToAuthorize);
-        $isAuthorizeTransactionPending = $payment->getIsTransactionPending();
+        $isAuthorizeTransactionPending = $amountToAuthorize > 0 ? $payment->getIsTransactionPending() : false;
 
         $payment = $this->captureService->execute($payment, $amountToCapture);
+        $isCaptureTransactionPending = $amountToCapture > 0 ? $payment->getIsTransactionPending() : false;
 
         //Check if one of the transaction type is pending.
-        if ($isAuthorizeTransactionPending && !$payment->getIsTransactionPending()) {
+        if ($isAuthorizeTransactionPending && !$isCaptureTransactionPending) {
             $payment->setIsTransactionPending(true);
             $payment->setIsTransactionApproved(false);
-        } elseif (!$isAuthorizeTransactionPending && $payment->getIsTransactionPending()) {
+        } elseif (!$isAuthorizeTransactionPending && $isCaptureTransactionPending) {
             $payment->setIsTransactionPending(true);
             $payment->setIsTransactionApproved(false);
         }
