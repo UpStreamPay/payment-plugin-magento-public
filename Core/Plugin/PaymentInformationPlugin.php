@@ -28,7 +28,7 @@ class PaymentInformationPlugin
     public function beforeSavePaymentInformationAndPlaceOrder(PaymentInformationManagement $subject, $cartId, $paymentMethod, $billingAddress)
     {
         $quote = $this->cartRepository->getActive($cartId);
-        if ($quote->getGrandTotal() !== $this->magentoSession->getCartAmount()) {
+        if (!(abs($quote->getGrandTotal() - (float)$this->magentoSession->getCartAmount()) < PHP_FLOAT_EPSILON)) {
             throw new UnsynchronizedCartAmountsException('The current Session cart amount does not match the current quote amount, aborting.');
         }
     }
