@@ -49,11 +49,12 @@ interface OrderTransactionsRepositoryInterface
 
     /**
      * @param string $parentTransactionId
+     * @param null|string $transactionType
      *
      * @return OrderTransactionsInterface[]
      * @throws LocalizedException
      */
-    public function getByParentTransactionId(string $parentTransactionId): array;
+    public function getByParentTransactionId(string $parentTransactionId, ?string $transactionType = null): array;
 
     /**
      * @param int $orderId

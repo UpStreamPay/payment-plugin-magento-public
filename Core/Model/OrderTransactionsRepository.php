@@ -87,11 +87,15 @@ class OrderTransactionsRepository implements OrderTransactionsRepositoryInterfac
     /**
      * @inheritDoc
      */
-    public function getByParentTransactionId(string $parentTransactionId): array
+    public function getByParentTransactionId(string $parentTransactionId, ?string $transactionType = null): array
     {
-        $searchCriteria = $this->searchCriteriaBuilder
-            ->addFilter(OrderTransactionsInterface::PARENT_TRANSACTION_ID, $parentTransactionId)
-            ->create();
+        $this->searchCriteriaBuilder->addFilter(OrderTransactionsInterface::PARENT_TRANSACTION_ID, $parentTransactionId);
+
+        if ($transactionType !== null) {
+            $this->searchCriteriaBuilder->addFilter(OrderTransactionsInterface::TRANSACTION_TYPE, $transactionType);
+        }
+
+        $searchCriteria = $this->searchCriteriaBuilder->create();
 
         return $this->getList($searchCriteria)->getItems();
     }
