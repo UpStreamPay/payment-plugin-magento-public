@@ -39,3 +39,6 @@
 "Updated", "Mise à jour"
 "Status", "Statut"
 "Magento payment ID", "Id paiement Magento"
+"This attribute will be set on the quote.","Cet attribut sera attribué à la quote."
+"3DS exemption attribute code","Code d'attribut d'exemption 3DS"
+"Challenge indicator attribute code","Code d'attribut pour l'indicateur du challenge (méthode d'authentification)"
