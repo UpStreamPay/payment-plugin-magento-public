@@ -39,6 +39,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     public const ORDER_ACTION = 'ORDER';
     public const ORDER_CAPTURE_ACTION = 'ORDER_CAPTURE';
 
+    public const CHILD_CAPTURE_TYPE = 'CHILD_CAPTURE';
+
     public const WAITING_STATUS = 'WAITING';
     public const SUCCESS_STATUS = 'SUCCESS';
     public const ERROR_STATUS = 'ERROR';
@@ -369,7 +371,33 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
      */
     public function getRefundTransactionsFromCapture(string $captureTransactionId): array
     {
-        return $this->transactionsRepository->getByParentTransactionId($captureTransactionId);
+        return $this->transactionsRepository->getByParentTransactionId($captureTransactionId, self::REFUND_ACTION);
+    }
+
+    /**
+     * Get all captures transactions linked to a given authorize transaction ID.
+     *
+     * @param string $authorizeTransactionId
+     *
+     * @return OrderTransactionsInterface[]
+     * @throws LocalizedException
+     */
+    public function getCaptureTransactionsFromAuthorize(string $authorizeTransactionId): array
+    {
+        return $this->transactionsRepository->getByParentTransactionId($authorizeTransactionId, self::AUTHORIZE_ACTION);
+    }
+
+    /**
+     * Get all void transactions linked to a given authorize transaction ID.
+     *
+     * @param string $authorizeTransactionId
+     *
+     * @return OrderTransactionsInterface[]
+     * @throws LocalizedException
+     */
+    public function getVoidTransactionsFromAuthorize(string $authorizeTransactionId): array
+    {
+        return $this->transactionsRepository->getByParentTransactionId($authorizeTransactionId, self::VOID_ACTION);
     }
 
     /**
@@ -384,7 +412,9 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
      */
     public function getChildCapturesTransactionsFromCapture(string $parentCaptureTransactionId): array
     {
-        return $this->transactionsRepository->getByParentTransactionId($parentCaptureTransactionId);
+        return $this->transactionsRepository->getByParentTransactionId(
+            $parentCaptureTransactionId, self::CHILD_CAPTURE_TYPE
+        );
     }
 
     /**
@@ -486,7 +516,7 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
             ->setTransactionId($captureTransaction->getTransactionId() . '_invoice_' . $invoiceId)
             ->setParentTransactionId($captureTransaction->getTransactionId())
             ->setMethod($captureTransaction->getMethod())
-            ->setTransactionType('CHILD_' . $captureTransaction->getTransactionType())
+            ->setTransactionType(self::CHILD_CAPTURE_TYPE)
             ->setQuoteId($captureTransaction->getQuoteId())
             ->setOrderId($captureTransaction->getOrderId())
             ->setInvoiceId($invoiceId)
