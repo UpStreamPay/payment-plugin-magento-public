@@ -61,6 +61,17 @@
                         <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                     </field>
                 </group>
+                <group id="3ds_settings" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>3D Secure settings</label>
+                    <field id="3ds_exemption_attribute_code" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>3DS exemption attribute code</label>
+                        <comment><![CDATA[This attribute will be set on the quote.]]></comment>
+                    </field>
+                    <field id="challenge_indicator_attribute_code" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Challenge indicator attribute code</label>
+                        <comment><![CDATA[This attribute will be set on the quote.]]></comment>
+                    </field>
+                </group>
             </group>
         </section>
     </system>

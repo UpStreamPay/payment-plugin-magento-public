@@ -16,6 +16,7 @@ use Magento\Customer\Model\Logger;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Quote\Api\Data\CartInterface;
 use UpStreamPay\Core\Model\Session\Order\BuilderInterface;
+use UpStreamPay\Core\Model\Config;
 
 /**
  * Class AccountBuilder
@@ -30,7 +31,8 @@ class AccountBuilder implements BuilderInterface
      */
     public function __construct(
         private readonly TimezoneInterface $timezone,
-        private readonly Logger $logger
+        private readonly Logger $logger,
+        private readonly Config $config
     ) {
     }
 
@@ -73,6 +75,15 @@ class AccountBuilder implements BuilderInterface
 
             $accountData['age_indicator'] = $this->getDaysSince($daysSinceCreation);
             $accountData['change_indicator'] = $this->getDaysSince($daysSinceupdate);
+
+            $configExemptionValue = $this->config->get3dsExemptionAttributeCode();
+            if ($configExemptionValue && $quote->getData($configExemptionValue) !== null) {
+                $accountData['three_ds_exemption'] = $quote->getData($configExemptionValue);
+            }
+            $configChallengeValue = $this->config->get3dsChallengeIndicatorAttributeCode();
+            if ($configChallengeValue && $quote->getData($configChallengeValue) !== null) {
+                $accountData['challenge_indicator'] = $quote->getData($configChallengeValue);
+            }
         }
 
         return $accountData;

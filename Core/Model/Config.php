@@ -25,7 +25,6 @@ use UpStreamPay\Core\Model\Config\Source\Mode;
 class Config
 {
     public const METHOD_CODE_UPSTREAM_PAY = 'upstream_pay';
-
     public const ACTIVE_CONFIG_PATH = 'payment/upstream_pay/active';
     public const DEBUG_MODE_CONFIG_PATH = 'payment/upstream_pay/debug';
     public const MODE_CONFIG_PATH = 'payment/upstream_pay/mode';
@@ -39,6 +38,8 @@ class Config
     public const RSA_SANDBOX_KEY_CONFIG_PATH = 'payment/upstream_pay/api_config/rsa_sandbox_key';
     public const RSA_PRODUCTION_KEY_CONFIG_PATH = 'payment/upstream_pay/api_config/rsa_production_key';
     public const PAYMENT_ACTION_CONFIG_PATH = 'payment/upstream_pay/payment_action';
+    public const THREEDS_EXEMPTION_ATTRIBUTE_CODE = 'payment/upstream_pay/3ds_settings/3ds_exemption_attribute_code';
+    public const THREEDS_CHALLENGE_INDICATOR_ATTRIBUTE_CODE = 'payment/upstream_pay/3ds_settings/challenge_indicator_attribute_code';
 
     /**
      * @param ScopeConfigInterface $config
@@ -172,5 +173,23 @@ class Config
         } else {
             return $this->config->getValue(self::RSA_PRODUCTION_KEY_CONFIG_PATH);
         }
+    }
+
+    /**
+     * Get the 3ds exemption attribute code
+     * @return string|null
+     */
+    public function get3dsExemptionAttributeCode(): ?string
+    {
+        return $this->config->getValue(self::THREEDS_EXEMPTION_ATTRIBUTE_CODE, ScopeInterface::SCOPE_STORE);
+    }
+
+    /**
+     * Get the 3ds challenge indicator attribute code
+     * @return string|null
+     */
+    public function get3dsChallengeIndicatorAttributeCode(): ?string
+    {
+        return $this->config->getValue(self::THREEDS_CHALLENGE_INDICATOR_ATTRIBUTE_CODE, ScopeInterface::SCOPE_STORE);
     }
 }
