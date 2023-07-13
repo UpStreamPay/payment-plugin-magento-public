@@ -26,6 +26,7 @@ use UpStreamPay\Core\Model\Config;
 use UpStreamPay\Core\Model\OrderTransactions;
 use UpStreamPay\Core\Model\PaymentFinder\AllTransactionsFinder;
 use Magento\Framework\Event\ManagerInterface as EventManager;
+use UpStreamPay\Core\Model\Config\Source\Debug;
 
 /**
  * Class VoidService
@@ -116,7 +117,7 @@ class VoidService
                 continue;
             }
 
-            if ($this->config->getIsDebugEnabled()) {
+            if ($this->config->getDebugMode() === Debug::SIMPLE_VALUE || $this->config->getDebugMode() === Debug::DEBUG_VALUE) {
                 $this->logger->debug(
                     sprintf(
                         'Payment denied for order %s, void transaction response:',
@@ -192,7 +193,7 @@ class VoidService
                 continue;
             }
 
-            if ($this->config->getIsDebugEnabled()) {
+            if ($this->config->getDebugMode() === Debug::SIMPLE_VALUE || $this->config->getDebugMode() === Debug::DEBUG_VALUE) {
                 $this->logger->debug(
                     sprintf(
                         'Payment refunded for order %s, refund transaction response:',

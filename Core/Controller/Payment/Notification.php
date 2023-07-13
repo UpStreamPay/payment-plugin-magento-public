@@ -18,7 +18,6 @@ use Magento\Framework\App\Request\InvalidRequestException;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Controller\Result\JsonFactory;
 use phpseclib3\Crypt\PublicKeyLoader;
-use Psr\Log\LoggerInterface;
 use UpStreamPay\Core\Model\Config;
 use UpStreamPay\Core\Model\NotificationService;
 use Magento\Framework\Event\ManagerInterface as EventManager;
@@ -36,14 +35,13 @@ class Notification implements CsrfAwareActionInterface, HttpPostActionInterface
 
     /**
      * @param RequestInterface $request
-     * @param LoggerInterface $logger
      * @param Config $config
      * @param NotificationService $notificationService
      * @param JsonFactory $jsonFactory
+     * @param EventManager $eventManager
      */
     public function __construct(
         private readonly RequestInterface $request,
-        private readonly LoggerInterface $logger,
         private readonly Config $config,
         private readonly NotificationService $notificationService,
         private readonly JsonFactory $jsonFactory,
@@ -58,11 +56,6 @@ class Notification implements CsrfAwareActionInterface, HttpPostActionInterface
         $notification = json_decode($this->request->getContent(), true, 512);
 
         $this->eventManager->dispatch('payment_usp_before_webhook', ['notification' => $notification]);
-
-        if ($this->config->getIsDebugEnabled()) {
-            $this->logger->debug('Incoming notification:');
-            $this->logger->debug(print_r($notification, true));
-        }
 
         $this->notificationService->execute($notification);
 

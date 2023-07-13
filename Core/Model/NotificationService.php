@@ -24,6 +24,7 @@ use UpStreamPay\Core\Exception\AuthorizeErrorException;
 use UpStreamPay\Core\Exception\CaptureErrorException;
 use UpStreamPay\Core\Exception\OrderErrorException;
 use Magento\Framework\Event\ManagerInterface as EventManager;
+use UpStreamPay\Core\Model\Config\Source\Debug;
 
 /**
  * Class NotificationService
@@ -61,7 +62,7 @@ class NotificationService
     {
         $transaction = $this->orderTransactionsRepository->getByTransactionId($notification['id']);
 
-        if ($this->config->getIsDebugEnabled()) {
+        if ($this->config->getDebugMode() === Debug::SIMPLE_VALUE || $this->config->getDebugMode() === Debug::DEBUG_VALUE) {
             $this->logger->debug(
                 sprintf(
                     'Receiving notification for transaction regarding order %s:',

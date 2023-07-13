@@ -24,6 +24,7 @@ use UpStreamPay\Core\Model\Config;
 use UpStreamPay\Core\Model\Config\Source\Mode;
 use GuzzleHttp\ClientFactory;
 use Magento\Framework\Event\ManagerInterface as EventManager;
+use UpStreamPay\Core\Model\Config\Source\Debug;
 
 /**
  * Class Client
@@ -322,6 +323,14 @@ class Client implements ClientInterface
      */
     private function callApi(array $headers, array $body, string $protocol, string $uri, array $query): array
     {
+        $debugMode = $this->config->getDebugMode();
+        if ($debugMode === Debug::DEBUG_VALUE) {
+            $this->logger->debug('--REQUEST URI--');
+            $this->logger->debug($uri);
+            $this->logger->debug('--REQUEST BODY--');
+            $this->logger->debug(print_r($body, true));
+        }
+
         $client = $this->httpClientFactory->create(
             [
                 'config' => [
@@ -342,6 +351,14 @@ class Client implements ClientInterface
         }
 
         $rawResponse = $client->request($protocol, $uri, $options);
+
+        if ($debugMode === Debug::DEBUG_VALUE) {
+            $this->logger->debug('--RESPONSE URI--');
+            $this->logger->debug($uri);
+            $this->logger->debug('--RESPONSE BODY--');
+            $this->logger->debug(print_r($body, true));
+        }
+
         return json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
     }
 

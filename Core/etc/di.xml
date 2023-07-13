@@ -63,4 +63,33 @@
             <argument name="resourceModel" xsi:type="string">UpStreamPay\Core\Model\ResourceModel\OrderTransactions</argument>
         </arguments>
     </virtualType>
+
+    <!-- Core module logger config -->
+    <virtualType name="UpStreamPay\Core\Logger\Handler" type="Magento\Framework\Logger\Handler\Base">
+        <arguments>
+            <argument name="fileName" xsi:type="string">/var/log/upstreampay_notify.log</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="UpStreamPay\Core\Logger\Logger" type="Magento\Framework\Logger\Monolog">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="debug" xsi:type="object">UpStreamPay\Core\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="UpStreamPay\Core\Model\NotificationService">
+        <arguments>
+            <argument name="logger" xsi:type="object">UpStreamPay\Core\Logger\Logger</argument>
+        </arguments>
+    </type>
+    <type name="UpStreamPay\Core\Model\Actions\VoidService">
+        <arguments>
+            <argument name="logger" xsi:type="object">UpStreamPay\Core\Logger\Logger</argument>
+        </arguments>
+    </type>
+    <type name="UpStreamPay\Core\Model\Synchronize\SynchronizeUpStreamPayPaymentData">
+        <arguments>
+            <argument name="logger" xsi:type="object">UpStreamPay\Core\Logger\Logger</argument>
+        </arguments>
+    </type>
 </config>

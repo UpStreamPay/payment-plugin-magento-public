@@ -22,6 +22,7 @@ use UpStreamPay\Core\Exception\NoPaymentMethodFoundException;
 use UpStreamPay\Core\Model\OrderPayment;
 use UpStreamPay\Core\Model\OrderTransactions;
 use UpStreamPay\Core\Model\Config;
+use UpStreamPay\Core\Model\Config\Source\Debug;
 
 /**
  * Class SynchronizeUpStreamPayPaymentData
@@ -68,7 +69,7 @@ class SynchronizeUpStreamPayPaymentData
 
         if ($orderId !== 0) {
             foreach ($orderTransactionsResponse as $orderTransactionResponse) {
-                if ($this->config->getIsDebugEnabled()) {
+                if ($this->config->getDebugMode() === Debug::SIMPLE_VALUE || $this->config->getDebugMode() === Debug::DEBUG_VALUE) {
                     $this->logger->debug(sprintf('Creating transaction for order with ID %s', $orderId));
                     $this->logger->debug(print_r($orderTransactionResponse, true));
                 }
