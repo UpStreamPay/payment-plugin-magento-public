@@ -102,7 +102,6 @@ define([
          */
         placeOrderUpStreamPay: function () {
             const self = this;
-
             this.getPlaceOrderDeferredObject()
                 .done(
                     function () {
@@ -113,6 +112,7 @@ define([
                         messageList.addErrorMessage({
                             message: window.checkoutConfig.payment.UpStreamPay.errorMessage
                         });
+                        setTimeout(() => {  window.location.reload() }, 1000);
                     }
                 );
         },

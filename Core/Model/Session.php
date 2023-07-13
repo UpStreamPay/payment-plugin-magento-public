@@ -82,6 +82,8 @@ class Session implements SessionInterface
             }
         }
 
+        $this->checkoutSession->setCartAmount($response['amount']);
+
         return [$response];
     }
 }
