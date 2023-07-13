@@ -61,13 +61,13 @@ class Config
     }
 
     /**
-     * Return true if debug mode is enabled, false otherwise.
+     * Return the current debug mode
      *
-     * @return bool
+     * @return string
      */
-    public function getIsDebugEnabled(): bool
+    public function getDebugMode(): string
     {
-        return (bool) $this->config->getValue(self::DEBUG_MODE_CONFIG_PATH, ScopeInterface::SCOPE_STORE);
+        return $this->config->getValue(self::DEBUG_MODE_CONFIG_PATH, ScopeInterface::SCOPE_STORE);
     }
 
     /**

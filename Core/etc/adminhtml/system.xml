@@ -35,8 +35,8 @@
                 </field>
                 <field id="debug" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Debug mode</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment><![CDATA[Select yes for advanced info in logs. Use with caution in production environment.]]></comment>
+                    <source_model>UpStreamPay\Core\Model\Config\Source\Debug</source_model>
+                    <comment><![CDATA[Select simple or debug for advanced info in logs. Use with caution in production environment.]]></comment>
                 </field>
                 <field id="mode" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>API Mode</label>
