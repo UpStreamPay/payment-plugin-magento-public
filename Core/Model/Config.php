@@ -133,9 +133,13 @@ class Config
      */
     public function getClientSecret(): ?string
     {
-        return $this->encryptor->decrypt(
-            trim($this->config->getValue(self::CLIENT_SECRET_CONFIG_PATH, ScopeInterface::SCOPE_STORE))
-        );
+        $config = $this->config->getValue(self::CLIENT_SECRET_CONFIG_PATH, ScopeInterface::SCOPE_STORE);
+
+        if ($config === null) {
+            return null;
+        }
+
+        return $this->encryptor->decrypt(trim($config));
     }
 
     /**
@@ -146,9 +150,13 @@ class Config
      */
     public function getApiKey(): ?string
     {
-        return $this->encryptor->decrypt(
-            trim($this->config->getValue(self::API_KEY_CONFIG_PATH, ScopeInterface::SCOPE_STORE))
-        );
+        $config = $this->config->getValue(self::API_KEY_CONFIG_PATH, ScopeInterface::SCOPE_STORE);
+
+        if ($config === null) {
+            return null;
+        }
+
+        return $this->encryptor->decrypt(trim($config));
     }
 
     /**
