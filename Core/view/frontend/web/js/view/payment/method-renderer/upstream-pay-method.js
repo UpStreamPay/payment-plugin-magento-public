@@ -19,6 +19,7 @@ define([
     'uiLayout',
     'Magento_Checkout/js/model/url-builder',
     'mage/storage',
+    'Magento_Checkout/js/model/cart/cache'
 ], function (
     Component,
     messageList,
@@ -30,7 +31,8 @@ define([
     Messages,
     layout,
     urlBuilder,
-    storage
+    storage,
+    cartCache
 ) {
     'use strict';
 
@@ -38,6 +40,7 @@ define([
         defaults: {
             template: 'UpStreamPay_Core/payment/upstream-pay',
             manager: {},
+            cartVersion: 0,
         },
 
         initialize: function () {
@@ -56,6 +59,7 @@ define([
                     // Get the session data (order) so we can have a cart context to send to UpStream Pay.
                     this.getSessionData()
                         .done(function (jsonResponse) {
+                            self.cartVersion = customerData.get('cart')()['data_id'];
                             const [session] = jsonResponse;
                             self.manager.setPaymentSession(session).then(() => {
                                 const widgetPaymentPromise = self.manager.createWidget({
@@ -98,23 +102,35 @@ define([
         },
 
         /**
+         * Redirect to the cart page.
+         */
+        redirectToCart: function () {
+            window.location.replace(window.checkoutConfig.cartUrl);
+        },
+
+        /**
          * Place the order in Magento then place the order in UpStream Pay if everything is ok.
          */
         placeOrderUpStreamPay: function () {
             const self = this;
-            this.getPlaceOrderDeferredObject()
-                .done(
-                    function () {
-                        self.manager.submitPayment();
-                    }
-                ).fail(
+
+            //A change has been made on the cart.
+            if (cartCache.isChanged('cartVersion', this.cartVersion)) {
+                this.redirectToCart();
+            } else {
+                this.getPlaceOrderDeferredObject()
+                    .done(
+                        function () {
+                            self.manager.submitPayment();
+                        }
+                    ).fail(
                     function () {
                         messageList.addErrorMessage({
                             message: window.checkoutConfig.payment.UpStreamPay.errorMessage
                         });
-                        setTimeout(() => {  window.location.reload() }, 1000);
                     }
                 );
+            }
         },
 
         /**
