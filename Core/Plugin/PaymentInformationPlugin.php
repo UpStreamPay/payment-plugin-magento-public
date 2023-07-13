@@ -31,7 +31,7 @@ class PaymentInformationPlugin
     {
         $quote = $this->cartRepository->getActive($cartId);
 
-        if (!$this->floatComparator->equal((float)$quote->getGrandTotal(), (float)$this->magentoSession->getCartAmount())) {
+        if (!$this->floatComparator->equal((float)$quote->getBaseGrandTotal(), (float)$this->magentoSession->getCartAmount())) {
             throw new UnsynchronizedCartAmountsException('The current Session cart amount does not match the current quote amount, aborting.');
         }
     }

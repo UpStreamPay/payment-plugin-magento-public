@@ -95,6 +95,12 @@ define([
                             });
                         });
                 });
+
+            let cart = customerData.get('cart');
+            cart.subscribe(function () {
+                window.location.replace(urlBuilder.createUrl('/checkout/cart', {}));
+            });
+
         },
 
         /**
