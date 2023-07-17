@@ -188,7 +188,10 @@ class UpStreamPay extends AbstractMethod
      */
     public function cancel(InfoInterface $payment)
     {
-        $this->orderSynchronizeService->execute($payment, 0.00, OrderTransactions::VOID_ACTION);
+        if (!$this->canOrder()) {
+            $this->orderSynchronizeService->execute($payment, 0.00, OrderTransactions::VOID_ACTION);
+        }
+        $payment->setIsTransactionDenied(true);
 
         return $this;
     }
@@ -198,7 +201,9 @@ class UpStreamPay extends AbstractMethod
      */
     public function void(InfoInterface $payment)
     {
-        $this->orderSynchronizeService->execute($payment, 0.00, OrderTransactions::VOID_ACTION);
+        if (!$this->canOrder()) {
+            $this->orderSynchronizeService->execute($payment, 0.00, OrderTransactions::VOID_ACTION);
+        }
         $payment->setIsTransactionDenied(true);
 
         return $this;
@@ -209,7 +214,9 @@ class UpStreamPay extends AbstractMethod
      */
     public function denyPayment(InfoInterface $payment)
     {
-        $this->orderSynchronizeService->execute($payment, 0.00, OrderTransactions::VOID_ACTION);
+        if (!$this->canOrder()) {
+            $this->orderSynchronizeService->execute($payment, 0.00, OrderTransactions::VOID_ACTION);
+        }
         $payment->setIsTransactionDenied(true);
 
         return true;
@@ -220,8 +227,10 @@ class UpStreamPay extends AbstractMethod
      */
     public function refund(InfoInterface $payment, $amount)
     {
-        //Cast to float because yes, magento sends back a string here....
-        $this->orderSynchronizeService->execute($payment, (float)$amount, OrderTransactions::REFUND_ACTION);
+        if (!$this->canOrder()) {
+            //Cast to float because yes, magento sends back a string here....
+            $this->orderSynchronizeService->execute($payment, (float)$amount, OrderTransactions::REFUND_ACTION);
+        }
 
         return $this;
     }
