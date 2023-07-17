@@ -384,7 +384,7 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
      */
     public function getCaptureTransactionsFromAuthorize(string $authorizeTransactionId): array
     {
-        return $this->transactionsRepository->getByParentTransactionId($authorizeTransactionId, self::AUTHORIZE_ACTION);
+        return $this->transactionsRepository->getByParentTransactionId($authorizeTransactionId, self::CAPTURE_ACTION);
     }
 
     /**
