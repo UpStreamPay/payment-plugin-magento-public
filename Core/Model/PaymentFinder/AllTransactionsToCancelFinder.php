@@ -67,7 +67,7 @@ class AllTransactionsToCancelFinder
             if ($captureTransaction->getInvoiceId() !== null) {
                 $invoice = $this->invoiceRepository->get($captureTransaction->getInvoiceId());
 
-                if ($invoice->getState() === Invoice::STATE_PAID) {
+                if ((int)$invoice->getState() === Invoice::STATE_PAID) {
                     //If the capture is linked to a paid invoice then we don't need to refund it.
                     continue;
                 }
@@ -103,7 +103,7 @@ class AllTransactionsToCancelFinder
                     $invoice = $this->invoiceRepository->get($childCapture->getInvoiceId());
 
                     //Child capture was used to pay an invoice that is in paid state, so we can't refund it.
-                    if ($invoice->getState() === Invoice::STATE_PAID) {
+                    if ((int)$invoice->getState() === Invoice::STATE_PAID) {
                         $amountUsedOnInvoice += $childCapture->getAmount();
                     }
                 }
@@ -120,7 +120,7 @@ class AllTransactionsToCancelFinder
             //Add capture to the list of transaction, with the amount to refund.
             $transactions[] = [
                 'transaction' => $captureTransaction,
-                'amounToRefund' => $amountToRefundOnCapture
+                'amountToCancel' => $amountToRefundOnCapture
             ];
         }
 
@@ -167,7 +167,7 @@ class AllTransactionsToCancelFinder
             //What we should void, what has not been captured.
             $amountToVoidOnAuthorize = $authorizeTransaction->getAmount() - $amountUsedOnCapture;
 
-            //Check if the amount to refund is not greater than the max to refund.
+            //Check if the amount to void is not greater than the max to void.
             if ($this->floatComparator->greaterThan($amountToVoidOnAuthorize, $maxToVoid)) {
                 $amountToVoidOnAuthorize = $maxToVoid;
             }
@@ -175,7 +175,7 @@ class AllTransactionsToCancelFinder
             //Add capture to the list of transaction, with the amount to refund.
             $transactions[] = [
                 'transaction' => $authorizeTransaction,
-                'amounToRefund' => $amountToVoidOnAuthorize
+                'amountToCancel' => $amountToVoidOnAuthorize
             ];
         }
 
