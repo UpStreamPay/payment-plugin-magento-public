@@ -12,17 +12,13 @@ declare(strict_types=1);
 
 namespace UpStreamPay\Core\Model\Actions;
 
-use GuzzleHttp\Exception\GuzzleException;
-use JsonException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Math\FloatComparator;
 use Magento\Payment\Model\InfoInterface;
-use Magento\Sales\Api\InvoiceRepositoryInterface;
-use Magento\Sales\Model\Order;
-use Psr\Log\LoggerInterface;
 use UpStreamPay\Client\Model\Client\ClientInterface;
 use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
 use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
+use UpStreamPay\Core\Exception\CaptureErrorException;
 use UpStreamPay\Core\Exception\NotEnoughFundException;
 use UpStreamPay\Core\Model\OrderTransactions;
 use UpStreamPay\Core\Model\PaymentFinder\AllTransactionsToCaptureFinder;
@@ -38,7 +34,6 @@ class OrderActionCaptureService
      * @param AllTransactionsToCaptureFinder $allTransactionsToCaptureFinder
      * @param OrderTransactionsRepositoryInterface $orderTransactionsRepository
      * @param OrderPaymentRepositoryInterface $orderPaymentRepository
-     * @param LoggerInterface $logger
      * @param ClientInterface $client
      * @param OrderTransactions $orderTransactions
      * @param FloatComparator $floatComparator
@@ -47,11 +42,9 @@ class OrderActionCaptureService
         private readonly AllTransactionsToCaptureFinder $allTransactionsToCaptureFinder,
         private readonly OrderTransactionsRepositoryInterface $orderTransactionsRepository,
         private readonly OrderPaymentRepositoryInterface $orderPaymentRepository,
-        private readonly LoggerInterface $logger,
         private readonly ClientInterface $client,
         private readonly OrderTransactions $orderTransactions,
         private readonly FloatComparator $floatComparator,
-        private readonly InvoiceRepositoryInterface $invoiceRepository
     ) {
     }
 
@@ -67,9 +60,9 @@ class OrderActionCaptureService
      * @param float $amount
      *
      * @return InfoInterface
-     * @throws GuzzleException
-     * @throws JsonException
+     * @throws CaptureErrorException
      * @throws LocalizedException
+     * @throws NotEnoughFundException
      */
     public function execute(InfoInterface $payment, float $amount): InfoInterface
     {
@@ -87,7 +80,6 @@ class OrderActionCaptureService
         $invoiceId = (int)$payment->getCreatedInvoice()->getEntityId();
         $amountPaid = 0.00;
         $upStreamPaySessionId = '';
-        $atLeastOneCaptureInError = false;
 
         try {
             $transactionsToUseToPayInvoice = $this->allTransactionsToCaptureFinder->execute(
@@ -103,13 +95,7 @@ class OrderActionCaptureService
                 $exception->getMessage()
             );
 
-            $this->logger->critical($errorMessage, ['exception' => $exception->getTraceAsString()]);
-            $payment->getOrder()->addCommentToStatusHistory($errorMessage);
-            $payment->setIsTransactionDenied(true);
-
-
-
-            return $payment;
+            throw new NotEnoughFundException($errorMessage);
         }
 
         foreach ($transactionsToUseToPayInvoice as $transactionToUse) {
@@ -141,8 +127,7 @@ class OrderActionCaptureService
                     $transaction->getMethod(),
                     $transaction->getAmount(),
                 ));
-            } elseif ($transaction->getTransactionType() == OrderTransactions::AUTHORIZE_ACTION
-                && !$atLeastOneCaptureInError) {
+            } elseif ($transaction->getTransactionType() === OrderTransactions::AUTHORIZE_ACTION) {
                 //We have to capture any authorize transaction we have if no prvious capture has failed.
                 $body = [
                     'order' => [
@@ -154,7 +139,6 @@ class OrderActionCaptureService
 
                 try {
                     $response = $this->client->capture($transaction->getTransactionId(), $body);
-
                     $captureTransaction = $this->orderTransactions->createTransactionFromResponse(
                         $response,
                         $orderId,
@@ -172,22 +156,18 @@ class OrderActionCaptureService
                     $this->orderPaymentRepository->save($orderPayment);
                 } catch (\Throwable $exception) {
                     $errorMessage = sprintf(
-                        'Error while trying to capture authorize transaction %s for amount %s for invoice %s',
+                        'Error while trying to capture transaction %s for amount %s for invoice %s because %s',
                         $transaction->getTransactionId(),
                         $transactionToUse['amountToCapture'],
-                        $invoiceId
+                        $invoiceId,
+                        $exception->getMessage()
                     );
-                    $this->logger->critical($errorMessage, ['exception' => $exception->getTraceAsString()]);
-                    $payment->getOrder()->addCommentToStatusHistory($errorMessage);
 
-                    $atLeastOneCaptureInError = true;
+                    throw new CaptureErrorException($errorMessage);
                 }
 
-                $atLeastOneCaptureInError = true;
-
                 //@TODO handle waiting.
-                if (!$atLeastOneCaptureInError
-                    && $captureTransaction->getStatus() === OrderTransactions::SUCCESS_STATUS) {
+                if ($captureTransaction->getStatus() === OrderTransactions::SUCCESS_STATUS) {
                     $amountPaid += $captureTransaction->getAmount();
 
                     $payment->getOrder()->addCommentToStatusHistory(sprintf(
@@ -198,23 +178,22 @@ class OrderActionCaptureService
                         $captureTransaction->getAmount(),
                     ));
                 } elseif ($captureTransaction->getStatus() === OrderTransactions::ERROR_STATUS) {
-                    $payment->getOrder()->addCommentToStatusHistory(sprintf(
+                    $errorMessage = sprintf(
                         'Capture transaction %s with method %s for amount %s is in error for invoice %s.',
                         $captureTransaction->getTransactionId(),
                         $captureTransaction->getMethod(),
                         $captureTransaction->getAmount(),
                         $invoiceId
-                    ));
+                    );
 
-                    $atLeastOneCaptureInError = true;
+                    throw new CaptureErrorException($errorMessage);
                 }
             }
         }
 
-        //@TODO handle the success better & add different cases based if we have errors or waiting.
-        //To avoid issue when comparing floats, use built in magento feature (it uses an epsilon of 0.00001).
+        //To avoid issue when comparing floats, use built-in magento feature (it uses an epsilon of 0.00001).
         //If both amount match & there has been no error.
-        if ($this->floatComparator->equal($amountPaid, $amount) && $atLeastOneCaptureInError === false) {
+        if ($this->floatComparator->equal($amountPaid, $amount)) {
             $payment
                 ->setTransactionId($upStreamPaySessionId . '-' . $invoiceId)
                 ->setIsTransactionClosed(false)
@@ -222,11 +201,6 @@ class OrderActionCaptureService
                 ->setIsTransactionApproved(true)
                 ->setCurrencyCode($payment->getOrder()->getGlobalCurrencyCode())
             ;
-        } elseif ($atLeastOneCaptureInError === true) {
-            //We have at least one capture in error.
-            //We must refund every capture linked to the invoice & void the correct amount on the authorizes.
-            $payment->getCreatedInvoice()->cancel();
-            $this->invoiceRepository->save($payment->getCreatedInvoice());
         }
 
         return $payment;
