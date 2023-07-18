@@ -110,14 +110,22 @@ class NotificationService
                         $payment = $order->getPayment();
                         $payment->setCreatedInvoice($invoice);
                     } else {
-                        //If invoice id is null on transaction then we probably are in an action order context.
+                        //If invoice id is null on transaction then we probably are in an action order context with no
+                        //invoice created yet.
                         $order = $this->orderRepository->get($transaction->getOrderId());
                         $payment = $order->getPayment();
                     }
 
                     try {
                         if ($transaction->getInvoiceId() !== null) {
-                            $this->paymentProcessor->capture($payment, $invoice);
+                            if ($this->config->getPaymentAction() === MethodInterface::ACTION_ORDER
+                                && $transaction->getStatus() === OrderTransactions::ERROR_STATUS) {
+                                //If the transaction is in error while we are in action order mode, then throw exception
+                                //right away so the invoice & the rest of the order can be canceled.
+                                throw new CaptureErrorException('Received notification about a transaction in error');
+                            } else {
+                                $this->paymentProcessor->capture($payment, $invoice);
+                            }
 
                             //After capture is done trigger pay of the invoice.
                             if ($invoice->getIsPaid()) {
