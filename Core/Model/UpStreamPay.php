@@ -227,10 +227,8 @@ class UpStreamPay extends AbstractMethod
      */
     public function refund(InfoInterface $payment, $amount)
     {
-        if (!$this->canOrder()) {
-            //Cast to float because yes, magento sends back a string here....
-            $this->orderSynchronizeService->execute($payment, (float)$amount, OrderTransactions::REFUND_ACTION);
-        }
+        //Cast to float because yes, magento sends back a string here....
+        $this->orderSynchronizeService->execute($payment, (float)$amount, OrderTransactions::REFUND_ACTION);
 
         return $this;
     }
