@@ -110,6 +110,12 @@ class RefundService
 
                         $this->logger->critical($errorMessage);
                         $payment->getOrder()->addCommentToStatusHistory($errorMessage);
+                        $amountLeftToRefund = $amountLeftToRefund - $amountToRefundOnTransaction;
+                        $this->eventManager->dispatch('payment_usp_write_log', ['orderPayment' => $orderPayment]);
+                        $orderPayment->setAmountRefunded(
+                            $orderPayment->getAmountRefunded() + $amountToRefundOnTransaction
+                        );
+                        $this->orderPaymentRepository->save($orderPayment);
 
                         continue;
                     }
