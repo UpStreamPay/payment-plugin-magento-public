@@ -528,4 +528,15 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
 
         return $this->transactionsRepository->save($childCaptureTransaction);
     }
+
+    /**
+     * @param string $parentCaptureTransactionId
+     *
+     * @return $this
+     * @throws LocalizedException
+     */
+    public function getParentCaptureFromChildCapture(string $parentCaptureTransactionId): self
+    {
+        return $this->transactionsRepository->getByTransactionId($parentCaptureTransactionId);
+    }
 }
