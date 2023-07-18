@@ -519,7 +519,7 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
             ->setTransactionType(self::CHILD_CAPTURE_TYPE)
             ->setQuoteId($captureTransaction->getQuoteId())
             ->setOrderId($captureTransaction->getOrderId())
-            ->setInvoiceId($invoiceId)
+            ->setInvoiceId(null)
             ->setCreditmemoId(null)
             ->setAmount($amount)
             ->setStatus($captureTransaction->getStatus())
