@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+  UpStream Pay
+
+  Copyright (c) 2023 UpStream Pay.
+  This file is open source and available under the BSD 3 license.
+  See the LICENSE file for more info.
+
+  Author: Claranet France <info@fr.clara.net>
+  -->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <route url="/V1/upstreampay/session" method="POST">
+        <service class="UpStreamPay\Core\Api\SessionInterface" method="getSession"/>
+        <resources>
+<!--            @TODO check if we need a dedicated endpoint for guests (additional checks). Leaving anonymous for now or guest mode wont work-->
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+</routes>

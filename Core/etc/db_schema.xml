@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<!--
+  UpStream Pay
+
+  Copyright (c) 2023 UpStream Pay.
+  This file is open source and available under the BSD 3 license.
+  See the LICENSE file for more info.
+
+  Author: Claranet France <info@fr.clara.net>
+  -->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="upstream_pay_order_payment" resource="default" engine="innodb" comment="Upstream Pay order payment table">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+        <column xsi:type="varchar" name="session_id" nullable="false" length="255" comment="Session ID"/>
+        <column xsi:type="varchar" name="method" nullable="false" length="255" comment="Payment Method"/>
+        <column xsi:type="varchar" name="default_transaction_id" nullable="false" length="255" comment="First transaction ID"/>
+<!--        This field is not a foreign key of table upstream_pay_payment_method because the type could change between-->
+<!--        transactions. Once we have a payment method linked to an order, it keeps its type.-->
+        <column xsi:type="varchar" name="type" nullable="false" length="255" comment="Primary or secondary payment method"/>
+        <column xsi:type="int" name="quote_id" unsigned="true" nullable="false" comment="Quote ID"/>
+        <column xsi:type="int" name="order_id" unsigned="true" nullable="false" comment="Order ID"/>
+        <column xsi:type="int" name="payment_id" unsigned="true" nullable="false" comment="Payment ID"/>
+        <column xsi:type="decimal" name="amount" scale="4" precision="12" nullable="false" default="0.00"
+                comment="Total Amount"/>
+        <column xsi:type="decimal" name="amount_captured" scale="4" precision="12" nullable="false" default="0.00"
+                comment="Amount Captured"/>
+        <column xsi:type="decimal" name="amount_refunded" scale="4" precision="12" nullable="false" default="0.00"
+                comment="Amount Refunded"/>
+        <column xsi:type="timestamp" name="created_at" nullable="false" on_update="false" default="CURRENT_TIMESTAMP"
+                comment="Creation Time"/>
+        <column xsi:type="timestamp" name="updated_at" nullable="false" on_update="true" default="CURRENT_TIMESTAMP"
+                comment="Update Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+
+        <!-- quote table foreign key-->
+        <constraint xsi:type="foreign" referenceId="UPSTREAM_PAY_ORDER_PAYMENT_QUOTE_ID_QUOTE_ENTITY_ID"
+                    table="upstream_pay_order_payment" column="quote_id" referenceTable="quote"
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
+
+        <!-- sales_order table foreign key-->
+        <constraint xsi:type="foreign" referenceId="UPSTREAM_PAY_ORDER_PAYMENT_ORDER_ID_SALES_ORDER_ENTITY_ID"
+                    table="upstream_pay_order_payment" column="order_id" referenceTable="sales_order"
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
+
+        <!-- sales_order_payment table foreign key-->
+        <constraint xsi:type="foreign" referenceId="UPSTREAM_PAY_ORDER_PAYMENT_PAYMENT_ID_SALES_ORDER_PAYMENT_ENTITY_ID"
+                    table="upstream_pay_order_payment" column="payment_id" referenceTable="sales_order_payment"
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
+
+        <!-- We can't have two rows with the same session id & default transaction id. -->
+        <constraint xsi:type="unique" referenceId="UPSTREAM_PAY_ORDER_PAYMENT_SESSION_ID_DEFAULT_TRANSACTION_ID">
+            <column name="session_id"/>
+            <column name="default_transaction_id"/>
+        </constraint>
+
+        <!-- Index colmumns -->
+        <index referenceId="UPSTREAM_PAY_ORDER_PAYMENT_SESSION_ID" indexType="btree">
+            <column name="session_id"/>
+        </index>
+        <index referenceId="UPSTREAM_PAY_ORDER_PAYMENT_DEFAULT_TRANSACTION_ID" indexType="btree">
+            <column name="default_transaction_id"/>
+        </index>
+        <index referenceId="UPSTREAM_PAY_ORDER_PAYMENT_QUOTE_ID" indexType="btree">
+            <column name="quote_id"/>
+        </index>
+        <index referenceId="UPSTREAM_PAY_ORDER_PAYMENT_ORDER_ID" indexType="btree">
+            <column name="order_id"/>
+        </index>
+    </table>
+
+    <table name="upstream_pay_order_transactions" resource="default" engine="innodb" comment="Upstream Pay order transactions table">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+        <column xsi:type="varchar" name="session_id" length="255" nullable="false" comment="Session ID"/>
+        <column xsi:type="varchar" name="transaction_id" nullable="false" length="255" comment="Transaction ID"/>
+        <column xsi:type="varchar" name="parent_transaction_id" nullable="true" length="255" comment="Parent transaction ID"/>
+        <column xsi:type="int" name="parent_payment_id" nullable="true" comment="Parent transaction ID"/>
+        <column xsi:type="varchar" name="method" nullable="false" length="255" comment="Payment Method"/>
+        <column xsi:type="varchar" name="transaction_type" nullable="false" length="255" comment="Transaction type (capture, authorize...)"/>
+        <column xsi:type="int" name="quote_id" unsigned="true" nullable="false" comment="Quote ID"/>
+        <column xsi:type="int" name="order_id" unsigned="true" nullable="false" comment="Order ID"/>
+        <column xsi:type="int" name="invoice_id" unsigned="true" nullable="true" comment="Invoice ID"/>
+        <column xsi:type="int" name="creditmemo_id" unsigned="true" nullable="true" comment="Creditmemo ID"/>
+        <column xsi:type="decimal" name="amount" scale="4" precision="12" nullable="false" default="0.00"
+                comment="Total Amount for transaction"/>
+        <column xsi:type="varchar" name="status" nullable="false" length="255" comment="Status"/>
+        <column xsi:type="timestamp" name="created_at" nullable="false" on_update="false" default="CURRENT_TIMESTAMP"
+                comment="Creation Time"/>
+        <column xsi:type="timestamp" name="updated_at" nullable="false" on_update="true" default="CURRENT_TIMESTAMP"
+                comment="Update Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+
+        <!-- quote table foreign key-->
+        <constraint xsi:type="foreign" referenceId="UPSTREAM_PAY_ORDER_TRANSACTIONS_QUOTE_ID_QUOTE_ENTITY_ID"
+                    table="upstream_pay_order_transactions" column="quote_id" referenceTable="quote"
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
+
+        <!-- sales_order table foreign key-->
+        <constraint xsi:type="foreign" referenceId="UPSTREAM_PAY_ORDER_TRANSACTIONS_ORDER_ID_SALES_ORDER_ENTITY_ID"
+                    table="upstream_pay_order_transactions" column="order_id" referenceTable="sales_order"
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
+
+        <!-- We can't have two rows with the same session id & transaction id. -->
+        <constraint xsi:type="unique" referenceId="UPSTREAM_PAY_ORDER_PAYMENT_SESSION_ID_TRANSACTION_ID">
+            <column name="session_id"/>
+            <column name="transaction_id"/>
+        </constraint>
+
+        <!-- Index colmumns -->
+        <index referenceId="UPSTREAM_PAY_ORDER_TRANSACTIONS_TRANSACTION_ID" indexType="btree">
+            <column name="transaction_id"/>
+        </index>
+        <index referenceId="UPSTREAM_PAY_ORDER_TRANSACTIONS_QUOTE_ID" indexType="btree">
+            <column name="quote_id"/>
+        </index>
+        <index referenceId="UPSTREAM_PAY_ORDER_TRANSACTIONS_ORDER_ID" indexType="btree">
+            <column name="order_id"/>
+        </index>
+        <index referenceId="UPSTREAM_PAY_ORDER_TRANSACTIONS_INVOICE_ID" indexType="btree">
+            <column name="invoice_id"/>
+        </index>
+        <index referenceId="UPSTREAM_PAY_ORDER_TRANSACTIONS_CREDITMEMO_ID" indexType="btree">
+            <column name="creditmemo_id"/>
+        </index>
+        <index referenceId="UPSTREAM_PAY_ORDER_TRANSACTIONS_SESSION_ID" indexType="btree">
+            <column name="session_id"/>
+        </index>
+    </table>
+
+    <table name="upstream_pay_payment_method" resource="default" engine="innodb" comment="Upstream Pay payment methods">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+        <column xsi:type="varchar" name="method" nullable="false" length="255" comment="Payment Method"/>
+        <column xsi:type="varchar" name="type" nullable="false" length="255" comment="Type"/>
+        <column xsi:type="timestamp" name="created_at" nullable="false" on_update="false" default="CURRENT_TIMESTAMP"
+                comment="Creation Time"/>
+        <column xsi:type="timestamp" name="updated_at" nullable="false" on_update="true" default="CURRENT_TIMESTAMP"
+                comment="Update Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+
+        <!-- Index colmumns -->
+        <index referenceId="UPSTREAM_PAY_PAYMENT_METHOD_METHOD" indexType="btree">
+            <column name="method"/>
+        </index>
+    </table>
+</schema>

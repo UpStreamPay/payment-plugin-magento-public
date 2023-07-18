@@ -1,0 +1,25 @@
+{
+  "name": "upstreampay/payment-magento",
+  "description": "Official Adobe Commerce Plugin for UpStreamPay.",
+  "type": "magento2-module",
+  "version": "1.0.0",
+  "license": "BSD-3-Clause",
+  "require": {
+    "php": "^8.0",
+    "magento/framework": ">=103.0.5",
+    "ext-json": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~6.5.0",
+    "magento/magento-coding-standard": "*"
+  },
+  "autoload": {
+    "files": [
+      "Core/registration.php",
+      "Client/registration.php"
+    ],
+    "psr-4": {
+      "UpStreamPay\\": ""
+    }
+  }
+}

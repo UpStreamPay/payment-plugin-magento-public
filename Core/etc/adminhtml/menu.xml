@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  UpStream Pay
+
+  Copyright (c) 2023 UpStream Pay.
+  This file is open source and available under the BSD 3 license.
+  See the LICENSE file for more info.
+
+  Author: Claranet France <info@fr.clara.net>
+  -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="UpStreamPay_Core::payments" title="Payments listing" module="UpStreamPay_Core" sortOrder="1000" parent="Magento_Sales::sales_operation" resource="UpStreamPay_Core::payments" action="upstreampay/payments" />
+        <add id="UpStreamPay_Core::transactions" title="Transactions listing" module="UpStreamPay_Core" sortOrder="1001" parent="Magento_Sales::sales_operation" resource="UpStreamPay_Core::transactions" action="upstreampay/transactions" />
+    </menu>
+</config>
