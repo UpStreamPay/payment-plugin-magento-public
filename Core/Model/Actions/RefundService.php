@@ -36,6 +36,7 @@ class RefundService
      * @param OrderTransactions $orderTransactions
      * @param OrderPaymentRepositoryInterface $orderPaymentRepository
      * @param LoggerInterface $logger
+     * @param EventManager $eventManager
      */
     public function __construct(
         private readonly allTransactionsToRefundFinder  $allTransactionsToRefundFinder,
@@ -96,7 +97,22 @@ class RefundService
                         'amount' => $amountToRefundOnTransaction,
                     ];
 
-                    $refundResponse = $this->client->refund($captureTransaction->getTransactionId(), $body);
+                    try {
+                        $refundResponse = $this->client->refund($captureTransaction->getTransactionId(), $body);
+                    } catch (\Throwable $exception) {
+                        //In case of a refund error, try to refund as many transactions as possible.
+                        $errorMessage = sprintf(
+                            'Refund for capture transaction %s for amount %s in error because %s, refund it in UpStream admin panel.',
+                            $captureTransaction->getTransactionId(),
+                            $exception->getMessage(),
+                            $amountToRefundOnTransaction
+                        );
+
+                        $this->logger->critical($errorMessage);
+                        $payment->getOrder()->addCommentToStatusHistory($errorMessage);
+
+                        continue;
+                    }
                     //Save the refund transaction in DB.
                     $refundTransaction = $this->orderTransactions->createTransactionFromResponse(
                         $refundResponse,

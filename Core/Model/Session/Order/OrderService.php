@@ -49,8 +49,7 @@ class OrderService
 
         $netAmount = $quote->getBaseSubtotalWithDiscount() + $quote->getShippingAddress()->getBaseShippingAmount();
 
-//        $order['hook'] = $this->url->getUrl(Notification::URL_PATH);
-        $order['hook'] = 'https://2bc0-78-113-62-47.ngrok-free.app/upstreampay/payment/notification';
+        $order['hook'] = $this->url->getUrl(Notification::URL_PATH);
         $order['amount'] = $quote->getBaseGrandTotal();
         $order['order']['redirection'] = $this->url->getUrl(ReturnUrl::URL_PATH);
         $order['order']['reference'] = $quote->getId();

@@ -35,7 +35,8 @@ class AllTransactionsFinder
     public function __construct(
         private readonly OrderPaymentRepositoryInterface $orderPaymentRepository,
         private readonly OrderTransactionsRepositoryInterface $orderTransactionsRepository,
-        private readonly SearchCriteriaBuilder $searchCriteriaBuilder,) {
+        private readonly SearchCriteriaBuilder $searchCriteriaBuilder
+    ) {
     }
 
     /**

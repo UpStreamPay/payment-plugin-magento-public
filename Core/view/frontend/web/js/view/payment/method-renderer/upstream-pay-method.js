@@ -41,12 +41,20 @@ define([
             template: 'UpStreamPay_Core/payment/upstream-pay',
             manager: {},
             cartVersion: 0,
+            checkCart: true
         },
 
         initialize: function () {
             this._super();
             this.initChildren();
             const self = this;
+            self.cartVersion = customerData.get('cart')()['data_id'];
+
+            //Sometimes in some cases Magento will not update the value in cache. If that's the case, we can't do the
+            // cart check on frontend but rely on the backend plugin.
+            if (self.cartVersion !== cartCache.get('cartVersion')) {
+                self.checkCart = false;
+            }
 
             this.loadUpStreamPaySdk()
                 .then((UpStreamPay) => {
@@ -59,7 +67,6 @@ define([
                     // Get the session data (order) so we can have a cart context to send to UpStream Pay.
                     this.getSessionData()
                         .done(function (jsonResponse) {
-                            self.cartVersion = customerData.get('cart')()['data_id'];
                             const [session] = jsonResponse;
                             self.manager.setPaymentSession(session).then(() => {
                                 const widgetPaymentPromise = self.manager.createWidget({
@@ -115,7 +122,7 @@ define([
             const self = this;
 
             //A change has been made on the cart.
-            if (cartCache.isChanged('cartVersion', this.cartVersion)) {
+            if (this.checkCart && cartCache.isChanged('cartVersion', this.cartVersion)) {
                 this.redirectToCart();
             } else {
                 this.getPlaceOrderDeferredObject()
@@ -123,11 +130,15 @@ define([
                         function () {
                             self.manager.submitPayment();
                         }
-                    ).fail(
-                    function () {
-                        messageList.addErrorMessage({
-                            message: window.checkoutConfig.payment.UpStreamPay.errorMessage
-                        });
+                    ).fail(function (error, txt) {
+                        if (error.responseJSON.code === 422) {
+                            //In this case the error is related to adding products to the cart through multiple tabs.
+                            self.redirectToCart();
+                        } else {
+                            messageList.addErrorMessage({
+                                message: window.checkoutConfig.payment.UpStreamPay.errorMessage
+                            });
+                        }
                     }
                 );
             }
