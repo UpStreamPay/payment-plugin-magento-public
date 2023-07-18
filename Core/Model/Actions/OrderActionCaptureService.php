@@ -110,23 +110,26 @@ class OrderActionCaptureService
             if ($transaction->getTransactionType() !== OrderTransactions::AUTHORIZE_ACTION) {
                 $amountPaid += $transaction->getAmount();
 
-                //Link the capture transaction to the invoice. This is very important to know what a transaction paid.
-                $transaction->setInvoiceId($invoiceId);
-                $this->orderTransactionsRepository->save($transaction);
+                //If the transaction is already linked to the invoice we are trying to pay, don't link it again.
+                if ($transaction->getInvoiceId() === null) {
+                    //Link the capture transaction to the invoice. This is very important to know what a transaction paid.
+                    $transaction->setInvoiceId($invoiceId);
+                    $this->orderTransactionsRepository->save($transaction);
 
-                //Update the amount captured on the payment method. This is very important to know what's left to
-                //capture.
-                $orderPayment = $this->orderPaymentRepository->getById($transaction->getParentPaymentId());
-                $orderPayment->setAmountCaptured($orderPayment->getAmountCaptured() + $transaction->getAmount());
-                $this->orderPaymentRepository->save($orderPayment);
+                    //Update the amount captured on the payment method. This is very important to know what's left to
+                    //capture.
+                    $orderPayment = $this->orderPaymentRepository->getById($transaction->getParentPaymentId());
+                    $orderPayment->setAmountCaptured($orderPayment->getAmountCaptured() + $transaction->getAmount());
+                    $this->orderPaymentRepository->save($orderPayment);
 
-                $payment->getOrder()->addCommentToStatusHistory(sprintf(
-                    'Paying invoice ID %s with transaction ID %s using method %s with amount %s.',
-                    $invoiceId,
-                    $transaction->getTransactionId(),
-                    $transaction->getMethod(),
-                    $transaction->getAmount(),
-                ));
+                    $payment->getOrder()->addCommentToStatusHistory(sprintf(
+                        'Paying invoice ID %s with transaction ID %s using method %s with amount %s.',
+                        $invoiceId,
+                        $transaction->getTransactionId(),
+                        $transaction->getMethod(),
+                        $transaction->getAmount(),
+                    ));
+                }
             } elseif ($transaction->getTransactionType() === OrderTransactions::AUTHORIZE_ACTION) {
                 //We have to capture any authorize transaction we have if no prvious capture has failed.
                 $body = [
@@ -166,7 +169,6 @@ class OrderActionCaptureService
                     throw new CaptureErrorException($errorMessage);
                 }
 
-                //@TODO handle waiting.
                 if ($captureTransaction->getStatus() === OrderTransactions::SUCCESS_STATUS) {
                     $amountPaid += $captureTransaction->getAmount();
 
@@ -187,6 +189,14 @@ class OrderActionCaptureService
                     );
 
                     throw new CaptureErrorException($errorMessage);
+                } elseif ($captureTransaction->getStatus() === OrderTransactions::WAITING_STATUS) {
+                    $payment->setIsTransactionPending(true);
+
+                    //If we detect a waiting, it's very important to stop so that wait for the webhook before
+                    // continuing. If we don't then the next transaction could be an error, then we would have a
+                    // transaction in waiting tha't we might have to refund but that we can't refund. So to keep the
+                    //process simple, we stop for each waiting on the capture.
+                    break;
                 }
             }
         }
