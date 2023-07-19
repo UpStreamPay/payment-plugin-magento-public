@@ -60,11 +60,12 @@ class CancelService
      * Then cancel the invoice & save it.
      *
      * @param OrderInterface $order
+     * @param bool $cancelOrder
      *
      * @return void
      * @throws LocalizedException
      */
-    public function execute(OrderInterface $order): void
+    public function execute(OrderInterface $order, bool $cancelOrder = true): void
     {
         $transactionsToCancel = $this->allTransactionsToCancelFinder->execute((int) $order->getEntityId());
 
@@ -187,7 +188,9 @@ class CancelService
             }
         }
 
-        //Now cancel the order, whatever has been invoiced & paid won't be canceled.
-        $this->orderManagement->cancel($order->getEntityId());
+        if ($cancelOrder) {
+            //Now cancel the order, whatever has been invoiced & paid won't be canceled.
+            $this->orderManagement->cancel($order->getEntityId());
+        }
     }
 }

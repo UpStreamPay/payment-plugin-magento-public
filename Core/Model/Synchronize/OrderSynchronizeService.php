@@ -19,9 +19,11 @@ use UpStreamPay\Client\Exception\NoOrderFoundException;
 use UpStreamPay\Client\Model\Client\ClientInterface;
 use UpStreamPay\Core\Exception\AuthorizeErrorException;
 use UpStreamPay\Core\Exception\CaptureErrorException;
+use UpStreamPay\Core\Exception\NotEnoughFundException;
 use UpStreamPay\Core\Exception\NoTransactionsException;
 use UpStreamPay\Core\Exception\OrderErrorException;
 use UpStreamPay\Core\Model\Actions\AuthorizeService;
+use UpStreamPay\Core\Model\Actions\CancelService;
 use UpStreamPay\Core\Model\Actions\CaptureService;
 use UpStreamPay\Core\Model\Actions\OrderActionCaptureService;
 use UpStreamPay\Core\Model\Actions\OrderService;
@@ -54,7 +56,8 @@ class OrderSynchronizeService
         private readonly VoidService $voidService,
         private readonly RefundService $refundService,
         private readonly OrderService $orderService,
-        private readonly OrderActionCaptureService $orderActionCaptureService
+        private readonly OrderActionCaptureService $orderActionCaptureService,
+        private readonly CancelService $cancelService
     ) {
     }
 
@@ -74,6 +77,7 @@ class OrderSynchronizeService
      * @throws AuthorizeErrorException
      * @throws CaptureErrorException
      * @throws OrderErrorException
+     * @throws NotEnoughFundException
      */
     public function execute(InfoInterface $payment, float $amount, string $action): InfoInterface
     {
@@ -108,6 +112,10 @@ class OrderSynchronizeService
             return $this->orderService->execute($payment, $amount);
         } elseif ($action === OrderTransactions::ORDER_CAPTURE_ACTION) {
             return $this->orderActionCaptureService->execute($payment, $amount);
+        } elseif ($action === OrderTransactions::ORDER_CANCEL) {
+            $this->cancelService->execute($payment->getOrder(), false);
+
+            return $payment;
         }
     }
 }

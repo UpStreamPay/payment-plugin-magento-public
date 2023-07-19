@@ -139,18 +139,6 @@ class OrderTransactionsRepository implements OrderTransactionsRepositoryInterfac
     /**
      * @inheritDoc
      */
-    public function getByCreditmemoId(int $creditmemoId): array
-    {
-        $searchCriteria = $this->searchCriteriaBuilder
-            ->addFilter(OrderTransactionsInterface::CREDITMEMO_ID, $creditmemoId)
-            ->create();
-
-        return $this->getList($searchCriteria)->getItems();
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function getList(SearchCriteriaInterface $searchCriteria = null): OrderTransactionsSearchResultsInterface
     {
         $collection = $this->collectionFactory->create();

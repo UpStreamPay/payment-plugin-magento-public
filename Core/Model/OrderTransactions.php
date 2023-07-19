@@ -38,6 +38,7 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     public const VOID_ACTION = 'VOID';
     public const ORDER_ACTION = 'ORDER';
     public const ORDER_CAPTURE_ACTION = 'ORDER_CAPTURE';
+    public const ORDER_CANCEL = 'CANCEL';
 
     public const CHILD_CAPTURE_TYPE = 'CHILD_CAPTURE';
 
@@ -204,22 +205,6 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     /**
      * @inheritDoc
      */
-    public function getCreditmemoId(): ?int
-    {
-        return (int)$this->getData(self::CREDITMEMO_ID);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function setCreditmemoId(?int $creditmemoId): self
-    {
-        return $this->setData(self::CREDITMEMO_ID, $creditmemoId);
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function getStatus(): string
     {
         return $this->getData(self::STATUS);
@@ -353,7 +338,6 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
             ->setQuoteId($quoteId)
             ->setOrderId($orderId)
             ->setInvoiceId($invoiceId)
-            ->setCreditmemoId(null)
             ->setAmount((float)$transactionResponse['plugin_result']['amount'])
             ->setStatus($transactionResponse['status']['state'])
         ;
@@ -520,12 +504,22 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
             ->setQuoteId($captureTransaction->getQuoteId())
             ->setOrderId($captureTransaction->getOrderId())
             ->setInvoiceId(null)
-            ->setCreditmemoId(null)
             ->setAmount($amount)
             ->setStatus($captureTransaction->getStatus())
             ->setParentPaymentId($captureTransaction->getParentPaymentId())
         ;
 
         return $this->transactionsRepository->save($childCaptureTransaction);
+    }
+
+    /**
+     * @param string $parentCaptureTransactionId
+     *
+     * @return $this
+     * @throws LocalizedException
+     */
+    public function getParentCaptureFromChildCapture(string $parentCaptureTransactionId): self
+    {
+        return $this->transactionsRepository->getByTransactionId($parentCaptureTransactionId);
     }
 }

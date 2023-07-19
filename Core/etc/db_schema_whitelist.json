@@ -39,7 +39,6 @@
             "quote_id": true,
             "order_id": true,
             "invoice_id": true,
-            "creditmemo_id": true,
             "amount": true,
             "status": true,
             "created_at": true,
@@ -53,7 +52,6 @@
             "UPSTREAM_PAY_ORDER_TRANSACTIONS_QUOTE_ID": true,
             "UPSTREAM_PAY_ORDER_TRANSACTIONS_ORDER_ID": true,
             "UPSTREAM_PAY_ORDER_TRANSACTIONS_INVOICE_ID": true,
-            "UPSTREAM_PAY_ORDER_TRANSACTIONS_CREDITMEMO_ID": true,
             "UPSTREAM_PAY_ORDER_TRANSACTIONS_PARENT_TRANSACTION_ID": true,
             "UPSTREAM_PAY_ORDER_TRANSACTIONS_SESSION_ID": true
         },
