@@ -38,6 +38,7 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     public const VOID_ACTION = 'VOID';
     public const ORDER_ACTION = 'ORDER';
     public const ORDER_CAPTURE_ACTION = 'ORDER_CAPTURE';
+    public const ORDER_CANCEL = 'CANCEL';
 
     public const CHILD_CAPTURE_TYPE = 'CHILD_CAPTURE';
 
