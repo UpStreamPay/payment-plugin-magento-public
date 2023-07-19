@@ -23,8 +23,10 @@ use Magento\Payment\Model\MethodInterface;
 use Magento\Sales\Api\Data\InvoiceInterface;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\InvoiceRepositoryInterface;
-use Magento\Sales\Api\OrderManagementInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
+use Magento\Sales\Model\Order\Email\Sender\InvoiceSender;
+use Magento\Sales\Model\Order\Email\Sender\OrderSender;
+use Magento\Sales\Model\Order\Invoice;
 use Magento\Sales\Model\Order\Payment\Processor;
 use Psr\Log\LoggerInterface;
 use UpStreamPay\Core\Exception\AuthorizeErrorException;
@@ -47,28 +49,28 @@ class ReturnUrl implements HttpGetActionInterface
      * @param Session $checkoutSession
      * @param RedirectFactory $redirectFactory
      * @param LoggerInterface $logger
-     * @param OrderManagementInterface $orderManagement
      * @param Config $config
      * @param OrderRepositoryInterface $orderRepository
      * @param Processor $paymentProcessor
      * @param InvoiceRepositoryInterface $invoiceRepository
      * @param ManagerInterface $messageManager
+     * @param OrderSender $orderSender
      */
     public function __construct(
         private readonly Session $checkoutSession,
         private readonly RedirectFactory $redirectFactory,
         private readonly LoggerInterface $logger,
-        private readonly OrderManagementInterface $orderManagement,
         private readonly Config $config,
         private readonly OrderRepositoryInterface $orderRepository,
         private readonly Processor $paymentProcessor,
         private readonly InvoiceRepositoryInterface $invoiceRepository,
-        private readonly ManagerInterface $messageManager
+        private readonly ManagerInterface $messageManager,
+        private readonly OrderSender $orderSender,
+        private readonly InvoiceSender $invoiceSender
     ) {}
 
     /**
      * Handle the redirect coming from UpStream Pay.
-     * //@TODO WIP, calling external class might be needed.
      *
      * @return ResultInterface
      * @throws LocalizedException
@@ -87,6 +89,7 @@ class ReturnUrl implements HttpGetActionInterface
             } elseif ($this->config->getPaymentAction() === MethodInterface::ACTION_AUTHORIZE_CAPTURE) {
                 /** @var InvoiceInterface $invoice */
                 //We can only have one invoice because we come back from the redirect url.
+                /** @var Invoice $invoice */
                 $invoice = $order->getInvoiceCollection()->getFirstItem();
                 $payment->setCreatedInvoice($invoice);
                 $this->paymentProcessor->capture($payment, $invoice);
@@ -98,11 +101,14 @@ class ReturnUrl implements HttpGetActionInterface
 
                 $this->orderRepository->save($order);
                 $this->invoiceRepository->save($invoice);
+
+                $this->invoiceSender->send($invoice);
             } elseif ($this->config->getPaymentAction() === MethodInterface::ACTION_ORDER) {
                 $this->paymentProcessor->order($payment, $order->getBaseTotalDue());
                 $this->orderRepository->save($order);
             }
 
+            $this->orderSender->send($order);
             $resultRedirect->setPath('checkout/onepage/success', ['_secure' => true]);
 
             return $resultRedirect;
