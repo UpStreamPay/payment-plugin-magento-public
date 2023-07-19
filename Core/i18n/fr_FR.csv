@@ -28,7 +28,6 @@
 "Order ID", "ID commande"
 "Quote ID", "ID panier"
 "Invoice ID", "ID facture"
-"Creditmemo ID", "ID remboursement"
 "Upstream Pay payment ID", "ID paiement UpStream Pay"
 "Type", "Type"
 "Method", "Méthode"

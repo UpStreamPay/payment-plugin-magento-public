@@ -81,14 +81,6 @@ interface OrderTransactionsRepositoryInterface
     public function getByInvoiceId(int $invoiceId): array;
 
     /**
-     * @param int $creditmemoId
-     *
-     * @return OrderTransactionsInterface[]
-     * @throws LocalizedException
-     */
-    public function getByCreditmemoId(int $creditmemoId): array;
-
-    /**
      * @param SearchCriteriaInterface $searchCriteria
      *
      * @return OrderTransactionsSearchResultsInterface

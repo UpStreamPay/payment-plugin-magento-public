@@ -205,22 +205,6 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     /**
      * @inheritDoc
      */
-    public function getCreditmemoId(): ?int
-    {
-        return (int)$this->getData(self::CREDITMEMO_ID);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function setCreditmemoId(?int $creditmemoId): self
-    {
-        return $this->setData(self::CREDITMEMO_ID, $creditmemoId);
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function getStatus(): string
     {
         return $this->getData(self::STATUS);
@@ -354,7 +338,6 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
             ->setQuoteId($quoteId)
             ->setOrderId($orderId)
             ->setInvoiceId($invoiceId)
-            ->setCreditmemoId(null)
             ->setAmount((float)$transactionResponse['plugin_result']['amount'])
             ->setStatus($transactionResponse['status']['state'])
         ;
@@ -521,7 +504,6 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
             ->setQuoteId($captureTransaction->getQuoteId())
             ->setOrderId($captureTransaction->getOrderId())
             ->setInvoiceId(null)
-            ->setCreditmemoId(null)
             ->setAmount($amount)
             ->setStatus($captureTransaction->getStatus())
             ->setParentPaymentId($captureTransaction->getParentPaymentId())

@@ -27,8 +27,6 @@ interface OrderTransactionsInterface
     public const QUOTE_ID = 'quote_id';
     public const ORDER_ID = 'order_id';
     public const INVOICE_ID = 'invoice_id';
-    //@TODO remove because useless.
-    public const CREDITMEMO_ID = 'creditmemo_id';
     public const AMOUNT = 'amount';
     public const STATUS = 'status';
     public const CREATED_AT = 'created_at';
@@ -191,23 +189,6 @@ interface OrderTransactionsInterface
      * @return $this
      */
     public function setInvoiceId(?int $invoiceId): self;
-
-    /**
-     * Creditmemo ID linked to the transaction, if any.
-     *
-     * @return null|int
-     */
-    public function getCreditmemoId(): ?int;
-
-    /**
-     * Creditmemo ID linked to the transaction, if any.
-     * Only set when creating the row. Should never change after.
-     *
-     * @param ?int $creditmemoId
-     *
-     * @return $this
-     */
-    public function setCreditmemoId(?int $creditmemoId): self;
 
     /**
      * Get the status of the transaction (based on what API returns).
