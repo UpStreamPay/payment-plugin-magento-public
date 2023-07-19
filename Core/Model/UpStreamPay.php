@@ -188,9 +188,11 @@ class UpStreamPay extends AbstractMethod
      */
     public function cancel(InfoInterface $payment)
     {
-        if (!$this->canOrder()) {
-            $this->orderSynchronizeService->execute($payment, 0.00, OrderTransactions::VOID_ACTION);
-        }
+        $this->orderSynchronizeService->execute(
+            $payment,
+            0.00,
+            $this->canOrder() ? OrderTransactions::ORDER_CANCEL : OrderTransactions::VOID_ACTION
+        );
         $payment->setIsTransactionDenied(true);
 
         return $this;
@@ -201,9 +203,11 @@ class UpStreamPay extends AbstractMethod
      */
     public function void(InfoInterface $payment)
     {
-        if (!$this->canOrder()) {
-            $this->orderSynchronizeService->execute($payment, 0.00, OrderTransactions::VOID_ACTION);
-        }
+        $this->orderSynchronizeService->execute(
+            $payment,
+            0.00,
+            $this->canOrder() ? OrderTransactions::ORDER_CANCEL : OrderTransactions::VOID_ACTION
+        );
         $payment->setIsTransactionDenied(true);
 
         return $this;
@@ -214,9 +218,11 @@ class UpStreamPay extends AbstractMethod
      */
     public function denyPayment(InfoInterface $payment)
     {
-        if (!$this->canOrder()) {
-            $this->orderSynchronizeService->execute($payment, 0.00, OrderTransactions::VOID_ACTION);
-        }
+        $this->orderSynchronizeService->execute(
+            $payment,
+            0.00,
+            $this->canOrder() ? OrderTransactions::ORDER_CANCEL : OrderTransactions::VOID_ACTION
+        );
         $payment->setIsTransactionDenied(true);
 
         return true;
