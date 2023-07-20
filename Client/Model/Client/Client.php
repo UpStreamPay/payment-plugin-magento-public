@@ -54,6 +54,7 @@ class Client implements ClientInterface
      * @param ClientFactory $httpClientFactory
      * @param Config $config
      * @param TokenService $tokenService
+     * @param EventManager $eventManager
      * @param LoggerInterface $logger
      */
     public function __construct(
