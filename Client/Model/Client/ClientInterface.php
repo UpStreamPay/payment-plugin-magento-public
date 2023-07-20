@@ -14,7 +14,6 @@ namespace UpStreamPay\Client\Model\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use JsonException;
 use UpStreamPay\Client\Exception\NoOrderFoundException;
-use UpStreamPay\Client\Exception\TokenValidatorException;
 use UpStreamPay\Core\Exception\ConflictRetrieveTransactionsException;
 
 /**
@@ -72,7 +71,7 @@ interface ClientInterface
      *
      * @return array
      * @throws GuzzleException
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function capture(string $transactionId, array $body): array;
 
@@ -113,7 +112,6 @@ interface ClientInterface
      * @return array
      * @throws GuzzleException
      * @throws JsonException
-     * @throws TokenValidatorException
      * @throws ConflictRetrieveTransactionsException
      */
     public function refund(string $transactionId, array $body): array;

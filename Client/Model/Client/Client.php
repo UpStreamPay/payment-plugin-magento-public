@@ -17,7 +17,6 @@ use GuzzleHttp\RequestOptions;
 use JsonException;
 use Psr\Log\LoggerInterface;
 use UpStreamPay\Client\Exception\NoOrderFoundException;
-use UpStreamPay\Client\Exception\TokenValidatorException;
 use UpStreamPay\Client\Model\Token\TokenService;
 use UpStreamPay\Core\Exception\ConflictRetrieveTransactionsException;
 use UpStreamPay\Core\Model\Config;
@@ -55,6 +54,7 @@ class Client implements ClientInterface
      * @param ClientFactory $httpClientFactory
      * @param Config $config
      * @param TokenService $tokenService
+     * @param EventManager $eventManager
      * @param LoggerInterface $logger
      */
     public function __construct(
@@ -98,7 +98,6 @@ class Client implements ClientInterface
      * @return array
      * @throws GuzzleException
      * @throws JsonException
-     * @throws TokenValidatorException
      */
     public function createSession(array $orderSession): array
     {
@@ -109,7 +108,13 @@ class Client implements ClientInterface
             self::POST,
             $this->config->getEntityId() . self::CREATE_SESSION_URI, []
         );
-        $this->eventManager->dispatch('payment_usp_after_session', ['orderSession' => $orderSession, 'apiResponse' => $apiResponse]);
+        $this->eventManager->dispatch(
+            'payment_usp_after_session',
+            [
+                'orderSession' => $orderSession,
+                'apiResponse' => $apiResponse
+            ]
+        );
         return $apiResponse;
     }
 
@@ -122,7 +127,6 @@ class Client implements ClientInterface
      * @throws GuzzleException
      * @throws JsonException
      * @throws NoOrderFoundException
-     * @throws TokenValidatorException
      * @throws ConflictRetrieveTransactionsException
      */
     public function getAllTransactionsForOrder(int $orderId): array
@@ -175,11 +179,16 @@ class Client implements ClientInterface
      * @return array
      * @throws GuzzleException
      * @throws JsonException
-     * @throws TokenValidatorException
      */
     public function capture(string $transactionId, array $body): array
     {
-        $this->eventManager->dispatch('sales_order_usp_before_capture', ['transactionId' => $transactionId, 'body' => $body]);
+        $this->eventManager->dispatch(
+            'sales_order_usp_before_capture',
+            [
+                'transactionId' => $transactionId,
+                'body' => $body
+            ]
+        );
 
         $uri = sprintf(
             '%s%s%s%s',
@@ -218,7 +227,6 @@ class Client implements ClientInterface
      * @return array
      * @throws GuzzleException
      * @throws JsonException
-     * @throws TokenValidatorException
      * @throws ConflictRetrieveTransactionsException
      */
     public function void(string $transactionId, array $body): array
@@ -267,12 +275,17 @@ class Client implements ClientInterface
      * @return array
      * @throws GuzzleException
      * @throws JsonException
-     * @throws TokenValidatorException
      * @throws ConflictRetrieveTransactionsException
      */
     public function refund(string $transactionId, array $body): array
     {
-        $this->eventManager->dispatch('sales_order_usp_before_refund', ['transactionId' => $transactionId, 'body' => $body]);
+        $this->eventManager->dispatch(
+            'sales_order_usp_before_refund',
+            [
+                'transactionId' => $transactionId,
+                'body' => $body
+            ]
+        );
 
         $uri = sprintf(
             '%s%s%s%s',
@@ -368,7 +381,6 @@ class Client implements ClientInterface
      * @return array
      * @throws GuzzleException
      * @throws JsonException
-     * @throws TokenValidatorException
      */
     private function buildHeader(): array
     {
