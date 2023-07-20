@@ -8,7 +8,8 @@
 
   Author: Claranet France <info@fr.clara.net>
   -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Cache/etc/cache.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Cache/etc/cache.xsd">
     <type name="upstream_pay" translate="label, description" instance="UpStreamPay\Client\Model\Cache\Type\UpStreamPay">
         <label>UpStream Pay cache</label>
         <description>API token, cache must never be disabled. Should only be cleaned / flushed if needed.</description>

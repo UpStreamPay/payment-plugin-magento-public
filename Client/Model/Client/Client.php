@@ -109,7 +109,13 @@ class Client implements ClientInterface
             self::POST,
             $this->config->getEntityId() . self::CREATE_SESSION_URI, []
         );
-        $this->eventManager->dispatch('payment_usp_after_session', ['orderSession' => $orderSession, 'apiResponse' => $apiResponse]);
+        $this->eventManager->dispatch(
+            'payment_usp_after_session',
+            [
+                'orderSession' => $orderSession,
+                'apiResponse' => $apiResponse
+            ]
+        );
         return $apiResponse;
     }
 
@@ -179,7 +185,13 @@ class Client implements ClientInterface
      */
     public function capture(string $transactionId, array $body): array
     {
-        $this->eventManager->dispatch('sales_order_usp_before_capture', ['transactionId' => $transactionId, 'body' => $body]);
+        $this->eventManager->dispatch(
+            'sales_order_usp_before_capture',
+            [
+                'transactionId' => $transactionId,
+                'body' => $body
+            ]
+        );
 
         $uri = sprintf(
             '%s%s%s%s',
@@ -272,7 +284,13 @@ class Client implements ClientInterface
      */
     public function refund(string $transactionId, array $body): array
     {
-        $this->eventManager->dispatch('sales_order_usp_before_refund', ['transactionId' => $transactionId, 'body' => $body]);
+        $this->eventManager->dispatch(
+            'sales_order_usp_before_refund',
+            [
+                'transactionId' => $transactionId,
+                'body' => $body
+            ]
+        );
 
         $uri = sprintf(
             '%s%s%s%s',
