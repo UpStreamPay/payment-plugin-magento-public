@@ -17,7 +17,6 @@ use GuzzleHttp\RequestOptions;
 use JsonException;
 use Psr\Log\LoggerInterface;
 use UpStreamPay\Client\Exception\NoOrderFoundException;
-use UpStreamPay\Client\Exception\TokenValidatorException;
 use UpStreamPay\Client\Model\Token\TokenService;
 use UpStreamPay\Core\Exception\ConflictRetrieveTransactionsException;
 use UpStreamPay\Core\Model\Config;
@@ -98,7 +97,6 @@ class Client implements ClientInterface
      * @return array
      * @throws GuzzleException
      * @throws JsonException
-     * @throws TokenValidatorException
      */
     public function createSession(array $orderSession): array
     {
@@ -128,7 +126,6 @@ class Client implements ClientInterface
      * @throws GuzzleException
      * @throws JsonException
      * @throws NoOrderFoundException
-     * @throws TokenValidatorException
      * @throws ConflictRetrieveTransactionsException
      */
     public function getAllTransactionsForOrder(int $orderId): array
@@ -181,7 +178,6 @@ class Client implements ClientInterface
      * @return array
      * @throws GuzzleException
      * @throws JsonException
-     * @throws TokenValidatorException
      */
     public function capture(string $transactionId, array $body): array
     {
@@ -230,7 +226,6 @@ class Client implements ClientInterface
      * @return array
      * @throws GuzzleException
      * @throws JsonException
-     * @throws TokenValidatorException
      * @throws ConflictRetrieveTransactionsException
      */
     public function void(string $transactionId, array $body): array
@@ -279,7 +274,6 @@ class Client implements ClientInterface
      * @return array
      * @throws GuzzleException
      * @throws JsonException
-     * @throws TokenValidatorException
      * @throws ConflictRetrieveTransactionsException
      */
     public function refund(string $transactionId, array $body): array
@@ -386,7 +380,6 @@ class Client implements ClientInterface
      * @return array
      * @throws GuzzleException
      * @throws JsonException
-     * @throws TokenValidatorException
      */
     private function buildHeader(): array
     {

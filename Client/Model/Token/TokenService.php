@@ -15,9 +15,7 @@ namespace UpStreamPay\Client\Model\Token;
 use Magento\Framework\App\CacheInterface;
 use Magento\Framework\Serialize\SerializerInterface;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
-use Psr\Log\LoggerInterface;
 use UpStreamPay\Client\Api\Data\TokenInterface;
-use UpStreamPay\Client\Exception\TokenValidatorException;
 use UpStreamPay\Client\Model\Cache\Type\UpStreamPay;
 
 /**
@@ -28,18 +26,14 @@ use UpStreamPay\Client\Model\Cache\Type\UpStreamPay;
 class TokenService
 {
     /**
-     * @param TokenValidator $tokenValidator
      * @param TokenFactory $tokenFactory
      * @param TimezoneInterface $timezone
-     * @param LoggerInterface $logger
      * @param CacheInterface $cache
      * @param SerializerInterface $serializer
      */
     public function __construct(
-        private readonly TokenValidator $tokenValidator,
         private readonly TokenFactory $tokenFactory,
         private readonly TimezoneInterface $timezone,
-        private readonly LoggerInterface $logger,
         private readonly CacheInterface $cache,
         private readonly SerializerInterface $serializer
     ) {
@@ -79,20 +73,9 @@ class TokenService
      * @param array $tokenData
      *
      * @return TokenInterface
-     * @throws TokenValidatorException
      */
     public function setToken(array $tokenData): TokenInterface
     {
-        //If the API sends back a response that is not valid, we log the response & throw an exception.
-        //Whoever calls this function has to handle the exception.
-        if (!$this->tokenValidator->validate($tokenData)) {
-            $this->logger->critical(
-                'Called API to retrieve a token but got invalid response. See below for response structure.'
-            );
-            $this->logger->critical(json_encode($tokenData));
-            throw new TokenValidatorException('Received token data is invalid.');
-        }
-
         /** @var TokenInterface $token */
         $token = $this->tokenFactory->create();
         $createdAt = $this->timezone->date();
