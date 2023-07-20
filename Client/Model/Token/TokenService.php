@@ -41,7 +41,7 @@ class TokenService
 
     /**
      * Get the token from the cache.
-     * Return an token with no values in case there is no token in cache.
+     * Return a token with no values in case there is no token in cache.
      *
      * @return TokenInterface
      */
