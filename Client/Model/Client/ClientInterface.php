@@ -72,7 +72,7 @@ interface ClientInterface
      *
      * @return array
      * @throws GuzzleException
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function capture(string $transactionId, array $body): array;
 
