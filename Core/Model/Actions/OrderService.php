@@ -14,6 +14,7 @@ namespace UpStreamPay\Core\Model\Actions;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Math\FloatComparator;
 use Magento\Payment\Model\InfoInterface;
 use Psr\Log\LoggerInterface;
 use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
@@ -36,13 +37,15 @@ class OrderService
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param OrderTransactionsRepositoryInterface $orderTransactionsRepository
      * @param LoggerInterface $logger
+     * @param FloatComparator $floatComparator
      */
     public function __construct(
         private readonly AuthorizeService $authorizeService,
         private readonly CaptureService $captureService,
         private readonly SearchCriteriaBuilder $searchCriteriaBuilder,
         private readonly OrderTransactionsRepositoryInterface $orderTransactionsRepository,
-        private readonly LoggerInterface $logger
+        private readonly LoggerInterface $logger,
+        private readonly FloatComparator $floatComparator
     ) {
     }
 
@@ -100,7 +103,7 @@ class OrderService
         }
 
         //Check that the amount captured and authorized match the total due.
-        if ($amount !== ($amountToAuthorize + $amountToCapture)) {
+        if (!$this->floatComparator->equal($amount, ($amountToAuthorize + $amountToCapture))) {
             $errorMessage = sprintf(
                 'Amount to capture & authorize is different than total amount of order.
                 Order total is %s and capture total is %s and authorize total is %s for order with ID %s.',

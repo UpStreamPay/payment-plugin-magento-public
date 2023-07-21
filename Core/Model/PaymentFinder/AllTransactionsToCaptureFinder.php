@@ -61,14 +61,26 @@ class AllTransactionsToCaptureFinder
         $captureTransactions = $this->allTransactionsFinder->execute(
             OrderTransactions::CAPTURE_ACTION,
             $orderId,
-            OrderTransactions::SUCCESS_STATUS,
-            null
+            OrderTransactions::SUCCESS_STATUS
         );
 
         foreach ($captureTransactions as $captureTransaction) {
             //When there is nothing left to capture we can exit this loop.
             if ($this->floatComparator->equal($amountLeftToCapture, 0.00)) {
                 break;
+            }
+
+            if ($captureTransaction->getInvoiceId() !== null) {
+                if ($captureTransaction->getInvoiceId() === $invoiceId) {
+                    $captureTransactionsUsed[] = [
+                        'transaction' => $captureTransaction,
+                        'amountToCapture' => $captureTransaction->getAmount()
+                    ];
+
+                    $amountLeftToCapture = $amountLeftToCapture - $captureTransaction->getAmount();
+                }
+
+                continue;
             }
 
             $amountCaptured = $this->orderTransactions->getAmountCapturedOnChildCapturesTransaction(
@@ -79,6 +91,32 @@ class AllTransactionsToCaptureFinder
             //transactions so far.
             //A capture can be split into several sub captures used on different invoices.
             $maxAmountToCapture = $captureTransaction->getAmount() - $amountCaptured;
+
+            //This means that there is nothing left to capture on this transaction or that the capture has a child
+            //capture linked to the invoice we are paying.
+            if ($this->floatComparator->equal($maxAmountToCapture, 0.00)) {
+                $childCaptureTransactions = $this->orderTransactions->getChildCapturesTransactionsFromCapture(
+                    $captureTransaction->getTransactionId()
+                );
+
+                //Loop all the child captures to check if we indeed have a child transaction used to pay the current
+                //invoice (we should have one).
+                foreach ($childCaptureTransactions as $childCaptureTransaction) {
+                    if ($childCaptureTransaction->getInvoiceId() === $invoiceId) {
+                        $captureTransactionsUsed[] = [
+                            'transaction' => $childCaptureTransaction,
+                            'amountToCapture' => $childCaptureTransaction->getAmount()
+                        ];
+
+                        $amountLeftToCapture = $amountLeftToCapture - $childCaptureTransaction->getAmount();
+                    }
+                }
+
+                //Because this capture has nothing left to capture available, even if it has no child to use, move on
+                //to the next capture.
+                continue;
+            }
+
             //If the max amount available to capture is <= to the amount to capture, then what we must capture is the
             //max allowed on transaction. Otherwise, refund the amount left to capture.
             $amountToCaptureOnTransaction = $maxAmountToCapture <= $amountLeftToCapture ? $maxAmountToCapture : $amountLeftToCapture;
@@ -99,7 +137,7 @@ class AllTransactionsToCaptureFinder
 
             $amountLeftToCapture = $amountLeftToCapture - $amountToCaptureOnTransaction;
 
-            if ($amountToCaptureOnTransaction < $captureTransaction->getAmount()) {
+            if ($amountToCaptureOnTransaction < $captureTransaction->getAmount() && $amountToCaptureOnTransaction > 0) {
                 //Create child capture transaction because we are not using the full amount of the original capture
                 //transaction & we need to link 1 capture to 1 invoice / 1 refund.
                 $childCaptureTransaction = $this->orderTransactions->createChildCaptureTransaction(

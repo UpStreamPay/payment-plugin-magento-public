@@ -38,6 +38,9 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     public const VOID_ACTION = 'VOID';
     public const ORDER_ACTION = 'ORDER';
     public const ORDER_CAPTURE_ACTION = 'ORDER_CAPTURE';
+    public const ORDER_CANCEL = 'CANCEL';
+
+    public const CHILD_CAPTURE_TYPE = 'CHILD_CAPTURE';
 
     public const WAITING_STATUS = 'WAITING';
     public const SUCCESS_STATUS = 'SUCCESS';
@@ -202,22 +205,6 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     /**
      * @inheritDoc
      */
-    public function getCreditmemoId(): ?int
-    {
-        return (int)$this->getData(self::CREDITMEMO_ID);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function setCreditmemoId(?int $creditmemoId): self
-    {
-        return $this->setData(self::CREDITMEMO_ID, $creditmemoId);
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function getStatus(): string
     {
         return $this->getData(self::STATUS);
@@ -351,7 +338,6 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
             ->setQuoteId($quoteId)
             ->setOrderId($orderId)
             ->setInvoiceId($invoiceId)
-            ->setCreditmemoId(null)
             ->setAmount((float)$transactionResponse['plugin_result']['amount'])
             ->setStatus($transactionResponse['status']['state'])
         ;
@@ -369,7 +355,33 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
      */
     public function getRefundTransactionsFromCapture(string $captureTransactionId): array
     {
-        return $this->transactionsRepository->getByParentTransactionId($captureTransactionId);
+        return $this->transactionsRepository->getByParentTransactionId($captureTransactionId, self::REFUND_ACTION);
+    }
+
+    /**
+     * Get all captures transactions linked to a given authorize transaction ID.
+     *
+     * @param string $authorizeTransactionId
+     *
+     * @return OrderTransactionsInterface[]
+     * @throws LocalizedException
+     */
+    public function getCaptureTransactionsFromAuthorize(string $authorizeTransactionId): array
+    {
+        return $this->transactionsRepository->getByParentTransactionId($authorizeTransactionId, self::CAPTURE_ACTION);
+    }
+
+    /**
+     * Get all void transactions linked to a given authorize transaction ID.
+     *
+     * @param string $authorizeTransactionId
+     *
+     * @return OrderTransactionsInterface[]
+     * @throws LocalizedException
+     */
+    public function getVoidTransactionsFromAuthorize(string $authorizeTransactionId): array
+    {
+        return $this->transactionsRepository->getByParentTransactionId($authorizeTransactionId, self::VOID_ACTION);
     }
 
     /**
@@ -384,7 +396,9 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
      */
     public function getChildCapturesTransactionsFromCapture(string $parentCaptureTransactionId): array
     {
-        return $this->transactionsRepository->getByParentTransactionId($parentCaptureTransactionId);
+        return $this->transactionsRepository->getByParentTransactionId(
+            $parentCaptureTransactionId, self::CHILD_CAPTURE_TYPE
+        );
     }
 
     /**
@@ -486,16 +500,26 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
             ->setTransactionId($captureTransaction->getTransactionId() . '_invoice_' . $invoiceId)
             ->setParentTransactionId($captureTransaction->getTransactionId())
             ->setMethod($captureTransaction->getMethod())
-            ->setTransactionType('CHILD_' . $captureTransaction->getTransactionType())
+            ->setTransactionType(self::CHILD_CAPTURE_TYPE)
             ->setQuoteId($captureTransaction->getQuoteId())
             ->setOrderId($captureTransaction->getOrderId())
-            ->setInvoiceId($invoiceId)
-            ->setCreditmemoId(null)
+            ->setInvoiceId(null)
             ->setAmount($amount)
             ->setStatus($captureTransaction->getStatus())
             ->setParentPaymentId($captureTransaction->getParentPaymentId())
         ;
 
         return $this->transactionsRepository->save($childCaptureTransaction);
+    }
+
+    /**
+     * @param string $parentCaptureTransactionId
+     *
+     * @return $this
+     * @throws LocalizedException
+     */
+    public function getParentCaptureFromChildCapture(string $parentCaptureTransactionId): self
+    {
+        return $this->transactionsRepository->getByTransactionId($parentCaptureTransactionId);
     }
 }

@@ -20,7 +20,7 @@ use UpStreamPay\Client\Model\Client\ClientInterface;
 use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
 use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
 use UpStreamPay\Core\Model\OrderTransactions;
-use UpStreamPay\Core\Model\PaymentFinder\allTransactionsToRefundFinder;
+use UpStreamPay\Core\Model\PaymentFinder\AllTransactionsToRefundFinder;
 use Magento\Framework\Event\ManagerInterface as EventManager;
 
 /**
@@ -31,14 +31,15 @@ use Magento\Framework\Event\ManagerInterface as EventManager;
 class RefundService
 {
     /**
-     * @param allTransactionsToRefundFinder $allTransactionsToRefundFinder
+     * @param AllTransactionsToRefundFinder $allTransactionsToRefundFinder
      * @param ClientInterface $client
      * @param OrderTransactions $orderTransactions
      * @param OrderPaymentRepositoryInterface $orderPaymentRepository
      * @param LoggerInterface $logger
+     * @param EventManager $eventManager
      */
     public function __construct(
-        private readonly allTransactionsToRefundFinder  $allTransactionsToRefundFinder,
+        private readonly AllTransactionsToRefundFinder  $allTransactionsToRefundFinder,
         private readonly ClientInterface $client,
         private readonly OrderTransactions $orderTransactions,
         private readonly OrderPaymentRepositoryInterface $orderPaymentRepository,
@@ -96,7 +97,28 @@ class RefundService
                         'amount' => $amountToRefundOnTransaction,
                     ];
 
-                    $refundResponse = $this->client->refund($captureTransaction->getTransactionId(), $body);
+                    try {
+                        $refundResponse = $this->client->refund($captureTransaction->getTransactionId(), $body);
+                    } catch (\Throwable $exception) {
+                        //In case of a refund error, try to refund as many transactions as possible.
+                        $errorMessage = sprintf(
+                            'Refund for capture transaction %s for amount %s in error because %s, refund it in UpStream admin panel.',
+                            $captureTransaction->getTransactionId(),
+                            $exception->getMessage(),
+                            $amountToRefundOnTransaction
+                        );
+
+                        $this->logger->critical($errorMessage);
+                        $payment->getOrder()->addCommentToStatusHistory($errorMessage);
+                        $amountLeftToRefund = $amountLeftToRefund - $amountToRefundOnTransaction;
+                        $this->eventManager->dispatch('payment_usp_write_log', ['orderPayment' => $orderPayment]);
+                        $orderPayment->setAmountRefunded(
+                            $orderPayment->getAmountRefunded() + $amountToRefundOnTransaction
+                        );
+                        $this->orderPaymentRepository->save($orderPayment);
+
+                        continue;
+                    }
                     //Save the refund transaction in DB.
                     $refundTransaction = $this->orderTransactions->createTransactionFromResponse(
                         $refundResponse,

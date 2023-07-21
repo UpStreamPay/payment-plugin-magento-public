@@ -17,13 +17,16 @@ use Magento\Payment\Model\MethodInterface;
 use Magento\Sales\Api\InvoiceRepositoryInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Sales\Model\Order;
+use Magento\Sales\Model\Order\Invoice;
 use Magento\Sales\Model\Order\Payment\Processor;
 use Psr\Log\LoggerInterface;
+use Throwable;
 use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
 use UpStreamPay\Core\Exception\AuthorizeErrorException;
 use UpStreamPay\Core\Exception\CaptureErrorException;
 use UpStreamPay\Core\Exception\OrderErrorException;
 use Magento\Framework\Event\ManagerInterface as EventManager;
+use UpStreamPay\Core\Model\Actions\CancelService;
 use UpStreamPay\Core\Model\Config\Source\Debug;
 
 /**
@@ -40,6 +43,8 @@ class NotificationService
      * @param OrderTransactionsRepositoryInterface $orderTransactionsRepository
      * @param LoggerInterface $logger
      * @param InvoiceRepositoryInterface $invoiceRepository
+     * @param EventManager $eventManager
+     * @param CancelService $cancelService
      */
     public function __construct(
         private readonly Config $config,
@@ -48,7 +53,8 @@ class NotificationService
         private readonly OrderTransactionsRepositoryInterface $orderTransactionsRepository,
         private readonly LoggerInterface $logger,
         private readonly InvoiceRepositoryInterface $invoiceRepository,
-        private readonly EventManager $eventManager
+        private readonly EventManager $eventManager,
+        private readonly CancelService $cancelService
     ) {
     }
 
@@ -110,14 +116,22 @@ class NotificationService
                         $payment = $order->getPayment();
                         $payment->setCreatedInvoice($invoice);
                     } else {
-                        //If invoice id is null on transaction then we probably are in an action order context.
+                        //If invoice id is null on transaction then we probably are in an action order context with no
+                        //invoice created yet.
                         $order = $this->orderRepository->get($transaction->getOrderId());
                         $payment = $order->getPayment();
                     }
 
                     try {
                         if ($transaction->getInvoiceId() !== null) {
-                            $this->paymentProcessor->capture($payment, $invoice);
+                            if ($this->config->getPaymentAction() === MethodInterface::ACTION_ORDER
+                                && $transaction->getStatus() === OrderTransactions::ERROR_STATUS) {
+                                //If the transaction is in error while we are in action order mode, then throw exception
+                                //right away so the invoice & the rest of the order can be canceled.
+                                throw new CaptureErrorException('Received notification about a transaction in error');
+                            } else {
+                                $this->paymentProcessor->capture($payment, $invoice);
+                            }
 
                             //After capture is done trigger pay of the invoice.
                             if ($invoice->getIsPaid()) {
@@ -134,16 +148,33 @@ class NotificationService
                             $this->paymentProcessor->order($payment, $order->getBaseTotalDue());
                             $this->orderRepository->save($order);
                         }
-                    } catch (CaptureErrorException | OrderErrorException $captureErrorException) {
+                    } catch (Throwable $exception) {
                         $this->eventManager->dispatch('sales_order_usp_payment_error', ['payment' => $payment]);
-                        //This is thrown by the capture / order function in UpStream Pay payment method.
                         $order->addCommentToStatusHistory(
                             'Notification has error on capture transaction, denying the payment'
                         );
-                        $payment->deny();
-                        //Very important to save the order coming from the payment because several things will be
-                        //set on this object.
-                        $this->orderRepository->save($payment->getOrder());
+                        $this->logger->critical($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
+
+                        //Based on the payment action used, the error process will not be the same.
+                        if ($this->config->getPaymentAction() === MethodInterface::ACTION_ORDER
+                            && (int)$invoice->getState() !== Invoice::STATE_PAID) {
+                            $order->addCommentToStatusHistory($exception->getMessage());
+
+                            //Cancel the invoice we are trying tp pay.
+                            $invoice->cancel();
+
+                            $this->invoiceRepository->save($invoice);
+                            $this->orderRepository->save($invoice->getOrder());
+
+                            //Refund & void the transactions in UpStream Pay & cancel the order that has not been
+                            //invoiced yet.
+                            $this->cancelService->execute($order);
+                        } else {
+                            $payment->deny();
+                            //Very important to save the order coming from the payment because several things will be
+                            //set on this object.
+                            $this->orderRepository->save($payment->getOrder());
+                        }
                     }
 
                     break;

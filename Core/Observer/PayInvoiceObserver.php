@@ -20,12 +20,16 @@ use Magento\Sales\Api\InvoiceRepositoryInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Sales\Model\Order\Invoice;
 use Magento\Sales\Model\Order\Payment\Processor;
+use Psr\Log\LoggerInterface;
+use Throwable;
 use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
+use UpStreamPay\Core\Model\Actions\CancelService;
 use UpStreamPay\Core\Model\Config;
 
 /**
  * Class PayInvoiceObserver
  *
+ * @package UpStreamPay\Core\Observer
  */
 class PayInvoiceObserver implements ObserverInterface
 {
@@ -35,13 +39,17 @@ class PayInvoiceObserver implements ObserverInterface
      * @param OrderRepositoryInterface $orderRepository
      * @param InvoiceRepositoryInterface $invoiceRepository
      * @param OrderTransactionsRepositoryInterface $transactionsRepository
+     * @param LoggerInterface $logger
+     * @param CancelService $cancelService
      */
     public function __construct(
         private readonly Config $config,
         private readonly Processor $paymentProcessor,
         private readonly OrderRepositoryInterface $orderRepository,
         private readonly InvoiceRepositoryInterface $invoiceRepository,
-        private readonly OrderTransactionsRepositoryInterface $transactionsRepository
+        private readonly OrderTransactionsRepositoryInterface $transactionsRepository,
+        private readonly LoggerInterface $logger,
+        private readonly CancelService $cancelService,
     ) {
     }
 
@@ -76,16 +84,30 @@ class PayInvoiceObserver implements ObserverInterface
         //- the invoice has not been paid yet.
         //- there are no upstream pay transactions on the invoice.
         if ($this->config->getPaymentAction() === MethodInterface::ACTION_ORDER
-            && !$invoice->getIsPaid() && !$this->invoiceHasUpstreamTransactions($invoice)) {
-            $this->paymentProcessor->capture($payment, $invoice);
+            && !$invoice->getIsPaid() && (int)$invoice->getState() === Invoice::STATE_OPEN
+            && !$this->invoiceHasUpstreamTransactions($invoice)) {
+            try {
+                $this->paymentProcessor->capture($payment, $invoice);
 
-            //After capture is done trigger pay of the invoice.
-            if ($invoice->getIsPaid()) {
-                $invoice->pay();
+                //After capture is done trigger pay of the invoice.
+                if ($invoice->getIsPaid()) {
+                    $invoice->pay();
+                }
+
+                $this->orderRepository->save($order);
+                $this->invoiceRepository->save($invoice);
+            } catch (Throwable $exception) {
+                $this->logger->critical($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
+                $order->addCommentToStatusHistory($exception->getMessage());
+
+                //Cancel the invoice we are trying tp pay.
+                $invoice->cancel();
+                $this->invoiceRepository->save($invoice);
+                $this->orderRepository->save($invoice->getOrder());
+
+                //Refund & void the transactions in UpStream Pay & cancel the order.
+                $this->cancelService->execute($order);
             }
-
-            $this->orderRepository->save($order);
-            $this->invoiceRepository->save($invoice);
         }
     }
 

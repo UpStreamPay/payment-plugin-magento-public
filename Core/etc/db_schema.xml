@@ -82,7 +82,6 @@
         <column xsi:type="int" name="quote_id" unsigned="true" nullable="false" comment="Quote ID"/>
         <column xsi:type="int" name="order_id" unsigned="true" nullable="false" comment="Order ID"/>
         <column xsi:type="int" name="invoice_id" unsigned="true" nullable="true" comment="Invoice ID"/>
-        <column xsi:type="int" name="creditmemo_id" unsigned="true" nullable="true" comment="Creditmemo ID"/>
         <column xsi:type="decimal" name="amount" scale="4" precision="12" nullable="false" default="0.00"
                 comment="Total Amount for transaction"/>
         <column xsi:type="varchar" name="status" nullable="false" length="255" comment="Status"/>
@@ -122,9 +121,6 @@
         </index>
         <index referenceId="UPSTREAM_PAY_ORDER_TRANSACTIONS_INVOICE_ID" indexType="btree">
             <column name="invoice_id"/>
-        </index>
-        <index referenceId="UPSTREAM_PAY_ORDER_TRANSACTIONS_CREDITMEMO_ID" indexType="btree">
-            <column name="creditmemo_id"/>
         </index>
         <index referenceId="UPSTREAM_PAY_ORDER_TRANSACTIONS_SESSION_ID" indexType="btree">
             <column name="session_id"/>

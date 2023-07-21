@@ -12,12 +12,14 @@ declare(strict_types=1);
 
 namespace UpStreamPay\Client\Exception;
 
+use Exception;
+
 /**
  * Class NoOrderFoundException
  *
  * @package UpStreamPay\Client\Exception
  */
-class NoOrderFoundException extends \Exception
+class NoOrderFoundException extends Exception
 {
 
 }

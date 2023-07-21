@@ -49,11 +49,12 @@ interface OrderTransactionsRepositoryInterface
 
     /**
      * @param string $parentTransactionId
+     * @param null|string $transactionType
      *
      * @return OrderTransactionsInterface[]
      * @throws LocalizedException
      */
-    public function getByParentTransactionId(string $parentTransactionId): array;
+    public function getByParentTransactionId(string $parentTransactionId, ?string $transactionType = null): array;
 
     /**
      * @param int $orderId
@@ -78,14 +79,6 @@ interface OrderTransactionsRepositoryInterface
      * @throws LocalizedException
      */
     public function getByInvoiceId(int $invoiceId): array;
-
-    /**
-     * @param int $creditmemoId
-     *
-     * @return OrderTransactionsInterface[]
-     * @throws LocalizedException
-     */
-    public function getByCreditmemoId(int $creditmemoId): array;
 
     /**
      * @param SearchCriteriaInterface $searchCriteria

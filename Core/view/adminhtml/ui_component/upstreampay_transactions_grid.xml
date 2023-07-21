@@ -131,13 +131,6 @@
                 <label translate="true">Invoice ID</label>
             </settings>
         </column>
-        <column name="creditmemo_id">
-            <settings>
-                <filter>text</filter>
-                <bodyTmpl>ui/grid/cells/text</bodyTmpl>
-                <label translate="true">Creditmemo ID</label>
-            </settings>
-        </column>
         <column name="amount">
             <settings>
                 <filter>text</filter>

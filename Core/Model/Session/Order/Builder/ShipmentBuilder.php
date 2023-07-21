@@ -12,7 +12,10 @@ declare(strict_types=1);
 
 namespace UpStreamPay\Core\Model\Session\Order\Builder;
 
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Quote\Api\Data\CartInterface;
+use Magento\Store\Model\Information;
+use Magento\Store\Model\ScopeInterface;
 use UpStreamPay\Core\Model\Session\Order\AddressBuilderInterface;
 use UpStreamPay\Core\Model\Session\Order\BuilderInterface;
 use Magento\Framework\Event\ManagerInterface as EventManager;
@@ -27,11 +30,14 @@ class ShipmentBuilder implements BuilderInterface
     /**
      * @param BuilderInterface[] $builders
      * @param AddressBuilderInterface $addressBuilder
+     * @param EventManager $eventManager
+     * @param ScopeConfigInterface $scopeConfig
      */
     public function __construct(
        private readonly array $builders,
        private readonly AddressBuilderInterface $addressBuilder,
-       private readonly EventManager $eventManager
+       private readonly EventManager $eventManager,
+       private readonly ScopeConfigInterface $scopeConfig
     ) {
     }
 
@@ -50,6 +56,10 @@ class ShipmentBuilder implements BuilderInterface
 
         $shipmentData = [];
         $shipmentData['delivery_type_code'] = $quote->getIsVirtual() ? 'digital' : 'user_delivery';
+        $shipmentData['seller_reference'] = $this->scopeConfig->getValue(
+            Information::XML_PATH_STORE_INFO_NAME,
+            ScopeInterface::SCOPE_STORE
+        );
 
         if (!$quote->getIsVirtual()) {
             $shipmentData['amount'] = $quote->getShippingAddress()->getBaseShippingInclTax();

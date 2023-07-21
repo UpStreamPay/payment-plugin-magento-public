@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+  UpStream Pay
+
+  Copyright (c) 2023 UpStream Pay.
+  This file is open source and available under the BSD 3 license.
+  See the LICENSE file for more info.
+
+  Author: Claranet France <info@fr.clara.net>
+  -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="sales_model_service_quote_submit_success">
+        <observer name="sendEmail" disabled="true" />
+        <observer name="sendInvoiceEmail" disabled="true" />
+        <observer name="sendEmailCustom" instance="UpStreamPay\Core\Observer\SubmitObserverCustom" />
+        <observer name="sendEmailInvoiceUpstream" instance="UpStreamPay\Core\Observer\SendUpStreamPayInvoiceEmailObserver" />
+    </event>
+</config>
