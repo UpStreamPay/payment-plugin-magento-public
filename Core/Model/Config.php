@@ -37,6 +37,8 @@ class Config
     public const API_KEY_CONFIG_PATH = 'payment/upstream_pay/api_config/api_key';
     public const RSA_SANDBOX_KEY_CONFIG_PATH = 'payment/upstream_pay/api_config/rsa_sandbox_key';
     public const RSA_PRODUCTION_KEY_CONFIG_PATH = 'payment/upstream_pay/api_config/rsa_production_key';
+    public const PRODUCTION_URL_KEY_CONFIG_PATH = 'payment/upstream_pay/api_config/production_url';
+    public const SANDBOX_URL_KEY_CONFIG_PATH = 'payment/upstream_pay/api_config/sandbox_url';
     public const PAYMENT_ACTION_CONFIG_PATH = 'payment/upstream_pay/payment_action';
     public const THREEDS_EXEMPTION_ATTRIBUTE_CODE = 'payment/upstream_pay/3ds_settings/3ds_exemption_attribute_code';
     public const THREEDS_CHALLENGE_INDICATOR_ATTRIBUTE_CODE = 'payment/upstream_pay/3ds_settings/challenge_indicator_attribute_code';
@@ -78,6 +80,20 @@ class Config
     public function getMode(): string
     {
         return $this->config->getValue(self::MODE_CONFIG_PATH, ScopeInterface::SCOPE_STORE);
+    }
+
+    /**
+     * Get the url of configured mode.
+     *
+     * @return string
+     */
+    public function getModeUrl(): string
+    {
+        if ($this->getMode() === Mode::SANDBOX_VALUE) {
+            return $this->config->getValue(self::SANDBOX_URL_KEY_CONFIG_PATH, ScopeInterface::SCOPE_STORE);
+        } else {
+            return $this->config->getValue(self::PRODUCTION_URL_KEY_CONFIG_PATH, ScopeInterface::SCOPE_STORE);
+        }
     }
 
     /**
