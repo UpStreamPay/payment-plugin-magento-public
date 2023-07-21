@@ -12,7 +12,9 @@ declare(strict_types=1);
 
 namespace UpStreamPay\Core\Model\Session\Order\Builder;
 
+use Magento\Bundle\Model\Product\Type as BundleType;
 use Magento\Quote\Api\Data\CartInterface;
+use Magento\Quote\Api\Data\CartItemInterface;
 use Magento\Quote\Model\Quote\Item;
 use UpStreamPay\Core\Model\Session\Order\BuilderInterface;
 
@@ -41,18 +43,16 @@ class TaxBuilder implements BuilderInterface
         //Retrieve all the item tax & group them by tax rate.
         /** @var Item $item */
         foreach ($quote->getAllVisibleItems() as $item) {
-            $taxPercent = $item->getTaxPercent();
-            $taxAmount = $item->getBaseTaxAmount();
-
-            if ($taxPercent === 0.00 || $taxAmount === 0.00) {
-                continue;
+            if ($item->getProductType() === BundleType::TYPE_CODE) {
+                //In case of a bundle product, loop through all items to get the child items.
+                foreach ($quote->getAllItems() as $quoteItem) {
+                    if ($quoteItem->getParentItemId() === $item->getId()) {
+                        $itemsByTaxRate = $this->buildTaxElement($itemsByTaxRate, $quoteItem);
+                    }
+                }
+            } else {
+                $itemsByTaxRate = $this->buildTaxElement($itemsByTaxRate, $item);
             }
-
-            if (!isset($itemsByTaxRate[$taxPercent])) {
-                $itemsByTaxRate[$taxPercent] = 0;
-            }
-
-            $itemsByTaxRate[$taxPercent] += $taxAmount;
         }
 
         //Build as many array as we have tax_rate.
@@ -66,5 +66,31 @@ class TaxBuilder implements BuilderInterface
         }
 
         return $globalTaxRate;
+    }
+
+    /**
+     * Build the tax element.
+     *
+     * @param array $itemsByTaxRate
+     * @param CartItemInterface $item
+     *
+     * @return array
+     */
+    private function buildTaxElement(array $itemsByTaxRate, CartItemInterface $item): array
+    {
+        $taxPercent = $item->getTaxPercent();
+        $taxAmount = $item->getBaseTaxAmount();
+
+        if ($taxPercent === 0.00 || $taxAmount === 0.00) {
+            return $itemsByTaxRate;
+        }
+
+        if (!isset($itemsByTaxRate[$taxPercent])) {
+            $itemsByTaxRate[$taxPercent] = 0;
+        }
+
+        $itemsByTaxRate[$taxPercent] += $taxAmount;
+
+        return $itemsByTaxRate;
     }
 }
