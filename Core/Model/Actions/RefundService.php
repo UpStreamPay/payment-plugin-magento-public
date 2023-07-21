@@ -20,7 +20,7 @@ use UpStreamPay\Client\Model\Client\ClientInterface;
 use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
 use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
 use UpStreamPay\Core\Model\OrderTransactions;
-use UpStreamPay\Core\Model\PaymentFinder\allTransactionsToRefundFinder;
+use UpStreamPay\Core\Model\PaymentFinder\AllTransactionsToRefundFinder;
 use Magento\Framework\Event\ManagerInterface as EventManager;
 
 /**
@@ -31,7 +31,7 @@ use Magento\Framework\Event\ManagerInterface as EventManager;
 class RefundService
 {
     /**
-     * @param allTransactionsToRefundFinder $allTransactionsToRefundFinder
+     * @param AllTransactionsToRefundFinder $allTransactionsToRefundFinder
      * @param ClientInterface $client
      * @param OrderTransactions $orderTransactions
      * @param OrderPaymentRepositoryInterface $orderPaymentRepository
@@ -39,7 +39,7 @@ class RefundService
      * @param EventManager $eventManager
      */
     public function __construct(
-        private readonly allTransactionsToRefundFinder  $allTransactionsToRefundFinder,
+        private readonly AllTransactionsToRefundFinder  $allTransactionsToRefundFinder,
         private readonly ClientInterface $client,
         private readonly OrderTransactions $orderTransactions,
         private readonly OrderPaymentRepositoryInterface $orderPaymentRepository,
