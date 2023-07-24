@@ -14,10 +14,16 @@ namespace UpStreamPay\Core\Controller\Payment;
 
 use Magento\Checkout\Model\Session;
 use Magento\Framework\App\Action\HttpGetActionInterface;
+use Magento\Framework\App\Action\HttpPostActionInterface;
+use Magento\Framework\App\CsrfAwareActionInterface;
+use Magento\Framework\App\Request\InvalidRequestException;
+use Magento\Framework\App\RequestInterface;
+use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\Result\RedirectFactory;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Message\ManagerInterface;
+use Magento\Framework\Phrase;
 use Magento\Payment\Model\InfoInterface;
 use Magento\Payment\Model\MethodInterface;
 use Magento\Sales\Api\Data\InvoiceInterface;
@@ -41,7 +47,7 @@ use UpStreamPay\Core\Model\Config;
  *
  * @see base_url/upstreampay/payment/returnurl
  */
-class ReturnUrl implements HttpGetActionInterface
+class ReturnUrl implements HttpGetActionInterface, HttpPostActionInterface, CsrfAwareActionInterface
 {
     public const URL_PATH = 'upstreampay/payment/returnurl';
 
@@ -163,5 +169,23 @@ class ReturnUrl implements HttpGetActionInterface
                 )
             );
         }
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * We have no particular CSRF validation to do & we don't want to use the default one.
+     */
+    public function validateForCsrf(RequestInterface $request): ?bool
+    {
+        return true;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function createCsrfValidationException(RequestInterface $request): ?InvalidRequestException
+    {
+        return null;
     }
 }
