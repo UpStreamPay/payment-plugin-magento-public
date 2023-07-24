@@ -79,7 +79,13 @@ class ShipmentBuilder implements BuilderInterface
             $shipmentData[$builderName] = $builder->execute($quote);
         }
 
-        $this->eventManager->dispatch('sales_order_usp_after_shipment', ['quote' => $quote, 'shipmentData' => $shipmentData]);
+        $this->eventManager->dispatch(
+            'sales_order_usp_after_shipment',
+            [
+                'quote' => $quote,
+                'shipmentData' => $shipmentData
+            ]
+        );
 
         return [$shipmentData];
     }

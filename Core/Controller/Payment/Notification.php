@@ -61,7 +61,13 @@ class Notification implements CsrfAwareActionInterface, HttpPostActionInterface
 
         $resultJson = $this->jsonFactory->create();
 
-        $this->eventManager->dispatch('payment_usp_after_webhook', ['notification' => $notification, 'resultJson' => $resultJson]);
+        $this->eventManager->dispatch(
+            'payment_usp_after_webhook',
+            [
+                'notification' => $notification,
+                'resultJson' => $resultJson
+            ]
+        );
 
         return $resultJson;
     }

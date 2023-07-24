@@ -112,7 +112,8 @@ class OrderActionCaptureService
 
                 //If the transaction is already linked to the invoice we are trying to pay, don't link it again.
                 if ($transaction->getInvoiceId() === null) {
-                    //Link the capture transaction to the invoice. This is very important to know what a transaction paid.
+                    //Link the capture transaction to the invoice. This is very important to know what a transaction
+                    //paid.
                     $transaction->setInvoiceId($invoiceId);
                     $this->orderTransactionsRepository->save($transaction);
 

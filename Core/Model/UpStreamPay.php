@@ -170,8 +170,8 @@ class UpStreamPay extends AbstractMethod
                 //This is triggered in case of capture using order action mode.
                 $this->orderSynchronizeService->execute($payment, $amount, OrderTransactions::ORDER_CAPTURE_ACTION);
             } else {
-                //On initial place order this will always throw an exception because UpStream Pay doesn't have the data yet.
-                //Initial capture is done after redirection or through webhook.
+                //On initial place order this will always throw an exception because UpStream Pay doesn't have the data
+                //yet. Initial capture is done after redirection or through webhook.
                 $this->orderSynchronizeService->execute($payment, $amount, OrderTransactions::CAPTURE_ACTION);
             }
         } catch (NoOrderFoundException | NoTransactionsException $exception) {

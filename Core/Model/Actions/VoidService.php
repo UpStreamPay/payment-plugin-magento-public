@@ -117,7 +117,8 @@ class VoidService
                 continue;
             }
 
-            if ($this->config->getDebugMode() === Debug::SIMPLE_VALUE || $this->config->getDebugMode() === Debug::DEBUG_VALUE) {
+            if ($this->config->getDebugMode() === Debug::SIMPLE_VALUE
+                || $this->config->getDebugMode() === Debug::DEBUG_VALUE) {
                 $this->logger->debug(
                     sprintf(
                         'Payment denied for order %s, void transaction response:',
@@ -193,7 +194,8 @@ class VoidService
                 continue;
             }
 
-            if ($this->config->getDebugMode() === Debug::SIMPLE_VALUE || $this->config->getDebugMode() === Debug::DEBUG_VALUE) {
+            if ($this->config->getDebugMode() === Debug::SIMPLE_VALUE
+                || $this->config->getDebugMode() === Debug::DEBUG_VALUE) {
                 $this->logger->debug(
                     sprintf(
                         'Payment refunded for order %s, refund transaction response:',

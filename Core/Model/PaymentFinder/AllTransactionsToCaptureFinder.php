@@ -119,7 +119,8 @@ class AllTransactionsToCaptureFinder
 
             //If the max amount available to capture is <= to the amount to capture, then what we must capture is the
             //max allowed on transaction. Otherwise, refund the amount left to capture.
-            $amountToCaptureOnTransaction = $maxAmountToCapture <= $amountLeftToCapture ? $maxAmountToCapture : $amountLeftToCapture;
+            $amountToCaptureOnTransaction = $maxAmountToCapture <= $amountLeftToCapture
+                ? $maxAmountToCapture : $amountLeftToCapture;
             //This is the amount left that we can capture on the payment method.
             //It should be the same as the amount calculated before.
             $amountLeftToCaptureOnPayment = $this->orderTransactions->getAmountLeftToCaptureOnTransaction(
@@ -189,7 +190,8 @@ class AllTransactionsToCaptureFinder
 
                 //If the max amount available to capture is <= to the amount to capture, then what we must capture is
                 //the max allowed on transaction. Otherwise, refund the amount left to capture.
-                $amountToCaptureOnTransaction = $maxAmountToCapture <= $amountLeftToCapture ? $maxAmountToCapture : $amountLeftToCapture;
+                $amountToCaptureOnTransaction = $maxAmountToCapture <= $amountLeftToCapture
+                    ? $maxAmountToCapture : $amountLeftToCapture;
 
                 //This is the amount left that we can capture on the payment method.
                 //It should be the same as the amount calculated before.

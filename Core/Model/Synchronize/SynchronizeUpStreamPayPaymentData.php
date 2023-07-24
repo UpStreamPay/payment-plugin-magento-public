@@ -69,21 +69,28 @@ class SynchronizeUpStreamPayPaymentData
 
         if ($orderId !== 0) {
             foreach ($orderTransactionsResponse as $orderTransactionResponse) {
-                if ($this->config->getDebugMode() === Debug::SIMPLE_VALUE || $this->config->getDebugMode() === Debug::DEBUG_VALUE) {
+                if ($this->config->getDebugMode() === Debug::SIMPLE_VALUE
+                    || $this->config->getDebugMode() === Debug::DEBUG_VALUE) {
                     $this->logger->debug(sprintf('Creating transaction for order with ID %s', $orderId));
                     $this->logger->debug(print_r($orderTransactionResponse, true));
                 }
 
-                //Create a row in payment table for each original transaction, it means transactions without a parent_id.
+                //Create a row in payment table for each original transaction, it means transactions without
+                //a parent_id.
                 if (!isset($orderTransactionResponse['parent_transaction_id'])) {
-                    $orderPayment = $this->orderPaymentRepository->getByDefaultTransactionId($orderTransactionResponse['id']);
+                    $orderPayment = $this->orderPaymentRepository->getByDefaultTransactionId(
+                        $orderTransactionResponse['id']
+                    );
 
                     //We can only create this, the payment methods should never be updated unless we are doing a capture
                     //Or refund then the amount captured or refunded will be updated, but just that.
                     if (!$orderPayment || !$orderPayment->getEntityId()
                         && $orderTransactionResponse['transaction_id'] !== $orderPayment->getDefaultTransactionId()
                     ) {
-                        $paymentMethodType = $this->getPaymentMethodTypeFromResponse($orderTransactionResponse, $orderId);
+                        $paymentMethodType = $this->getPaymentMethodTypeFromResponse(
+                            $orderTransactionResponse,
+                            $orderId
+                        );
 
                         //Create.
                         $upStreamPayPayment = $this->orderPayment->createPaymentFromResponse(
@@ -98,7 +105,9 @@ class SynchronizeUpStreamPayPaymentData
                     }
                 }
 
-                $orderTransaction = $this->orderTransactionsRepository->getByTransactionId($orderTransactionResponse['id']);
+                $orderTransaction = $this->orderTransactionsRepository->getByTransactionId(
+                    $orderTransactionResponse['id']
+                );
 
                 if ($orderTransaction && $orderTransaction->getEntityId()) {
                     //Update.

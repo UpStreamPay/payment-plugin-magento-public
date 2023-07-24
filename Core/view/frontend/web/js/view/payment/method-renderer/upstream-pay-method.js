@@ -81,9 +81,11 @@ define([
                                     self.manager.subscribe(event => {
                                         if (event.code === 'CHECKOUT_PAYMENT_FULFILLED_CHANGES') {
                                             if (event.payload.isFulfilled) {
-                                                document.getElementById('submit-ups-payment').removeAttribute('disabled');
+                                                document.getElementById('submit-ups-payment')
+                                                    .removeAttribute('disabled');
                                             } else {
-                                                document.getElementById('submit-ups-payment').setAttribute('disabled', true);
+                                                document.getElementById('submit-ups-payment')
+                                                    .setAttribute('disabled', true);
                                             }
                                         }
                                     });
