@@ -74,8 +74,8 @@ class SendUpStreamPayInvoiceEmailObserver implements ObserverInterface
                         $this->invoiceSender->send($invoice);
                     }
                 }
-            } catch (Throwable $e) {
-                $this->logger->critical($e);
+            } catch (Throwable $exception) {
+                $this->logger->critical($exception);
             }
         }
     }

@@ -59,8 +59,8 @@ class SubmitObserverCustom implements ObserverInterface
                 if ($order->getPayment()->getMethod() !== Config::METHOD_CODE_UPSTREAM_PAY) {
                     $this->orderSender->send($order);
                 }
-            } catch (Throwable $e) {
-                $this->logger->critical($e);
+            } catch (Throwable $exception) {
+                $this->logger->critical($exception);
             }
         }
     }
