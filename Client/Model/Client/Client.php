@@ -32,11 +32,6 @@ use UpStreamPay\Core\Model\Config\Source\Debug;
  */
 class Client implements ClientInterface
 {
-    private const API_ENDPOINT = [
-        Mode::SANDBOX_VALUE => 'https://api.preprod.upstreampay.com',
-        Mode::PRODUCTION_VALUE => ''
-    ];
-
     private const HEADERS = 'headers';
     private const API_KEY_PARAM = 'x-api-key';
     private const QUERY = 'query';
@@ -347,8 +342,7 @@ class Client implements ClientInterface
         $client = $this->httpClientFactory->create(
             [
                 'config' => [
-                    'base_uri' => self::API_ENDPOINT[$this->config->getMode()
-                    ]
+                    'base_uri' => $this->config->getModeUrl()
                 ]
             ]
         );
