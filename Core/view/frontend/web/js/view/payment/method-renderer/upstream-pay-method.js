@@ -85,7 +85,7 @@ define([
                                                     .removeAttribute('disabled');
                                             } else {
                                                 document.getElementById('submit-ups-payment')
-                                                    .setAttribute('disabled', true);
+                                                    .setAttribute('disabled', 'disabled');
                                             }
                                         }
                                     });
