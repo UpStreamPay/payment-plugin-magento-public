@@ -45,6 +45,7 @@ class VoidService
      * @param Config $config
      * @param AllTransactionsFinder $findAllTransactions
      * @param LoggerInterface $logger
+     * @param EventManager $eventManager
      */
     public function __construct(
         private readonly SearchCriteriaBuilder $searchCriteriaBuilder,
@@ -64,6 +65,8 @@ class VoidService
      * @param InfoInterface $payment
      *
      * @return InfoInterface
+     * @throws GuzzleException
+     * @throws JsonException
      * @throws LocalizedException
      */
     public function execute(InfoInterface $payment): InfoInterface
@@ -86,6 +89,8 @@ class VoidService
      * @param InfoInterface $payment
      *
      * @return InfoInterface
+     * @throws GuzzleException
+     * @throws JsonException
      * @throws LocalizedException
      */
     private function voidAllAuthorizeTransactions(InfoInterface $payment): InfoInterface
@@ -180,7 +185,6 @@ class VoidService
             return $payment;
         }
 
-        /** @var OrderTransactionsInterface $captureTransaction */
         foreach ($captureTransactions as $captureTransaction) {
             $body = [
                 'order' => [

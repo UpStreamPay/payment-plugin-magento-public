@@ -20,6 +20,7 @@ use UpStreamPay\Client\Exception\NoOrderFoundException;
 use UpStreamPay\Client\Model\Client\ClientInterface;
 use UpStreamPay\Core\Exception\AuthorizeErrorException;
 use UpStreamPay\Core\Exception\CaptureErrorException;
+use UpStreamPay\Core\Exception\NoPaymentMethodFoundException;
 use UpStreamPay\Core\Exception\NotEnoughFundException;
 use UpStreamPay\Core\Exception\NoTransactionsException;
 use UpStreamPay\Core\Exception\OrderErrorException;
@@ -48,6 +49,7 @@ class OrderSynchronizeService
      * @param RefundService $refundService
      * @param OrderService $orderService
      * @param OrderActionCaptureService $orderActionCaptureService
+     * @param CancelService $cancelService
      */
     public function __construct(
         private readonly ClientInterface $client,
@@ -79,6 +81,7 @@ class OrderSynchronizeService
      * @throws CaptureErrorException
      * @throws OrderErrorException
      * @throws NotEnoughFundException
+     * @throws NoPaymentMethodFoundException
      */
     public function execute(InfoInterface $payment, float $amount, string $action): InfoInterface
     {
