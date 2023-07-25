@@ -19,6 +19,7 @@ use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Email\Container\InvoiceIdentity;
 use Magento\Sales\Model\Order\Email\Sender\InvoiceSender;
 use Psr\Log\LoggerInterface;
+use Throwable;
 use UpStreamPay\Core\Model\Config;
 
 /**
@@ -73,7 +74,7 @@ class SendUpStreamPayInvoiceEmailObserver implements ObserverInterface
                         $this->invoiceSender->send($invoice);
                     }
                 }
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 $this->logger->critical($e);
             }
         }

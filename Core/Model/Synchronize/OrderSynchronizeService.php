@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace UpStreamPay\Core\Model\Synchronize;
 
 use GuzzleHttp\Exception\GuzzleException;
+use JsonException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Payment\Model\InfoInterface;
 use UpStreamPay\Client\Exception\NoOrderFoundException;
@@ -73,7 +74,7 @@ class OrderSynchronizeService
      * @throws LocalizedException
      * @throws NoOrderFoundException
      * @throws NoTransactionsException
-     * @throws \JsonException
+     * @throws JsonException
      * @throws AuthorizeErrorException
      * @throws CaptureErrorException
      * @throws OrderErrorException

@@ -16,6 +16,7 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Payment\Model\InfoInterface;
 use Magento\Sales\Model\Order\Creditmemo;
 use Psr\Log\LoggerInterface;
+use Throwable;
 use UpStreamPay\Client\Model\Client\ClientInterface;
 use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
 use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
@@ -100,7 +101,7 @@ class RefundService
 
                     try {
                         $refundResponse = $this->client->refund($captureTransaction->getTransactionId(), $body);
-                    } catch (\Throwable $exception) {
+                    } catch (Throwable $exception) {
                         //In case of a refund error, try to refund as many transactions as possible.
                         $errorMessage = sprintf(
                             'Refund for capture transaction %s for amount %s in error because %s,

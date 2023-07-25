@@ -12,11 +12,13 @@ declare(strict_types=1);
 
 namespace UpStreamPay\Core\Exception;
 
+use Exception;
+
 /**
  * Class OrderErrorException
  *
  * @package UpStreamPay\Core\Exception
  */
-class OrderErrorException extends \Exception
+class OrderErrorException extends Exception
 {
 }

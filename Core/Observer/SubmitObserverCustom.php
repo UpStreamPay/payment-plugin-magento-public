@@ -18,6 +18,7 @@ use Magento\Quote\Model\Quote;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Email\Sender\OrderSender;
 use Psr\Log\LoggerInterface;
+use Throwable;
 use UpStreamPay\Core\Model\Config;
 
 /**
@@ -58,7 +59,7 @@ class SubmitObserverCustom implements ObserverInterface
                 if ($order->getPayment()->getMethod() !== Config::METHOD_CODE_UPSTREAM_PAY) {
                     $this->orderSender->send($order);
                 }
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 $this->logger->critical($e);
             }
         }
