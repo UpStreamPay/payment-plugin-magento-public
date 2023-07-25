@@ -27,7 +27,6 @@ use Magento\Payment\Model\Method\Logger;
 use Magento\Payment\Model\MethodInterface;
 use UpStreamPay\Client\Exception\NoOrderFoundException;
 use UpStreamPay\Core\Exception\NoTransactionsException;
-use UpStreamPay\Core\Model\Actions\OrderActionCaptureService;
 use UpStreamPay\Core\Model\Synchronize\OrderSynchronizeService;
 
 /**
@@ -64,7 +63,6 @@ class UpStreamPay extends AbstractMethod
     /**
      * @param OrderSynchronizeService $orderSynchronizeService
      * @param Config $config
-     * @param OrderActionCaptureService $orderActionCaptureService
      * @param Context $context
      * @param Registry $registry
      * @param ExtensionAttributesFactory $extensionFactory
@@ -80,7 +78,6 @@ class UpStreamPay extends AbstractMethod
     public function __construct(
         private readonly OrderSynchronizeService $orderSynchronizeService,
         private readonly Config $config,
-        private readonly OrderActionCaptureService $orderActionCaptureService,
         Context $context,
         Registry $registry,
         ExtensionAttributesFactory $extensionFactory,
