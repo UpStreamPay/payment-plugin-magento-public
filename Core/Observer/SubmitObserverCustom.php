@@ -43,7 +43,7 @@ class SubmitObserverCustom implements ObserverInterface
      *
      * @return void
      */
-    public function execute(Observer $observer)
+    public function execute(Observer $observer): void
     {
         /** @var  Quote $quote */
         $quote = $observer->getEvent()->getQuote();

@@ -64,7 +64,7 @@ class NotificationService
      * @return void
      * @throws LocalizedException
      */
-    public function execute(array $notification)
+    public function execute(array $notification): void
     {
         $transaction = $this->orderTransactionsRepository->getByTransactionId($notification['id']);
 
