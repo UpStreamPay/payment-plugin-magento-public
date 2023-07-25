@@ -117,5 +117,7 @@ class OrderSynchronizeService
 
             return $payment;
         }
+
+        return $payment;
     }
 }

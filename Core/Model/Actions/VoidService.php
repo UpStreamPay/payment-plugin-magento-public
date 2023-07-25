@@ -74,6 +74,8 @@ class VoidService
             $payment = $this->voidAllAuthorizeTransactions($payment);
             return $this->voidAllCaptureTransactions($payment);
         }
+
+        return $payment;
     }
 
     /**
