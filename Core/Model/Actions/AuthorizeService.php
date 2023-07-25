@@ -77,7 +77,8 @@ class AuthorizeService
         $authorizeTransactions = $this->orderTransactionsRepository->getList($searchCriteria)->getItems();
 
         //If there are no authorize transactions & we are using the order action then don't bother going any further.
-        if ($this->config->getPaymentAction() === MethodInterface::ACTION_ORDER && count($authorizeTransactions) === 0) {
+        if ($this->config->getPaymentAction() === MethodInterface::ACTION_ORDER
+            && count($authorizeTransactions) === 0) {
             return $payment;
         }
 

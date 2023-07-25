@@ -62,6 +62,7 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
      * @param OrderTransactionsFactory $orderTransactionsFactory
      * @param OrderTransactionsRepositoryInterface $transactionsRepository
      * @param OrderPaymentRepositoryInterface $orderPaymentRepository
+     * @param EventManager $eventManager
      * @param Context $context
      * @param Registry $registry
      * @param AbstractResource|null $resource

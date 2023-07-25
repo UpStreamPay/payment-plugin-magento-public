@@ -11,24 +11,37 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="UpStreamPay\Core\Api\SessionInterface" type="UpStreamPay\Core\Model\Session"/>
-    <preference for="UpStreamPay\Core\Model\Session\Order\BuilderInterface" type="UpStreamPay\Core\Model\Session\Order\Builder\AccountBuilder"/>
-    <preference for="UpStreamPay\Core\Model\Session\Order\AddressBuilderInterface" type="UpStreamPay\Core\Model\Session\Order\Builder\AddressBuilder"/>
+    <preference for="UpStreamPay\Core\Model\Session\Order\BuilderInterface"
+                type="UpStreamPay\Core\Model\Session\Order\Builder\AccountBuilder"/>
+    <preference for="UpStreamPay\Core\Model\Session\Order\AddressBuilderInterface"
+                type="UpStreamPay\Core\Model\Session\Order\Builder\AddressBuilder"/>
     <preference for="UpStreamPay\Core\Api\Data\OrderPaymentInterface" type="UpStreamPay\Core\Model\OrderPayment"/>
-    <preference for="UpStreamPay\Core\Api\Data\OrderPaymentSearchResultsInterface" type="UpStreamPay\Core\Model\OrderPaymentSearchResults"/>
-    <preference for="UpStreamPay\Core\Api\OrderPaymentRepositoryInterface" type="UpStreamPay\Core\Model\OrderPaymentRepository"/>
-    <preference for="UpStreamPay\Core\Api\Data\OrderTransactionsInterface" type="UpStreamPay\Core\Model\OrderTransactions"/>
-    <preference for="UpStreamPay\Core\Api\Data\OrderTransactionsSearchResultsInterface" type="UpStreamPay\Core\Model\OrderTransactionsSearchResults"/>
-    <preference for="UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface" type="UpStreamPay\Core\Model\OrderTransactionsRepository"/>
-    <preference for="UpStreamPay\Core\Api\PaymentMethodRepositoryInterface" type="UpStreamPay\Core\Model\PaymentMethodRepository"/>
-    <preference for="UpStreamPay\Core\Api\Data\PaymentMethodSearchResultsInterface" type="UpStreamPay\Core\Model\PaymentMethodSearchResults"/>
+    <preference for="UpStreamPay\Core\Api\Data\OrderPaymentSearchResultsInterface"
+                type="UpStreamPay\Core\Model\OrderPaymentSearchResults"/>
+    <preference for="UpStreamPay\Core\Api\OrderPaymentRepositoryInterface"
+                type="UpStreamPay\Core\Model\OrderPaymentRepository"/>
+    <preference for="UpStreamPay\Core\Api\Data\OrderTransactionsInterface"
+                type="UpStreamPay\Core\Model\OrderTransactions"/>
+    <preference for="UpStreamPay\Core\Api\Data\OrderTransactionsSearchResultsInterface"
+                type="UpStreamPay\Core\Model\OrderTransactionsSearchResults"/>
+    <preference for="UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface"
+                type="UpStreamPay\Core\Model\OrderTransactionsRepository"/>
+    <preference for="UpStreamPay\Core\Api\PaymentMethodRepositoryInterface"
+                type="UpStreamPay\Core\Model\PaymentMethodRepository"/>
+    <preference for="UpStreamPay\Core\Api\Data\PaymentMethodSearchResultsInterface"
+                type="UpStreamPay\Core\Model\PaymentMethodSearchResults"/>
     <preference for="UpStreamPay\Core\Api\Data\PaymentMethodInterface" type="UpStreamPay\Core\Model\PaymentMethod"/>
 
     <type name="UpStreamPay\Core\Model\Session\Order\OrderService">
         <arguments>
             <argument name="builders" xsi:type="array">
                 <item name="tax_lines" xsi:type="object">UpStreamPay\Core\Model\Session\Order\Builder\TaxBuilder</item>
-                <item name="customer" xsi:type="object">UpStreamPay\Core\Model\Session\Order\Builder\CustomerBuilder</item>
-                <item name="shipments" xsi:type="object">UpStreamPay\Core\Model\Session\Order\Builder\ShipmentBuilder</item>
+                <item name="customer" xsi:type="object">
+                    UpStreamPay\Core\Model\Session\Order\Builder\CustomerBuilder
+                </item>
+                <item name="shipments" xsi:type="object">
+                    UpStreamPay\Core\Model\Session\Order\Builder\ShipmentBuilder
+                </item>
             </argument>
         </arguments>
     </type>
@@ -36,7 +49,9 @@
     <type name="UpStreamPay\Core\Model\Session\Order\Builder\ShipmentBuilder">
         <arguments>
             <argument name="builders" xsi:type="array">
-                <item name="item_lines" xsi:type="object">UpStreamPay\Core\Model\Session\Order\Builder\ItemBuilder</item>
+                <item name="item_lines" xsi:type="object">
+                    UpStreamPay\Core\Model\Session\Order\Builder\ItemBuilder
+                </item>
                 <item name="tax_lines" xsi:type="object">UpStreamPay\Core\Model\Session\Order\Builder\TaxBuilder</item>
             </argument>
         </arguments>
@@ -45,22 +60,32 @@
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
         <arguments>
             <argument name="collections" xsi:type="array">
-                <item name="upstreampay_payments_grid_data_source" xsi:type="string">UpStreamPay\Core\Model\ResourceModel\Payments\Grid\Collection</item>
-                <item name="upstreampay_transactions_grid_data_source" xsi:type="string">UpStreamPay\Core\Model\ResourceModel\Transactions\Grid\Collection</item>
+                <item name="upstreampay_payments_grid_data_source" xsi:type="string">
+                    UpStreamPay\Core\Model\ResourceModel\Payments\Grid\Collection
+                </item>
+                <item name="upstreampay_transactions_grid_data_source" xsi:type="string">
+                    UpStreamPay\Core\Model\ResourceModel\Transactions\Grid\Collection
+                </item>
             </argument>
         </arguments>
     </type>
-    <virtualType name="UpStreamPay\Core\Model\ResourceModel\Payments\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+    <virtualType name="UpStreamPay\Core\Model\ResourceModel\Payments\Grid\Collection"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
         <arguments>
             <argument name="mainTable" xsi:type="string">upstream_pay_order_payment</argument>
-            <argument name="resourceModel" xsi:type="string">UpStreamPay\Core\Model\ResourceModel\OrderPayment</argument>
+            <argument name="resourceModel" xsi:type="string">
+                UpStreamPay\Core\Model\ResourceModel\OrderPayment
+            </argument>
         </arguments>
     </virtualType>
 
-    <virtualType name="UpStreamPay\Core\Model\ResourceModel\Transactions\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+    <virtualType name="UpStreamPay\Core\Model\ResourceModel\Transactions\Grid\Collection"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
         <arguments>
             <argument name="mainTable" xsi:type="string">upstream_pay_order_transactions</argument>
-            <argument name="resourceModel" xsi:type="string">UpStreamPay\Core\Model\ResourceModel\OrderTransactions</argument>
+            <argument name="resourceModel" xsi:type="string">
+                UpStreamPay\Core\Model\ResourceModel\OrderTransactions
+            </argument>
         </arguments>
     </virtualType>
 
@@ -94,6 +119,7 @@
     </type>
 
     <type name="Magento\Checkout\Model\PaymentInformationManagement">
-        <plugin name="paymentInformationPlugin" type="UpStreamPay\Core\Plugin\PaymentInformationPlugin" sortOrder="1" disabled="false" />
+        <plugin name="paymentInformationPlugin" type="UpStreamPay\Core\Plugin\PaymentInformationPlugin" sortOrder="1"
+                disabled="false" />
     </type>
 </config>

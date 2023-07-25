@@ -18,7 +18,9 @@ use Magento\Quote\Model\Quote;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Email\Container\InvoiceIdentity;
 use Magento\Sales\Model\Order\Email\Sender\InvoiceSender;
+use Magento\Sales\Model\Order\Invoice;
 use Psr\Log\LoggerInterface;
+use Throwable;
 use UpStreamPay\Core\Model\Config;
 
 /**
@@ -66,6 +68,7 @@ class SendUpStreamPayInvoiceEmailObserver implements ObserverInterface
         $redirectUrl = $quote->getPayment()->getOrderPlaceRedirectUrl();
         if (!$redirectUrl && $order->getCanSendNewEmailFlag()) {
             try {
+                /** @var Invoice $invoice */
                 $invoice = current($order->getInvoiceCollection()->getItems());
                 if ($invoice) {
                     //Add this condition to block emails only if using upstream pay.
@@ -73,8 +76,8 @@ class SendUpStreamPayInvoiceEmailObserver implements ObserverInterface
                         $this->invoiceSender->send($invoice);
                     }
                 }
-            } catch (\Throwable $e) {
-                $this->logger->critical($e);
+            } catch (Throwable $exception) {
+                $this->logger->critical($exception);
             }
         }
     }

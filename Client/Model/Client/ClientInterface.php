@@ -91,6 +91,9 @@ interface ClientInterface
      * @param array $body
      *
      * @return array
+     * @throws GuzzleException
+     * @throws JsonException
+     * @throws ConflictRetrieveTransactionsException
      */
     public function void(string $transactionId, array $body): array;
 

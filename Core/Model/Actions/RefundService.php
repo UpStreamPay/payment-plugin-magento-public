@@ -16,6 +16,7 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Payment\Model\InfoInterface;
 use Magento\Sales\Model\Order\Creditmemo;
 use Psr\Log\LoggerInterface;
+use Throwable;
 use UpStreamPay\Client\Model\Client\ClientInterface;
 use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
 use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
@@ -77,7 +78,8 @@ class RefundService
                 //Else refund full amount.
                 //IE: creditmemo is 50, max amount to refund on current capture is 10, refund 10 and move on to next
                 //capture.
-                $amountToRefundOnTransaction = $captureRefoundAmount <= $amountLeftToRefund ? $captureRefoundAmount : $amountLeftToRefund;
+                $amountToRefundOnTransaction = $captureRefoundAmount <= $amountLeftToRefund
+                    ? $captureRefoundAmount : $amountLeftToRefund;
                 $orderPayment = $this->orderPaymentRepository->getById($captureTransaction->getParentPaymentId());
 
                 //Verify that we can refund this on the payment.
@@ -99,10 +101,11 @@ class RefundService
 
                     try {
                         $refundResponse = $this->client->refund($captureTransaction->getTransactionId(), $body);
-                    } catch (\Throwable $exception) {
+                    } catch (Throwable $exception) {
                         //In case of a refund error, try to refund as many transactions as possible.
                         $errorMessage = sprintf(
-                            'Refund for capture transaction %s for amount %s in error because %s, refund it in UpStream admin panel.',
+                            'Refund for capture transaction %s for amount %s in error because %s,
+                            refund it in UpStream admin panel.',
                             $captureTransaction->getTransactionId(),
                             $exception->getMessage(),
                             $amountToRefundOnTransaction
@@ -140,7 +143,8 @@ class RefundService
                     //In case of an error a manual refund must be done.
                     if ($refundTransaction->getStatus() === OrderTransactions::ERROR_STATUS) {
                         $errorMessage = sprintf(
-                            'Transaction refund with ID %s for amount %s is in error, refund it in UpStream admin panel.',
+                            'Transaction refund with ID %s for amount %s is in error,
+                            refund it in UpStream admin panel.',
                             $refundTransaction->getTransactionId(),
                             $refundTransaction->getAmount()
                         );
@@ -149,7 +153,9 @@ class RefundService
                     }
 
                     $this->eventManager->dispatch('payment_usp_write_log', ['orderPayment' => $orderPayment]);
-                    $orderPayment->setAmountRefunded($orderPayment->getAmountRefunded() + $refundTransaction->getAmount());
+                    $orderPayment->setAmountRefunded(
+                        $orderPayment->getAmountRefunded() + $refundTransaction->getAmount()
+                    );
                     $this->orderPaymentRepository->save($orderPayment);
 
                     $amountLeftToRefund = $amountLeftToRefund - $refundTransaction->getAmount();

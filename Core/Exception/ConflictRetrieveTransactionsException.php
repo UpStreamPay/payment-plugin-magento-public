@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace UpStreamPay\Core\Exception;
 
+use Exception;
+
 /**
  * Class ConflictRetrieveTransactionsException
  *
@@ -19,6 +21,6 @@ namespace UpStreamPay\Core\Exception;
  *
  * This should only be triggered when getting a 409 http code when trying to retrieve transactions.
  */
-class ConflictRetrieveTransactionsException extends \Exception
+class ConflictRetrieveTransactionsException extends Exception
 {
 }

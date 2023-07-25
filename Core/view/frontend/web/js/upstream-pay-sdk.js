@@ -12,7 +12,7 @@ define([
 ], function ($) {
     'use strict';
 
-    var dfd = $.Deferred();
+    let dfd = $.Deferred();
 
     /**
      * Loads the UpStreamPay SDK object

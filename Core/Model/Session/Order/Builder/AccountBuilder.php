@@ -28,6 +28,7 @@ class AccountBuilder implements BuilderInterface
     /**
      * @param TimezoneInterface $timezone
      * @param Logger $logger
+     * @param Config $config
      */
     public function __construct(
         private readonly TimezoneInterface $timezone,
