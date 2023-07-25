@@ -17,7 +17,6 @@ use Psr\Log\LoggerInterface;
 use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
 use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
 use UpStreamPay\Core\Api\PaymentMethodRepositoryInterface;
-use UpStreamPay\Core\Exception\NoPaymentMethodFound;
 use UpStreamPay\Core\Exception\NoPaymentMethodFoundException;
 use UpStreamPay\Core\Model\OrderPayment;
 use UpStreamPay\Core\Model\OrderTransactions;
