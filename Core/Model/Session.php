@@ -50,6 +50,7 @@ class Session implements SessionInterface
      * @return array
      * @throws LocalizedException
      * @throws NoSuchEntityException
+     * @throws Exception
      */
     public function getSession(): array
     {

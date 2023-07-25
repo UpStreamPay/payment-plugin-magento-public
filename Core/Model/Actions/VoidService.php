@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace UpStreamPay\Core\Model\Actions;
 
+use GuzzleHttp\Exception\GuzzleException;
+use JsonException;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Payment\Model\InfoInterface;
@@ -159,6 +161,8 @@ class VoidService
      *
      * @return InfoInterface
      * @throws LocalizedException
+     * @throws GuzzleException
+     * @throws JsonException
      */
     private function voidAllCaptureTransactions(InfoInterface $payment): InfoInterface
     {

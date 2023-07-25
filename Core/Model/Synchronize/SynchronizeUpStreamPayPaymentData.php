@@ -62,6 +62,7 @@ class SynchronizeUpStreamPayPaymentData
      *
      * @return void
      * @throws LocalizedException
+     * @throws NoPaymentMethodFoundException
      */
     public function execute(array $orderTransactionsResponse, int $orderId, int $quoteId, int $paymentId): void
     {
