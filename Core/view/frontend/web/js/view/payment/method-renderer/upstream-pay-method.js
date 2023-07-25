@@ -208,8 +208,7 @@ define([
          * @returns {Component} Chainable.
          */
         createMessagesComponent: function () {
-
-            var messagesComponent = {
+            let messagesComponent = {
                 parent: this.name,
                 name: this.name + '.messages',
                 displayArea: 'messages',
