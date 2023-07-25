@@ -89,7 +89,9 @@ class OrderTransactionsRepository implements OrderTransactionsRepositoryInterfac
      */
     public function getByParentTransactionId(string $parentTransactionId, ?string $transactionType = null): array
     {
-        $this->searchCriteriaBuilder->addFilter(OrderTransactionsInterface::PARENT_TRANSACTION_ID, $parentTransactionId);
+        $this->searchCriteriaBuilder->addFilter(
+            OrderTransactionsInterface::PARENT_TRANSACTION_ID, $parentTransactionId
+        );
 
         if ($transactionType !== null) {
             $this->searchCriteriaBuilder->addFilter(OrderTransactionsInterface::TRANSACTION_TYPE, $transactionType);

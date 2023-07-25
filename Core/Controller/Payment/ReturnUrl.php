@@ -35,6 +35,7 @@ use Magento\Sales\Model\Order\Email\Sender\OrderSender;
 use Magento\Sales\Model\Order\Invoice;
 use Magento\Sales\Model\Order\Payment\Processor;
 use Psr\Log\LoggerInterface;
+use Throwable;
 use UpStreamPay\Core\Exception\AuthorizeErrorException;
 use UpStreamPay\Core\Exception\CaptureErrorException;
 use UpStreamPay\Core\Exception\OrderErrorException;
@@ -125,7 +126,7 @@ class ReturnUrl implements HttpGetActionInterface, HttpPostActionInterface, Csrf
             //Restore the user quote
             $this->orderRepository->save($order);
             $this->checkoutSession->restoreQuote();
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
             //In case of another exception, payment has to be denied but the quote can't be restored.
             //This catch means something went wrong on the API side (409 conflict for instance or other weird issue).
             //To avoid risks & having a cart that will produce errors down the line when we try to pay it's better
@@ -156,7 +157,7 @@ class ReturnUrl implements HttpGetActionInterface, HttpPostActionInterface, Csrf
     {
         try {
             $payment->deny();
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             //If even the denyPayment doesn't work (it could happen if the API is down) then log but nothing else.
             $this->logger->critical(
                 'Error while trying to deny payment for the order after redirect from UpStream Pay'

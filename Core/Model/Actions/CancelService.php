@@ -97,7 +97,8 @@ class CancelService
                 } catch (Throwable $exception) {
                     //In case of a refund error, try to refund as many transactions as possible.
                     $errorMessage = sprintf(
-                        'Refund for capture transaction %s for amount %s in error because %s, refund it in UpStream admin panel.',
+                        'Refund for capture transaction %s for amount %s in error because %s,
+                        refund it in UpStream admin panel.',
                         $transaction->getTransactionId(),
                         $exception->getMessage(),
                         $body['amount']
@@ -148,7 +149,8 @@ class CancelService
                     //& it should not happen most of the time. In case it does, try to void as many transactions as
                     //we can.
                     $errorMessage = sprintf(
-                        'Void for authorize transaction %s for amount %s is in error because %s, void it in UpStream admin panel.',
+                        'Void for authorize transaction %s for amount %s is in error because %s,
+                        void it in UpStream admin panel.',
                         $transaction->getTransactionId(),
                         $exception->getMessage(),
                         $body['amount']
@@ -168,7 +170,8 @@ class CancelService
                     $transaction->getParentPaymentId(),
                 );
 
-                if ($this->config->getDebugMode() === Debug::SIMPLE_VALUE || $this->config->getDebugMode() === Debug::DEBUG_VALUE) {
+                if ($this->config->getDebugMode() === Debug::SIMPLE_VALUE
+                    || $this->config->getDebugMode() === Debug::DEBUG_VALUE) {
                     $this->logger->debug(
                         sprintf(
                             'Payment denied for order %s, void transaction response:',

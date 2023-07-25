@@ -12,11 +12,13 @@ declare(strict_types=1);
 
 namespace UpStreamPay\Core\Exception;
 
+use Exception;
+
 /**
  * Class NotEnoughFundException
  *
  * @package UpStreamPay\Core\Exception
  */
-class NotEnoughFundException extends \Exception
+class NotEnoughFundException extends Exception
 {
 }

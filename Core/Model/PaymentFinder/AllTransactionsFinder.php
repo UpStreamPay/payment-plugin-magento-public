@@ -82,72 +82,65 @@ class AllTransactionsFinder
         }
 
         //Get all secondary transactions.
-        $this->searchCriteriaBuilder->addFilter(
-            OrderTransactionsInterface::PARENT_PAYMENT_ID,
-            array_keys($secondaryPaymentsEntityId),
-            'in'
-        )->addFilter(
-            OrderTransactionsInterface::TRANSACTION_TYPE,
-            $transactionType
-        )->addFilter(
-            OrderTransactionsInterface::ORDER_ID,
-            $orderId
-        )->addFilter(
-            OrderTransactionsInterface::STATUS,
-            $status
-        );
-
-        //Optionnals filters.
-        if ($invoiceId !== false && $invoiceId === null) {
-            $this->searchCriteriaBuilder->addFilter(
-                OrderTransactionsInterface::INVOICE_ID,
-                $invoiceId,
-                'null'
-            );
-        } elseif ($invoiceId !== false) {
-            $this->searchCriteriaBuilder->addFilter(
-                OrderTransactionsInterface::INVOICE_ID,
-                $invoiceId
-            );
-        }
+        $this->filterTransactions($secondaryPaymentsEntityId, $transactionType, $orderId, $status, $invoiceId);
 
         $searchCriteria = $this->searchCriteriaBuilder->create();
         $secondaryTransactions = $this->orderTransactionsRepository->getList($searchCriteria)->getItems();
 
-        //Get all primary transactions.
-        $this->searchCriteriaBuilder->addFilter(
-            OrderTransactionsInterface::PARENT_PAYMENT_ID,
-            array_keys($primaryPaymentsEntityId),
-            'in'
-        )->addFilter(
-            OrderTransactionsInterface::TRANSACTION_TYPE,
-            $transactionType
-        )->addFilter(
-            OrderTransactionsInterface::ORDER_ID,
-            $orderId
-        )->addFilter(
-            OrderTransactionsInterface::STATUS,
-            $status
-        );
-
-        //Optionnals filters.
-        if ($invoiceId !== false && $invoiceId === null) {
-            $this->searchCriteriaBuilder->addFilter(
-                OrderTransactionsInterface::INVOICE_ID,
-                $invoiceId,
-                'null'
-            );
-        } elseif ($invoiceId !== false) {
-            $this->searchCriteriaBuilder->addFilter(
-                OrderTransactionsInterface::INVOICE_ID,
-                $invoiceId
-            );
-        }
+        $this->filterTransactions($primaryPaymentsEntityId, $transactionType, $orderId, $status, $invoiceId);
 
         $searchCriteria = $this->searchCriteriaBuilder->create();
         $primaryTransactions = $this->orderTransactionsRepository->getList($searchCriteria)->getItems();
 
         //Put the secondary transactions first.
         return array_merge($secondaryTransactions, $primaryTransactions);
+    }
+
+    /**
+     * Filter the transactions.
+     *
+     * @param array $paymentEntityId
+     * @param string $transactionType
+     * @param int $orderId
+     * @param string $status
+     * @param null|bool|int $invoiceId
+     *
+     * @return void
+     */
+    private function filterTransactions(
+        array $paymentEntityId,
+        string $transactionType,
+        int $orderId,
+        string $status,
+        null|bool|int $invoiceId = false
+    ): void {
+        $this->searchCriteriaBuilder->addFilter(
+            OrderTransactionsInterface::PARENT_PAYMENT_ID,
+            array_keys($paymentEntityId),
+            'in'
+        )->addFilter(
+            OrderTransactionsInterface::TRANSACTION_TYPE,
+            $transactionType
+        )->addFilter(
+            OrderTransactionsInterface::ORDER_ID,
+            $orderId
+        )->addFilter(
+            OrderTransactionsInterface::STATUS,
+            $status
+        );
+
+        //Optionnals filters.
+        if ($invoiceId !== false && $invoiceId === null) {
+            $this->searchCriteriaBuilder->addFilter(
+                OrderTransactionsInterface::INVOICE_ID,
+                $invoiceId,
+                'null'
+            );
+        } elseif ($invoiceId !== false) {
+            $this->searchCriteriaBuilder->addFilter(
+                OrderTransactionsInterface::INVOICE_ID,
+                $invoiceId
+            );
+        }
     }
 }

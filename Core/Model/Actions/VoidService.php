@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace UpStreamPay\Core\Model\Actions;
 
+use GuzzleHttp\Exception\GuzzleException;
+use JsonException;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Payment\Model\InfoInterface;
@@ -43,6 +45,7 @@ class VoidService
      * @param Config $config
      * @param AllTransactionsFinder $findAllTransactions
      * @param LoggerInterface $logger
+     * @param EventManager $eventManager
      */
     public function __construct(
         private readonly SearchCriteriaBuilder $searchCriteriaBuilder,
@@ -62,6 +65,8 @@ class VoidService
      * @param InfoInterface $payment
      *
      * @return InfoInterface
+     * @throws GuzzleException
+     * @throws JsonException
      * @throws LocalizedException
      */
     public function execute(InfoInterface $payment): InfoInterface
@@ -74,6 +79,8 @@ class VoidService
             $payment = $this->voidAllAuthorizeTransactions($payment);
             return $this->voidAllCaptureTransactions($payment);
         }
+
+        return $payment;
     }
 
     /**
@@ -82,6 +89,8 @@ class VoidService
      * @param InfoInterface $payment
      *
      * @return InfoInterface
+     * @throws GuzzleException
+     * @throws JsonException
      * @throws LocalizedException
      */
     private function voidAllAuthorizeTransactions(InfoInterface $payment): InfoInterface
@@ -117,7 +126,8 @@ class VoidService
                 continue;
             }
 
-            if ($this->config->getDebugMode() === Debug::SIMPLE_VALUE || $this->config->getDebugMode() === Debug::DEBUG_VALUE) {
+            if ($this->config->getDebugMode() === Debug::SIMPLE_VALUE
+                || $this->config->getDebugMode() === Debug::DEBUG_VALUE) {
                 $this->logger->debug(
                     sprintf(
                         'Payment denied for order %s, void transaction response:',
@@ -156,6 +166,8 @@ class VoidService
      *
      * @return InfoInterface
      * @throws LocalizedException
+     * @throws GuzzleException
+     * @throws JsonException
      */
     private function voidAllCaptureTransactions(InfoInterface $payment): InfoInterface
     {
@@ -173,7 +185,6 @@ class VoidService
             return $payment;
         }
 
-        /** @var OrderTransactionsInterface $captureTransaction */
         foreach ($captureTransactions as $captureTransaction) {
             $body = [
                 'order' => [
@@ -193,7 +204,8 @@ class VoidService
                 continue;
             }
 
-            if ($this->config->getDebugMode() === Debug::SIMPLE_VALUE || $this->config->getDebugMode() === Debug::DEBUG_VALUE) {
+            if ($this->config->getDebugMode() === Debug::SIMPLE_VALUE
+                || $this->config->getDebugMode() === Debug::DEBUG_VALUE) {
                 $this->logger->debug(
                     sprintf(
                         'Payment refunded for order %s, refund transaction response:',

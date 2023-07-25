@@ -8,7 +8,8 @@
 
   Author: Claranet France <info@fr.clara.net>
   -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
 <!--    Trigger the payment of an invoice after it has been saved.-->
     <event name="sales_order_invoice_save_after">
         <observer name="upstreampay_invoice_save_after" instance="UpStreamPay\Core\Observer\PayInvoiceObserver" />

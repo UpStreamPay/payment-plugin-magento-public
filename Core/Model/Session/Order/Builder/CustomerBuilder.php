@@ -102,11 +102,7 @@ class CustomerBuilder implements BuilderInterface
             )
         );
 
-        $customerData['billing_address'] = $this->billingAddressBuilder->execute(
-            $quote,
-            AddressBuilderInterface::BILLING_ADDRESS
-        );
-
+        $customerData['billing_address'] = $this->billingAddressBuilder->execute($quote);
         $customerData['account'] = $this->accountBuilder->execute($quote);
 
         //Native Magento doesn't have this information.

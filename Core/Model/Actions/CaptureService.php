@@ -148,7 +148,8 @@ class CaptureService
 
         //Every transaction has a capture success & the amount to capture matches the amount captured.
         //To avoid issue when comparing floats, use built-in magento feature (it uses an epsilon of 0.00001).
-        if (!$atLeastOneCaptureError && !$atLeastOneCaptureWaiting && $this->floatComparator->equal($amountCaptured, $amount)) {
+        if (!$atLeastOneCaptureError && !$atLeastOneCaptureWaiting
+            && $this->floatComparator->equal($amountCaptured, $amount)) {
             //Every capture is a success, so the payment is captured.
             $payment
                 ->setTransactionId($upStreamPaySessionId)

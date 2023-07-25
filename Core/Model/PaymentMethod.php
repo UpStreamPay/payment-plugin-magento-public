@@ -49,6 +49,7 @@ class PaymentMethod extends AbstractExtensibleModel implements PaymentMethodInte
     /**
      * @param PaymentMethodRepositoryInterface $paymentMethodRepository
      * @param PaymentMethodFactory $paymentMethodFactory
+     * @param EventManager $eventManager
      * @param Context $context
      * @param Registry $registry
      * @param ExtensionAttributesFactory $extensionFactory

@@ -64,11 +64,12 @@ class NotificationService
      * @return void
      * @throws LocalizedException
      */
-    public function execute(array $notification)
+    public function execute(array $notification): void
     {
         $transaction = $this->orderTransactionsRepository->getByTransactionId($notification['id']);
 
-        if ($this->config->getDebugMode() === Debug::SIMPLE_VALUE || $this->config->getDebugMode() === Debug::DEBUG_VALUE) {
+        if ($this->config->getDebugMode() === Debug::SIMPLE_VALUE
+            || $this->config->getDebugMode() === Debug::DEBUG_VALUE) {
             $this->logger->debug(
                 sprintf(
                     'Receiving notification for transaction regarding order %s:',
@@ -79,7 +80,8 @@ class NotificationService
         }
 
         //Only deal with known transactions in case of a real status update.
-        if ($transaction && $transaction->getEntityId() && $transaction->getStatus() !== $notification['status']['state']) {
+        if ($transaction && $transaction->getEntityId()
+            && $transaction->getStatus() !== $notification['status']['state']) {
             switch ($notification['status']['action']) {
                 case OrderTransactions::AUTHORIZE_ACTION:
                     $order = $this->orderRepository->get($transaction->getOrderId());
@@ -153,7 +155,12 @@ class NotificationService
                         $order->addCommentToStatusHistory(
                             'Notification has error on capture transaction, denying the payment'
                         );
-                        $this->logger->critical($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
+                        $this->logger->critical(
+                            $exception->getMessage(),
+                            [
+                                'exception' => $exception->getTraceAsString()
+                            ]
+                        );
 
                         //Based on the payment action used, the error process will not be the same.
                         if ($this->config->getPaymentAction() === MethodInterface::ACTION_ORDER
