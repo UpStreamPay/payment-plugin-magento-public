@@ -110,10 +110,7 @@ class SynchronizeUpStreamPayPaymentData
                     $orderTransactionResponse['id']
                 );
 
-                if ($orderTransaction && $orderTransaction->getEntityId()) {
-                    //Update.
-                    //@TODO update in case of action on the transaction (should only update the status).
-                } else {
+                if (!$orderTransaction || !$orderTransaction->getEntityId()) {
                     //Create.
                     $this->orderTransactions->createTransactionFromResponse(
                         $orderTransactionResponse,
