@@ -9,9 +9,6 @@ on:
       - "config.json"
       - "*.md"
       - ".github/**"
-      - ".mvn/**"
-      - "skaffold/**"
-      - "docker-compose.*"
 
   pull_request:
     types: [opened, synchronize, reopened]
@@ -19,9 +16,6 @@ on:
       - "config.json"
       - "*.md"
       - ".github/**"
-      - ".mvn/**"
-      - "skaffold/**"
-      - "docker-compose.*"
 
 jobs:
   sonar:
