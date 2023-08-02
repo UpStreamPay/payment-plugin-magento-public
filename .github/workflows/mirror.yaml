@@ -28,6 +28,5 @@ jobs:
         name: Mirror repository
         with:
           REMOTE: ${{ vars.MIRROR_REPOSITORY_URL }}
-          GIT_USERNAME: ${{ vars.GIT_USERNAME }}
           GIT_PASSWORD: ${{ secrets.USP_GITHUB_ADMIN_ACCES_TOKEN }}
           PUSH_ALL_REFS: "false"
