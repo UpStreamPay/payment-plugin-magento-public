@@ -1,0 +1,32 @@
+name: Mirror public repository
+
+##
+## Release Manager
+##
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  runs-on: ubuntu-latest
+  timeout-minutes: 10
+  steps:
+    - uses: actions/checkout@v3
+      name: Checkout
+      with:
+        fetch-depth: 0
+
+    - name: Remove workflows
+      run: |
+        rm -rf ./.github
+        rm sonar-project.properties
+
+    - uses: yesolutions/mirror-action@master
+      name: Mirror repository
+      with:
+        REMOTE: ${{ vars.MIRROR_REPOSITORY_URL }}
+        GIT_USERNAME: Dagoodboiii
+        GIT_PASSWORD: ${{ secrets.USP_GITHUB_ADMIN_ACCES_TOKEN }}
+        PUSH_ALL_REFS: "false"
