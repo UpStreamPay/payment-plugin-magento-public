@@ -18,6 +18,7 @@ jobs:
         name: Checkout
         with:
           fetch-depth: 0
+          token: ${{ secrets.USP_GITHUB_ADMIN_ACCES_TOKEN }}
 
       - name: Remove workflows
         run: |
@@ -35,6 +36,7 @@ jobs:
         with:
           github_token: ${{ secrets.USP_GITHUB_ADMIN_ACCES_TOKEN }}
           repository: ${{ vars.MIRROR_REPOSITORY_NAME }}
+          branch: main
           force: true
           tags: true
 
