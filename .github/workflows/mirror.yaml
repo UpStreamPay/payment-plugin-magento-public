@@ -23,12 +23,25 @@ jobs:
         run: |
           rm -rf ./.github
           rm sonar-project.properties
-          ls -ll
 
-      - uses: yesolutions/mirror-action@master
-        name: Mirror repository
+      - name: Commit files
+        run: |
+          git config --local user.email "github@upstreampay.com"
+          git config --local user.name "DagoodBoiii"
+          git commit -a -m "Mirror commit"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
         with:
-          REMOTE: ${{ vars.MIRROR_REPOSITORY_URL }}
-          PUSH_ALL_REFS: "false"
-          GIT_SSH_PRIVATE_KEY: ${{ secrets.MIRROR_SSH_PRIVATE_KEY }}
-          GIT_SSH_NO_VERIFY_HOST: "true"
+          github_token: ${{ secrets.USP_GITHUB_ADMIN_ACCES_TOKEN }}
+          repository: ${{ vars.MIRROR_REPOSITORY_NAME }}
+          force: true
+          tags: true
+
+      #- uses: yesolutions/mirror-action@master
+      #  name: Mirror repository
+      #  with:
+      #    REMOTE: ${{ vars.MIRROR_REPOSITORY_URL }}
+      #    PUSH_ALL_REFS: "false"
+      #    GIT_SSH_PRIVATE_KEY: ${{ secrets.MIRROR_SSH_PRIVATE_KEY }}
+      #    GIT_SSH_NO_VERIFY_HOST: "true"
