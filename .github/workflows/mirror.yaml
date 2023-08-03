@@ -39,11 +39,3 @@ jobs:
           branch: main
           force: true
           tags: true
-
-      #- uses: yesolutions/mirror-action@master
-      #  name: Mirror repository
-      #  with:
-      #    REMOTE: ${{ vars.MIRROR_REPOSITORY_URL }}
-      #    PUSH_ALL_REFS: "false"
-      #    GIT_SSH_PRIVATE_KEY: ${{ secrets.MIRROR_SSH_PRIVATE_KEY }}
-      #    GIT_SSH_NO_VERIFY_HOST: "true"
