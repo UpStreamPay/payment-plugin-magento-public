@@ -335,8 +335,10 @@ class Client implements ClientInterface
         if ($debugMode === Debug::DEBUG_VALUE) {
             $this->logger->debug('--REQUEST URI--');
             $this->logger->debug($uri);
-            $this->logger->debug('--REQUEST BODY--');
-            $this->logger->debug(print_r($body, true));
+            if ($body) {
+                $this->logger->debug('--REQUEST BODY--');
+                $this->logger->debug(print_r($body, true));
+            }
         }
 
         $client = $this->httpClientFactory->create(
@@ -362,8 +364,10 @@ class Client implements ClientInterface
         if ($debugMode === Debug::DEBUG_VALUE) {
             $this->logger->debug('--RESPONSE URI--');
             $this->logger->debug($uri);
-            $this->logger->debug('--RESPONSE BODY--');
-            $this->logger->debug(print_r($body, true));
+            if ($body) {
+                $this->logger->debug('--RESPONSE BODY--');
+                $this->logger->debug(print_r($body, true));
+            }
         }
 
         return json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);

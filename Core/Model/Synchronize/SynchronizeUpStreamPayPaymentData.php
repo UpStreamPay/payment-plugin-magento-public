@@ -72,7 +72,9 @@ class SynchronizeUpStreamPayPaymentData
                 if ($this->config->getDebugMode() === Debug::SIMPLE_VALUE
                     || $this->config->getDebugMode() === Debug::DEBUG_VALUE) {
                     $this->logger->debug(sprintf('Creating transaction for order with ID %s', $orderId));
-                    $this->logger->debug(print_r($orderTransactionResponse, true));
+                    if ($orderTransactionResponse) {
+                        $this->logger->debug(print_r($orderTransactionResponse, true));
+                    }
                 }
 
                 //Create a row in payment table for each original transaction, it means transactions without
