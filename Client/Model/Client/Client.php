@@ -147,10 +147,14 @@ class Client implements ClientInterface
                     $orderId
                 );
                 $this->logger->critical($errorMessage);
+                $this->logger->critical($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
 
                 //This happens sometimes in case of a conflict, we can't even retrieve the transactions from upstream.
                 throw new ConflictRetrieveTransactionsException($errorMessage);
             } else {
+                $this->logger->critical('Error while trying to retrieve all transactions for the order.');
+                $this->logger->critical($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
+
                 throw $exception;
             }
         }
