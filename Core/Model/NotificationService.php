@@ -76,7 +76,9 @@ class NotificationService
                     $transaction->getOrderId(),
                 )
             );
-            $this->logger->debug(print_r($notification, true));
+            if ($notification) {
+                $this->logger->debug(print_r($notification, true));
+            }
         }
 
         //Only deal with known transactions in case of a real status update.

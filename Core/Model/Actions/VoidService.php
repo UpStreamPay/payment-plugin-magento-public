@@ -134,7 +134,9 @@ class VoidService
                         $payment->getOrder()->getEntityId()
                     )
                 );
-                $this->logger->debug(print_r($voidResponse, true));
+                if ($voidResponse) {
+                    $this->logger->debug(print_r($voidResponse, true));
+                }
             }
 
             //Save the void transaction in DB.
@@ -212,7 +214,9 @@ class VoidService
                         $payment->getOrder()->getEntityId()
                     )
                 );
-                $this->logger->debug(print_r($refundResponse, true));
+                if ($refundResponse) {
+                    $this->logger->debug(print_r($refundResponse, true));
+                }
             }
 
             //Save the refund transaction in DB.
