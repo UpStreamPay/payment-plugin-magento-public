@@ -19,6 +19,8 @@ use Magento\Framework\Cache\Frontend\Decorator\TagScope;
  * Class UpStreamPay
  *
  * @package UpStreamPay\Client\Model\Cache\Type
+ *
+ * @codeCoverageIgnore
  */
 class UpStreamPay extends TagScope
 {
