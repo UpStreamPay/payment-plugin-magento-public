@@ -2,10 +2,12 @@
 
 namespace UpStreamPay\Test\Core\Model;
 
+use Exception;
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Quote\Model\Quote;
 use PHPUnit\Framework\MockObject\MockObject;
 use UpStreamPay\Client\Model\Client\ClientInterface;
+use UpStreamPay\Core\Exception\CreateSessionException;
 use UpStreamPay\Core\Model\PaymentMethod;
 use UpStreamPay\Core\Model\Session;
 use PHPUnit\Framework\TestCase;
@@ -39,9 +41,40 @@ class SessionTest extends TestCase
 
     public function testGetSessionException()
     {
-        self::expectException(\Exception::class);
+        self::expectException(CreateSessionException::class);
         $this->loggerMock
             ->expects(self::once())
+            ->method('critical');
+
+        $this->session->getSession();
+    }
+    public function testGetSessionCreateException()
+    {
+        $quote = self::createMock(Quote::class);
+        $quote
+            ->expects(self::once())
+            ->method('getId')
+            ->willReturn(123);
+
+        $this->checkoutSessionMock
+            ->expects(self::once())
+            ->method('getQuote')
+            ->willReturn($quote);
+
+        $this->orderServiceMock
+            ->expects(self::once())
+            ->method('execute')
+            ->with($quote)
+            ->willReturn([1, 2, 3]);
+
+        $this->clientMock
+            ->expects(self::once())
+            ->method('createSession')
+            ->willThrowException(new Exception());
+
+        self::expectException(CreateSessionException::class);
+        $this->loggerMock
+            ->expects(self::exactly(2))
             ->method('critical');
 
         $this->session->getSession();
