@@ -20,6 +20,7 @@ use Psr\Log\LoggerInterface;
 use Throwable;
 use UpStreamPay\Client\Model\Client\ClientInterface;
 use UpStreamPay\Core\Api\SessionInterface;
+use UpStreamPay\Core\Exception\CreateSessionException;
 use UpStreamPay\Core\Model\Session\Order\OrderService;
 
 /**
@@ -49,6 +50,7 @@ class Session implements SessionInterface
      * Return the session data (build the order) in order to indicate to UpStream Pay what payment methods to return.
      *
      * @return array
+     * @throws CreateSessionException
      * @throws LocalizedException
      * @throws NoSuchEntityException
      * @throws Exception
@@ -61,7 +63,7 @@ class Session implements SessionInterface
             $errorMessage = 'Tried to retrieve a quote to create UpStream Pay session but it appears it is invalid.';
             $this->logger->critical($errorMessage);
 
-            throw new Exception($errorMessage);
+            throw new CreateSessionException($errorMessage);
         }
 
         $order = $this->orderService->execute($quote);
@@ -71,6 +73,8 @@ class Session implements SessionInterface
         } catch (Throwable $exception) {
             $this->logger->critical('Error while creating the session, widget cannot be displayed.');
             $this->logger->critical($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
+
+            throw new CreateSessionException($exception->getMessage());
         }
 
         //Save payment method from session in DB.
