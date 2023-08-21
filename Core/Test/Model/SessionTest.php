@@ -1,4 +1,15 @@
 <?php
+/**
+ * UpStream Pay
+ *
+ * Copyright (c) 2023 UpStream Pay.
+ * This file is open source and available under the BSD 3 license.
+ * See the LICENSE file for more info.
+ *
+ * Author: Claranet France <info@fr.clara.net>
+ */
+
+declare(strict_types=1);
 
 namespace UpStreamPay\Test\Core\Model;
 
@@ -14,6 +25,11 @@ use PHPUnit\Framework\TestCase;
 use UpStreamPay\Core\Model\Session\Order\OrderService;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Class SessionTest
+ *
+ * @package UpStreamPay\Test\Core\Model
+ */
 class SessionTest extends TestCase
 {
     private ClientInterface&MockObject $clientMock;
