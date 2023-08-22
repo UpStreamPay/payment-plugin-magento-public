@@ -41,9 +41,9 @@ class Token extends DataObject implements TokenInterface
     }
 
     /**
-     * @return null|int
+     * @return int
      */
-    public function getLifetime(): ?int
+    public function getLifetime(): int
     {
         return (int) $this->getData(self::LIFETIME);
     }
