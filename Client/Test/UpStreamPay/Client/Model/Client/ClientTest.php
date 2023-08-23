@@ -54,7 +54,7 @@ class ClientTest extends TestCase
     /**
      * @return void
      */
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->config = self::createMock(Config::class);
         $this->tokenService = self::createMock(TokenService::class);
