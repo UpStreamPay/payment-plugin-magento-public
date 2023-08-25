@@ -19,6 +19,8 @@ use UpStreamPay\Core\Model\ResourceModel\PaymentMethod as PaymentMethodResourceM
 /**
  * Class Collection
  *
+ * @codeCoverageIgnore
+ *
  * @package UpStreamPay\Core\Model\ResourceModel\PaymentMethod
  */
 class Collection extends AbstractCollection

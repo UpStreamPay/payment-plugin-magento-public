@@ -18,6 +18,8 @@ use UpStreamPay\Core\Api\Data\PaymentMethodInterface;
 /**
  * Class PaymentMethod
  *
+ * @codeCoverageIgnore
+ *
  * @package UpStreamPay\Core\Model\ResourceModel
  */
 class PaymentMethod extends AbstractDb
