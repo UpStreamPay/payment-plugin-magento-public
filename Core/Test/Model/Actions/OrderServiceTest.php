@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace UpStreamPay\Core\Test\Model\Actions;
 
+use Generator;
 use Magento\Framework\Api\SearchCriteria;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Exception\LocalizedException;
@@ -57,7 +58,7 @@ class OrderServiceTest extends TestCase
         //Because of magic methods.
         $methods = array_merge(
             get_class_methods(Payment::class),
-            ['setIsTransactionApproved']
+            ['setIsTransactionApproved', 'getIsTransactionApproved']
         );
 
         $this->authorizeServiceMock = self::createMock(AuthorizeService::class);
@@ -139,18 +140,359 @@ class OrderServiceTest extends TestCase
         self::assertTrue($payment->getIsTransactionPending());
     }
 
-    public function testExecuteWithDifferentAmountProcessed(): void
+    /**
+     * @dataProvider transactionsWithWrongAmountDataProvider
+     *
+     * @param array $transactionsData
+     *
+     * @return void
+     * @throws AuthorizeErrorException
+     * @throws CaptureErrorException
+     * @throws LocalizedException
+     * @throws OrderErrorException
+     */
+    public function testExecuteWithDifferentAmountProcessed(array $transactionsData): void
     {
+        $this->searchCriteriaBuilderMock->expects(self::exactly(2))
+            ->method('addFilter')
+            ->withConsecutive(
+                [OrderTransactionsInterface::ORDER_ID, 123],
+                [OrderTransactionsInterface::TRANSACTION_TYPE, [
+                    OrderTransactions::CAPTURE_ACTION,
+                    OrderTransactions::AUTHORIZE_ACTION
+                ],
+                    'in'
+                ]
+            )
+            ->willReturnSelf()
+        ;
 
+        $paymentOrderMock = self::createMock(Order::class);
+        $paymentOrderMock->expects(self::atLeastOnce())
+            ->method('getEntityId')
+            ->willReturn(123)
+        ;
+
+        $this->paymentMock->expects(self::atLeastOnce())
+            ->method('getOrder')
+            ->willReturn($paymentOrderMock)
+        ;
+
+        $this->searchCriteriaBuilderMock->expects(self::once())
+            ->method('create')
+            ->willReturn($this->searchCriteriaMock)
+        ;
+
+        $orderTransactionsSearchResultsMock = self::createMock(OrderTransactionsSearchResultsInterface::class);
+
+        $this->orderTransactionsRepositoryMock->expects(self::once())
+            ->method('getList')
+            ->with($this->searchCriteriaMock)
+            ->willReturn($orderTransactionsSearchResultsMock)
+        ;
+
+        $orderTransactionsSearchResultsMock->expects(self::once())
+            ->method('getItems')
+            ->willReturn($this->createTransactions($transactionsData))
+        ;
+
+        $this->floatComparatorMock->expects(self::once())
+            ->method('equal')
+            ->willReturn(false)
+        ;
+
+        self::expectException(OrderErrorException::class);
+        $this->orderService->execute($this->paymentMock, 25.00);
     }
 
-    public function testExecuteWithTransactions(): void
+    /**
+     * @dataProvider transactionsDataProvider
+     *
+     * @param bool $pendingAuthorize
+     * @param bool $pendingCapture
+     * @param array $transactionsData
+     *
+     * @return void
+     * @throws AuthorizeErrorException
+     * @throws CaptureErrorException
+     * @throws LocalizedException
+     * @throws OrderErrorException
+     */
+    public function testExecuteWithTransactions(
+        bool $pendingAuthorize,
+        bool $pendingCapture,
+        array $transactionsData
+    ): void
     {
+        $this->searchCriteriaBuilderMock->expects(self::exactly(2))
+            ->method('addFilter')
+            ->withConsecutive(
+                [OrderTransactionsInterface::ORDER_ID, 123],
+                [OrderTransactionsInterface::TRANSACTION_TYPE, [
+                    OrderTransactions::CAPTURE_ACTION,
+                    OrderTransactions::AUTHORIZE_ACTION
+                ],
+                    'in'
+                ]
+            )
+            ->willReturnSelf()
+        ;
 
+        $paymentOrderMock = self::createMock(Order::class);
+        $paymentOrderMock->expects(self::atLeastOnce())
+            ->method('getEntityId')
+            ->willReturn(123)
+        ;
+
+        $this->paymentMock->expects(self::atLeastOnce())
+            ->method('getOrder')
+            ->willReturn($paymentOrderMock)
+        ;
+
+        $this->searchCriteriaBuilderMock->expects(self::once())
+            ->method('create')
+            ->willReturn($this->searchCriteriaMock)
+        ;
+
+        $orderTransactionsSearchResultsMock = self::createMock(OrderTransactionsSearchResultsInterface::class);
+
+        $this->orderTransactionsRepositoryMock->expects(self::once())
+            ->method('getList')
+            ->with($this->searchCriteriaMock)
+            ->willReturn($orderTransactionsSearchResultsMock)
+        ;
+
+        $orderTransactionsSearchResultsMock->expects(self::once())
+            ->method('getItems')
+            ->willReturn($this->createTransactions($transactionsData))
+        ;
+
+        $this->floatComparatorMock->expects(self::once())
+            ->method('equal')
+            ->willReturn(true)
+        ;
+
+        $capturePaymentMock = self::createMock(Payment::class);
+        $capturePaymentMock->method('getIsTransactionPending')
+            ->willReturn($pendingCapture)
+        ;
+
+        $this->authorizeServiceMock->expects(self::atLeastOnce())
+            ->method('execute')
+            ->willReturn(self::createMock(Payment::class))
+        ;
+
+        $this->captureServiceMock->expects(self::atLeastOnce())
+            ->method('execute')
+            ->willReturn($capturePaymentMock)
+        ;
+
+        if ($pendingCapture || $pendingAuthorize) {
+            $expectPending = true;
+            $this->paymentMock->method('setIsTransactionPending')
+                ->with(true)
+                ->willReturnSelf()
+            ;
+
+            $this->paymentMock->method('setIsTransactionApproved')
+                ->with(false)
+                ->willReturnSelf()
+            ;
+
+            $this->paymentMock->method('getIsTransactionPending')
+                ->willReturn(true)
+            ;
+            $this->paymentMock->method('getIsTransactionApproved')
+                ->willReturn(false)
+            ;
+        } else {
+            $expectPending = false;
+            $this->paymentMock->method('setIsTransactionPending')
+                ->with(false)
+                ->willReturnSelf()
+            ;
+
+            $this->paymentMock->method('setIsTransactionApproved')
+                ->with(true)
+                ->willReturnSelf()
+            ;
+
+            $this->paymentMock->method('getIsTransactionPending')
+                ->willReturn(false)
+            ;
+            $this->paymentMock->method('getIsTransactionApproved')
+                ->willReturn(true)
+            ;
+        }
+
+        $payment = $this->orderService->execute($this->paymentMock, 30.00);
+        self::assertSame($expectPending, $payment->getIsTransactionPending());
     }
 
-    private function transactionsDataProvider()
+    /**
+     * @param array $transactionsData
+     *
+     * @return array
+     */
+    private function createTransactions(array $transactionsData): array
     {
+        $transactions = [];
 
+        foreach ($transactionsData as $transactionData) {
+            $transactionMock = self::createMock(OrderTransactionsInterface::class);
+
+            $transactionMock->expects(self::atMost(2))
+                ->method('getTransactionType')
+                ->willReturn($transactionData['transactionType'])
+            ;
+
+            $transactionMock->expects(self::once())
+                ->method('getAmount')
+                ->willReturn($transactionData['amount'])
+            ;
+
+            $transactions[] = $transactionMock;
+        }
+
+        return $transactions;
+    }
+
+    /**
+     * Transactions with an amount that will be different that the total amount expected.
+     *
+     * @return Generator
+     */
+    private function transactionsWithWrongAmountDataProvider(): Generator
+    {
+        yield 'One capture transaction with wrong amount' => [
+            [
+                [
+                    'transactionType' => OrderTransactions::CAPTURE_ACTION,
+                    'amount' => 12.00
+                ]
+            ]
+        ];
+
+        yield 'One authorize transaction with wrong amount' => [
+            [
+                [
+                    'transactionType' => OrderTransactions::AUTHORIZE_ACTION,
+                    'amount' => 12.00
+                ]
+            ]
+        ];
+
+        yield 'Several transaction with wrong amount' => [
+            [
+                [
+                    'transactionType' => OrderTransactions::CAPTURE_ACTION,
+                    'amount' => 12.00
+                ],
+                [
+                    'transactionType' => OrderTransactions::AUTHORIZE_ACTION,
+                    'amount' => 6.00
+                ],
+                [
+                    'transactionType' => OrderTransactions::CAPTURE_ACTION,
+                    'amount' => 8.00
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * @return Generator
+     */
+    private function transactionsDataProvider(): Generator
+    {
+        yield 'One capture transaction not in pending' => [
+            'pendingAuthorize' => false,
+            'pendingCapture' => false,
+            [
+                [
+                    'transactionType' => OrderTransactions::CAPTURE_ACTION,
+                    'amount' => 30.00
+                ]
+            ]
+        ];
+
+        yield 'One authorize transaction not in pending' => [
+            'pendingAuthorize' => false,
+            'pendingCapture' => false,
+            [
+                [
+                    'transactionType' => OrderTransactions::AUTHORIZE_ACTION,
+                    'amount' => 30.00
+                ]
+            ]
+        ];
+
+        yield 'One capture transaction in pending' => [
+            'pendingAuthorize' => false,
+            'pendingCapture' => true,
+            [
+                [
+                    'transactionType' => OrderTransactions::CAPTURE_ACTION,
+                    'amount' => 30.00
+                ]
+            ]
+        ];
+
+        yield 'Several transaction with capture pending' => [
+            'pendingAuthorize' => false,
+            'pendingCapture' => true,
+            [
+                [
+                    'transactionType' => OrderTransactions::CAPTURE_ACTION,
+                    'amount' => 10.00
+                ],
+                [
+                    'transactionType' => OrderTransactions::AUTHORIZE_ACTION,
+                    'amount' => 10.00
+                ],
+                [
+                    'transactionType' => OrderTransactions::CAPTURE_ACTION,
+                    'amount' => 10.00
+                ]
+            ]
+        ];
+
+        yield 'Several transaction with no pending' => [
+            'pendingAuthorize' => false,
+            'pendingCapture' => false,
+            [
+                [
+                    'transactionType' => OrderTransactions::CAPTURE_ACTION,
+                    'amount' => 10.99
+                ],
+                [
+                    'transactionType' => OrderTransactions::AUTHORIZE_ACTION,
+                    'amount' => 09.01
+                ],
+                [
+                    'transactionType' => OrderTransactions::CAPTURE_ACTION,
+                    'amount' => 10.00
+                ]
+            ]
+        ];
+
+        yield 'Several transaction with capture & authorize pending' => [
+            'pendingAuthorize' => true,
+            'pendingCapture' => true,
+            [
+                [
+                    'transactionType' => OrderTransactions::CAPTURE_ACTION,
+                    'amount' => 10.00
+                ],
+                [
+                    'transactionType' => OrderTransactions::AUTHORIZE_ACTION,
+                    'amount' => 10.00
+                ],
+                [
+                    'transactionType' => OrderTransactions::CAPTURE_ACTION,
+                    'amount' => 10.00
+                ]
+            ]
+        ];
     }
 }
