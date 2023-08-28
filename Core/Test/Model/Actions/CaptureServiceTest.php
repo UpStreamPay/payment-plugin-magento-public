@@ -20,7 +20,6 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Math\FloatComparator;
 use Magento\Payment\Model\MethodInterface;
 use Magento\Sales\Api\Data\InvoiceInterface;
-use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Payment;
 use PHPUnit\Framework\MockObject\MockObject;
