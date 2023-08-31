@@ -186,7 +186,7 @@ class CustomerBuilderTest extends TestCase
         $expectedCustomerData = [
             'reference' => 123,
             'type_code' => 'customer',
-            'birthdate' => '2023-01-01T00:00:00-08:00',
+            'birthdate' => '2023-01-01',
             'company_name' => 'company',
             'first_name' => 'firstName',
             'middle_name' => 'middleName',
@@ -224,7 +224,7 @@ class CustomerBuilderTest extends TestCase
         $expectedCustomerData = [
             'reference' => 123,
             'type_code' => 'business',
-            'birthdate' => '2023-01-01T00:00:00-08:00',
+            'birthdate' => '2023-01-01',
             'company_name' => 'company',
             'first_name' => 'firstName',
             'middle_name' => 'middleName',
