@@ -17,6 +17,8 @@ use Magento\Checkout\Model\ConfigProviderInterface;
 /**
  * Class UpStreamPayConfigProvider
  *
+ * @codeCoverageIgnore
+ *
  * @package UpStreamPay\Core\Model
  */
 class UpStreamPayConfigProvider implements ConfigProviderInterface

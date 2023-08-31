@@ -83,7 +83,7 @@ class CustomerBuilder implements BuilderInterface
             }
 
             if ($customerDob !== null) {
-                $customerData['birthdate'] = $this->timezone->date(strtotime($customerDob))->format('c');
+                $customerData['birthdate'] = $this->timezone->date(strtotime($customerDob))->format('Y-m-d');
             }
         }
 

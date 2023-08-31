@@ -19,6 +19,8 @@ use UpStreamPay\Core\Model\OrderPayment as OrderPaymentModel;
 /**
  * Class Collection
  *
+ * @codeCoverageIgnore
+ *
  * @package UpStreamPay\Core\Model\ResourceModel\OrderPayment
  */
 class Collection extends AbstractCollection

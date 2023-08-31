@@ -18,6 +18,8 @@ use Magento\Payment\Model\MethodInterface;
 /**
  * Class PaymentAction
  *
+ * @codeCoverageIgnore
+ *
  * @package UpStreamPay\Core\Model\Config\Source
  */
 class PaymentAction implements OptionSourceInterface

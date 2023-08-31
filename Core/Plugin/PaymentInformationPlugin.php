@@ -22,6 +22,8 @@ use Magento\Framework\Math\FloatComparator;
 /**
  * Class PaymentInformationPlugin
  *
+ * @codeCoverageIgnore
+ *
  * @package UpStreamPay\Core\Plugin
  */
 class PaymentInformationPlugin

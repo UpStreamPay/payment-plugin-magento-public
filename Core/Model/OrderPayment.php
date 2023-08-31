@@ -36,6 +36,18 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
 
     protected $_eventObject = 'order_payment';
 
+    /**
+     * @param OrderPaymentFactory $orderPaymentFactory
+     * @param OrderPaymentRepositoryInterface $orderPaymentRepository
+     * @param EventManager $eventManager
+     * @param Context $context
+     * @param Registry $registry
+     * @param ExtensionAttributesFactory $extensionFactory
+     * @param AttributeValueFactory $customAttributeFactory
+     * @param AbstractResource|null $resource
+     * @param AbstractDb|null $resourceCollection
+     * @param array $data
+     */
     public function __construct(
         private readonly OrderPaymentFactory $orderPaymentFactory,
         private readonly OrderPaymentRepositoryInterface $orderPaymentRepository,
@@ -68,6 +80,8 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function getEntityId(): ?int
@@ -76,6 +90,8 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function getSessionId(): string
@@ -84,6 +100,8 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function setSessionId(string $sessionId): OrderPaymentInterface
@@ -92,6 +110,8 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function getMethod(): string
@@ -100,6 +120,8 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function setMethod(string $method): OrderPaymentInterface
@@ -108,6 +130,8 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function getQuoteId(): int
@@ -116,6 +140,8 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function setQuoteId(int $quoteId): OrderPaymentInterface
@@ -124,6 +150,8 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function getOrderId(): int
@@ -132,6 +160,8 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function setOrderId(int $orderId): OrderPaymentInterface
@@ -140,6 +170,8 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function getPaymentId(): int
@@ -148,6 +180,8 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function setPaymentId(int $paymentId): OrderPaymentInterface
@@ -156,6 +190,8 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function getAmount(): float
@@ -164,6 +200,8 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function setAmount(float $amount): OrderPaymentInterface
@@ -172,6 +210,8 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function getAmountCaptured(): float
@@ -180,6 +220,8 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function setAmountCaptured(float $amountCaptured): OrderPaymentInterface
@@ -188,6 +230,8 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function getAmountRefunded(): float
@@ -196,6 +240,8 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function setAmountRefunded(float $amountRefunded): OrderPaymentInterface
@@ -204,6 +250,8 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function getCreatedAt(): string
@@ -212,6 +260,8 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function setCreatedAt(string $createdAt): OrderPaymentInterface
@@ -220,6 +270,8 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function getUpdatedAt(): string
@@ -228,6 +280,8 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function setUpdatedAt(string $updatedAt): OrderPaymentInterface
@@ -236,6 +290,8 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function getType(): string
@@ -244,6 +300,8 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function setType(string $type): OrderPaymentInterface
@@ -252,6 +310,8 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function getDefaultTransactionId(): ?string
@@ -260,6 +320,8 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function setDefaultTransactionId(?string $defaultTransactionId = null): OrderPaymentInterface

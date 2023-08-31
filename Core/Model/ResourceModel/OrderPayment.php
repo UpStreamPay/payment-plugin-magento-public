@@ -17,6 +17,8 @@ use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 /**
  * Class OrderPayment
  *
+ * @codeCoverageIgnore
+ *
  * @package UpStreamPay\Core\Model\ResourceModel
  */
 class OrderPayment extends AbstractDb

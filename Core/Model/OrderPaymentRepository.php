@@ -28,10 +28,20 @@ use UpStreamPay\Core\Model\ResourceModel\OrderPayment\CollectionFactory;
 /**
  * Class OrderPaymentRepository
  *
+ * @codeCoverageIgnore
+ *
  * @package UpStreamPay\Core\Model
  */
 class OrderPaymentRepository implements OrderPaymentRepositoryInterface
 {
+    /**
+     * @param resourceModel $resourceModel
+     * @param OrderPaymentFactory $orderPaymentFactory
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param CollectionFactory $collectionFactory
+     * @param OrderPaymentSearchResultsFactory $searchResultsFactory
+     * @param CollectionProcessorInterface $collectionProcessor
+     */
     public function __construct(
         private readonly resourceModel $resourceModel,
         private readonly OrderPaymentFactory $orderPaymentFactory,

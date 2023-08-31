@@ -173,6 +173,7 @@ class ReturnUrl implements HttpGetActionInterface, HttpPostActionInterface, Csrf
     }
 
     /**
+     * @codeCoverageIgnore
      * @inheritDoc
      *
      * We have no particular CSRF validation to do & we don't want to use the default one.
@@ -183,6 +184,7 @@ class ReturnUrl implements HttpGetActionInterface, HttpPostActionInterface, Csrf
     }
 
     /**
+     * @codeCoverageIgnore
      * @inheritDoc
      */
     public function createCsrfValidationException(RequestInterface $request): ?InvalidRequestException
