@@ -16,6 +16,7 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Math\FloatComparator;
 use Magento\Sales\Api\InvoiceRepositoryInterface;
 use Magento\Sales\Model\Order\Invoice;
+use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
 use UpStreamPay\Core\Model\OrderTransactions;
 
 /**
@@ -64,25 +65,16 @@ class AllTransactionsToCancelFinder
 
         foreach ($captureTransactions as $captureTransaction) {
             //Check if the capture is linked to an invoice & if so, check if the invoice is paid or not.
-            if ($captureTransaction->getInvoiceId() !== null) {
-                $invoice = $this->invoiceRepository->get($captureTransaction->getInvoiceId());
-
-                if ((int)$invoice->getState() === Invoice::STATE_PAID) {
-                    //If the capture is linked to a paid invoice then we don't need to refund it.
-                    continue;
-                }
+            if ($this->hasPaidInvoice($captureTransaction)) {
+                //If the capture is linked to a paid invoice then we don't need to refund it.
+                continue;
             }
 
-            $totalRefunded = 0.00;
-            $amountUsedOnInvoice = 0.0;
             $refundTransactions = $this->orderTransactions->getRefundTransactionsFromCapture(
                 $captureTransaction->getTransactionId()
             );
 
-            //Loop all refunds to increment the total refunded from the capture transaction.
-            foreach ($refundTransactions as $refundTransaction) {
-                $totalRefunded += $refundTransaction->getAmount();
-            }
+            $totalRefunded = $this->getTotalRefunded($refundTransactions);
 
             //If the capture has already been refunded in full.
             if ($this->floatComparator->equal($totalRefunded, $captureTransaction->getAmount())) {
@@ -97,17 +89,7 @@ class AllTransactionsToCancelFinder
                 $captureTransaction->getTransactionId()
             );
 
-            foreach ($childCaptures as $childCapture) {
-                //Check if the capture is linked to an invoice & if so, check if the invoice is paid or not.
-                if ($childCapture->getInvoiceId() !== null) {
-                    $invoice = $this->invoiceRepository->get($childCapture->getInvoiceId());
-
-                    //Child capture was used to pay an invoice that is in paid state, so we can't refund it.
-                    if ((int)$invoice->getState() === Invoice::STATE_PAID) {
-                        $amountUsedOnInvoice += $childCapture->getAmount();
-                    }
-                }
-            }
+            $amountUsedOnInvoice = $this->getAmountUsedOnInvoiceForChildCapture($childCaptures);
 
             //What we should refund, what has not been used on a paid invoice.
             $amountToRefundOnCapture = $captureTransaction->getAmount() - $amountUsedOnInvoice;
@@ -131,17 +113,12 @@ class AllTransactionsToCancelFinder
         );
 
         foreach ($authorizeTransactions as $authorizeTransaction) {
-            $amountUsedOnCapture = 0.00;
-            $totalVoided = 0.00;
-
             $voidTransactions = $this->orderTransactions->getVoidTransactionsFromAuthorize(
                 $authorizeTransaction->getTransactionId()
             );
 
             //Calculate the total voided on the give authorize transaction.
-            foreach ($voidTransactions as $voidTransaction) {
-                $totalVoided += $voidTransaction->getAmount();
-            }
+            $totalVoided = $this->getTotalVoided($voidTransactions);
 
             //The authorized transaction has been voided in full, no need to go any further.
             if ($this->floatComparator->equal($totalVoided, $authorizeTransaction->getAmount())) {
@@ -155,9 +132,7 @@ class AllTransactionsToCancelFinder
                 $authorizeTransaction->getTransactionId()
             );
 
-            foreach ($captureTransactions as $captureTransaction) {
-                $amountUsedOnCapture += $captureTransaction->getAmount();
-            }
+            $amountUsedOnCapture = $this->getAmountUsedOnCapture($captureTransactions);
 
             //If the authorized transactions has been captured in full, no need to go any further.
             if ($this->floatComparator->equal($amountUsedOnCapture, $authorizeTransaction->getAmount())) {
@@ -180,5 +155,97 @@ class AllTransactionsToCancelFinder
         }
 
         return $transactions;
+    }
+
+    /**
+     * Return true if the transaction is linked to a paid invoice.
+     *
+     * @param OrderTransactionsInterface $transaction
+     *
+     * @return bool
+     */
+    private function hasPaidInvoice(OrderTransactionsInterface $transaction): bool
+    {
+        //Check if the capture is linked to an invoice & if so, check if the invoice is paid or not.
+        if ($transaction->getInvoiceId() !== null) {
+            $invoice = $this->invoiceRepository->get($transaction->getInvoiceId());
+
+            if ((int)$invoice->getState() === Invoice::STATE_PAID) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param array $childCaptures
+     *
+     * @return float
+     */
+    private function getAmountUsedOnInvoiceForChildCapture(array $childCaptures): float
+    {
+        $amountUsedOnInvoice = 0.00;
+
+        foreach ($childCaptures as $childCapture) {
+            //Check if the capture is linked to an invoice & if so, check if the invoice is paid or not.
+            if ($this->hasPaidInvoice($childCapture)) {
+                //Child capture was used to pay an invoice that is in paid state, so we can't refund it.
+                $amountUsedOnInvoice += $childCapture->getAmount();
+            }
+        }
+
+        return $amountUsedOnInvoice;
+    }
+
+    /**
+     * Calculate the total voided on the given authorize transactions.
+     *
+     * @param array $voidTransactions
+     *
+     * @return float
+     */
+    private function getTotalVoided(array $voidTransactions): float
+    {
+        $totalVoided = 0.00;
+
+        foreach ($voidTransactions as $voidTransaction) {
+            $totalVoided += $voidTransaction->getAmount();
+        }
+
+        return $totalVoided;
+    }
+
+    /**
+     * @param array $captureTransactions
+     *
+     * @return float
+     */
+    private function getAmountUsedOnCapture(array $captureTransactions): float
+    {
+        $amountUsedOnCapture = 0.00;
+
+        foreach ($captureTransactions as $captureTransaction) {
+            $amountUsedOnCapture += $captureTransaction->getAmount();
+        }
+
+        return $amountUsedOnCapture;
+    }
+
+    /**
+     * @param $refundTransactions
+     *
+     * @return float
+     */
+    private function getTotalRefunded($refundTransactions): float
+    {
+        $totalRefunded = 0.00;
+
+        //Loop all refunds to increment the total refunded from the capture transaction.
+        foreach ($refundTransactions as $refundTransaction) {
+            $totalRefunded += $refundTransaction->getAmount();
+        }
+
+        return $totalRefunded;
     }
 }
