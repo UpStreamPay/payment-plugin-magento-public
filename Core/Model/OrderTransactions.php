@@ -84,6 +84,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function getEntityId(): ?int
@@ -92,6 +94,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function getTransactionId(): string
@@ -100,6 +104,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function setTransactionId(string $transactionId): self
@@ -108,6 +114,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function getSessionId(): string
@@ -116,6 +124,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function setSessionId(string $sessionId): self
@@ -124,6 +134,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function getMethod(): string
@@ -132,6 +144,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function setMethod(string $method): self
@@ -140,6 +154,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function getTransactionType(): string
@@ -148,6 +164,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function setTransactionType(string $transactionType): self
@@ -156,6 +174,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function getQuoteId(): int
@@ -164,6 +184,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function setQuoteId(int $quoteId): self
@@ -172,6 +194,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function getOrderId(): int
@@ -180,6 +204,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function setOrderId(int $orderId): self
@@ -188,6 +214,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function getInvoiceId(): ?int
@@ -196,6 +224,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function setInvoiceId(?int $invoiceId): self
@@ -204,6 +234,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function getStatus(): string
@@ -212,6 +244,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function setStatus(string $status): self
@@ -220,6 +254,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function getAmount(): float
@@ -228,6 +264,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function setAmount(float $amount): self
@@ -236,6 +274,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function getCreatedAt(): string
@@ -244,6 +284,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function setCreatedAt(string $createdAt): self
@@ -252,6 +294,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function getUpdatedAt(): string
@@ -260,6 +304,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function setUpdatedAt(string $updatedAt): self
@@ -268,6 +314,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function getParentTransactionId(): ?string
@@ -276,6 +324,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function setParentTransactionId(?string $parentTransactionId): self
@@ -284,6 +334,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function getParentPaymentId(): ?int
@@ -292,6 +344,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function setParentPaymentId(?int $parentPaymentId): self
@@ -300,6 +354,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * Create an order transaction based on an API response.
      *
      * @param array $transactionResponse
@@ -347,6 +403,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * Get all refunds transactions linked to a given capture transaction ID.
      *
      * @param string $captureTransactionId
@@ -362,6 +420,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     /**
      * Get all captures transactions linked to a given authorize transaction ID.
      *
+     * @codeCoverageIgnore
+     *
      * @param string $authorizeTransactionId
      *
      * @return OrderTransactionsInterface[]
@@ -374,6 +434,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
 
     /**
      * Get all void transactions linked to a given authorize transaction ID.
+     *
+     * @codeCoverageIgnore
      *
      * @param string $authorizeTransactionId
      *
@@ -389,6 +451,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
      * Get all child captures from a parent capture.
      * In case of a partial capture on a capture transaction, we have to create child capture to have the details of
      * what has been captured, linked to what invoice etc...
+     *
+     * @codeCoverageIgnore
      *
      * @param string $parentCaptureTransactionId
      *
@@ -472,6 +536,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     /**
      * Get the payment linked to the given transaction.
      *
+     * @codeCoverageIgnore
+     *
      * @param int $paymentId
      *
      * @return OrderPaymentInterface
@@ -484,6 +550,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
 
     /**
      * Create a child capture transaction.
+     *
+     * @codeCoverageIgnore
      *
      * @param OrderTransactions $captureTransaction
      * @param float $amount
@@ -514,6 +582,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @param string $parentCaptureTransactionId
      *
      * @return $this

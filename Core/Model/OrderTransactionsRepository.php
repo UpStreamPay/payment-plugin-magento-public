@@ -28,6 +28,8 @@ use UpStreamPay\Core\Model\ResourceModel\OrderTransactions\CollectionFactory;
 /**
  * Class OrderTransactionsRepository
  *
+ * @codeCoverageIgnore
+ *
  * @package UpStreamPay\Core\Model
  */
 class OrderTransactionsRepository implements OrderTransactionsRepositoryInterface

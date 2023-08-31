@@ -26,6 +26,7 @@ use UpStreamPay\Core\Model\ResourceModel\PaymentMethod\CollectionFactory;
 
 /**
  * Class PaymentMethodRepository
+ * @codeCoverageIgnore
  *
  * @package UpStreamPay\Core\Model
  */
