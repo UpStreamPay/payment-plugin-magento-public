@@ -24,6 +24,8 @@ use UpStreamPay\Core\Model\OrderTransactions;
  */
 class AllTransactionsToCaptureFinder
 {
+    private float $amountLeftToCapture = 0.00;
+
     /**
      * @param OrderTransactions $orderTransactions
      * @param AllTransactionsFinder $allTransactionsFinder
@@ -57,7 +59,7 @@ class AllTransactionsToCaptureFinder
     {
         $captureTransactionsUsed = [];
         $authorizeTransactionsUsed = [];
-        $amountLeftToCapture = $amount;
+        $this->amountLeftToCapture = $amount;
         $captureTransactions = $this->allTransactionsFinder->execute(
             OrderTransactions::CAPTURE_ACTION,
             $orderId,
@@ -66,7 +68,7 @@ class AllTransactionsToCaptureFinder
 
         foreach ($captureTransactions as $captureTransaction) {
             //When there is nothing left to capture we can exit this loop.
-            if ($this->floatComparator->equal($amountLeftToCapture, 0.00)) {
+            if ($this->floatComparator->equal($this->amountLeftToCapture, 0.00)) {
                 break;
             }
 
@@ -77,7 +79,7 @@ class AllTransactionsToCaptureFinder
                         'amountToCapture' => $captureTransaction->getAmount()
                     ];
 
-                    $amountLeftToCapture = $amountLeftToCapture - $captureTransaction->getAmount();
+                    $this->amountLeftToCapture = $this->amountLeftToCapture - $captureTransaction->getAmount();
                 }
 
                 continue;
@@ -99,44 +101,31 @@ class AllTransactionsToCaptureFinder
                     $captureTransaction->getTransactionId()
                 );
 
-                //Loop all the child captures to check if we indeed have a child transaction used to pay the current
-                //invoice (we should have one).
-                foreach ($childCaptureTransactions as $childCaptureTransaction) {
-                    if ($childCaptureTransaction->getInvoiceId() === $invoiceId) {
-                        $captureTransactionsUsed[] = [
-                            'transaction' => $childCaptureTransaction,
-                            'amountToCapture' => $childCaptureTransaction->getAmount()
-                        ];
-
-                        $amountLeftToCapture = $amountLeftToCapture - $childCaptureTransaction->getAmount();
-                    }
-                }
+                $captureTransactionsUsed = $this->getChildCaptureTransactionsToUse(
+                    $childCaptureTransactions,
+                    $invoiceId,
+                    $childCaptureTransactions
+                );
 
                 //Because this capture has nothing left to capture available, even if it has no child to use, move on
                 //to the next capture.
                 continue;
             }
 
-            //If the max amount available to capture is <= to the amount to capture, then what we must capture is the
-            //max allowed on transaction. Otherwise, refund the amount left to capture.
-            $amountToCaptureOnTransaction = $maxAmountToCapture <= $amountLeftToCapture
-                ? $maxAmountToCapture : $amountLeftToCapture;
+            $amountToCaptureOnTransaction = $this->getAmountToCaptureOnTransaction($maxAmountToCapture);
             //This is the amount left that we can capture on the payment method.
             //It should be the same as the amount calculated before.
             $amountLeftToCaptureOnPayment = $this->orderTransactions->getAmountLeftToCaptureOnTransaction(
                 $captureTransaction->getParentPaymentId()
             );
 
-            //This is a second safety check, we calculated before the amount left to capture based on the transactions
-            //made. If the amount calculated is > to the amount left on the payment method, then use what's on the
-            //payment method.
-            //$amountToCaptureOnTransaction can be inferior to the amount left to capture, this is normal because we
-            //can invoice partially. The only important thing is to make sure it's not superior to what we can capture.
-            if ($amountToCaptureOnTransaction > $amountLeftToCaptureOnPayment) {
-                $amountToCaptureOnTransaction = $amountLeftToCaptureOnPayment;
-            }
+            //Second safety check.
+            $amountToCaptureOnTransaction = $this->validateAmountToCaptureOnTransaction(
+                $amountToCaptureOnTransaction,
+                $amountLeftToCaptureOnPayment
+            );
 
-            $amountLeftToCapture = $amountLeftToCapture - $amountToCaptureOnTransaction;
+            $this->amountLeftToCapture = $this->amountLeftToCapture - $amountToCaptureOnTransaction;
 
             if ($amountToCaptureOnTransaction < $captureTransaction->getAmount() && $amountToCaptureOnTransaction > 0) {
                 //Create child capture transaction because we are not using the full amount of the original capture
@@ -160,7 +149,7 @@ class AllTransactionsToCaptureFinder
         }
 
         //It means that we still have an amount to capture
-        if ($amountLeftToCapture > 0) {
+        if ($this->amountLeftToCapture > 0) {
             //Get all authorize transactions on the order.
             $authorizeTransactions = $this->allTransactionsFinder->execute(
                 OrderTransactions::AUTHORIZE_ACTION,
@@ -168,59 +157,155 @@ class AllTransactionsToCaptureFinder
                 OrderTransactions::SUCCESS_STATUS
             );
 
-            foreach ($authorizeTransactions as $authorizeTransaction) {
-                //When there is nothing left to capture we can exit this loop.
-                if ($this->floatComparator->equal($amountLeftToCapture, 0.00)) {
-                    break;
-                }
+            $authorizeTransactionsUsed = $this->getAuthorizeTransactionsToUse($authorizeTransactions, $this->amountLeftToCapture);
+        }
 
-                $amountUsedOnTransaction = $this->orderTransactions->getAmountUsedOnAuthorizeTransaction(
-                    $authorizeTransaction->getTransactionId()
-                );
+        $this->throwExceptionIfamountLeftToCapture();
 
-                //This is the max amount we can capture on the transaction based on what has been captured or
-                //voided.
-                //An authorize can be captured or voided.
-                $maxAmountToCapture = $authorizeTransaction->getAmount() - $amountUsedOnTransaction;
+        return array_merge($captureTransactionsUsed, $authorizeTransactionsUsed);
+    }
 
-                //In case the authorized transaction has been used completely there is nothing left to capture.
-                if ($this->floatComparator->equal($maxAmountToCapture, 0.00)) {
-                    continue;
-                }
+    /**
+     * We should have nothing left to capture when calling this function.
+     *
+     * @return void
+     * @throws NotEnoughFundException
+     */
+    private function throwExceptionIfamountLeftToCapture(): void
+    {
+        if ($this->amountLeftToCapture > 0) {
+            throw new NotEnoughFundException('There is not enough fund on transactions to pay the invoice.');
+        }
+    }
 
-                //If the max amount available to capture is <= to the amount to capture, then what we must capture is
-                //the max allowed on transaction. Otherwise, refund the amount left to capture.
-                $amountToCaptureOnTransaction = $maxAmountToCapture <= $amountLeftToCapture
-                    ? $maxAmountToCapture : $amountLeftToCapture;
+    /**
+     * @param float $maxAmountToCapture
+     *
+     * @return float
+     */
+    private function getAmountToCaptureOnTransaction(float $maxAmountToCapture): float
+    {
+        //If the max amount available to capture is <= to the amount to capture, then what we must capture is the
+        //max allowed on transaction. Otherwise, refund the amount left to capture.
+        if ($maxAmountToCapture <= $this->amountLeftToCapture) {
+            return $maxAmountToCapture;
+        }
 
-                //This is the amount left that we can capture on the payment method.
-                //It should be the same as the amount calculated before.
-                $amountLeftToCaptureOnPayment = $this->orderTransactions->getAmountLeftToCaptureOnTransaction(
-                    $authorizeTransaction->getParentPaymentId()
-                );
+        return $this->amountLeftToCapture;
+    }
 
-                //This is a second safety check, we calculated before the amount left to capture based on the
-                //transactions made. If the amount calculated is > to the amount left on the payment method, then use
-                //what's on the payment method.
-                //$amountToCaptureOnTransaction can be inferior to the amount left to capture, this is normal because we
-                //can invoice partially. The only important thing is to make sure it's not > to what we can capture.
-                if ($amountToCaptureOnTransaction > $amountLeftToCaptureOnPayment) {
-                    $amountToCaptureOnTransaction = $amountLeftToCaptureOnPayment;
-                }
+    /**
+     * @param float $amountToCaptureOnTransaction
+     * @param float $amountLeftToCaptureOnPayment
+     *
+     * @return float
+     */
+    private function validateAmountToCaptureOnTransaction(
+        float $amountToCaptureOnTransaction,
+        float $amountLeftToCaptureOnPayment
+    ): float
+    {
+        //This is a second safety check, we calculated before the amount left to capture based on the transactions
+        //made. If the amount calculated is > to the amount left on the payment method, then use what's on the
+        //payment method.
+        //$amountToCaptureOnTransaction can be inferior to the amount left to capture, this is normal because we
+        //can invoice partially. The only important thing is to make sure it's not superior to what we can capture.
+        if ($amountToCaptureOnTransaction > $amountLeftToCaptureOnPayment) {
+            return $amountLeftToCaptureOnPayment;
+        }
 
-                $amountLeftToCapture = $amountLeftToCapture - $amountToCaptureOnTransaction;
+        return $amountToCaptureOnTransaction;
+    }
 
-                $authorizeTransactionsUsed[] = [
-                    'transaction' => $authorizeTransaction,
-                    'amountToCapture' => $amountToCaptureOnTransaction
+    /**
+     * Get the child capture transactions to use.
+     *
+     * @param array $childCaptureTransactions
+     * @param int $invoiceId
+     * @param array $captureTransactionsUsed
+     *
+     * @return array
+     */
+    private function getChildCaptureTransactionsToUse(
+        array $childCaptureTransactions,
+        int $invoiceId,
+        array $captureTransactionsUsed
+    ): array
+    {
+        //Loop all the child captures to check if we indeed have a child transaction used to pay the current
+        //invoice (we should have one).
+        foreach ($childCaptureTransactions as $childCaptureTransaction) {
+            if ($childCaptureTransaction->getInvoiceId() === $invoiceId) {
+                $captureTransactionsUsed[] = [
+                    'transaction' => $childCaptureTransaction,
+                    'amountToCapture' => $childCaptureTransaction->getAmount()
                 ];
+
+                $this->amountLeftToCapture = $this->amountLeftToCapture - $childCaptureTransaction->getAmount();
             }
         }
 
-        if ($amountLeftToCapture > 0) {
-            throw new NotEnoughFundException('There is not enough fund on transactions to pay the invoice.');
+        return $captureTransactionsUsed;
+    }
+
+    /**
+     * @param array $authorizeTransactions
+     *
+     * @return array
+     * @throws LocalizedException
+     */
+    private function getAuthorizeTransactionsToUse(array $authorizeTransactions): array
+    {
+        $authorizeTransactionsUsed = [];
+
+        foreach ($authorizeTransactions as $authorizeTransaction) {
+            //When there is nothing left to capture we can exit this loop.
+            if ($this->floatComparator->equal($this->amountLeftToCapture, 0.00)) {
+                break;
+            }
+
+            $amountUsedOnTransaction = $this->orderTransactions->getAmountUsedOnAuthorizeTransaction(
+                $authorizeTransaction->getTransactionId()
+            );
+
+            //This is the max amount we can capture on the transaction based on what has been captured or
+            //voided.
+            //An authorize can be captured or voided.
+            $maxAmountToCapture = $authorizeTransaction->getAmount() - $amountUsedOnTransaction;
+
+            //In case the authorized transaction has been used completely there is nothing left to capture.
+            if ($this->floatComparator->equal($maxAmountToCapture, 0.00)) {
+                continue;
+            }
+
+            //If the max amount available to capture is <= to the amount to capture, then what we must capture is
+            //the max allowed on transaction. Otherwise, refund the amount left to capture.
+            $amountToCaptureOnTransaction = $maxAmountToCapture <= $this->amountLeftToCapture
+                ? $maxAmountToCapture : $this->amountLeftToCapture;
+
+            //This is the amount left that we can capture on the payment method.
+            //It should be the same as the amount calculated before.
+            $amountLeftToCaptureOnPayment = $this->orderTransactions->getAmountLeftToCaptureOnTransaction(
+                $authorizeTransaction->getParentPaymentId()
+            );
+
+            //This is a second safety check, we calculated before the amount left to capture based on the
+            //transactions made. If the amount calculated is > to the amount left on the payment method, then use
+            //what's on the payment method.
+            //$amountToCaptureOnTransaction can be inferior to the amount left to capture, this is normal because we
+            //can invoice partially. The only important thing is to make sure it's not > to what we can capture.
+            if ($amountToCaptureOnTransaction > $amountLeftToCaptureOnPayment) {
+                $amountToCaptureOnTransaction = $amountLeftToCaptureOnPayment;
+            }
+
+            $this->amountLeftToCapture = $this->amountLeftToCapture - $amountToCaptureOnTransaction;
+
+            $authorizeTransactionsUsed[] = [
+                'transaction' => $authorizeTransaction,
+                'amountToCapture' => $amountToCaptureOnTransaction
+            ];
         }
 
-        return array_merge($captureTransactionsUsed, $authorizeTransactionsUsed);
+        return $authorizeTransactionsUsed;
     }
 }
