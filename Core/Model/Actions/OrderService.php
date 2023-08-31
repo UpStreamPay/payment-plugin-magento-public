@@ -129,7 +129,9 @@ class OrderService
         if ($isAuthorizeTransactionPending && !$isCaptureTransactionPending) {
             $payment->setIsTransactionPending(true);
             $payment->setIsTransactionApproved(false);
-        } elseif (!$isAuthorizeTransactionPending && $isCaptureTransactionPending) {
+        }
+
+        if (!$isAuthorizeTransactionPending && $isCaptureTransactionPending) {
             $payment->setIsTransactionPending(true);
             $payment->setIsTransactionApproved(false);
         }
