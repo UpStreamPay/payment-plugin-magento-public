@@ -72,9 +72,9 @@ class VoidService
     public function execute(InfoInterface $payment): InfoInterface
     {
         if ($this->config->getPaymentAction() === MethodInterface::ACTION_AUTHORIZE) {
-            return $this->voidAllAuthorizeTransactions($payment);
+            $payment = $this->voidAllAuthorizeTransactions($payment);
         } elseif ($this->config->getPaymentAction() === MethodInterface::ACTION_AUTHORIZE_CAPTURE) {
-            return $this->voidAllCaptureTransactions($payment);
+            $payment = $this->voidAllCaptureTransactions($payment);
         } elseif ($this->config->getPaymentAction() === MethodInterface::ACTION_ORDER) {
             $payment = $this->voidAllAuthorizeTransactions($payment);
             return $this->voidAllCaptureTransactions($payment);

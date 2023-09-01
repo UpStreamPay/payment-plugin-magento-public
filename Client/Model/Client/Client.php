@@ -20,7 +20,6 @@ use UpStreamPay\Client\Exception\NoOrderFoundException;
 use UpStreamPay\Client\Model\Token\TokenService;
 use UpStreamPay\Core\Exception\ConflictRetrieveTransactionsException;
 use UpStreamPay\Core\Model\Config;
-use UpStreamPay\Core\Model\Config\Source\Mode;
 use GuzzleHttp\ClientFactory;
 use Magento\Framework\Event\ManagerInterface as EventManager;
 use UpStreamPay\Core\Model\Config\Source\Debug;
@@ -44,6 +43,7 @@ class Client implements ClientInterface
     private const CAPTURE_URI = '/capture';
     private const VOID_URI = '/void';
     private const REFUND_URI = '/refund';
+    private const API_URI_SKELETON = '%s%s%s%s';
 
     /**
      * @param ClientFactory $httpClientFactory
@@ -190,7 +190,7 @@ class Client implements ClientInterface
         );
 
         $uri = sprintf(
-            '%s%s%s%s',
+            self::API_URI_SKELETON,
             $this->config->getEntityId(),
             self::TRANSACTIONS_URI,
             $transactionId,
@@ -231,7 +231,7 @@ class Client implements ClientInterface
     public function void(string $transactionId, array $body): array
     {
         $uri = sprintf(
-            '%s%s%s%s',
+            self::API_URI_SKELETON,
             $this->config->getEntityId(),
             self::TRANSACTIONS_URI,
             $transactionId,
@@ -287,7 +287,7 @@ class Client implements ClientInterface
         );
 
         $uri = sprintf(
-            '%s%s%s%s',
+            self::API_URI_SKELETON,
             $this->config->getEntityId(),
             self::TRANSACTIONS_URI,
             $transactionId,
@@ -359,7 +359,7 @@ class Client implements ClientInterface
         ];
 
         //Don't pass the body if there is nothing to pass, or it will create an error.
-        if (count($body) > 0) {
+        if (!empty($body)) {
             $options[RequestOptions::JSON] = $body;
         }
 

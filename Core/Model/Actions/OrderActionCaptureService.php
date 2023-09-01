@@ -17,6 +17,7 @@ use Magento\Framework\Math\FloatComparator;
 use Magento\Payment\Model\InfoInterface;
 use Throwable;
 use UpStreamPay\Client\Model\Client\ClientInterface;
+use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
 use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
 use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
 use UpStreamPay\Core\Exception\CaptureErrorException;
@@ -31,6 +32,8 @@ use UpStreamPay\Core\Model\PaymentFinder\AllTransactionsToCaptureFinder;
  */
 class OrderActionCaptureService
 {
+    private string $upStreamPaySessionId = '';
+
     /**
      * @param AllTransactionsToCaptureFinder $allTransactionsToCaptureFinder
      * @param OrderTransactionsRepositoryInterface $orderTransactionsRepository
@@ -70,7 +73,7 @@ class OrderActionCaptureService
         //If we have no entity ID on invoice it means it's an invoice not saved yet.
         //This means we are in the middle of creating the invoice. We will wait until the invoice is saved, so we can
         //have an invoice ID. An event will trigger this again after the invoice save.
-        if ($payment->getCreatedInvoice() === null || $payment->getCreatedInvoice()->getEntityId() === null) {
+        if ($this->magentoPaymentHasInvoice($payment)) {
             //Transaction is pending for now.
             $payment->setIsTransactionPending(true);
 
@@ -80,7 +83,6 @@ class OrderActionCaptureService
         $orderId = (int)$payment->getOrder()->getEntityId();
         $invoiceId = (int)$payment->getCreatedInvoice()->getEntityId();
         $amountPaid = 0.00;
-        $upStreamPaySessionId = '';
 
         try {
             $transactionsToUseToPayInvoice = $this->allTransactionsToCaptureFinder->execute(
@@ -102,10 +104,7 @@ class OrderActionCaptureService
         foreach ($transactionsToUseToPayInvoice as $transactionToUse) {
             /** @var OrderTransactions $transaction */
             $transaction = $transactionToUse['transaction'];
-
-            if ($upStreamPaySessionId === '') {
-                $upStreamPaySessionId = $transaction->getSessionId();
-            }
+            $this->setTransactionId($transaction);
 
             //Here we have capture or child capture transactions.
             if ($transaction->getTransactionType() !== OrderTransactions::AUTHORIZE_ACTION) {
@@ -133,43 +132,13 @@ class OrderActionCaptureService
                     ));
                 }
             } elseif ($transaction->getTransactionType() === OrderTransactions::AUTHORIZE_ACTION) {
-                //We have to capture any authorize transaction we have if no prvious capture has failed.
-                $body = [
-                    'order' => [
-                        'amount' => $payment->getOrder()->getBaseGrandTotal(),
-                        'currency_code' => $payment->getOrder()->getGlobalCurrencyCode(),
-                    ],
-                    'amount' => $transactionToUse['amountToCapture'],
-                ];
-
-                try {
-                    $response = $this->client->capture($transaction->getTransactionId(), $body);
-                    $captureTransaction = $this->orderTransactions->createTransactionFromResponse(
-                        $response,
-                        $orderId,
-                        $transaction->getQuoteId(),
-                        $transaction->getParentPaymentId(),
-                        $invoiceId
-                    );
-
-                    //Update the amount captured on the payment method. This is very important to know what's left to
-                    //capture.
-                    $orderPayment = $this->orderPaymentRepository->getById($captureTransaction->getParentPaymentId());
-                    $orderPayment->setAmountCaptured(
-                        $orderPayment->getAmountCaptured() + $captureTransaction->getAmount()
-                    );
-                    $this->orderPaymentRepository->save($orderPayment);
-                } catch (Throwable $exception) {
-                    $errorMessage = sprintf(
-                        'Error while trying to capture transaction %s for amount %s for invoice %s because %s',
-                        $transaction->getTransactionId(),
-                        $transactionToUse['amountToCapture'],
-                        $invoiceId,
-                        $exception->getMessage()
-                    );
-
-                    throw new CaptureErrorException($errorMessage);
-                }
+                $captureTransaction = $this->captureAuthorizeTransaction(
+                     $transaction,
+                     $orderId,
+                     $invoiceId,
+                     $transactionToUse,
+                     $payment
+                );
 
                 if ($captureTransaction->getStatus() === OrderTransactions::SUCCESS_STATUS) {
                     $amountPaid += $captureTransaction->getAmount();
@@ -207,7 +176,7 @@ class OrderActionCaptureService
         //If both amount match & there has been no error.
         if ($this->floatComparator->equal($amountPaid, $amount)) {
             $payment
-                ->setTransactionId($upStreamPaySessionId . '-' . $invoiceId)
+                ->setTransactionId($this->upStreamPaySessionId . '-' . $invoiceId)
                 ->setIsTransactionClosed(false)
                 ->setIsTransactionPending(false)
                 ->setIsTransactionApproved(true)
@@ -216,5 +185,94 @@ class OrderActionCaptureService
         }
 
         return $payment;
+    }
+
+    /**
+     * Check if the Magento payment has an invoice linked to it.
+     *
+     * @param InfoInterface $payment
+     *
+     * @return bool
+     */
+    private function magentoPaymentHasInvoice(InfoInterface $payment): bool
+    {
+        //If we have no entity ID on invoice it means it's an invoice not saved yet.
+        //This means we are in the middle of creating the invoice. We will wait until the invoice is saved, so we can
+        //have an invoice ID. An event will trigger this again after the invoice save.
+        return $payment->getCreatedInvoice() === null || $payment->getCreatedInvoice()->getEntityId() === null;
+    }
+
+    /**
+     * Set the transaction ID used for the magento transaction.
+     *
+     * @param OrderTransactionsInterface $transaction
+     *
+     * @return void
+     */
+    private function setTransactionId(OrderTransactionsInterface $transaction): void
+    {
+        if ($this->upStreamPaySessionId === '') {
+            $this->upStreamPaySessionId = $transaction->getSessionId();
+        }
+    }
+
+    /**
+     * Capture the given authorize transaction & save it in DB.
+     *
+     * @param OrderTransactionsInterface $transaction
+     * @param int $orderId
+     * @param int $invoiceId
+     * @param array $transactionToUse
+     * @param InfoInterface $payment
+     *
+     * @return OrderTransactionsInterface
+     * @throws CaptureErrorException
+     */
+    private function captureAuthorizeTransaction(
+        OrderTransactionsInterface $transaction,
+        int $orderId,
+        int $invoiceId,
+        array $transactionToUse,
+        InfoInterface $payment
+    ): OrderTransactionsInterface
+    {
+        $body = [
+            'order' => [
+                'amount' => $payment->getOrder()->getBaseGrandTotal(),
+                'currency_code' => $payment->getOrder()->getGlobalCurrencyCode(),
+            ],
+            'amount' => $transactionToUse['amountToCapture'],
+        ];
+
+        try {
+            $response = $this->client->capture($transaction->getTransactionId(), $body);
+            $captureTransaction = $this->orderTransactions->createTransactionFromResponse(
+                $response,
+                $orderId,
+                $transaction->getQuoteId(),
+                $transaction->getParentPaymentId(),
+                $invoiceId
+            );
+
+            //Update the amount captured on the payment method. This is very important to know what's left to
+            //capture.
+            $orderPayment = $this->orderPaymentRepository->getById($captureTransaction->getParentPaymentId());
+            $orderPayment->setAmountCaptured(
+                $orderPayment->getAmountCaptured() + $captureTransaction->getAmount()
+            );
+            $this->orderPaymentRepository->save($orderPayment);
+        } catch (Throwable $exception) {
+            $errorMessage = sprintf(
+                'Error while trying to capture transaction %s for amount %s for invoice %s because %s',
+                $transaction->getTransactionId(),
+                $transactionToUse['amountToCapture'],
+                $invoiceId,
+                $exception->getMessage()
+            );
+
+            throw new CaptureErrorException($errorMessage);
+        }
+
+        return $captureTransaction;
     }
 }

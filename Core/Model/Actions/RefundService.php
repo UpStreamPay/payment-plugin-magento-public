@@ -18,6 +18,7 @@ use Magento\Sales\Model\Order\Creditmemo;
 use Psr\Log\LoggerInterface;
 use Throwable;
 use UpStreamPay\Client\Model\Client\ClientInterface;
+use UpStreamPay\Core\Api\Data\OrderPaymentInterface;
 use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
 use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
 use UpStreamPay\Core\Model\OrderTransactions;
@@ -74,20 +75,14 @@ class RefundService
             $captureTransaction = $capture['transaction'];
 
             if ($amountLeftToRefund > 0) {
-                //If max amount to refund on transaction is less or equal than the amount to refund, refund max amount.
-                //Else refund full amount.
-                //IE: creditmemo is 50, max amount to refund on current capture is 10, refund 10 and move on to next
-                //capture.
-                $amountToRefundOnTransaction = $captureRefoundAmount <= $amountLeftToRefund
-                    ? $captureRefoundAmount : $amountLeftToRefund;
+                $amountToRefundOnTransaction = $this->getAmountToRefundOnTransaction(
+                    $captureRefoundAmount,
+                    $amountLeftToRefund
+                );
                 $orderPayment = $this->orderPaymentRepository->getById($captureTransaction->getParentPaymentId());
 
                 //Verify that we can refund this on the payment.
-                //Second safety check to make sure we don't over refund. If we detect an over refund then the amount
-                //to refund should be the difference between the total amount & amount refunded.
-                if (($orderPayment->getAmountRefunded() + $amountToRefundOnTransaction) > $orderPayment->getAmount()) {
-                    $amountToRefundOnTransaction = $orderPayment->getAmount() - $orderPayment->getAmountRefunded();
-                }
+                $amountToRefundOnTransaction = $this->verifyAmountToRefund($orderPayment, $amountToRefundOnTransaction);
 
                 //Only refund if we have something to refund.
                 if ($amountToRefundOnTransaction > 0) {
@@ -164,5 +159,47 @@ class RefundService
         }
 
         return $payment;
+    }
+
+    /**
+     * Get amount to refund on transaction.
+     *
+     * @param float $captureRefoundAmount
+     * @param float $amountLeftToRefund
+     *
+     * @return float
+     */
+    private function getAmountToRefundOnTransaction(float $captureRefoundAmount, float $amountLeftToRefund): float
+    {
+        //If max amount to refund on transaction is less or equal than the amount to refund, refund max amount.
+        //Else refund full amount.
+        //IE: creditmemo is 50, max amount to refund on current capture is 10, refund 10 and move on to next
+        //capture.
+        if ($captureRefoundAmount <= $amountLeftToRefund) {
+            return $captureRefoundAmount;
+        }
+
+        return $amountLeftToRefund;
+    }
+
+    /**
+     * @param OrderPaymentInterface $orderPayment
+     * @param float $amountToRefundOnTransaction
+     *
+     * @return float
+     */
+    private function verifyAmountToRefund(
+        OrderPaymentInterface $orderPayment,
+        float $amountToRefundOnTransaction
+    ): float
+    {
+        //Verify that we can refund this on the payment.
+        //Second safety check to make sure we don't over refund. If we detect an over refund then the amount
+        //to refund should be the difference between the total amount & amount refunded.
+        if (($orderPayment->getAmountRefunded() + $amountToRefundOnTransaction) > $orderPayment->getAmount()) {
+            return $orderPayment->getAmount() - $orderPayment->getAmountRefunded();
+        }
+
+        return $amountToRefundOnTransaction;
     }
 }

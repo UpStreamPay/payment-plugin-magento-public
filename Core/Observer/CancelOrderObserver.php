@@ -89,6 +89,24 @@ class CancelOrderObserver implements ObserverInterface
      */
     private function orderHasTransactionsToCancel(OrderInterface $order): bool
     {
+        if ($this->orderHasPaidNoPaidInvoice($order)) {
+            return true;
+        }
+
+        if ($order->getBaseTotalDue() > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param OrderInterface $order
+     *
+     * @return true
+     */
+    private function orderHasPaidNoPaidInvoice(OrderInterface $order): bool
+    {
         $invoices = $order->getInvoiceCollection();
 
         if (count($invoices) === 0) {
@@ -100,10 +118,6 @@ class CancelOrderObserver implements ObserverInterface
             if ($invoice->getState() === Invoice::STATE_CANCELED) {
                 return true;
             }
-        }
-
-        if ($order->getBaseTotalDue() > 0) {
-            return true;
         }
 
         return false;
