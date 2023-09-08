@@ -22,6 +22,7 @@
                 <group>upstream_pay</group>
                 <mode>sandbox</mode>
                 <error_message>An error occured, please try again.</error_message>
+                <payment_action>order</payment_action>
                 <api_config>
                     <production_url>https://api.upstreampay.com</production_url>
                     <sandbox_url>https://api.preprod.upstreampay.com</sandbox_url>
