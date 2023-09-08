@@ -21,7 +21,8 @@ define([
         //configuration for loaded UpStream Pay script
         require.config({
             paths: {
-                upStreamPayScript: 'https://widget.upstreampay.com/v3-current/UpStreamPay'
+                //This url is defined in admin. The .js at of the widget url has been removed in the config provider.
+                upStreamPayScript: window.checkoutConfig.payment.UpStreamPay.widgetUrl
             },
             shim: {
                 upStreamPayScript: {
