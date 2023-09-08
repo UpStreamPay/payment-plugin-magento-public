@@ -69,7 +69,7 @@ class CustomerBuilder implements BuilderInterface
         $customerData = [];
 
         if ($quote->getCustomerIsGuest()) {
-            $customerData['reference'] = '';
+            $customerData['reference'] = 'guest-' . $quote->getId();
         } else {
             $customer = $quote->getCustomer();
             $customerGroup = $this->groupRepository->getById($customer->getGroupId());
