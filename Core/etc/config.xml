@@ -25,6 +25,7 @@
                 <api_config>
                     <production_url>https://api.upstreampay.com</production_url>
                     <sandbox_url>https://api.preprod.upstreampay.com</sandbox_url>
+                    <widget_url>https://widget.upstreampay.com/v3-current/UpStreamPay.js</widget_url>
                     <rsa_sandbox_key>-----BEGIN PUBLIC KEY-----
                         MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArjjcczhTDCei8Sk2W4mL
                         OjbHjpw18jeVA4LAVKayVMVURzyB30v9DEBlGw5T+A3+IAXLfEF79wQ2UM4OQFoh

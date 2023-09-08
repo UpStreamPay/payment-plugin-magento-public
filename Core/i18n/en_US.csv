@@ -42,3 +42,6 @@
 "This attribute will be set on the quote.","This attribute will be set on the quote."
 "3DS exemption attribute code","3DS exemption attribute code"
 "Challenge indicator attribute code","Challenge indicator attribute code"
+"Customer TIN attribute code", "Customer TIN attribute code"
+"Enter the custmer TIN attribute code if it exists.", "Enter the custmer TIN attribute code if it exists."
+"Widget url", "Widget url"
