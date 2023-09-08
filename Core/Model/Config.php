@@ -125,12 +125,19 @@ class Config
 
     /**
      * Get the client ID (API).
+     * It's a config with an obscure type.
      *
      * @return ?string
      */
     public function getClientId(): ?string
     {
-        return $this->config->getValue(self::CLIENT_ID_CONFIG_PATH, ScopeInterface::SCOPE_STORE);
+        $clientIdConfigValue = $this->config->getValue(self::CLIENT_ID_CONFIG_PATH, ScopeInterface::SCOPE_STORE);
+
+        if ($clientIdConfigValue === null) {
+            return null;
+        }
+
+        return $this->encryptor->decrypt(trim($clientIdConfigValue));
     }
 
     /**
