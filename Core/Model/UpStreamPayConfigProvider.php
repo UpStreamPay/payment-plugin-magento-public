@@ -45,7 +45,9 @@ class UpStreamPayConfigProvider implements ConfigProviderInterface
                     'mode' => $this->config->getMode(),
                     'apiKey' => $this->config->getApiKey(),
                     'errorMessage' => $this->config->getErrorMessage(),
-                    'paymentMethodCode' => Config::METHOD_CODE_UPSTREAM_PAY
+                    'paymentMethodCode' => Config::METHOD_CODE_UPSTREAM_PAY,
+                    //The JS part of the string is not needed because the KO script requires the path without the .js.
+                    'widgetUrl' => str_replace('.js', '', $this->config->getWidgetUrl()),
                 ]
             ]
         ];

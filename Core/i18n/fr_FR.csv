@@ -42,3 +42,6 @@
 "This attribute will be set on the quote.","Cet attribut sera attribué à la quote."
 "3DS exemption attribute code","Code d'attribut d'exemption 3DS"
 "Challenge indicator attribute code","Code d'attribut pour l'indicateur du challenge (méthode d'authentification)"
+"Customer TIN attribute code", "Code d'attribut pour l'attribut client NIF"
+"Enter the custmer TIN attribute code if it exists.", "Veuillez saisir le code de l'attribut client NIF s'il existe."
+"Widget url", "Url du widget"
