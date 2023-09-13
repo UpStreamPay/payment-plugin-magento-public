@@ -1,3 +1,17 @@
+# [1.2.0](https://github.com/UpStreamPay/payment-plugin-magento/compare/v1.0.0...v1.2.0) (2023-09-13)
+
+
+### Bug Fixes
+
+* Update composer.json ([2991630](https://github.com/UpStreamPay/payment-plugin-magento/commit/299163097d9d65ceae4d9e04b27cb86b27002a90))
+
+
+### Features
+
+* **logs:** UP-88 ([f5be1e4](https://github.com/UpStreamPay/payment-plugin-magento/commit/f5be1e44e3d0489512d7c3372cc6d45633593f99))
+
+
+
 # [1.0.0](https://github.com/UpStreamPay/payment-plugin-magento/compare/v1.1.0...v1.0.0) (2023-08-03)
 
 
