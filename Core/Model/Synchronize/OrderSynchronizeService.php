@@ -105,17 +105,17 @@ class OrderSynchronizeService
         }
 
         if ($action === OrderTransactions::AUTHORIZE_ACTION) {
-            return $this->authorizeService->execute($payment, $amount);
+            $payment = $this->authorizeService->execute($payment, $amount);
         } elseif ($action === OrderTransactions::CAPTURE_ACTION) {
-           return  $this->captureService->execute($payment, $amount);
+            $payment =  $this->captureService->execute($payment, $amount);
         } elseif ($action === OrderTransactions::VOID_ACTION) {
-            return $this->voidService->execute($payment);
+            $payment = $this->voidService->execute($payment);
         } elseif ($action === OrderTransactions::REFUND_ACTION) {
-            return $this->refundService->execute($payment, $amount);
+            $payment = $this->refundService->execute($payment, $amount);
         } elseif ($action === OrderTransactions::ORDER_ACTION) {
-            return $this->orderService->execute($payment, $amount);
+            $payment =  $this->orderService->execute($payment, $amount);
         } elseif ($action === OrderTransactions::ORDER_CAPTURE_ACTION) {
-            return $this->orderActionCaptureService->execute($payment, $amount);
+            $payment = $this->orderActionCaptureService->execute($payment, $amount);
         } elseif ($action === OrderTransactions::ORDER_CANCEL) {
             $this->cancelService->execute($payment->getOrder(), false);
 

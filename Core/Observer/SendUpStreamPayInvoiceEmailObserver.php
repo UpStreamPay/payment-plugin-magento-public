@@ -70,11 +70,10 @@ class SendUpStreamPayInvoiceEmailObserver implements ObserverInterface
             try {
                 /** @var Invoice $invoice */
                 $invoice = current($order->getInvoiceCollection()->getItems());
-                if ($invoice) {
-                    //Add this condition to block emails only if using upstream pay.
-                    if ($order->getPayment()->getMethod() !== Config::METHOD_CODE_UPSTREAM_PAY) {
-                        $this->invoiceSender->send($invoice);
-                    }
+
+                //Add this condition to block emails only if using upstream pay.
+                if ($invoice && $order->getPayment()->getMethod() !== Config::METHOD_CODE_UPSTREAM_PAY) {
+                    $this->invoiceSender->send($invoice);
                 }
             } catch (Throwable $exception) {
                 $this->logger->critical($exception);

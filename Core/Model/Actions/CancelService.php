@@ -127,15 +127,7 @@ class CancelService
                 ));
 
                 //In case of an error a manual refund must be done.
-                if ($refundTransaction->getStatus() === OrderTransactions::ERROR_STATUS) {
-                    $errorMessage = sprintf(
-                        'Transaction refund with ID %s for amount %s is in error, refund it in UpStream admin panel.',
-                        $refundTransaction->getTransactionId(),
-                        $refundTransaction->getAmount()
-                    );
-                    $this->logger->critical($errorMessage);
-                    $order->addCommentToStatusHistory($errorMessage);
-                }
+                $this->addManualRefundCommentIfNeeded($refundTransaction, $order);
 
                 $orderPayment->setAmountRefunded($orderPayment->getAmountRefunded() + $refundTransaction->getAmount());
                 $this->orderPaymentRepository->save($orderPayment);
@@ -170,17 +162,7 @@ class CancelService
                     $transaction->getParentPaymentId(),
                 );
 
-                if ($this->config->getDebugMode() === Debug::SIMPLE_VALUE
-                    || $this->config->getDebugMode() === Debug::DEBUG_VALUE) {
-                    $this->logger->debug(
-                        sprintf(
-                            'Payment denied for order %s, void transaction response:',
-                            $order->getEntityId()
-                        )
-                    );
-
-                    $this->logger->debug(print_r($voidResponse, true));
-                }
+                $this->addDebugLog($order, $voidResponse);
 
                 $order->addCommentToStatusHistory(sprintf(
                     'Voiding authorize transaction %s for payment %s with void transaction %s',
@@ -194,6 +176,55 @@ class CancelService
         if ($cancelOrder) {
             //Now cancel the order, whatever has been invoiced & paid won't be canceled.
             $this->orderManagement->cancel($order->getEntityId());
+        }
+    }
+
+    /**
+     * Add debug log.
+     *
+     * @param OrderInterface $order
+     * @param array $voidResponse
+     *
+     * @return void
+     */
+    private function addDebugLog(OrderInterface $order, array $voidResponse): void
+    {
+        if ($this->config->getDebugMode() === Debug::SIMPLE_VALUE
+            || $this->config->getDebugMode() === Debug::DEBUG_VALUE) {
+            $this->logger->debug(
+                sprintf(
+                    'Payment denied for order %s, void transaction response:',
+                    $order->getEntityId()
+                )
+            );
+
+            $this->logger->debug(print_r($voidResponse, true));
+        }
+    }
+
+    /**
+     * Add comment in order in case a manual refund must be done.
+     *
+     * @param OrderTransactionsInterface $refundTransaction
+     * @param OrderInterface $order
+     *
+     * @return void
+     */
+    private function addManualRefundCommentIfNeeded(
+        OrderTransactionsInterface $refundTransaction,
+        OrderInterface $order
+    ): void
+    {
+        //In case of an error a manual refund must be done.
+        if ($refundTransaction->getStatus() === OrderTransactions::ERROR_STATUS) {
+            $errorMessage = sprintf(
+                'Transaction refund with ID %s for amount %s is in error, refund it in UpStream admin panel.',
+                $refundTransaction->getTransactionId(),
+                $refundTransaction->getAmount()
+            );
+
+            $this->logger->critical($errorMessage);
+            $order->addCommentToStatusHistory($errorMessage);
         }
     }
 }

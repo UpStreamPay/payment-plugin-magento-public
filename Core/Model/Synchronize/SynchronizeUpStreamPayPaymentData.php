@@ -14,6 +14,7 @@ namespace UpStreamPay\Core\Model\Synchronize;
 
 use Magento\Framework\Exception\LocalizedException;
 use Psr\Log\LoggerInterface;
+use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
 use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
 use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
 use UpStreamPay\Core\Api\PaymentMethodRepositoryInterface;
@@ -69,11 +70,7 @@ class SynchronizeUpStreamPayPaymentData
 
         if ($orderId !== 0) {
             foreach ($orderTransactionsResponse as $orderTransactionResponse) {
-                if ($this->config->getDebugMode() === Debug::SIMPLE_VALUE
-                    || $this->config->getDebugMode() === Debug::DEBUG_VALUE) {
-                    $this->logger->debug(sprintf('Creating transaction for order with ID %s', $orderId));
-                    $this->logger->debug(print_r($orderTransactionResponse, true));
-                }
+                $this->log($orderTransactionResponse, $orderId);
 
                 //Create a row in payment table for each original transaction, it means transactions without
                 //a parent_id.
@@ -109,15 +106,13 @@ class SynchronizeUpStreamPayPaymentData
                     $orderTransactionResponse['id']
                 );
 
-                if (!$orderTransaction || !$orderTransaction->getEntityId()) {
-                    //Create.
-                    $this->orderTransactions->createTransactionFromResponse(
-                        $orderTransactionResponse,
-                        $orderId,
-                        $quoteId,
-                        $parentPaymentId
-                    );
-                }
+                $this->createTransaction(
+                    $orderTransaction,
+                    $orderTransactionResponse,
+                    $orderId,
+                    $quoteId,
+                    $parentPaymentId
+                );
             }
         }
     }
@@ -150,5 +145,51 @@ class SynchronizeUpStreamPayPaymentData
         $this->logger->critical($errorMessage);
 
         throw new NoPaymentMethodFoundException($errorMessage);
+    }
+
+    /**
+     * @param array $orderTransactionResponse
+     * @param int $orderId
+     *
+     * @return void
+     */
+    private function log(array $orderTransactionResponse, int $orderId): void
+    {
+        if ($this->config->getDebugMode() === Debug::SIMPLE_VALUE
+            || $this->config->getDebugMode() === Debug::DEBUG_VALUE) {
+            $this->logger->debug(sprintf('Creating transaction for order with ID %s', $orderId));
+            if ($orderTransactionResponse) {
+                $this->logger->debug(print_r($orderTransactionResponse, true));
+            }
+        }
+    }
+
+    /**
+     * @param OrderTransactionsInterface $orderTransaction
+     * @param array $orderTransactionResponse
+     * @param int $orderId
+     * @param int $quoteId
+     * @param null|int $parentPaymentId
+     *
+     * @return void
+     * @throws LocalizedException
+     */
+    private function createTransaction(
+        OrderTransactionsInterface $orderTransaction,
+        array $orderTransactionResponse,
+        int $orderId,
+        int $quoteId,
+        ?int $parentPaymentId
+    ): void
+    {
+        if (!$orderTransaction || !$orderTransaction->getEntityId()) {
+            //Create.
+            $this->orderTransactions->createTransactionFromResponse(
+                $orderTransactionResponse,
+                $orderId,
+                $quoteId,
+                $parentPaymentId
+            );
+        }
     }
 }

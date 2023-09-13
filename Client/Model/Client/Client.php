@@ -20,7 +20,6 @@ use UpStreamPay\Client\Exception\NoOrderFoundException;
 use UpStreamPay\Client\Model\Token\TokenService;
 use UpStreamPay\Core\Exception\ConflictRetrieveTransactionsException;
 use UpStreamPay\Core\Model\Config;
-use UpStreamPay\Core\Model\Config\Source\Mode;
 use GuzzleHttp\ClientFactory;
 use Magento\Framework\Event\ManagerInterface as EventManager;
 use UpStreamPay\Core\Model\Config\Source\Debug;
@@ -44,6 +43,7 @@ class Client implements ClientInterface
     private const CAPTURE_URI = '/capture';
     private const VOID_URI = '/void';
     private const REFUND_URI = '/refund';
+    private const API_URI_SKELETON = '%s%s%s%s';
 
     /**
      * @param ClientFactory $httpClientFactory
@@ -147,10 +147,14 @@ class Client implements ClientInterface
                     $orderId
                 );
                 $this->logger->critical($errorMessage);
+                $this->logger->critical($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
 
                 //This happens sometimes in case of a conflict, we can't even retrieve the transactions from upstream.
                 throw new ConflictRetrieveTransactionsException($errorMessage);
             } else {
+                $this->logger->critical('Error while trying to retrieve all transactions for the order.');
+                $this->logger->critical($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
+
                 throw $exception;
             }
         }
@@ -186,7 +190,7 @@ class Client implements ClientInterface
         );
 
         $uri = sprintf(
-            '%s%s%s%s',
+            self::API_URI_SKELETON,
             $this->config->getEntityId(),
             self::TRANSACTIONS_URI,
             $transactionId,
@@ -227,7 +231,7 @@ class Client implements ClientInterface
     public function void(string $transactionId, array $body): array
     {
         $uri = sprintf(
-            '%s%s%s%s',
+            self::API_URI_SKELETON,
             $this->config->getEntityId(),
             self::TRANSACTIONS_URI,
             $transactionId,
@@ -283,7 +287,7 @@ class Client implements ClientInterface
         );
 
         $uri = sprintf(
-            '%s%s%s%s',
+            self::API_URI_SKELETON,
             $this->config->getEntityId(),
             self::TRANSACTIONS_URI,
             $transactionId,
@@ -335,8 +339,10 @@ class Client implements ClientInterface
         if ($debugMode === Debug::DEBUG_VALUE) {
             $this->logger->debug('--REQUEST URI--');
             $this->logger->debug($uri);
-            $this->logger->debug('--REQUEST BODY--');
-            $this->logger->debug(print_r($body, true));
+            if ($body) {
+                $this->logger->debug('--REQUEST BODY--');
+                $this->logger->debug(print_r($body, true));
+            }
         }
 
         $client = $this->httpClientFactory->create(
@@ -353,7 +359,7 @@ class Client implements ClientInterface
         ];
 
         //Don't pass the body if there is nothing to pass, or it will create an error.
-        if (count($body) > 0) {
+        if (!empty($body)) {
             $options[RequestOptions::JSON] = $body;
         }
 
@@ -362,8 +368,10 @@ class Client implements ClientInterface
         if ($debugMode === Debug::DEBUG_VALUE) {
             $this->logger->debug('--RESPONSE URI--');
             $this->logger->debug($uri);
-            $this->logger->debug('--RESPONSE BODY--');
-            $this->logger->debug(print_r($body, true));
+            if ($body) {
+                $this->logger->debug('--RESPONSE BODY--');
+                $this->logger->debug(print_r($body, true));
+            }
         }
 
         return json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);

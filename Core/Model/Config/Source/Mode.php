@@ -17,6 +17,8 @@ use Magento\Framework\Data\OptionSourceInterface;
 /**
  * Class Mode
  *
+ * @codeCoverageIgnore
+ *
  * @package UpStreamPay\Core\Model\Config\Source
  */
 class Mode implements OptionSourceInterface

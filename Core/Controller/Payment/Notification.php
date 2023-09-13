@@ -73,6 +73,8 @@ class Notification implements CsrfAwareActionInterface, HttpPostActionInterface
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function createCsrfValidationException(RequestInterface $request): ?InvalidRequestException

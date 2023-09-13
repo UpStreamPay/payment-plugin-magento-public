@@ -82,6 +82,8 @@ class PaymentMethod extends AbstractExtensibleModel implements PaymentMethodInte
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function getEntityId(): ?int
@@ -90,6 +92,8 @@ class PaymentMethod extends AbstractExtensibleModel implements PaymentMethodInte
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function getMethod(): string
@@ -98,6 +102,8 @@ class PaymentMethod extends AbstractExtensibleModel implements PaymentMethodInte
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function setMethod(string $method): PaymentMethodInterface
@@ -106,6 +112,8 @@ class PaymentMethod extends AbstractExtensibleModel implements PaymentMethodInte
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function getType(): string
@@ -114,6 +122,8 @@ class PaymentMethod extends AbstractExtensibleModel implements PaymentMethodInte
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function setType(string $type): PaymentMethodInterface
@@ -122,6 +132,8 @@ class PaymentMethod extends AbstractExtensibleModel implements PaymentMethodInte
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function getCreatedAt(): string
@@ -130,6 +142,8 @@ class PaymentMethod extends AbstractExtensibleModel implements PaymentMethodInte
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function setCreatedAt(string $createdAt): PaymentMethodInterface
@@ -138,6 +152,8 @@ class PaymentMethod extends AbstractExtensibleModel implements PaymentMethodInte
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function getUpdatedAt(): string
@@ -146,6 +162,8 @@ class PaymentMethod extends AbstractExtensibleModel implements PaymentMethodInte
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritDoc
      */
     public function setUpdatedAt(string $updatedAt): PaymentMethodInterface
@@ -184,6 +202,8 @@ class PaymentMethod extends AbstractExtensibleModel implements PaymentMethodInte
 
     /**
      * Create the payment method.
+     *
+     * @codeCoverageIgnore
      *
      * @param string $method
      * @param string $type

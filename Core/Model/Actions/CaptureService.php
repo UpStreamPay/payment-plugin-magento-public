@@ -18,6 +18,7 @@ use Magento\Framework\Math\FloatComparator;
 use Magento\Payment\Model\InfoInterface;
 use Magento\Payment\Model\MethodInterface;
 use UpStreamPay\Core\Api\Data\OrderPaymentInterface;
+use UpStreamPay\Core\Api\Data\OrderPaymentSearchResultsInterface;
 use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
 use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
 use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
@@ -33,6 +34,8 @@ use Magento\Framework\Event\ManagerInterface as EventManager;
  */
 class CaptureService
 {
+    private string $upStreamPaySessionId = '';
+
     /**
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param OrderTransactionsRepositoryInterface $orderTransactionsRepository
@@ -65,7 +68,6 @@ class CaptureService
     {
         $atLeastOneCaptureError = false;
         $atLeastOneCaptureWaiting = false;
-        $upStreamPaySessionId = '';
         $amountCaptured = 0.00;
         $captures = [];
 
@@ -82,15 +84,13 @@ class CaptureService
         $captureTransactions = $this->orderTransactionsRepository->getList($searchCriteria)->getItems();
 
         //If there are no capture transactions & we are using the order action then don't bother going any further.
-        if ($this->config->getPaymentAction() === MethodInterface::ACTION_ORDER && count($captureTransactions) === 0) {
+        if ($this->hasNoCaptureTransactions($captureTransactions)) {
             return $payment;
         }
 
         //For each capture transaction check the status & determine what to do based on the result.
         foreach ($captureTransactions as $captureTransaction) {
-            if ($upStreamPaySessionId === '') {
-                $upStreamPaySessionId = $captureTransaction->getSessionId();
-            }
+            $this->setTransactionId($captureTransaction);
 
             //In case of order action there will be no invoice here after place order.
             if ($payment->getCreatedInvoice() !== null) {
@@ -98,13 +98,17 @@ class CaptureService
                 $this->orderTransactionsRepository->save($captureTransaction);
             }
 
-            if ($captureTransaction->getStatus() === OrderTransactions::ERROR_STATUS) {
-                $atLeastOneCaptureError = true;
-            } elseif ($captureTransaction->getStatus() === OrderTransactions::SUCCESS_STATUS) {
-                $amountCaptured += $captureTransaction->getAmount();
-                $captures[$captureTransaction->getParentPaymentId()][] = $captureTransaction;
-            } elseif ($captureTransaction->getStatus() === OrderTransactions::WAITING_STATUS) {
-                $atLeastOneCaptureWaiting = true;
+            switch ($captureTransaction->getStatus()) {
+                case OrderTransactions::ERROR_STATUS:
+                    $atLeastOneCaptureError = true;
+                    break;
+                case OrderTransactions::SUCCESS_STATUS:
+                    $amountCaptured += $captureTransaction->getAmount();
+                    $captures[$captureTransaction->getParentPaymentId()][] = $captureTransaction;
+                    break;
+                default:
+                    $atLeastOneCaptureWaiting = true;
+                    break;
             }
 
             $payment->getOrder()->addCommentToStatusHistory(sprintf(
@@ -131,28 +135,97 @@ class CaptureService
             $orderPayments = $this->orderPaymentRepository->getList($searchCriteria);
 
             //Set on each payment the total captured.
-            foreach ($orderPayments->getItems() as $orderPayment) {
-                if ($orderPayment->getAmountCaptured() < $orderPayment->getAmount()) {
-                    $totalCapturedPayment = 0.00;
-                    /** @var OrderTransactionsInterface $capture */
-                    foreach ($captures[$orderPayment->getEntityId()] as $capture) {
-                        $totalCapturedPayment += $capture->getAmount();
-                    }
-
-                    $this->eventManager->dispatch('payment_usp_write_log', ['orderPayment' => $orderPayment]);
-                    $orderPayment->setAmountCaptured($orderPayment->getAmountCaptured() + $totalCapturedPayment);
-                    $this->orderPaymentRepository->save($orderPayment);
-                }
-            }
+            $this->setTotalCaptureOnPayment($orderPayments, $captures);
         }
 
+        return $this->updateMagentoPayment(
+            $atLeastOneCaptureError,
+            $atLeastOneCaptureWaiting,
+            $amountCaptured,
+            $amount,
+            $payment
+        );
+    }
+
+    /**
+     * Check if there is at least one capture transaction when using order action.
+     *
+     * @param OrderTransactionsInterface[] $captureTransactions
+     *
+     * @return bool
+     */
+    private function hasNoCaptureTransactions(array $captureTransactions): bool
+    {
+        return $this->config->getPaymentAction() === MethodInterface::ACTION_ORDER && empty($captureTransactions);
+    }
+
+    /**
+     * Set the transaction ID used for the magento transaction.
+     *
+     * @param OrderTransactionsInterface $captureTransaction
+     *
+     * @return void
+     */
+    private function setTransactionId(OrderTransactionsInterface $captureTransaction): void
+    {
+        if ($this->upStreamPaySessionId === '') {
+            $this->upStreamPaySessionId = $captureTransaction->getSessionId();
+        }
+    }
+
+    /**
+     * Set the total capture on each payment.
+     *
+     * @param OrderPaymentSearchResultsInterface $orderPayments
+     * @param array $captures
+     *
+     * @return void
+     * @throws LocalizedException
+     */
+    private function setTotalCaptureOnPayment(OrderPaymentSearchResultsInterface $orderPayments, array $captures): void
+    {
+        foreach ($orderPayments->getItems() as $orderPayment) {
+            if ($orderPayment->getAmountCaptured() < $orderPayment->getAmount()) {
+                $totalCapturedPayment = 0.00;
+                /** @var OrderTransactionsInterface $capture */
+                foreach ($captures[$orderPayment->getEntityId()] as $capture) {
+                    $totalCapturedPayment += $capture->getAmount();
+                }
+
+                $this->eventManager->dispatch('payment_usp_write_log', ['orderPayment' => $orderPayment]);
+                $orderPayment->setAmountCaptured($orderPayment->getAmountCaptured() + $totalCapturedPayment);
+                $this->orderPaymentRepository->save($orderPayment);
+            }
+        }
+    }
+
+    /**
+     * Update the Magento payment by setting the transaction details.
+     *
+     * @param bool $atLeastOneCaptureError
+     * @param bool $atLeastOneCaptureWaiting
+     * @param float $amountCaptured
+     * @param float $amount
+     * @param InfoInterface $payment
+     *
+     * @return InfoInterface
+     * @throws CaptureErrorException
+     */
+    private function updateMagentoPayment(
+        bool $atLeastOneCaptureError,
+        bool $atLeastOneCaptureWaiting,
+        float $amountCaptured,
+        float $amount,
+        InfoInterface $payment
+    ): InfoInterface
+    {
         //Every transaction has a capture success & the amount to capture matches the amount captured.
         //To avoid issue when comparing floats, use built-in magento feature (it uses an epsilon of 0.00001).
         if (!$atLeastOneCaptureError && !$atLeastOneCaptureWaiting
             && $this->floatComparator->equal($amountCaptured, $amount)) {
             //Every capture is a success, so the payment is captured.
             $payment
-                ->setTransactionId($upStreamPaySessionId)
+                ->setTransactionId($this->upStreamPaySessionId)
                 ->setIsTransactionClosed(false)
                 ->setIsTransactionPending(false)
                 ->setIsTransactionApproved(true)
