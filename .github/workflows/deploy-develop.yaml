@@ -1,0 +1,29 @@
+name: Deploy on dev
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  call-reusable-workflow:
+    uses: UpStreamPay/usp-reusable-workflows/.github/workflows/deploy-develop-plugin.yaml@reusable-v0
+    with:
+      gcp-registry-location: ${{ vars.GCP_DEV_PLUGINS_MAVEN_REGISTRY_LOCATION }}
+      gcp-registry-name: ${{ vars.GCP_DEV_PLUGINS_MAVEN_REGISTRY_NAME }}
+      maven-group-id: ${{ vars.MAVEN_GROUP_ID }}
+      maven-artifact-id: ${{ vars.MAVEN_ARTIFACT_ID }}
+      workload-identity-provider: ${{ vars.GCP_DEV_PLUGINS_WORKLOAD_IDENTITY_PROVIDER }}
+      service-account-email: ${{ vars.GCP_DEV_PLUGINS_MAVEN_REGISTRY_SA_EMAIL }}
+      target-branch: ${{ vars.KUBE_CONFIG_PLUGINS_DEV_BRANCH }}
+      resource-path: ${{ vars.PLUGIN_RELEASE_PATH }}
+      resource-name: ${{ vars.PLUGIN_RELEASE_NAME }}
+      kube-config-repository: ${{ vars.KUBE_CONFIG_PLUGINS_REPOSITORY }}
+      bucket-name: ${{ vars.GCP_DEV_PLUGINS_BUCKET_PLUGINS_NAME }}
+      bucket-path: plugins/
+      existing-bucket-path: plugins-archives/
+      push-bucket-service-account: ${{ vars.GCP_DEV_PLUGINS_PUSH_BUCKET_PLUGINS_SA_EMAIL }}
+      plugin-version-key: ${{ vars.CRD_PLUGIN_VERSION_KEY }}
+    secrets:
+      PLUGIN_D4_USERNAME: ${{ secrets.PLUGIN_D4_USERNAME }}
+      PLUGIN_D4_PASSWORD: ${{ secrets.PLUGIN_D4_PASSWORD }}
+      GITHUB_ACCESS_TOKEN: ${{ secrets.USP_GITHUB_ADMIN_ACCES_TOKEN }}
