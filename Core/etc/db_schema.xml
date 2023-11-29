@@ -150,4 +150,9 @@
             <column name="method"/>
         </index>
     </table>
+
+    <table name="quote_payment" resource="checkout" engine="innodb" comment="Sales Flat Quote Payment">
+        <column xsi:type="decimal" name="purse_session_amount" scale="4" precision="12" nullable="false" default="0.00"
+                comment="Purse session amount"/>
+    </table>
 </schema>
