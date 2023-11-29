@@ -16,12 +16,14 @@ use Exception;
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Quote\Api\CartRepositoryInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
 use UpStreamPay\Client\Model\Client\ClientInterface;
 use UpStreamPay\Core\Api\SessionInterface;
 use UpStreamPay\Core\Exception\CreateSessionException;
 use UpStreamPay\Core\Model\Session\Order\OrderService;
+use UpStreamPay\Core\Model\Session\PurseSessionDataManager;
 
 /**
  * Class Session
@@ -30,19 +32,25 @@ use UpStreamPay\Core\Model\Session\Order\OrderService;
  */
 class Session implements SessionInterface
 {
+    public const QUOTE_PAYMENT_PURSE_SESSION_AMOUNT_KEY = 'purse_session_amount';
+
     /**
      * @param ClientInterface $client
      * @param OrderService $orderService
      * @param CheckoutSession $checkoutSession
      * @param LoggerInterface $logger
      * @param PaymentMethod $paymentMethod
+     * @param CartRepositoryInterface $cartRepository
+     * @param PurseSessionDataManager $purseSessionDataManager
      */
     public function __construct(
         private readonly ClientInterface $client,
         private readonly OrderService $orderService,
         private readonly CheckoutSession $checkoutSession,
         private readonly LoggerInterface $logger,
-        private readonly PaymentMethod $paymentMethod
+        private readonly PaymentMethod $paymentMethod,
+        private readonly CartRepositoryInterface $cartRepository,
+        private readonly PurseSessionDataManager $purseSessionDataManager
     ) {
     }
 
@@ -94,7 +102,10 @@ class Session implements SessionInterface
             }
         }
 
-        $this->checkoutSession->setCartAmount($response['amount']);
+        //We have to save the purse session amount in quote payment in order to reuse it later.
+        $this->cartRepository->save(
+            $this->purseSessionDataManager->setPurseSessionDataInQuote($response, $quote)
+        );
 
         return [$response];
     }
