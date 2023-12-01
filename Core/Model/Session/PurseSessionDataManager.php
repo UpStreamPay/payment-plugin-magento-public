@@ -17,7 +17,6 @@ use Magento\Quote\Api\CartRepositoryInterface;
 use Magento\Quote\Model\Quote;
 use Psr\Log\LoggerInterface;
 use UpStreamPay\Core\Exception\UnsynchronizedCartAmountsException;
-use UpStreamPay\Core\Model\Session;
 
 /**
  * Class PurseSessionDataManager
@@ -26,6 +25,9 @@ use UpStreamPay\Core\Model\Session;
  */
 class PurseSessionDataManager
 {
+    public const QUOTE_PAYMENT_PURSE_SESSION_AMOUNT_KEY = 'purse_session_amount';
+    public const PAYMENT_PURSE_SESSION_ID = 'purse_session_id';
+
     /**
      * @param CartRepositoryInterface $cartRepository
      * @param FloatComparator $floatComparator
@@ -51,12 +53,12 @@ class PurseSessionDataManager
     {
         if (!$this->floatComparator->equal(
             (float)$quote->getBaseGrandTotal(),
-            (float)$quote->getPayment()->getData(Session::QUOTE_PAYMENT_PURSE_SESSION_AMOUNT_KEY)
+            (float)$quote->getPayment()->getData(self::QUOTE_PAYMENT_PURSE_SESSION_AMOUNT_KEY)
         )) {
             $errorMessage = sprintf(
                 'The cart amount is %s & the purse session amount is %s. The cart ID is %s',
                 $quote->getBaseGrandTotal(),
-                $quote->getPayment()->getData(Session::QUOTE_PAYMENT_PURSE_SESSION_AMOUNT_KEY),
+                $quote->getPayment()->getData(self::QUOTE_PAYMENT_PURSE_SESSION_AMOUNT_KEY),
                 $cartId
             );
 
@@ -82,7 +84,11 @@ class PurseSessionDataManager
     {
         //If the payment is not upstream_pay then remove any custom purse data.
         if ($this->quotePaymentHasPurseData($quote)) {
-            $quote->getPayment()->setData(Session::QUOTE_PAYMENT_PURSE_SESSION_AMOUNT_KEY, 0.00);
+            $quote->getPayment()
+                ->setData(self::QUOTE_PAYMENT_PURSE_SESSION_AMOUNT_KEY, 0.00)
+                ->setData(self::PAYMENT_PURSE_SESSION_ID, null)
+            ;
+
             $this->cartRepository->save($quote);
         }
     }
@@ -93,13 +99,16 @@ class PurseSessionDataManager
      * @param array $sessionData
      * @param Quote $quote
      *
-     * @return Quote
+     * @return void
      */
-    public function setPurseSessionDataInQuote(array $sessionData, Quote $quote): Quote
+    public function setPurseSessionDataInQuote(array $sessionData, Quote $quote): void
     {
-        $quote->getPayment()->setData(Session::QUOTE_PAYMENT_PURSE_SESSION_AMOUNT_KEY, $sessionData['amount']);
+        $quote->getPayment()
+            ->setData(self::QUOTE_PAYMENT_PURSE_SESSION_AMOUNT_KEY, $sessionData['amount'])
+            ->setData(self::PAYMENT_PURSE_SESSION_ID, $sessionData['id'])
+        ;
 
-        return $quote;
+        $this->cartRepository->save($quote);
     }
 
     /**
@@ -111,6 +120,6 @@ class PurseSessionDataManager
      */
     private function quotePaymentHasPurseData(Quote $quote): bool
     {
-        return (float)$quote->getPayment()->getData(Session::QUOTE_PAYMENT_PURSE_SESSION_AMOUNT_KEY) > 0;
+        return $quote->getPayment()->getData(self::PAYMENT_PURSE_SESSION_ID) !== null;
     }
 }
