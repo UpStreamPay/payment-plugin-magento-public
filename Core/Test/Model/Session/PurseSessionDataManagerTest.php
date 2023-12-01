@@ -21,7 +21,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use UpStreamPay\Core\Exception\UnsynchronizedCartAmountsException;
-use UpStreamPay\Core\Model\Session;
 
 /**
  * Class PurseSessionDataManagerTest
@@ -45,7 +44,7 @@ class PurseSessionDataManagerTest extends TestCase
         $this->floatComparatorMock = self::createMock(FloatComparator::class);
         $cartRepositoryInterfaceMock = self::createMock(CartRepositoryInterface::class);
         $cartRepositoryInterfaceMock
-            ->expects(self::atMost(1))
+            ->expects(self::atMost(2))
             ->method('save')
             ->willReturn(self::createMock(CartInterface::class))
         ;
@@ -85,7 +84,7 @@ class PurseSessionDataManagerTest extends TestCase
         $this->quotePaymentMock
             ->expects(self::once())
             ->method('getData')
-            ->with(Session::QUOTE_PAYMENT_PURSE_SESSION_AMOUNT_KEY)
+            ->with(PurseSessionDataManager::QUOTE_PAYMENT_PURSE_SESSION_AMOUNT_KEY)
             ->willReturn($this->quoteMock->getBaseGrandTotal())
         ;
 
@@ -107,7 +106,7 @@ class PurseSessionDataManagerTest extends TestCase
         $this->quotePaymentMock
             ->expects(self::exactly(2))
             ->method('getData')
-            ->with(Session::QUOTE_PAYMENT_PURSE_SESSION_AMOUNT_KEY)
+            ->with(PurseSessionDataManager::QUOTE_PAYMENT_PURSE_SESSION_AMOUNT_KEY)
             ->willReturn(34.50)
         ;
 
@@ -132,22 +131,22 @@ class PurseSessionDataManagerTest extends TestCase
     public function testSetPurseSessionDataInQuote(): void
     {
         $this->quotePaymentMock
-            ->expects(self::once())
-            ->method('getData')
-            ->with(Session::QUOTE_PAYMENT_PURSE_SESSION_AMOUNT_KEY)
-            ->willReturn(34.50)
-        ;
-
-        $this->quotePaymentMock
-            ->expects(self::once())
+            ->expects(self::exactly(2))
             ->method('setData')
-            ->with(Session::QUOTE_PAYMENT_PURSE_SESSION_AMOUNT_KEY, 34.50)
+            ->withConsecutive(
+                [PurseSessionDataManager::QUOTE_PAYMENT_PURSE_SESSION_AMOUNT_KEY, 34.50],
+                [PurseSessionDataManager::PAYMENT_PURSE_SESSION_ID, 'rez43']
+            )
             ->willReturnSelf()
         ;
 
-        $quote = $this->purseSessionDataManager->setPurseSessionDataInQuote(['amount' => 34.50], $this->quoteMock);
-
-        self::assertEquals(34.50, $quote->getPayment()->getData(Session::QUOTE_PAYMENT_PURSE_SESSION_AMOUNT_KEY));
+        $this->purseSessionDataManager->setPurseSessionDataInQuote(
+            [
+                'amount' => 34.50,
+                'id' => 'rez43'
+            ],
+            $this->quoteMock
+        );
     }
 
     /**
@@ -158,14 +157,17 @@ class PurseSessionDataManagerTest extends TestCase
         $this->quotePaymentMock
             ->expects(self::once())
             ->method('getData')
-            ->with(Session::QUOTE_PAYMENT_PURSE_SESSION_AMOUNT_KEY)
-            ->willReturn(34.50)
+            ->with(PurseSessionDataManager::PAYMENT_PURSE_SESSION_ID)
+            ->willReturn('343dfdf')
         ;
 
         $this->quotePaymentMock
-            ->expects(self::once())
+            ->expects(self::exactly(2))
             ->method('setData')
-            ->with(Session::QUOTE_PAYMENT_PURSE_SESSION_AMOUNT_KEY, 0.00)
+            ->withConsecutive(
+                [PurseSessionDataManager::QUOTE_PAYMENT_PURSE_SESSION_AMOUNT_KEY, 0.00],
+                [PurseSessionDataManager::PAYMENT_PURSE_SESSION_ID, null]
+            )
             ->willReturnSelf()
         ;
 
@@ -180,8 +182,8 @@ class PurseSessionDataManagerTest extends TestCase
         $this->quotePaymentMock
             ->expects(self::once())
             ->method('getData')
-            ->with(Session::QUOTE_PAYMENT_PURSE_SESSION_AMOUNT_KEY)
-            ->willReturn(0.00)
+            ->with(PurseSessionDataManager::PAYMENT_PURSE_SESSION_ID)
+            ->willReturn(null)
         ;
 
         $this->quotePaymentMock

@@ -15,7 +15,6 @@ namespace UpStreamPay\Test\Core\Model;
 
 use Exception;
 use Magento\Checkout\Model\Session as CheckoutSession;
-use Magento\Quote\Api\CartRepositoryInterface;
 use Magento\Quote\Model\Quote;
 use PHPUnit\Framework\MockObject\MockObject;
 use UpStreamPay\Client\Model\Client\ClientInterface;
@@ -53,7 +52,6 @@ class SessionTest extends TestCase
         $this->checkoutSessionMock = $session;
         $this->loggerMock = self::createMock(LoggerInterface::class);
         $this->paymentMethodMock = self::createMock(PaymentMethod::class);
-        $cartRepositoryMock = self::createMock(CartRepositoryInterface::class);
         $purseSessionDataMangerMock = self::createMock(Session\PurseSessionDataManager::class);
         $this->session = new Session(
             $this->clientMock,
@@ -61,7 +59,6 @@ class SessionTest extends TestCase
             $this->checkoutSessionMock,
             $this->loggerMock,
             $this->paymentMethodMock,
-            $cartRepositoryMock,
             $purseSessionDataMangerMock
         );
     }

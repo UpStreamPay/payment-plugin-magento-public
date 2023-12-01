@@ -20,7 +20,7 @@ use Magento\Payment\Model\InfoInterface;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Payment;
 use PHPUnit\Framework\MockObject\MockObject;
-use UpStreamPay\Client\Exception\NoOrderFoundException;
+use UpStreamPay\Client\Exception\NoSessionFoundException;
 use UpStreamPay\Client\Model\Client\ClientInterface;
 use UpStreamPay\Core\Exception\AuthorizeErrorException;
 use UpStreamPay\Core\Exception\CaptureErrorException;
@@ -73,6 +73,9 @@ class OrderSynchronizeServiceTest extends TestCase
         $this->paymentMock->method('getEntityId')
             ->willReturn('123')
         ;
+        $this->paymentMock->method('getData')
+            ->willReturn('req54455')
+        ;
 
         $this->orderSynchronizeService = new OrderSynchronizeService(
             $this->clientMock,
@@ -93,7 +96,7 @@ class OrderSynchronizeServiceTest extends TestCase
      * @throws GuzzleException
      * @throws JsonException
      * @throws LocalizedException
-     * @throws NoOrderFoundException
+     * @throws NoSessionFoundException
      * @throws AuthorizeErrorException
      * @throws CaptureErrorException
      * @throws NoPaymentMethodFoundException
@@ -103,7 +106,7 @@ class OrderSynchronizeServiceTest extends TestCase
     public function testExecuteException(): void
     {
         $this->clientMock->expects(self::once())
-            ->method('getAllTransactionsForOrder')
+            ->method('getAllTransactionsForSession')
             ->willReturn([])
         ;
 
@@ -123,7 +126,7 @@ class OrderSynchronizeServiceTest extends TestCase
      * @throws GuzzleException
      * @throws JsonException
      * @throws LocalizedException
-     * @throws NoOrderFoundException
+     * @throws NoSessionFoundException
      * @throws NoPaymentMethodFoundException
      * @throws NoTransactionsException
      * @throws NotEnoughFundException
@@ -132,7 +135,7 @@ class OrderSynchronizeServiceTest extends TestCase
     public function testExecute(string $paymentAction): void
     {
         $this->clientMock->expects(self::any())
-            ->method('getAllTransactionsForOrder')
+            ->method('getAllTransactionsForSession')
             ->willReturn(['transaction_data'])
         ;
 

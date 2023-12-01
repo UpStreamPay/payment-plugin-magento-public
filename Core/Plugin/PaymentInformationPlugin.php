@@ -25,8 +25,6 @@ use UpStreamPay\Core\Model\Session\PurseSessionDataManager;
 /**
  * Class PaymentInformationPlugin
  *
- * @codeCoverageIgnore
- *
  * @package UpStreamPay\Core\Plugin
  */
 class PaymentInformationPlugin
