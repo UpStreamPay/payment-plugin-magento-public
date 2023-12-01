@@ -25,7 +25,7 @@ use Magento\Payment\Model\InfoInterface;
 use Magento\Payment\Model\Method\AbstractMethod;
 use Magento\Payment\Model\Method\Logger;
 use Magento\Payment\Model\MethodInterface;
-use UpStreamPay\Client\Exception\NoOrderFoundException;
+use UpStreamPay\Client\Exception\NoSessionFoundException;
 use UpStreamPay\Core\Exception\NoTransactionsException;
 use UpStreamPay\Core\Model\Synchronize\OrderSynchronizeService;
 
@@ -142,9 +142,12 @@ class UpStreamPay extends AbstractMethod
         $payment->setIsTransactionPending(true);
 
         try {
-            $this->orderSynchronizeService->execute($payment, $amount, OrderTransactions::AUTHORIZE_ACTION);
-        } catch (NoOrderFoundException | NoTransactionsException $exception) {
-            //No order found because authorize is done before UpStream Pay has the order.
+            //If the order has not been sent to purse yet, don't trigger authorize.
+            if (true === (bool)$payment->getOrder()->getData('order_sent_to_purse')) {
+                $this->orderSynchronizeService->execute($payment, $amount, OrderTransactions::AUTHORIZE_ACTION);
+            }
+        } catch (NoSessionFoundException | NoTransactionsException $exception) {
+            //No session found because authorize is done before UpStream Pay has the order.
             //No transaction has been found.
 
             //In this scenario nothing to void.
@@ -163,16 +166,19 @@ class UpStreamPay extends AbstractMethod
         $payment->setIsTransactionPending(true);
 
         try {
-            if ($this->canOrder()) {
-                //This is triggered in case of capture using order action mode.
-                $this->orderSynchronizeService->execute($payment, $amount, OrderTransactions::ORDER_CAPTURE_ACTION);
-            } else {
-                //On initial place order this will always throw an exception because UpStream Pay doesn't have the data
-                //yet. Initial capture is done after redirection or through webhook.
-                $this->orderSynchronizeService->execute($payment, $amount, OrderTransactions::CAPTURE_ACTION);
+            //If the order has not been sent to purse yet, don't trigger capture.
+            if (true === (bool)$payment->getOrder()->getData('order_sent_to_purse')) {
+                if ($this->canOrder()) {
+                    //This is triggered in case of capture using order action mode.
+                    $this->orderSynchronizeService->execute($payment, $amount, OrderTransactions::ORDER_CAPTURE_ACTION);
+                } else {
+                    //On initial place order this will always throw an exception because UpStream Pay doesn't have the
+                    //data yet. Initial capture is done after redirection or through webhook.
+                    $this->orderSynchronizeService->execute($payment, $amount, OrderTransactions::CAPTURE_ACTION);
+                }
             }
-        } catch (NoOrderFoundException | NoTransactionsException $exception) {
-            //No order found because capture is done before UpStream Pay has the order.
+        } catch (NoSessionFoundException | NoTransactionsException $exception) {
+            //No session found because capture is done before UpStream Pay has the order.
             //No operation has been done so nothing to void or refund.
             $payment->setIsTransactionPending(true);
         }
@@ -252,9 +258,12 @@ class UpStreamPay extends AbstractMethod
         $payment->setIsTransactionPending(true);
 
         try {
-            $this->orderSynchronizeService->execute($payment, $amount, OrderTransactions::ORDER_ACTION);
-        } catch (NoOrderFoundException | NoTransactionsException $exception) {
-            //No order found because order action is done before UpStream Pay has the order.
+            //If the order has not been sent to purse yet, don't trigger order.
+            if (true === (bool)$payment->getOrder()->getData('order_sent_to_purse')) {
+                $this->orderSynchronizeService->execute($payment, $amount, OrderTransactions::ORDER_ACTION);
+            }
+        } catch (NoSessionFoundException | NoTransactionsException $exception) {
+            //No session found because order action is done before UpStream Pay has the order.
             //No operation has been done so nothing to void or refund.
             $payment->setIsTransactionPending(true);
         }

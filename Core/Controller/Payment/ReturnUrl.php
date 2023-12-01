@@ -21,6 +21,7 @@ use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\Result\RedirectFactory;
 use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\Event\Manager;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Message\ManagerInterface;
 use Magento\Framework\Phrase;
@@ -40,6 +41,7 @@ use UpStreamPay\Core\Exception\AuthorizeErrorException;
 use UpStreamPay\Core\Exception\CaptureErrorException;
 use UpStreamPay\Core\Exception\OrderErrorException;
 use UpStreamPay\Core\Model\Config;
+use UpStreamPay\Core\Observer\SetOrderSentToPurseObserver;
 
 /**
  * Class ReturnUrl
@@ -73,7 +75,8 @@ class ReturnUrl implements HttpGetActionInterface, HttpPostActionInterface, Csrf
         private readonly InvoiceRepositoryInterface $invoiceRepository,
         private readonly ManagerInterface $messageManager,
         private readonly OrderSender $orderSender,
-        private readonly InvoiceSender $invoiceSender
+        private readonly InvoiceSender $invoiceSender,
+        private readonly Manager $eventManager
     ) {}
 
     /**
@@ -89,6 +92,8 @@ class ReturnUrl implements HttpGetActionInterface, HttpPostActionInterface, Csrf
         try {
             $order = $this->checkoutSession->getLastRealOrder();
             $payment = $order->getPayment();
+
+            $this->eventManager->dispatch(SetOrderSentToPurseObserver::EVENT_NAME, ['order' => $order]);
 
             if ($this->config->getPaymentAction() === MethodInterface::ACTION_AUTHORIZE) {
                 $this->paymentProcessor->authorize($payment, true, $order->getBaseTotalDue());
