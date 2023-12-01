@@ -16,7 +16,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
 use JsonException;
 use Psr\Log\LoggerInterface;
-use UpStreamPay\Client\Exception\NoOrderFoundException;
+use UpStreamPay\Client\Exception\NoSessionFoundException;
 use UpStreamPay\Client\Model\Token\TokenService;
 use UpStreamPay\Core\Exception\ConflictRetrieveTransactionsException;
 use UpStreamPay\Core\Model\Config;
@@ -38,7 +38,7 @@ class Client implements ClientInterface
     private const GET = 'GET';
     private const OAUTH_TOKEN_URI = '/oauth/token';
     private const CREATE_SESSION_URI = '/sessions/create';
-    private const ORDERS_URI = '/orders/';
+    private const SESSION_URI = '/sessions/';
     private const TRANSACTIONS_URI = '/transactions/';
     private const CAPTURE_URI = '/capture';
     private const VOID_URI = '/void';
@@ -114,23 +114,23 @@ class Client implements ClientInterface
     }
 
     /**
-     * Get each transaction made for an order.
+     * Get each transaction made for a session.
      *
-     * @param int $orderId
+     * @param string $sessionId
      *
      * @return array
      * @throws GuzzleException
      * @throws JsonException
-     * @throws NoOrderFoundException
+     * @throws NoSessionFoundException
      * @throws ConflictRetrieveTransactionsException
      */
-    public function getAllTransactionsForOrder(int $orderId): array
+    public function getAllTransactionsForSession(string $sessionId): array
     {
         $uri = sprintf(
             '%s%s%s',
             $this->config->getEntityId(),
-            self::ORDERS_URI,
-            $orderId
+            self::SESSION_URI,
+            $sessionId
         );
 
         try {
@@ -138,13 +138,13 @@ class Client implements ClientInterface
         } catch (GuzzleException $exception) {
             if ($exception->getCode() === 404) {
                 //We most likely have no order found on UpStream Pay side.
-                throw new NoOrderFoundException(
-                    'There was a 404 error while trying to retrieve transactions for order ' . $orderId
+                throw new NoSessionFoundException(
+                    'There was a 404 error while trying to retrieve transactions for session ' . $sessionId
                 );
             } elseif ($exception->getCode() === 409) {
                 $errorMessage = sprintf(
-                    'Impossible to process upstream pay order with id %s. Please refund it in UpStream Pay BO',
-                    $orderId
+                    'Impossible to process upstream pay session with id %s. Please refund it in UpStream Pay BO',
+                    $sessionId
                 );
                 $this->logger->critical($errorMessage);
                 $this->logger->critical($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
@@ -152,7 +152,9 @@ class Client implements ClientInterface
                 //This happens sometimes in case of a conflict, we can't even retrieve the transactions from upstream.
                 throw new ConflictRetrieveTransactionsException($errorMessage);
             } else {
-                $this->logger->critical('Error while trying to retrieve all transactions for the order.');
+                $this->logger->critical(
+                    'Error while trying to retrieve all transactions for the session ' . $sessionId
+                );
                 $this->logger->critical($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
 
                 throw $exception;

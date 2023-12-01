@@ -13,7 +13,7 @@ namespace UpStreamPay\Client\Model\Client;
 
 use GuzzleHttp\Exception\GuzzleException;
 use JsonException;
-use UpStreamPay\Client\Exception\NoOrderFoundException;
+use UpStreamPay\Client\Exception\NoSessionFoundException;
 use UpStreamPay\Core\Exception\ConflictRetrieveTransactionsException;
 
 /**
@@ -41,18 +41,18 @@ interface ClientInterface
     public function createSession(array $orderSession): array;
 
     /**
-     * Get each transaction made for an order.
+     * Get each transaction made for a session.
      * This will return every transaction no matter the type & status.
      *
-     * @param int $orderId
+     * @param string $sessionId
      *
      * @return array
      *
-     * @throws NoOrderFoundException
+     * @throws NoSessionFoundException
      * @throws JsonException
      * @throws GuzzleException
      */
-    public function getAllTransactionsForOrder(int $orderId): array;
+    public function getAllTransactionsForSession(string $sessionId): array;
 
     /**
      * Capture the given transaction through transaction ID & body parameters.

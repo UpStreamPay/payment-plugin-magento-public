@@ -24,7 +24,7 @@ use JsonException;
 use Magento\Framework\Event\ManagerInterface as EventManager;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use UpStreamPay\Client\Exception\NoOrderFoundException;
+use UpStreamPay\Client\Exception\NoSessionFoundException;
 use UpStreamPay\Client\Model\Client\Client;
 use UpStreamPay\Client\Model\Token\Token;
 use UpStreamPay\Client\Model\Token\TokenService;
@@ -240,10 +240,10 @@ class ClientTest extends TestCase
      * @return void
      * @throws GuzzleException
      * @throws JsonException
-     * @throws NoOrderFoundException
+     * @throws NoSessionFoundException
      * @throws ConflictRetrieveTransactionsException
      */
-    public function testGetAllTransactionsForOrderSuccess(): void
+    public function testGetAllTransactionsForSessionSuccess(): void
     {
         $transaction = [
             'method' => 'paypal',
@@ -254,13 +254,13 @@ class ClientTest extends TestCase
 
         $this->httpClient->expects(self::once())
             ->method('request')
-            ->with('GET', 'fakeEntityId/orders/123', [
+            ->with('GET', 'fakeEntityId/sessions/123', [
                 'headers' => self::HEADERS,
                 'query' => [],
             ])
             ->willReturn(new Response(200, [], json_encode($transaction)));
 
-        $result = $this->client->getAllTransactionsForOrder(123);
+        $result = $this->client->getAllTransactionsForSession('123');
 
         self::assertEquals($transaction, $result);
     }
@@ -277,9 +277,9 @@ class ClientTest extends TestCase
      * @throws ConflictRetrieveTransactionsException
      * @throws GuzzleException
      * @throws JsonException
-     * @throws NoOrderFoundException
+     * @throws NoSessionFoundException
      */
-    public function testGetAllTransactionsForOrderException(
+    public function testGetAllTransactionsForSessionException(
         int $responseCode,
         string $expectedException,
         string $errorMessage
@@ -287,7 +287,7 @@ class ClientTest extends TestCase
     {
         $this->httpClient->expects(self::once())
             ->method('request')
-            ->with('GET', 'fakeEntityId/orders/123', [
+            ->with('GET', 'fakeEntityId/sessions/123', [
                 'headers' => self::HEADERS,
                 'query' => [],
             ])
@@ -303,7 +303,7 @@ class ClientTest extends TestCase
 
         $this->expectException($expectedException);
 
-        $this->client->getAllTransactionsForOrder(123);
+        $this->client->getAllTransactionsForSession('123');
     }
 
     /**
@@ -313,20 +313,20 @@ class ClientTest extends TestCase
     {
         yield 'No order found exception' => [
             'responseCode' => 404,
-            'expectedException' => NoOrderFoundException::class,
+            'expectedException' => NoSessionFoundException::class,
             'errorMessage' => 'There was a 404 error while trying to retrieve transactions for order 123'
         ];
 
         yield 'Conflict exception' => [
             'responseCode' => 409,
             'expectedException' => ConflictRetrieveTransactionsException::class,
-            'errorMessage' => 'Impossible to process upstream pay order with id 123. Please refund it in UpStream Pay BO'
+            'errorMessage' => 'Impossible to process upstream pay session with id 123. Please refund it in UpStream Pay BO'
         ];
 
         yield 'Generic exception' => [
             'responseCode' => 500,
             'expectedException' => Exception::class,
-            'errorMessage' => 'Error while trying to retrieve all transactions for the order.'
+            'errorMessage' => 'Error while trying to retrieve all transactions for the session 123'
         ];
     }
 
@@ -462,7 +462,7 @@ class ClientTest extends TestCase
         yield 'Generic exception' => [
             'responseCode' => 500,
             'expectedException' => Exception::class,
-            'errorMessage' => 'Error while trying to void transactions for the order.'
+            'errorMessage' => 'Error while trying to void transactions for the session 123'
         ];
     }
 
