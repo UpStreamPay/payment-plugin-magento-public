@@ -69,6 +69,10 @@ class Client implements ClientInterface
      */
     public function getToken(): array
     {
+        if ($this->config->getDebugMode() === Debug::DEBUG_VALUE) {
+            $this->logger->debug('--GET TOKEN--');
+        }
+
         $headers = [
             'Authorization' => sprintf(
                 'Basic %s',
@@ -96,6 +100,10 @@ class Client implements ClientInterface
      */
     public function createSession(array $orderSession): array
     {
+        if ($this->config->getDebugMode() === Debug::DEBUG_VALUE) {
+            $this->logger->debug('--CREATE SESSION--');
+        }
+
         $this->eventManager->dispatch('payment_usp_before_session', ['orderSession' => $orderSession]);
         $apiResponse = $this->callApi(
             $this->buildHeader(),
@@ -134,6 +142,10 @@ class Client implements ClientInterface
         );
 
         try {
+            if ($this->config->getDebugMode() === Debug::DEBUG_VALUE) {
+                $this->logger->debug('--GET ALL TRANSACTIONS FOR SESSION--');
+            }
+
             return $this->callApi($this->buildHeader(), [], self::GET, $uri, []);
         } catch (GuzzleException $exception) {
             if ($exception->getCode() === 404) {
@@ -183,6 +195,10 @@ class Client implements ClientInterface
      */
     public function capture(string $transactionId, array $body): array
     {
+        if ($this->config->getDebugMode() === Debug::DEBUG_VALUE) {
+            $this->logger->debug('--CAPTURE TRANSACTION--');
+        }
+
         $this->eventManager->dispatch(
             'sales_order_usp_before_capture',
             [
@@ -232,6 +248,10 @@ class Client implements ClientInterface
      */
     public function void(string $transactionId, array $body): array
     {
+        if ($this->config->getDebugMode() === Debug::DEBUG_VALUE) {
+            $this->logger->debug('--VOID TRANSACTION--');
+        }
+
         $uri = sprintf(
             self::API_URI_SKELETON,
             $this->config->getEntityId(),
@@ -280,6 +300,10 @@ class Client implements ClientInterface
      */
     public function refund(string $transactionId, array $body): array
     {
+        if ($this->config->getDebugMode() === Debug::DEBUG_VALUE) {
+            $this->logger->debug('--REFUND TRANSACTION--');
+        }
+
         $this->eventManager->dispatch(
             'sales_order_usp_before_refund',
             [
@@ -366,19 +390,19 @@ class Client implements ClientInterface
         }
 
         $rawResponse = $client->request($protocol, $uri, $options);
+        $apiResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
 
         if ($debugMode === Debug::DEBUG_VALUE) {
             $this->logger->debug('--RESPONSE URI--');
             $this->logger->debug($uri);
-            if ($body) {
+            if ($rawResponse->getBody()) {
                 $this->logger->debug('--RESPONSE BODY--');
-                $this->logger->debug(print_r($body, true));
+                $this->logger->debug(print_r($apiResponse, true));
             }
         }
 
-        return json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
+        return $apiResponse;
     }
-
     /**
      * Build header for API request.
      *
