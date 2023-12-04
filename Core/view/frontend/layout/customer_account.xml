@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!--
+  UpStream Pay
+
+  Copyright (c) 2023 UpStream Pay.
+  This file is open source and available under the BSD 3 license.
+  See the LICENSE file for more info.
+
+  Author: Claranet France <info@fr.clara.net>
+  -->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="customer_account_navigation">
+            <!-- Remove default stored payment method block if config-->
+            <action method="unsetChild" ifconfig="payment/upstream_pay/wallet/mange_stored_payment_methods_customer_account">
+                <argument name="block" xsi:type="string">customer-account-navigation-my-credit-cards-link</argument>
+            </action>
+
+            <!-- Add Purse stored payment method block if config-->
+            <block class="Magento\Customer\Block\Account\SortLinkInterface"
+                   name="customer-account-navigation-wallet-link"
+                   ifconfig="payment/upstream_pay/wallet/mange_stored_payment_methods_customer_account"
+            >
+                <arguments>
+                    <argument name="path" xsi:type="string">upstreampay/wallet/index</argument>
+                    <argument name="label" xsi:type="string" translate="true">Stored Payment Methods</argument>
+                    <argument name="sortOrder" xsi:type="number">160</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</page>
