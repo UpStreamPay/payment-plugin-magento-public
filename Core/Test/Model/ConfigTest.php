@@ -355,4 +355,32 @@ class ConfigTest extends TestCase
 
         self::assertEquals('https://foo.bar', $this->config->getWidgetUrl());
     }
+
+    /**
+     * @return void
+     */
+    public function testWalletEnabled(): void
+    {
+        $this->scopeConfigMock
+            ->expects(self::once())
+            ->method('getValue')
+            ->with(Config::MANAGE_STORED_PAYMENT_METHOD_CONFIG_PATH)
+            ->willReturn(true);
+
+        self::assertTrue($this->config->getWalletEnabled());
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetMerchantId(): void
+    {
+        $this->scopeConfigMock
+            ->expects(self::once())
+            ->method('getValue')
+            ->with(Config::MERCHANT_ID_CONFIG_PATH)
+            ->willReturn('pictime');
+
+        self::assertEquals('pictime', $this->config->getMerchantId());
+    }
 }

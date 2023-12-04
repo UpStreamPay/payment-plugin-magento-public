@@ -70,6 +70,10 @@ class ClientTest extends TestCase
             ->method('getEntityId')
             ->willReturn('fakeEntityId');
 
+        $this->config->method('getMerchantId')
+            ->willReturn('pictime')
+        ;
+
         $this->config->expects(self::any())
             ->method('getDebugMode')
             ->willReturn(Debug::DEBUG_VALUE);
@@ -230,6 +234,38 @@ class ClientTest extends TestCase
             ->willReturn(new Response(200, [], json_encode($expectedResponseData)));
 
         $apiResponse = $this->client->createSession($orderSession);
+
+        self::assertEquals($expectedResponseData, $apiResponse);
+    }
+
+    /**
+     * @return void
+     * @throws GuzzleException
+     * @throws JsonException
+     */
+    public function testCreateWalletSession(): void
+    {
+        $ownerReference = [
+            'owner_reference' => '2'
+        ];
+
+        $expectedResponseData = [
+            'session_id' => 'fakeSessionId',
+        ];
+
+        $headers = self::HEADERS;
+        $headers['x-merchant-id'] = 'pictime';
+
+        $this->httpClient->expects(self::once())
+            ->method('request')
+            ->with('POST', '/wallet/session', [
+                'headers' => $headers,
+                'query' => [],
+                'json' => $ownerReference,
+            ])
+            ->willReturn(new Response(200, [], json_encode($expectedResponseData)));
+
+        $apiResponse = $this->client->createWalletSession(2);
 
         self::assertEquals($expectedResponseData, $apiResponse);
     }
