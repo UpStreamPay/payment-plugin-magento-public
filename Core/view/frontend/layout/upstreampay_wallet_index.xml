@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+  UpStream Pay
+
+  Copyright (c) 2023 UpStream Pay.
+  This file is open source and available under the BSD 3 license.
+  See the LICENSE file for more info.
+
+  Author: Claranet France <info@fr.clara.net>
+  -->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="customer_account"/>
+    <body>
+        <referenceContainer name="content">
+            <block class="Magento\Framework\View\Element\Template" name="vault.cards.list" cacheable="false" template="UpStreamPay_Core::wallet/index.phtml">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">UpStreamPay\Core\ViewModel\Customer\Wallet\Index</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

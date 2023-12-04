@@ -1,0 +1,38 @@
+<?php
+/**
+ * UpStream Pay
+ *
+ * Copyright (c) 2023 UpStream Pay.
+ * This file is open source and available under the BSD 3 license.
+ * See the LICENSE file for more info.
+ *
+ * Author: Claranet France <info@fr.clara.net>
+ */
+
+/** @var Magento\Framework\View\Element\Template $block */
+$viewModel = $block->getViewModel();
+/** @var UpStreamPay\Core\ViewModel\Customer\Wallet\Index $viewModel */
+$walletSession = $viewModel->getWalletSession();
+$config = $viewModel->getConfigValues();
+?>
+<?php if (strlen($walletSession) !== 0) : ?>
+    <div id="widget-wallet" class="table-wrapper my-credit-cards">
+    </div>
+<?php else: ?>
+    <div class="message info empty"><span><?= $block->escapeHtml(__('You have no stored payment methods.')) ?></span></div>
+<?php endif ?>
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "purseWallet": {
+                "walletSession": <?php echo /* @noEscape */ $walletSession ?>,
+                "env": "<?php echo /* @noEscape */ $config['mode'] ?>",
+                "entityId": "<?php echo /* @noEscape */ $config['entityId'] ?>",
+                "apiKey": "<?php echo /* @noEscape */ $config['apiKey'] ?>",
+                "widgetUrl": "<?php echo /* @noEscape */ $config['widgetUrl'] ?>",
+                "errorMessage": "<?php echo /* @noEscape */ $config['errorMessage'] ?>"
+            }
+        }
+    }
+</script>
