@@ -45,3 +45,6 @@
 "Customer TIN attribute code", "Code d'attribut pour l'attribut client NIF"
 "Enter the custmer TIN attribute code if it exists.", "Veuillez saisir le code de l'attribut client NIF s'il existe."
 "Widget url", "Url du widget"
+"Manage stored payment methods in customer account", "Gérer les méthodes de paiement enregistrées depuis le compte client"
+"Merchant ID", "Identifiant marchand"
+"Wallet", "Portefeuille"

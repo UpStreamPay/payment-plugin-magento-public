@@ -46,6 +46,9 @@
                         iQIDAQAB
                         -----END PUBLIC KEY-----</rsa_production_key>
                 </api_config>
+                <wallet>
+                    <mange_stored_payment_methods_customer_account>0</mange_stored_payment_methods_customer_account>
+                </wallet>
             </upstream_pay>
         </payment>
     </default>
