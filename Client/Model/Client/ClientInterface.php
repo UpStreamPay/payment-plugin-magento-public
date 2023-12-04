@@ -41,6 +41,17 @@ interface ClientInterface
     public function createSession(array $orderSession): array;
 
     /**
+     * Create UpStream Pay wallet session.
+     *
+     * @param int $customerId
+     *
+     * @return array
+     * @throws GuzzleException
+     * @throws JsonException
+     */
+    public function createWalletSession(int $customerId): array;
+
+    /**
      * Get each transaction made for a session.
      * This will return every transaction no matter the type & status.
      *

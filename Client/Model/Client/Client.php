@@ -38,6 +38,7 @@ class Client implements ClientInterface
     private const GET = 'GET';
     private const OAUTH_TOKEN_URI = '/oauth/token';
     private const CREATE_SESSION_URI = '/sessions/create';
+    private const CREATE_WALLET_SESSION_URI = '/wallet/session';
     private const SESSION_URI = '/sessions/';
     private const TRANSACTIONS_URI = '/transactions/';
     private const CAPTURE_URI = '/capture';
@@ -118,6 +119,45 @@ class Client implements ClientInterface
                 'apiResponse' => $apiResponse
             ]
         );
+        return $apiResponse;
+    }
+
+    /**
+     * Create UpStream Pay wallet session.
+     *
+     * @param int $customerId
+     *
+     * @return array
+     * @throws GuzzleException
+     * @throws JsonException
+     */
+    public function createWalletSession(int $customerId): array
+    {
+        if ($this->config->getDebugMode() === Debug::DEBUG_VALUE) {
+            $this->logger->debug('--CREATE WALLET SESSION--');
+        }
+
+        $body = ['owner_reference' => $customerId];
+        $header = $this->buildHeader();
+        //When creating a wallet session we have to pass an extra parameter.
+        $header['x-merchant-id'] = $this->config->getMerchantId();
+
+        $this->eventManager->dispatch('payment_usp_before_wallet_session', ['customerId' => $customerId]);
+        $apiResponse = $this->callApi(
+            $header,
+            $body,
+            self::POST,
+            self::CREATE_WALLET_SESSION_URI,
+            []
+        );
+        $this->eventManager->dispatch(
+            'payment_usp_after_wallet_session',
+            [
+                'customerId' => $customerId,
+                'apiResponse' => $apiResponse
+            ]
+        );
+
         return $apiResponse;
     }
 
@@ -403,6 +443,7 @@ class Client implements ClientInterface
 
         return $apiResponse;
     }
+
     /**
      * Build header for API request.
      *
