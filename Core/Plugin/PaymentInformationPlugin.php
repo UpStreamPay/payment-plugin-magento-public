@@ -13,60 +13,59 @@ declare(strict_types=1);
 namespace UpStreamPay\Core\Plugin;
 
 use Magento\Checkout\Model\PaymentInformationManagement;
-use Magento\Checkout\Model\Session;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Quote\Api\CartRepositoryInterface;
+use Magento\Quote\Api\Data\AddressInterface;
+use Magento\Quote\Api\Data\PaymentInterface;
+use Magento\Quote\Model\Quote;
 use UpStreamPay\Core\Exception\UnsynchronizedCartAmountsException;
-use Magento\Framework\Math\FloatComparator;
+use UpStreamPay\Core\Model\Config;
+use UpStreamPay\Core\Model\Session\PurseSessionDataManager;
 
 /**
  * Class PaymentInformationPlugin
- *
- * @codeCoverageIgnore
  *
  * @package UpStreamPay\Core\Plugin
  */
 class PaymentInformationPlugin
 {
     /**
-     * @param Session $magentoSession
      * @param CartRepositoryInterface $cartRepository
-     * @param FloatComparator $floatComparator
+     * @param PurseSessionDataManager $purseSessionDataManager
      */
     public function __construct(
-        private readonly Session $magentoSession,
         private readonly CartRepositoryInterface $cartRepository,
-        private readonly FloatComparator $floatComparator
-    )
-    {
+        private readonly PurseSessionDataManager $purseSessionDataManager
+    ) {
     }
 
     /**
+     * If payment method is upstream_pay then check that the cart amount equals the upstream pay session amount.
+     * @see PaymentInformationManagement::savePaymentInformationAndPlaceOrder
+     *
      * @param PaymentInformationManagement $subject
      * @param $cartId
-     * @param $paymentMethod
-     * @param $billingAddress
+     * @param PaymentInterface $paymentMethod
+     * @param AddressInterface $billingAddress
      *
      * @return void
-     * @throws UnsynchronizedCartAmountsException
      * @throws NoSuchEntityException
+     * @throws UnsynchronizedCartAmountsException
      */
     public function beforeSavePaymentInformationAndPlaceOrder(
         PaymentInformationManagement $subject,
         $cartId,
-        $paymentMethod,
-        $billingAddress
-    ):void {
+        PaymentInterface $paymentMethod,
+        AddressInterface $billingAddress
+    ): void {
+        /** @var Quote $quote */
         $quote = $this->cartRepository->getActive($cartId);
 
-        if (!$this->floatComparator->equal(
-            (float)$quote->getBaseGrandTotal(),
-            (float)$this->magentoSession->getCartAmount()
-        )) {
-            throw new UnsynchronizedCartAmountsException(
-                'The current Session cart amount does not match the current quote amount, aborting.',
-                422
-            );
+        //If the payment method is upstream_pay then validate that the amount is correct. Else remove any purse data.
+        if ($paymentMethod->getMethod() === Config::METHOD_CODE_UPSTREAM_PAY) {
+            $this->purseSessionDataManager->validatePurseSessionAmountBeforePlaceOrder($quote, $cartId, $paymentMethod);
+        } else {
+            $this->purseSessionDataManager->cleanPurseSessionDataFromQuotePayment($quote);
         }
     }
 }

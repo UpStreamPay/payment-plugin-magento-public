@@ -52,7 +52,15 @@ class SessionTest extends TestCase
         $this->checkoutSessionMock = $session;
         $this->loggerMock = self::createMock(LoggerInterface::class);
         $this->paymentMethodMock = self::createMock(PaymentMethod::class);
-        $this->session = new Session($this->clientMock, $this->orderServiceMock, $this->checkoutSessionMock, $this->loggerMock, $this->paymentMethodMock);
+        $purseSessionDataMangerMock = self::createMock(Session\PurseSessionDataManager::class);
+        $this->session = new Session(
+            $this->clientMock,
+            $this->orderServiceMock,
+            $this->checkoutSessionMock,
+            $this->loggerMock,
+            $this->paymentMethodMock,
+            $purseSessionDataMangerMock
+        );
     }
 
     public function testGetSessionException()
@@ -138,11 +146,6 @@ class SessionTest extends TestCase
                 ['partner / name1', PaymentMethod::PRIMARY],
                 ['partner / name2', PaymentMethod::SECONDARY],
             );
-
-        $this->checkoutSessionMock
-            ->expects(self::once())
-            ->method('setCartAmount')
-            ->with(456);
 
         self::assertSame([$sessionData], $this->session->getSession());
     }

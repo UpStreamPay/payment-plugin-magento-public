@@ -17,4 +17,12 @@
         <observer name="sendEmailInvoiceUpstream"
                   instance="UpStreamPay\Core\Observer\SendUpStreamPayInvoiceEmailObserver" />
     </event>
+
+    <event name="checkout_submit_all_after">
+        <observer name="managePurseDataOnOrder" instance="UpStreamPay\Core\Observer\ManagePurseDataOnOrderObserver"/>
+    </event>
+
+    <event name="order_sent_to_purse_event">
+        <observer name="set_order_sent_to_purse" instance="UpStreamPay\Core\Observer\SetOrderSentToPurseObserver"/>
+    </event>
 </config>

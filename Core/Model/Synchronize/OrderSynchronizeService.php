@@ -16,7 +16,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use JsonException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Payment\Model\InfoInterface;
-use UpStreamPay\Client\Exception\NoOrderFoundException;
+use UpStreamPay\Client\Exception\NoSessionFoundException;
 use UpStreamPay\Client\Model\Client\ClientInterface;
 use UpStreamPay\Core\Exception\AuthorizeErrorException;
 use UpStreamPay\Core\Exception\CaptureErrorException;
@@ -32,6 +32,7 @@ use UpStreamPay\Core\Model\Actions\OrderService;
 use UpStreamPay\Core\Model\Actions\RefundService;
 use UpStreamPay\Core\Model\Actions\VoidService;
 use UpStreamPay\Core\Model\OrderTransactions;
+use UpStreamPay\Core\Model\Session\PurseSessionDataManager;
 
 /**
  * Class OrderSynchronizeService
@@ -74,7 +75,7 @@ class OrderSynchronizeService
      * @return InfoInterface
      * @throws GuzzleException
      * @throws LocalizedException
-     * @throws NoOrderFoundException
+     * @throws NoSessionFoundException
      * @throws NoTransactionsException
      * @throws JsonException
      * @throws AuthorizeErrorException
@@ -85,21 +86,23 @@ class OrderSynchronizeService
      */
     public function execute(InfoInterface $payment, float $amount, string $action): InfoInterface
     {
-        $quoteId = (int) $payment->getOrder()->getQuoteId();
+        $purseSessionId = $payment->getData(PurseSessionDataManager::PAYMENT_PURSE_SESSION_ID);
         $orderId = (int) $payment->getParentId();
 
         if ($action !== OrderTransactions::VOID_ACTION && $action !== OrderTransactions::REFUND_ACTION) {
-            $orderTransactionsResponse = $this->client->getAllTransactionsForOrder($quoteId);
+            $sessionTransactionsResponse = $this->client->getAllTransactionsForSession($purseSessionId);
 
-            if (count($orderTransactionsResponse) === 0) {
-                throw new NoTransactionsException('No transactions found in API for the order with ID ' . $orderId);
+            if (count($sessionTransactionsResponse) === 0) {
+                throw new NoTransactionsException(
+                    'No transactions found in API for the session with ID ' . $purseSessionId
+                );
             }
 
             //Save UpStream Pay payment & transaction data to DB.
             $this->synchronizeUpStreamPayPaymentData->execute(
-                $orderTransactionsResponse,
+                $sessionTransactionsResponse,
                 $orderId,
-                $quoteId,
+                (int)$payment->getOrder()->getQuoteId(),
                 (int)$payment->getEntityId()
             );
         }

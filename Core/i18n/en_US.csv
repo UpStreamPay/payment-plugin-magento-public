@@ -45,3 +45,6 @@
 "Customer TIN attribute code", "Customer TIN attribute code"
 "Enter the custmer TIN attribute code if it exists.", "Enter the custmer TIN attribute code if it exists."
 "Widget url", "Widget url"
+"Manage stored payment methods in customer account", "Manage stored payment methods in customer account"
+"Merchant ID", "Merchant ID"
+"Wallet", "Wallet"

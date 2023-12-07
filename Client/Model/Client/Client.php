@@ -16,7 +16,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
 use JsonException;
 use Psr\Log\LoggerInterface;
-use UpStreamPay\Client\Exception\NoOrderFoundException;
+use UpStreamPay\Client\Exception\NoSessionFoundException;
 use UpStreamPay\Client\Model\Token\TokenService;
 use UpStreamPay\Core\Exception\ConflictRetrieveTransactionsException;
 use UpStreamPay\Core\Model\Config;
@@ -38,7 +38,8 @@ class Client implements ClientInterface
     private const GET = 'GET';
     private const OAUTH_TOKEN_URI = '/oauth/token';
     private const CREATE_SESSION_URI = '/sessions/create';
-    private const ORDERS_URI = '/orders/';
+    private const CREATE_WALLET_SESSION_URI = '/wallet/session';
+    private const SESSION_URI = '/sessions/';
     private const TRANSACTIONS_URI = '/transactions/';
     private const CAPTURE_URI = '/capture';
     private const VOID_URI = '/void';
@@ -69,6 +70,10 @@ class Client implements ClientInterface
      */
     public function getToken(): array
     {
+        if ($this->config->getDebugMode() === Debug::DEBUG_VALUE) {
+            $this->logger->debug('--GET TOKEN--');
+        }
+
         $headers = [
             'Authorization' => sprintf(
                 'Basic %s',
@@ -96,6 +101,10 @@ class Client implements ClientInterface
      */
     public function createSession(array $orderSession): array
     {
+        if ($this->config->getDebugMode() === Debug::DEBUG_VALUE) {
+            $this->logger->debug('--CREATE SESSION--');
+        }
+
         $this->eventManager->dispatch('payment_usp_before_session', ['orderSession' => $orderSession]);
         $apiResponse = $this->callApi(
             $this->buildHeader(),
@@ -114,37 +123,80 @@ class Client implements ClientInterface
     }
 
     /**
-     * Get each transaction made for an order.
+     * Create UpStream Pay wallet session.
      *
-     * @param int $orderId
+     * @param int $customerId
      *
      * @return array
      * @throws GuzzleException
      * @throws JsonException
-     * @throws NoOrderFoundException
+     */
+    public function createWalletSession(int $customerId): array
+    {
+        if ($this->config->getDebugMode() === Debug::DEBUG_VALUE) {
+            $this->logger->debug('--CREATE WALLET SESSION--');
+        }
+
+        $body = ['owner_reference' => $customerId];
+        $header = $this->buildHeader();
+        //When creating a wallet session we have to pass an extra parameter.
+        $header['x-merchant-id'] = $this->config->getMerchantId();
+
+        $this->eventManager->dispatch('payment_usp_before_wallet_session', ['customerId' => $customerId]);
+        $apiResponse = $this->callApi(
+            $header,
+            $body,
+            self::POST,
+            self::CREATE_WALLET_SESSION_URI,
+            []
+        );
+        $this->eventManager->dispatch(
+            'payment_usp_after_wallet_session',
+            [
+                'customerId' => $customerId,
+                'apiResponse' => $apiResponse
+            ]
+        );
+
+        return $apiResponse;
+    }
+
+    /**
+     * Get each transaction made for a session.
+     *
+     * @param string $sessionId
+     *
+     * @return array
+     * @throws GuzzleException
+     * @throws JsonException
+     * @throws NoSessionFoundException
      * @throws ConflictRetrieveTransactionsException
      */
-    public function getAllTransactionsForOrder(int $orderId): array
+    public function getAllTransactionsForSession(string $sessionId): array
     {
         $uri = sprintf(
             '%s%s%s',
             $this->config->getEntityId(),
-            self::ORDERS_URI,
-            $orderId
+            self::SESSION_URI,
+            $sessionId
         );
 
         try {
+            if ($this->config->getDebugMode() === Debug::DEBUG_VALUE) {
+                $this->logger->debug('--GET ALL TRANSACTIONS FOR SESSION--');
+            }
+
             return $this->callApi($this->buildHeader(), [], self::GET, $uri, []);
         } catch (GuzzleException $exception) {
             if ($exception->getCode() === 404) {
                 //We most likely have no order found on UpStream Pay side.
-                throw new NoOrderFoundException(
-                    'There was a 404 error while trying to retrieve transactions for order ' . $orderId
+                throw new NoSessionFoundException(
+                    'There was a 404 error while trying to retrieve transactions for session ' . $sessionId
                 );
             } elseif ($exception->getCode() === 409) {
                 $errorMessage = sprintf(
-                    'Impossible to process upstream pay order with id %s. Please refund it in UpStream Pay BO',
-                    $orderId
+                    'Impossible to process upstream pay session with id %s. Please refund it in UpStream Pay BO',
+                    $sessionId
                 );
                 $this->logger->critical($errorMessage);
                 $this->logger->critical($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
@@ -152,7 +204,9 @@ class Client implements ClientInterface
                 //This happens sometimes in case of a conflict, we can't even retrieve the transactions from upstream.
                 throw new ConflictRetrieveTransactionsException($errorMessage);
             } else {
-                $this->logger->critical('Error while trying to retrieve all transactions for the order.');
+                $this->logger->critical(
+                    'Error while trying to retrieve all transactions for the session ' . $sessionId
+                );
                 $this->logger->critical($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
 
                 throw $exception;
@@ -181,6 +235,10 @@ class Client implements ClientInterface
      */
     public function capture(string $transactionId, array $body): array
     {
+        if ($this->config->getDebugMode() === Debug::DEBUG_VALUE) {
+            $this->logger->debug('--CAPTURE TRANSACTION--');
+        }
+
         $this->eventManager->dispatch(
             'sales_order_usp_before_capture',
             [
@@ -230,6 +288,10 @@ class Client implements ClientInterface
      */
     public function void(string $transactionId, array $body): array
     {
+        if ($this->config->getDebugMode() === Debug::DEBUG_VALUE) {
+            $this->logger->debug('--VOID TRANSACTION--');
+        }
+
         $uri = sprintf(
             self::API_URI_SKELETON,
             $this->config->getEntityId(),
@@ -278,6 +340,10 @@ class Client implements ClientInterface
      */
     public function refund(string $transactionId, array $body): array
     {
+        if ($this->config->getDebugMode() === Debug::DEBUG_VALUE) {
+            $this->logger->debug('--REFUND TRANSACTION--');
+        }
+
         $this->eventManager->dispatch(
             'sales_order_usp_before_refund',
             [
@@ -364,17 +430,18 @@ class Client implements ClientInterface
         }
 
         $rawResponse = $client->request($protocol, $uri, $options);
+        $apiResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
 
         if ($debugMode === Debug::DEBUG_VALUE) {
             $this->logger->debug('--RESPONSE URI--');
             $this->logger->debug($uri);
-            if ($body) {
+            if ($rawResponse->getBody()) {
                 $this->logger->debug('--RESPONSE BODY--');
-                $this->logger->debug(print_r($body, true));
+                $this->logger->debug(print_r($apiResponse, true));
             }
         }
 
-        return json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
+        return $apiResponse;
     }
 
     /**

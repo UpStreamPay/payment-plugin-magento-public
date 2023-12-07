@@ -150,4 +150,32 @@
             <column name="method"/>
         </index>
     </table>
+
+    <table name="quote_payment" resource="checkout" engine="innodb" comment="Sales Flat Quote Payment">
+        <column xsi:type="decimal" name="purse_session_amount" scale="4" precision="12" nullable="false" default="0.00"
+                comment="Purse session amount"/>
+        <column xsi:type="varchar" name="purse_session_id" length="255" nullable="true" comment="Purse session ID"/>
+
+        <constraint xsi:type="unique" referenceId="QUOTE_PAYMENT_PURSE_SESSION_ID">
+            <column name="purse_session_id"/>
+        </constraint>
+    </table>
+
+    <table name="sales_order_payment" resource="sales" engine="innodb" comment="Sales Flat Order Payment">
+        <column xsi:type="varchar" name="purse_session_id" length="255" nullable="true" comment="Purse session ID"/>
+
+        <constraint xsi:type="unique" referenceId="SALES_ORDER_PAYMENT_PURSE_SESSION_ID">
+            <column name="purse_session_id"/>
+        </constraint>
+    </table>
+
+    <table name="sales_order" resource="sales" engine="innodb" comment="Sales Flat Order">
+        <column xsi:type="smallint" name="order_sent_to_purse" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Purse session ID"/>
+
+        <!-- Index colmumns -->
+        <index referenceId="SALES_ORDER_ORDER_SENT_TO_PURSE" indexType="btree">
+            <column name="order_sent_to_purse"/>
+        </index>
+    </table>
 </schema>

@@ -21,9 +21,10 @@ use Magento\Framework\Registry;
 use Magento\Payment\Helper\Data;
 use Magento\Payment\Model\Method\Logger;
 use Magento\Payment\Model\MethodInterface;
+use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Payment;
 use PHPUnit\Framework\MockObject\MockObject;
-use UpStreamPay\Client\Exception\NoOrderFoundException;
+use UpStreamPay\Client\Exception\NoSessionFoundException;
 use UpStreamPay\Core\Model\Config;
 use UpStreamPay\Core\Model\OrderTransactions;
 use UpStreamPay\Core\Model\Synchronize\OrderSynchronizeService;
@@ -50,6 +51,15 @@ class UpStreamPayTest extends TestCase
         $this->orderSynchronizeServiceMock = self::createMock(OrderSynchronizeService::class);
         $this->configMock = self::createMock(Config::class);
         $this->paymentMock = self::createMock(Payment::class);
+
+        $orderMock = self::createMock(Order::class);
+        $orderMock->method('getData')
+            ->willReturn(1)
+        ;
+
+        $this->paymentMock->method('getOrder')
+            ->willReturn($orderMock)
+        ;
 
         $this->upStreamPay = new UpStreamPay(
             $this->orderSynchronizeServiceMock,
@@ -100,7 +110,7 @@ class UpStreamPayTest extends TestCase
     {
         $this->orderSynchronizeServiceMock->expects(self::once())
             ->method('execute')
-            ->willThrowException(new NoOrderFoundException())
+            ->willThrowException(new NoSessionFoundException())
         ;
 
         $this->upStreamPay->authorize($this->paymentMock, 10.00);
@@ -178,7 +188,7 @@ class UpStreamPayTest extends TestCase
         $this->orderSynchronizeServiceMock->expects(self::once())
             ->method('execute')
             ->with($this->paymentMock, 10.00, OrderTransactions::ORDER_CAPTURE_ACTION)
-            ->willThrowException(new NoOrderFoundException())
+            ->willThrowException(new NoSessionFoundException())
         ;
 
         $this->upStreamPay->capture($this->paymentMock, 10.00);
@@ -274,7 +284,7 @@ class UpStreamPayTest extends TestCase
         $this->orderSynchronizeServiceMock->expects(self::once())
             ->method('execute')
             ->with($this->paymentMock, 45.00, OrderTransactions::ORDER_ACTION)
-            ->willThrowException(new NoOrderFoundException())
+            ->willThrowException(new NoSessionFoundException())
         ;
 
         $this->upStreamPay->order($this->paymentMock, 45.00);
