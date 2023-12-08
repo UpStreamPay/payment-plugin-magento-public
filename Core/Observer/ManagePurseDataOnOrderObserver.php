@@ -48,15 +48,18 @@ class ManagePurseDataOnOrderObserver implements ObserverInterface
         $quote = $observer->getData('quote');
         /** @var Order $order */
         $order = $observer->getData('order');
-        $payment = $order->getPayment();
 
-        if ($payment->getMethod() === Config::METHOD_CODE_UPSTREAM_PAY) {
-            $payment->setData(
-                PurseSessionDataManager::PAYMENT_PURSE_SESSION_ID,
-                $quote->getPayment()->getData(PurseSessionDataManager::PAYMENT_PURSE_SESSION_ID)
-            );
+        if (null !== $order && null !== $quote) {
+            $payment = $order->getPayment();
 
-            $this->orderPaymentRepository->save($payment);
+            if ($payment->getMethod() === Config::METHOD_CODE_UPSTREAM_PAY) {
+                $payment->setData(
+                    PurseSessionDataManager::PAYMENT_PURSE_SESSION_ID,
+                    $quote->getPayment()->getData(PurseSessionDataManager::PAYMENT_PURSE_SESSION_ID)
+                );
+
+                $this->orderPaymentRepository->save($payment);
+            }
         }
     }
 }
