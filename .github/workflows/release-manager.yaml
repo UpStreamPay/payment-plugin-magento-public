@@ -1,0 +1,19 @@
+name: Release Manager
+
+##
+## Release Manager
+##
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release-manager:
+    uses: UpStreamPay/usp-reusable-workflows/.github/workflows/release-manager.yaml@reusable-v0
+    with:
+      version-file: composer.json
+      version-path: version
+    secrets:
+      GITHUB_ACCESS_TOKEN: ${{ secrets.USP_GITHUB_ADMIN_ACCES_TOKEN }}

@@ -1,0 +1,24 @@
+name: Sonar Cloud
+
+on:
+  push:
+    branches:
+      - main
+      - livraison
+    paths-ignore:
+      - "config.json"
+      - "*.md"
+      - ".github/**"
+
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths-ignore:
+      - "config.json"
+      - "*.md"
+      - ".github/**"
+
+jobs:
+  sonar:
+    uses: UpStreamPay/usp-reusable-workflows/.github/workflows/sonar-php.yaml@47-feat-add-sonar-php #gitops-workflows
+    secrets:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
