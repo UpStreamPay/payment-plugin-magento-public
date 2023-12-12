@@ -13,6 +13,7 @@ To facilitate the integration of the module into the application, UpStreamPay pl
 | sales_order_usp_before_capture | Before a capture                                              |
 | sales_order_usp_after_capture  | After a capture                                               |
 | sales_order_usp_payment_error  | In case of payment errors                                     |
+| order_sent_to_purse_event      | After the order has been received by Purse.                   |
 
 For more information on using events and observers, please refer to the official documentation:
 https://developer.adobe.com/commerce/php/development/components/events-and-observers/
