@@ -15,11 +15,11 @@ namespace UpStreamPay\Client\Exception;
 use Exception;
 
 /**
- * Class NoOrderFoundException
+ * Class NoSessionFoundException
  *
  * @package UpStreamPay\Client\Exception
  */
-class NoOrderFoundException extends Exception
+class NoSessionFoundException extends Exception
 {
 
 }

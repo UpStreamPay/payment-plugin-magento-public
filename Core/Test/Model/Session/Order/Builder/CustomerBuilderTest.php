@@ -16,6 +16,7 @@ use DateTime;
 use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Customer\Api\Data\GroupInterface;
 use Magento\Customer\Api\GroupRepositoryInterface;
+use Magento\Framework\Api\AttributeInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -25,6 +26,7 @@ use Magento\Quote\Model\Quote;
 use Magento\Store\Api\Data\StoreInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
+use UpStreamPay\Core\Model\Config;
 use UpStreamPay\Core\Model\Session\Order\AddressBuilderInterface;
 use UpStreamPay\Core\Model\Session\Order\Builder\CustomerBuilder;
 use PHPUnit\Framework\TestCase;
@@ -40,6 +42,7 @@ class CustomerBuilderTest extends TestCase
     private GroupInterface&MockObject $customerGroupMock;
     private Quote&MockObject $quoteMock;
     private CustomerBuilder $customerBuilder;
+    private Config $configMock;
 
     /**
      * @return void
@@ -60,6 +63,7 @@ class CustomerBuilderTest extends TestCase
         $storeManagerMock = self::createMock(StoreManagerInterface::class);
         $this->customerGroupMock = self::createMock(GroupInterface::class);
         $this->quoteMock = self::createPartialMock(Quote::class, $methods);
+        $this->configMock = self::createMock(Config::class);
 
         $storeMock = self::createMock(StoreInterface::class);
         $storeMock->method('getId')
@@ -104,12 +108,20 @@ class CustomerBuilderTest extends TestCase
             ->willReturn('lastName')
         ;
 
+        $attributeMock = self::createMock(AttributeInterface::class);
+        $attributeMock->method('getValue')
+            ->willReturn('123TIN')
+        ;
+
         $customerMock = self::createMock(CustomerInterface::class);
         $customerMock->method('getId')
             ->willReturn(123)
         ;
         $customerMock->method('getGroupId')
             ->willReturn(123)
+        ;
+        $customerMock->method('getCustomAttribute')
+            ->willReturn($attributeMock)
         ;
 
         $this->quoteMock->method('getCustomerDob')
@@ -124,6 +136,9 @@ class CustomerBuilderTest extends TestCase
         $this->quoteMock->method('getRemoteIp')
             ->willReturn('127.0.0.1')
         ;
+        $this->quoteMock->method('getId')
+            ->willReturn('123')
+        ;
 
         $this->customerBuilder = new CustomerBuilder(
             $groupRepositoryMock,
@@ -131,7 +146,8 @@ class CustomerBuilderTest extends TestCase
             $timezoneMock,
             $accountBuilderMock,
             $billingAddressBuilderMock,
-            $storeManagerMock
+            $storeManagerMock,
+            $this->configMock
         );
     }
 
@@ -148,7 +164,7 @@ class CustomerBuilderTest extends TestCase
         ;
 
         $expectedCustomerData = [
-            'reference' => '',
+            'reference' => 'guest-123',
             'company_name' => 'company',
             'first_name' => 'firstName',
             'middle_name' => 'middleName',
@@ -157,7 +173,6 @@ class CustomerBuilderTest extends TestCase
             'locale_code' => 'en-US',
             'billing_address' => ['billing_address_data'],
             'account' => ['account_data'],
-            'additional_attributes' => ['national_identifier' => ''],
         ];
         self::assertSame($expectedCustomerData, $this->customerBuilder->execute($this->quoteMock));
     }
@@ -183,10 +198,16 @@ class CustomerBuilderTest extends TestCase
             ->willReturn('General')
         ;
 
+        $this->configMock->expects(self::once())
+            ->method('getCustomerTinAttributeCode')
+            ->willReturn('tin')
+        ;
+
         $expectedCustomerData = [
             'reference' => 123,
             'type_code' => 'customer',
             'birthdate' => '2023-01-01',
+            'additional_attributes' => ['national_identifier' => '123TIN'],
             'company_name' => 'company',
             'first_name' => 'firstName',
             'middle_name' => 'middleName',
@@ -195,7 +216,6 @@ class CustomerBuilderTest extends TestCase
             'locale_code' => 'en-US',
             'billing_address' => ['billing_address_data'],
             'account' => ['account_data'],
-            'additional_attributes' => ['national_identifier' => ''],
         ];
         self::assertSame($expectedCustomerData, $this->customerBuilder->execute($this->quoteMock));
     }
@@ -221,10 +241,16 @@ class CustomerBuilderTest extends TestCase
             ->willReturn('Retailer')
         ;
 
+        $this->configMock->expects(self::once())
+            ->method('getCustomerTinAttributeCode')
+            ->willReturn(null)
+        ;
+
         $expectedCustomerData = [
             'reference' => 123,
             'type_code' => 'business',
             'birthdate' => '2023-01-01',
+            'additional_attributes' => ['national_identifier' => ''],
             'company_name' => 'company',
             'first_name' => 'firstName',
             'middle_name' => 'middleName',
@@ -233,7 +259,6 @@ class CustomerBuilderTest extends TestCase
             'locale_code' => 'en-US',
             'billing_address' => ['billing_address_data'],
             'account' => ['account_data'],
-            'additional_attributes' => ['national_identifier' => ''],
         ];
         self::assertSame($expectedCustomerData, $this->customerBuilder->execute($this->quoteMock));
     }

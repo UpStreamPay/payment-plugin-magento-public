@@ -161,9 +161,14 @@ class ConfigTest extends TestCase
             ->expects(self::once())
             ->method('getValue')
             ->with(Config::CLIENT_ID_CONFIG_PATH)
-            ->willReturn('546sdfsdf456');
+            ->willReturn('fake_hash');
 
-        self::assertEquals('546sdfsdf456', $this->config->getClientId());
+        $this->encryptorMock
+            ->expects(self::once())
+            ->method('decrypt')
+            ->willReturn('fake_secret');
+
+        self::assertEquals('fake_secret', $this->config->getClientId());
     }
 
     public function testGetClientIdNull()
@@ -173,6 +178,10 @@ class ConfigTest extends TestCase
             ->method('getValue')
             ->with(Config::CLIENT_ID_CONFIG_PATH)
             ->willReturn(null);
+
+        $this->encryptorMock
+            ->expects(self::never())
+            ->method('decrypt');
 
         self::assertNull($this->config->getClientId());
     }
@@ -303,5 +312,75 @@ class ConfigTest extends TestCase
             ->willReturn(null);
 
         self::assertNull($this->config->get3dsChallengeIndicatorAttributeCode());
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetCustomerTinAttributeCodeNotNull(): void
+    {
+        $this->scopeConfigMock
+            ->expects(self::once())
+            ->method('getValue')
+            ->with(Config::CUSTOMER_TIN_ATTRIBUTE_CODE_CONFIG_PATH)
+            ->willReturn('attribute_code');
+
+        self::assertEquals('attribute_code', $this->config->getCustomerTinAttributeCode());
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetCustomerTinAttributeCodeNull(): void
+    {
+        $this->scopeConfigMock
+            ->expects(self::once())
+            ->method('getValue')
+            ->with(Config::CUSTOMER_TIN_ATTRIBUTE_CODE_CONFIG_PATH)
+            ->willReturn(null);
+
+        self::assertNull($this->config->getCustomerTinAttributeCode());
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetWidgetUrl(): void
+    {
+        $this->scopeConfigMock
+            ->expects(self::once())
+            ->method('getValue')
+            ->with(Config::WIDGET_URL_CONFIG_PATH)
+            ->willReturn('https://foo.bar');
+
+        self::assertEquals('https://foo.bar', $this->config->getWidgetUrl());
+    }
+
+    /**
+     * @return void
+     */
+    public function testWalletEnabled(): void
+    {
+        $this->scopeConfigMock
+            ->expects(self::once())
+            ->method('getValue')
+            ->with(Config::MANAGE_STORED_PAYMENT_METHOD_CONFIG_PATH)
+            ->willReturn(true);
+
+        self::assertTrue($this->config->getWalletEnabled());
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetMerchantId(): void
+    {
+        $this->scopeConfigMock
+            ->expects(self::once())
+            ->method('getValue')
+            ->with(Config::MERCHANT_ID_CONFIG_PATH)
+            ->willReturn('pictime');
+
+        self::assertEquals('pictime', $this->config->getMerchantId());
     }
 }

@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace UpStreamPay\Core\Model\Session\Order\Builder;
 
+use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Customer\Api\GroupRepositoryInterface;
 use Magento\Directory\Helper\Data;
 use Magento\Framework\App\Config\ScopeConfigInterface;
@@ -21,6 +22,7 @@ use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Quote\Api\Data\CartInterface;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\StoreManagerInterface;
+use UpStreamPay\Core\Model\Config;
 use UpStreamPay\Core\Model\Session\Order\AddressBuilderInterface;
 use UpStreamPay\Core\Model\Session\Order\BuilderInterface;
 
@@ -38,6 +40,7 @@ class CustomerBuilder implements BuilderInterface
      * @param BuilderInterface $accountBuilder
      * @param AddressBuilderInterface $billingAddressBuilder
      * @param StoreManagerInterface $storeManager
+     * @param Config $upStreamPayConfig
      */
     public function __construct(
         private readonly GroupRepositoryInterface $groupRepository,
@@ -45,7 +48,8 @@ class CustomerBuilder implements BuilderInterface
         private readonly TimezoneInterface $timezone,
         private readonly BuilderInterface $accountBuilder,
         private readonly AddressBuilderInterface $billingAddressBuilder,
-        private readonly StoreManagerInterface $storeManager
+        private readonly StoreManagerInterface $storeManager,
+        private readonly Config $upStreamPayConfig,
     ) {
     }
 
@@ -65,7 +69,7 @@ class CustomerBuilder implements BuilderInterface
         $customerData = [];
 
         if ($quote->getCustomerIsGuest()) {
-            $customerData['reference'] = '';
+            $customerData['reference'] = 'guest-' . $quote->getId();
         } else {
             $customer = $quote->getCustomer();
             $customerGroup = $this->groupRepository->getById($customer->getGroupId());
@@ -85,6 +89,8 @@ class CustomerBuilder implements BuilderInterface
             if ($customerDob !== null) {
                 $customerData['birthdate'] = $this->timezone->date(strtotime($customerDob))->format('Y-m-d');
             }
+
+            $customerData['additional_attributes']['national_identifier'] = $this->setTinData($customer);
         }
 
         $customerData['company_name'] = $quote->getBillingAddress()->getCompany();
@@ -105,9 +111,25 @@ class CustomerBuilder implements BuilderInterface
         $customerData['billing_address'] = $this->billingAddressBuilder->execute($quote);
         $customerData['account'] = $this->accountBuilder->execute($quote);
 
-        //Native Magento doesn't have this information.
-        $customerData['additional_attributes']['national_identifier'] = '';
-
         return $customerData;
+    }
+
+    /**
+     * @param CustomerInterface $customer
+     *
+     * @return string
+     */
+    private function setTinData(CustomerInterface $customer): string
+    {
+        $tinAttributeCode = $this->upStreamPayConfig->getCustomerTinAttributeCode();
+
+        if ($tinAttributeCode !== null) {
+            $tinAttribute = $customer->getCustomAttribute($tinAttributeCode);
+            if ($tinAttribute !== null) {
+                return $tinAttribute->getValue();
+            }
+        }
+
+        return '';
     }
 }

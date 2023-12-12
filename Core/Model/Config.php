@@ -42,6 +42,10 @@ class Config
     public const PAYMENT_ACTION_CONFIG_PATH = 'payment/upstream_pay/payment_action';
     public const THREEDS_EXEMPTION_ATTRIBUTE_CODE = 'payment/upstream_pay/3ds_settings/3ds_exemption_attribute_code';
     public const THREEDS_CHALLENGE_INDICATOR_ATTRIBUTE_CODE = 'payment/upstream_pay/3ds_settings/challenge_indicator_attribute_code';
+    public const CUSTOMER_TIN_ATTRIBUTE_CODE_CONFIG_PATH = 'payment/upstream_pay/customer_tin_attribute_code';
+    public const WIDGET_URL_CONFIG_PATH = 'payment/upstream_pay/api_config/widget_url';
+    public const MANAGE_STORED_PAYMENT_METHOD_CONFIG_PATH = 'payment/upstream_pay/wallet/mange_stored_payment_methods_customer_account';
+    public const MERCHANT_ID_CONFIG_PATH = 'payment/upstream_pay/wallet/merchant_id';
 
     /**
      * @param ScopeConfigInterface $config
@@ -123,12 +127,19 @@ class Config
 
     /**
      * Get the client ID (API).
+     * It's a config with an obscure type.
      *
      * @return ?string
      */
     public function getClientId(): ?string
     {
-        return $this->config->getValue(self::CLIENT_ID_CONFIG_PATH, ScopeInterface::SCOPE_STORE);
+        $clientIdConfigValue = $this->config->getValue(self::CLIENT_ID_CONFIG_PATH, ScopeInterface::SCOPE_STORE);
+
+        if ($clientIdConfigValue === null) {
+            return null;
+        }
+
+        return $this->encryptor->decrypt(trim($clientIdConfigValue));
     }
 
     /**
@@ -215,5 +226,48 @@ class Config
     public function get3dsChallengeIndicatorAttributeCode(): ?string
     {
         return $this->config->getValue(self::THREEDS_CHALLENGE_INDICATOR_ATTRIBUTE_CODE, ScopeInterface::SCOPE_STORE);
+    }
+
+    /**
+     * Get the attribute code used for TIN (tax identification number) attribute.
+     *
+     * @return null|string
+     */
+    public function getCustomerTinAttributeCode(): ?string
+    {
+        return $this->config->getValue(self::CUSTOMER_TIN_ATTRIBUTE_CODE_CONFIG_PATH, ScopeInterface::SCOPE_STORE);
+    }
+
+    /**
+     * Get the widget URL.
+     *
+     * @return string
+     */
+    public function getWidgetUrl(): string
+    {
+        return $this->config->getValue(self::WIDGET_URL_CONFIG_PATH, ScopeInterface::SCOPE_STORE);
+    }
+
+    /**
+     * Return true if the customer can manage his saved payment methods from his account.
+     *
+     * @return bool
+     */
+    public function getWalletEnabled(): bool
+    {
+        return (bool)$this->config->getValue(
+            self::MANAGE_STORED_PAYMENT_METHOD_CONFIG_PATH,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * Return the merchant ID needed for wallet API calls.
+     *
+     * @return string
+     */
+    public function getMerchantId(): string
+    {
+        return $this->config->getValue(self::MERCHANT_ID_CONFIG_PATH, ScopeInterface::SCOPE_STORE);
     }
 }

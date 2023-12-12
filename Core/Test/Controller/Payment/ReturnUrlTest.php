@@ -17,6 +17,7 @@ use Generator;
 use Magento\Checkout\Model\Session;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\Result\RedirectFactory;
+use Magento\Framework\Event\Manager;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Message\ManagerInterface;
 use Magento\Payment\Model\MethodInterface;
@@ -69,6 +70,7 @@ class ReturnUrlTest extends TestCase
         $this->messageManager = $this->createMock(ManagerInterface::class);
         $this->orderSenderMock = $this->createMock(OrderSender::class);
         $this->invoiceSenderMock = $this->createMock(InvoiceSender::class);
+        $eventManagerMock = self::createMock(Manager::class);
 
         $this->controller = new ReturnUrl(
             $this->checkoutSessionMock,
@@ -80,7 +82,8 @@ class ReturnUrlTest extends TestCase
             $this->invoiceRepositoryMock,
             $this->messageManager,
             $this->orderSenderMock,
-            $this->invoiceSenderMock
+            $this->invoiceSenderMock,
+            $eventManagerMock
         );
     }
 
