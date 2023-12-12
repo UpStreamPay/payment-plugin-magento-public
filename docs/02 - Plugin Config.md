@@ -42,6 +42,18 @@ If you want to have different currencies in the same Adobe Commerce application,
 **Debug**: Log all API calls in the log files and save them in `upstreampay_api.log` file. 
 > :warning: Generates a large amount of data. To be used with extreme caution in production environments.
 
+## WALLET
+
+![WALLET](images/02-04.png)
+
+| Parameter                                         | Description                                  |
+|---------------------------------------------------|----------------------------------------------|
+| Manage stored payment methods in customer account | Let the customer manage his payment methods. |
+| Merchant ID                                       | Merchant ID, mandatory field.                |
+
+By default the config is set to No & no merchant ID is provided. As soon as the config is set to Yes, then
+the merchant ID config becomes visible & required in admin.
+
 ## API
 
 ![API](images/02-02.png)
