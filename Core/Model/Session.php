@@ -52,13 +52,14 @@ class Session implements SessionInterface
     /**
      * Return the session data (build the order) in order to indicate to UpStream Pay what payment methods to return.
      *
+     * @param string $guestEmail
+     *
      * @return array
      * @throws CreateSessionException
      * @throws LocalizedException
      * @throws NoSuchEntityException
-     * @throws Exception
      */
-    public function getSession(): array
+    public function getSession(string $guestEmail = ''): array
     {
         $quote = $this->checkoutSession->getQuote();
 
@@ -67,6 +68,11 @@ class Session implements SessionInterface
             $this->logger->critical($errorMessage);
 
             throw new CreateSessionException($errorMessage);
+        }
+
+        //If the customer is a guest, set the guest email right away in temp property.
+        if ($quote->getCustomerIsGuest()) {
+            $quote->setData('guest_email', $guestEmail);
         }
 
         $order = $this->orderService->execute($quote);

@@ -19,7 +19,9 @@ interface SessionInterface
     /**
      * Return the session data (build the order) in order to indicate to UpStream Pay what payment methods to return.
      *
+     * @param string $guestEmail
+     *
      * @return array
      */
-    public function getSession(): array;
+    public function getSession(string $guestEmail = ''): array;
 }

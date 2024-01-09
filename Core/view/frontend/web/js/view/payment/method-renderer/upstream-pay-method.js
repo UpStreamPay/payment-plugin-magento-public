@@ -19,7 +19,9 @@ define([
     'uiLayout',
     'Magento_Checkout/js/model/url-builder',
     'mage/storage',
-    'Magento_Checkout/js/model/cart/cache'
+    'Magento_Checkout/js/model/cart/cache',
+    'Magento_Checkout/js/model/quote',
+    'Magento_Customer/js/model/customer',
 ], function (
     Component,
     messageList,
@@ -32,7 +34,9 @@ define([
     layout,
     urlBuilder,
     storage,
-    cartCache
+    cartCache,
+    quote,
+    customer
 ) {
     'use strict';
 
@@ -185,7 +189,13 @@ define([
          * @returns {Promise}
          */
         getSessionData: function () {
-            return storage.post(urlBuilder.createUrl('/upstreampay/session', {}));
+            let payload = {};
+
+            if (!customer.isLoggedIn()) {
+                payload.guestEmail = quote.guestEmail;
+            }
+
+            return storage.post(urlBuilder.createUrl('/upstreampay/session', {}), JSON.stringify(payload));
         },
 
         /**

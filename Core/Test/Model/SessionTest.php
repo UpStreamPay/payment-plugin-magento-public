@@ -72,6 +72,7 @@ class SessionTest extends TestCase
 
         $this->session->getSession();
     }
+
     public function testGetSessionCreateException()
     {
         $quote = self::createMock(Quote::class);
@@ -111,6 +112,16 @@ class SessionTest extends TestCase
             ->expects(self::once())
             ->method('getId')
             ->willReturn(123);
+
+        $quote->expects(self::once())
+            ->method('getCustomerIsGuest')
+            ->willReturn(true)
+        ;
+
+        $quote->expects(self::once())
+            ->method('setData')
+            ->with('guest_email', '')
+        ;
 
         $this->checkoutSessionMock
             ->expects(self::once())
