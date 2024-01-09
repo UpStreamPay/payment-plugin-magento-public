@@ -70,6 +70,11 @@ class Session implements SessionInterface
             throw new CreateSessionException($errorMessage);
         }
 
+        //If the customer is a guest, set the guest email right away in temp property.
+        if ($quote->getCustomerIsGuest()) {
+            $quote->setData('guest_email', $guestEmail);
+        }
+
         $order = $this->orderService->execute($quote);
 
         try {
