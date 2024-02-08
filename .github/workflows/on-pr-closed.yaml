@@ -1,0 +1,10 @@
+name: On PR closed
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  on-pr-closed:
+    uses: UpstreamPay/usp-reusable-workflows/.github/workflows/plugin-on-pr-closed.yaml@v2
+    secrets: inherit

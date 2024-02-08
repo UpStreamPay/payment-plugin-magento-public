@@ -1,0 +1,11 @@
+name: On push feat
+
+on:
+  push:
+    branches:
+      - feat/*
+
+jobs:
+  on-push-feat:
+    uses: UpStreamPay/usp-reusable-workflows/.github/workflows/plugin-on-push-feat.yaml@v2
+    secrets: inherit

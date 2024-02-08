@@ -1,0 +1,11 @@
+name: On push main
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  on-push-main:
+    uses: UpStreamPay/usp-reusable-workflows/.github/workflows/plugin-on-push-main.yaml@v2
+    secrets: inherit

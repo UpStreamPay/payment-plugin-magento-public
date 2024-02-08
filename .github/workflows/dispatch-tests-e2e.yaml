@@ -1,0 +1,30 @@
+name: Execute e2e tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      target-environment:
+        description: "Environment on which tests will be executed"
+        required: true
+        default: "test"
+        type: choice
+        options:
+          - dev
+          - test
+          - preprod
+      filter-tags:
+        description: "Filter tags to execute only a subset of tests"
+        required: false
+        default: ""
+        type: string
+
+jobs:
+  tests-e2e:
+    uses: UpStreamPay/usp-reusable-workflows/.github/workflows/plugin-e2e-tests.yaml@v2
+    with:
+      #Use input if provided, else use default value
+      filter-tags: ${{ inputs.filter-tags || vars.E2E_TESTS_FILTER }} }}
+      target-environment: ${{ inputs.target-environment }}
+    secrets:
+      GITHUB_ACCESS_TOKEN: ${{ secrets.USP_GITHUB_ADMIN_ACCES_TOKEN }}
+      ENV_FILE: ${{ secrets.PLUGINS_E2E_BASE64_ENV_FILE }}

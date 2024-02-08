@@ -1,0 +1,10 @@
+name: On PR commented
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  on-pr-commented:
+    uses: UpStreamPay/usp-reusable-workflows/.github/workflows/plugin-on-pr-commented.yaml@v2
+    secrets: inherit

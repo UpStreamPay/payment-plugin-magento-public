@@ -1,0 +1,48 @@
+name: Start new release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  start-release:
+    uses: UpStreamPay/usp-reusable-workflows/.github/workflows/utils-gitflow-start-release.yaml@v2
+
+  init-release:
+    needs: ["start-release"]
+    uses: UpStreamPay/usp-reusable-workflows/.github/workflows/utils-gitflow-release-branch-init.yaml@v2
+    with:
+      release-branch: ${{ needs.start-release.outputs.release-branch }}
+      tag: v${{ needs.start-release.outputs.major }}.${{ needs.start-release.outputs.minor }}.0-rc.0
+      version: ${{ needs.start-release.outputs.major }}.${{ needs.start-release.outputs.minor }}.0-rc.0
+      config-file: config.json
+      config-path: version
+      clean-changelog: ${{ needs.start-release.outputs.clean-changelog }}
+      changelog: ${{ needs.start-release.outputs.changelog }}
+      update-pom: true
+    secrets:
+      GITHUB_ACCESS_TOKEN: ${{ secrets.USP_GITHUB_ADMIN_ACCES_TOKEN }}
+      D4_GITHUB_PLUGIN_USERNAME: ${{ secrets.PLUGIN_D4_USERNAME }}
+      D4_GITHUB_PLUGIN_PASSWORD: ${{ secrets.PLUGIN_D4_PASSWORD }}
+
+  send-slack-message:
+    needs: ["start-release", "init-release"]
+    uses: UpStreamPay/usp-reusable-workflows/.github/workflows/utils-gitflow-new-release-slack-message.yaml@v2
+    with:
+      channel-id: ${{ vars.SLACK_NEW_RELEASE_PLUGIN_CHANNEL }}
+      version: ${{ needs.start-release.outputs.major }}.${{ needs.start-release.outputs.minor }}.0-rc.0
+      type: Release Candidate
+      release-url: ${{ needs.init-release.outputs.release-url }}
+    secrets:
+      SLACK_BOT_TOKEN: ${{ secrets.USP_SLACK_TOKEN }}
+
+  create-release-prs:
+    needs: ["start-release", "init-release"]
+    uses: UpStreamPay/usp-reusable-workflows/.github/workflows/utils-gitflow-open-release-prs-plugin.yaml@v2
+    with:
+      type: release
+      branch-name: ${{ needs.start-release.outputs.release-branch }}
+      pr-main: true
+      pr-develop: false
+      pr-draft: true
+      release-version: v${{ needs.start-release.outputs.major }}.${{ needs.start-release.outputs.minor }}
+      release-changelog: ${{ needs.start-release.outputs.clean-changelog }}

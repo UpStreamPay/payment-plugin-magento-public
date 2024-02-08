@@ -1,0 +1,28 @@
+# Variables
+#
+# enable-issue-check: Boolean
+# This will check if the PR has an issue linked to it.
+#
+# enable-conventionnal-commit-check: Boolean
+# This will check if the PR has a valid name for the commit.
+#
+# enable-sonar-check: Boolean
+# This will enable or disable the sonar check.
+
+name: On PR develop RC
+
+on:
+  pull_request:
+    types: ["opened", "edited", "reopened", "synchronize"]
+    branches:
+      - develop
+      - release-*
+
+jobs:
+  on-pr-develop-rc:
+    uses: UpStreamPay/usp-reusable-workflows/.github/workflows/plugin-on-pr-develop-rc.yaml@v2
+    with: # This is customisable, if you are a developer, you can change this.
+      enable-issue-check: true
+      enable-conventionnal-commit-check: true
+      enable-sonar-check: true
+    secrets: inherit

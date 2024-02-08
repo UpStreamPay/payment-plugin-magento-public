@@ -1,0 +1,11 @@
+name: Hotfix branch Manager
+
+on:
+  push:
+    branches:
+      - hotfix/*
+
+jobs:
+  on-hotfix:
+    uses: UpStreamPay/usp-reusable-workflows/.github/workflows/plugin-on-hotfix.yaml@v2
+    secrets: inherit

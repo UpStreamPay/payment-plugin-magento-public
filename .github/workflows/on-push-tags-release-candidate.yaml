@@ -1,0 +1,11 @@
+name: On push tags release candidate
+
+on:
+  push:
+    tags:
+      - v[0-9]+.[0-9]+.[0-9]+-rc.[0-9]+
+
+jobs:
+  on-push-tags-release-candidate:
+    uses: UpStreamPay/usp-reusable-workflows/.github/workflows/plugin-on-push-tags-release-candidate.yaml@v2
+    secrets: inherit

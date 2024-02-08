@@ -1,0 +1,89 @@
+name: Deploy plugin
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        required: true
+        type: string
+      environment:
+        required: true
+        type: choice
+        options:
+          - dev
+          - test
+          - preprod
+          - prod
+
+jobs:
+  deploy-dev-plugin:
+    uses: UpStreamPay/usp-reusable-workflows/.github/workflows/utils-gitflow-deploy-plugin.yaml@v2
+    if: inputs.environment == 'dev'
+    with:
+      gar-region: ${{ vars.GCP_DEV_PLUGINS_MAVEN_REGISTRY_LOCATION }}
+      gar-project: ${{ vars.GCP_DEV_PLUGINS_PROJECT_ID }}
+      gar-repository: ${{ vars.GCP_DEV_PLUGINS_MAVEN_REGISTRY_NAME }}
+      group-id: ${{ vars.MAVEN_GROUP_ID }}
+      artifact-id: ${{ vars.MAVEN_ARTIFACT_ID }}
+      version: ${{ inputs.version }}
+      bucket-name: ${{ vars.GCP_DEV_PLUGINS_BUCKET_PLUGINS_NAME }}
+      bucket-path: plugins/
+      existing-bucket-path: plugins-archives/
+      pull-gar-service-account: ${{ vars.GCP_DEV_PLUGINS_MAVEN_REGISTRY_SA_EMAIL }}
+      pull-gar-workload-identity-provider: ${{ vars.GCP_DEV_PLUGINS_WORKLOAD_IDENTITY_PROVIDER }}
+      push-bucket-service-account: ${{ vars.GCP_DEV_PLUGINS_PUSH_BUCKET_PLUGINS_SA_EMAIL }}
+      push-bucket-workload-identity-provider: ${{ vars.GCP_DEV_PLUGINS_WORKLOAD_IDENTITY_PROVIDER }}
+
+  deploy-test-plugin:
+    uses: UpStreamPay/usp-reusable-workflows/.github/workflows/utils-gitflow-deploy-plugin.yaml@v2
+    if: inputs.environment == 'test'
+    with:
+      gar-region: ${{ vars.GCP_DEV_PLUGINS_MAVEN_REGISTRY_LOCATION }}
+      gar-project: ${{ vars.GCP_DEV_PLUGINS_PROJECT_ID }}
+      gar-repository: ${{ vars.GCP_DEV_PLUGINS_MAVEN_REGISTRY_NAME }}
+      group-id: ${{ vars.MAVEN_GROUP_ID }}
+      artifact-id: ${{ vars.MAVEN_ARTIFACT_ID }}
+      version: ${{ inputs.version }}
+      bucket-name: ${{ vars.GCP_TEST_PLUGINS_BUCKET_PLUGINS_NAME }}
+      bucket-path: plugins/
+      existing-bucket-path: plugins-archives/
+      pull-gar-service-account: ${{ vars.GCP_DEV_PLUGINS_MAVEN_REGISTRY_SA_EMAIL }}
+      pull-gar-workload-identity-provider: ${{ vars.GCP_DEV_PLUGINS_WORKLOAD_IDENTITY_PROVIDER }}
+      push-bucket-service-account: ${{ vars.GCP_TEST_PLUGINS_PUSH_BUCKET_PLUGINS_SA_EMAIL }}
+      push-bucket-workload-identity-provider: ${{ vars.GCP_TEST_PLUGINS_WORKLOAD_IDENTITY_PROVIDER }}
+
+  deploy-preprod-plugin:
+    uses: UpStreamPay/usp-reusable-workflows/.github/workflows/utils-gitflow-deploy-plugin.yaml@v2
+    if: inputs.environment == 'preprod'
+    with:
+      gar-region: ${{ vars.GCP_PROD_PLUGINS_MAVEN_REGISTRY_LOCATION }}
+      gar-project: ${{ vars.GCP_PROD_PLUGINS_PROJECT_ID }}
+      gar-repository: ${{ vars.GCP_PROD_PLUGINS_MAVEN_REGISTRY_NAME }}
+      group-id: ${{ vars.MAVEN_GROUP_ID }}
+      artifact-id: ${{ vars.MAVEN_ARTIFACT_ID }}
+      version: ${{ inputs.version }}
+      bucket-name: ${{ vars.GCP_PREPROD_PLUGINS_BUCKET_PLUGINS_NAME }}
+      bucket-path: plugins/
+      existing-bucket-path: plugins-archives/
+      pull-gar-service-account: ${{ vars.GCP_PROD_PLUGINS_MAVEN_REGISTRY_SA_EMAIL }}
+      pull-gar-workload-identity-provider: ${{ vars.GCP_PROD_PLUGINS_WORKLOAD_IDENTITY_PROVIDER }}
+      push-bucket-service-account: ${{ vars.GCP_PREPROD_PLUGINS_PUSH_BUCKET_PLUGINS_SA_EMAIL }}
+      push-bucket-workload-identity-provider: ${{ vars.GCP_PREPROD_PLUGINS_WORKLOAD_IDENTITY_PROVIDER }}
+
+  deploy-prod-plugin:
+    uses: UpStreamPay/usp-reusable-workflows/.github/workflows/utils-gitflow-deploy-plugin.yaml@v2
+    if: inputs.environment == 'prod'
+    with:
+      gar-region: ${{ vars.GCP_PROD_PLUGINS_MAVEN_REGISTRY_LOCATION }}
+      gar-project: ${{ vars.GCP_PROD_PLUGINS_PROJECT_ID }}
+      gar-repository: ${{ vars.GCP_PROD_PLUGINS_MAVEN_REGISTRY_NAME }}
+      group-id: ${{ vars.MAVEN_GROUP_ID }}
+      artifact-id: ${{ vars.MAVEN_ARTIFACT_ID }}
+      version: ${{ inputs.version }}
+      bucket-name: ${{ vars.GCP_PROD_PLUGINS_BUCKET_PLUGINS_NAME }}
+      bucket-path: plugins/
+      existing-bucket-path: plugins-archives/
+      pull-gar-service-account: ${{ vars.GCP_PROD_PLUGINS_MAVEN_REGISTRY_SA_EMAIL }}
+      pull-gar-workload-identity-provider: ${{ vars.GCP_PROD_PLUGINS_WORKLOAD_IDENTITY_PROVIDER }}
+      push-bucket-service-account: ${{ vars.GCP_PROD_PLUGINS_PUSH_BUCKET_PLUGINS_SA_EMAIL }}
+      push-bucket-workload-identity-provider: ${{ vars.GCP_PROD_PLUGINS_WORKLOAD_IDENTITY_PROVIDER }}

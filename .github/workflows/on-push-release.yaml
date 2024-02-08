@@ -1,0 +1,11 @@
+name: On push release
+
+on:
+  push:
+    branches:
+      - "release-v[0-9]+.[0-9]+"
+
+jobs:
+  on-push-release:
+    uses: UpStreamPay/usp-reusable-workflows/.github/workflows/plugin-on-push-release.yaml@v2
+    secrets: inherit

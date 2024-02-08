@@ -1,0 +1,11 @@
+name: On push develop
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  on-push-develop:
+    uses: UpStreamPay/usp-reusable-workflows/.github/workflows/plugin-on-push-develop.yaml@v2
+    secrets: inherit
