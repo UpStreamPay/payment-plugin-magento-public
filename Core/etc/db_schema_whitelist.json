@@ -103,5 +103,30 @@
         "index": {
             "SALES_ORDER_ORDER_SENT_TO_PURSE": true
         }
+    },
+    "upstream_pay_subscription": {
+        "column": {
+            "id": true,
+            "subscription_identifier": true,
+            "subscription_status": true,
+            "payment_status": true,
+            "product_price": true,
+            "product_name": true,
+            "product_sku": true,
+            "start_date": true,
+            "end_date": true,
+            "next_payment_date": true,
+            "order_id": true,
+            "original_transaction_id": true
+        },
+        "index": {
+            "UPSTREAM_PAY_SUBSCRIPTION_ID": true,
+            "UPSTREAM_PAY_SUBSCRIPTION_SUBSCRIPTION_IDENTIFIER": true,
+            "UPSTREAM_PAY_SUBSCRIPTION_ORDER_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "UPSTREAM_PAY_SUBSCRIPTION_ORDER_ID_SALES_ORDER_ENTITY_ID": true
+        }
     }
 }
