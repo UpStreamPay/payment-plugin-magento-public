@@ -178,4 +178,40 @@
             <column name="order_sent_to_purse"/>
         </index>
     </table>
+
+    <table name="upstream_pay_subscription" resource="default" engine="innodb" comment="Upstream Pay subscription table">
+        <column xsi:type="int" name="id" unsigned="true" nullable="false" identity="true" comment="ID"/>
+        <column xsi:type="varchar" name="subscription_identifier" nullable="false" length="255" comment="Subscription identifier"/>
+        <column xsi:type="varchar" name="subscription_status" nullable="false" length="10" default="disabled"
+                comment="Subscription status"/>
+        <column xsi:type="varchar" name="payment_status" nullable="false" length="20" default="to_pay" comment="Payment Status"/>
+        <column xsi:type="float" name="product_price" scale="4" precision="12" nullable="false" default="0.00" comment="Product price"/>
+        <column xsi:type="varchar" name="product_name" length="255" comment="Product Name"/>
+        <column xsi:type="varchar" name="product_sku" length="255" comment="Product Sku"/>
+        <column xsi:type="timestamp" name="start_date" length="255" nullable="false" comment="Start subscription date"/>
+        <column xsi:type="timestamp" name="end_date" length="255" nullable="false" comment="End subscription date"/>
+        <column xsi:type="timestamp" name="next_payment_date" length="255" nullable="true" comment="Next payment date"/>
+        <column xsi:type="int" name="order_id" unsigned="true" nullable="false" comment="Order ID"/>
+        <column xsi:type="varchar" name="original_transaction_id" nullable="false" length="255" comment="Original transaction id"/>
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+
+        <!-- sales_order table foreign key-->
+        <constraint xsi:type="foreign" referenceId="UPSTREAM_PAY_SUBSCRIPTION_ORDER_ID_SALES_ORDER_ENTITY_ID"
+                    table="upstream_pay_subscription" column="order_id" referenceTable="sales_order"
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
+
+        <!-- Index colmumns -->
+        <index referenceId="UPSTREAM_PAY_SUBSCRIPTION_ID" indexType="btree">
+            <column name="id"/>
+        </index>
+        <index referenceId="UPSTREAM_PAY_SUBSCRIPTION_SUBSCRIPTION_IDENTIFIER" indexType="btree">
+            <column name="subscription_identifier"/>
+        </index>
+        <index referenceId="UPSTREAM_PAY_SUBSCRIPTION_ORDER_ID" indexType="btree">
+            <column name="order_id"/>
+        </index>
+    </table>
 </schema>
