@@ -132,5 +132,22 @@
             "PRIMARY": true,
             "UPSTREAM_PAY_SUBSCRIPTION_ORDER_ID_SALES_ORDER_ENTITY_ID": true
         }
+    },
+    "upstream_pay_subscription_retry": {
+        "column": {
+            "id": true,
+            "subscription_id": true,
+            "number_of_retries": true,
+            "retry_status": true,
+            "retry_type": true,
+            "transaction_id": true
+        },
+        "index": {
+            "UPSTREAM_PAY_SUBSCRIPTION_RETRY_SUBSCRIPTION_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "SUBSCRIPTION_ID_UPSTREAM_PAY_SUBSCRIPTION_ID": true
+        }
     }
 }
