@@ -18,4 +18,8 @@
     <event name="order_cancel_after">
         <observer name="upstreampay_cancel_order" instance="UpStreamPay\Core\Observer\CancelOrderObserver" />
     </event>
+<!--    Cancel a payment subscription -->
+    <event name="cancel_purse_subscription">
+        <observer name="cancel_purse_subscription" instance="UpStreamPay\Core\Observer\CancelPurseSubscriptionObserver" />
+    </event>
 </config>
