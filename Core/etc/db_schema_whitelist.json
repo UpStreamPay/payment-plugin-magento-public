@@ -45,7 +45,8 @@
             "updated_at": true,
             "parent_transaction_id": true,
             "session_id": true,
-            "parent_payment_id": true
+            "parent_payment_id": true,
+            "subscription_id": true
         },
         "index": {
             "UPSTREAM_PAY_ORDER_TRANSACTIONS_TRANSACTION_ID": true,
@@ -53,7 +54,8 @@
             "UPSTREAM_PAY_ORDER_TRANSACTIONS_ORDER_ID": true,
             "UPSTREAM_PAY_ORDER_TRANSACTIONS_INVOICE_ID": true,
             "UPSTREAM_PAY_ORDER_TRANSACTIONS_PARENT_TRANSACTION_ID": true,
-            "UPSTREAM_PAY_ORDER_TRANSACTIONS_SESSION_ID": true
+            "UPSTREAM_PAY_ORDER_TRANSACTIONS_SESSION_ID": true,
+            "UPSTREAM_PAY_ORDER_TRANSACTIONS_SUBSCRIPTION_ID": true
         },
         "constraint": {
             "PRIMARY": true,
@@ -61,7 +63,8 @@
             "UPSTREAM_PAY_ORDER_TRANSACTIONS_ORDER_ID_SALES_ORDER_ENTITY_ID": true,
             "FK_E4DDDCAB33CBCD09FD77D3514CC176FE": true,
             "FK_4CC3AF1AB2A2EFA0E51C88DFBB3B614D": true,
-            "UPSTREAM_PAY_ORDER_TRANSACTIONS_SESSION_ID_TRANSACTION_ID": true
+            "UPSTREAM_PAY_ORDER_TRANSACTIONS_SESSION_ID_TRANSACTION_ID": true,
+            "FK_F1DE4705D8F12922239CA3ABB07A5971": true
         }
     },
     "upstream_pay_payment_method": {
@@ -102,6 +105,32 @@
         },
         "index": {
             "SALES_ORDER_ORDER_SENT_TO_PURSE": true
+        }
+    },
+    "upstream_pay_subscription": {
+        "column": {
+            "id": true,
+            "subscription_identifier": true,
+            "subscription_status": true,
+            "payment_status": true,
+            "product_price": true,
+            "product_name": true,
+            "product_sku": true,
+            "start_date": true,
+            "end_date": true,
+            "next_payment_date": true,
+            "order_id": true,
+            "original_transaction_id": true,
+            "entity_id": true
+        },
+        "index": {
+            "UPSTREAM_PAY_SUBSCRIPTION_ID": true,
+            "UPSTREAM_PAY_SUBSCRIPTION_SUBSCRIPTION_IDENTIFIER": true,
+            "UPSTREAM_PAY_SUBSCRIPTION_ORDER_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "UPSTREAM_PAY_SUBSCRIPTION_ORDER_ID_SALES_ORDER_ENTITY_ID": true
         }
     }
 }
