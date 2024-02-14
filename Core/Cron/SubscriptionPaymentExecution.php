@@ -14,8 +14,17 @@ namespace UpStreamPay\Core\Cron;
 
 use Psr\Log\LoggerInterface;
 
+/**
+ * Class SubscriptionPaymentExecution
+ *
+ * Cron used to renew & pay the subscription
+ *
+ * @package UpStreamPay\Core\Cron
+ */
 class SubscriptionPaymentExecution {
-    public function __construct(private readonly LoggerInterface $logger)
+    public function __construct(
+        private readonly LoggerInterface $logger
+    )
     {}
 
     /**
@@ -23,8 +32,9 @@ class SubscriptionPaymentExecution {
      *
      * @return void
      */
-    public function execute()
+    public function execute(): void
     {
+        //TODO implement proper logic (should only call one service).
         $this->logger->info('Cron Works');
     }
 }

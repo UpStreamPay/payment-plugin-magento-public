@@ -23,15 +23,19 @@ use Magento\Framework\Model\Context;
 use Magento\Framework\Model\ResourceModel\AbstractResource;
 use Magento\Framework\Registry;
 
+/**
+ * Class SubscriptionPayment
+ *
+ * @package UpStreamPay\Core\Model\Config\Backend
+ */
 class SubscriptionPayment extends Value
 {
+    public const CRON_STRING_PATH = 'crontab/default/jobs/subscription_payment/schedule/cron_expr';
+    public const CRON_MODEL_PATH = 'crontab/default/jobs/subscription_payment/run/model';
 
-    public const CRON_STRING_PATH = 'payment/upstream_pay/subscription_payment/frequency';
-
-    /**
-     * Cron mode path
-     */
-    public const CRON_MODEL_PATH = 'payment/upstream_pay/subscription_payment/run/model';
+    //TODO move the 2 consts into config model.
+    public const XML_PATH_SUBSCRIPTION_PAYMENT_FREQUENCY = 'payment/upstream_pay/subscription_payment/frequency';
+    public const XML_PATH_SUBSCRIPTION_PAYMENT_TIME = 'payment/upstream_pay/subscription_payment/time';
 
     /**
      * @param Context $context
@@ -39,8 +43,8 @@ class SubscriptionPayment extends Value
      * @param ScopeConfigInterface $config
      * @param TypeListInterface $cacheTypeList
      * @param ValueFactory $configValueFactory
-     * @param AbstractResource $resource
-     * @param AbstractDb $resourceCollection
+     * @param null|AbstractResource $resource
+     * @param null|AbstractDb $resourceCollection
      * @param string $runModelPath
      * @param array $data
      */
@@ -64,23 +68,21 @@ class SubscriptionPayment extends Value
      * @return $this
      * @throws LocalizedException
      */
-    public function afterSave()
+    public function afterSave(): Value
     {
-        $time = $this->getData('groups/generate/fields/time/value') ?:
-            explode(
-                ',',
-                $this->_config->getValue('subscription_payment/generate/time', $this->getScope(), $this->getScopeId()) ?: '0,0,0'
-            );
-        $frequency = $this->getValue();
+        //TODO replace 2 consts with const from config model.
+        $time = explode(',', $this->_config->getValue(self::XML_PATH_SUBSCRIPTION_PAYMENT_TIME));
+        $frequency = $this->_config->getValue(self::XML_PATH_SUBSCRIPTION_PAYMENT_FREQUENCY);
+        $frequencyWeekly = Frequency::CRON_WEEKLY;
+        $frequencyMonthly = Frequency::CRON_MONTHLY;
 
         $cronExprArray = [
-            (int)($time[1] ?? 0), //Minute
-            (int)($time[0] ?? 0), //Hour
-            $frequency == Frequency::CRON_MONTHLY ? '1' : '*', //Day of the Month
-            '*', //Month of the Year
-            $frequency == Frequency::CRON_WEEKLY ? '1' : '*', //# Day of the Week
+            (int) $time[1],                                 # Minute
+            (int) $time[0],                                 # Hour
+            $frequency == $frequencyMonthly ? '1' : '*',      # Day of the Month
+            '*',                                              # Month of the Year
+            $frequency == $frequencyWeekly ? '1' : '*',        # Day of the Week
         ];
-
         $cronExprString = join(' ', $cronExprArray);
 
         try {
