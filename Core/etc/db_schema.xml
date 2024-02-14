@@ -236,7 +236,7 @@
         <!-- upstream_pay_subscription table foreign key-->
         <constraint xsi:type="foreign" referenceId="SUBSCRIPTION_ID_UPSTREAM_PAY_SUBSCRIPTION_ID"
                     table="upstream_pay_subscription_retry" column="subscription_id" referenceTable="upstream_pay_subscription"
-                    referenceColumn="id" onDelete="CASCADE"/>
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
 
         <!-- Index colmumns -->
         <index referenceId="UPSTREAM_PAY_SUBSCRIPTION_RETRY_SUBSCRIPTION_ID" indexType="btree">
