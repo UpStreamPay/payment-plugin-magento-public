@@ -123,6 +123,60 @@
                         <comment><![CDATA[This attribute will be set on the quote.]]></comment>
                     </field>
                 </group>
+                <group id="subscription_payment" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Subscription payment</label>
+                    <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1"
+                           showInStore="1">
+                        <label>Enabled</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="enable_customer_interface" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1"
+                           showInStore="1">
+                        <label>Let customers manage subscription payments from frontend</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                    </field>
+                    <field id="attribute_code_is_product_subscription" translate="label" type="text" sortOrder="30" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Attribute code used to determine if a product is a subscription product</label>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                        <validate>required-entry</validate>
+                    </field>
+                    <field id="attribute_code_product_subscription_duration" translate="label" type="text" sortOrder="40" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Attribute code used to know how long the subscription is (in days)</label>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                        <validate>required-entry</validate>
+                    </field>
+                    <field id="maximum_of_payment_retry" translate="label" type="text" sortOrder="50" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Number of maximum retries</label>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                        <validate>required-entry validate-digits validate-not-negative-number</validate>
+                    </field>
+                    <field id="payment_cron_expr" translate="label" type="text" sortOrder="60" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Payment cron expression</label>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                    </field>
+                    <field id="payment_retry_cron_expr" translate="label" type="text" sortOrder="70" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Payment retry cron expression</label>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                    </field>
+                </group>
             </group>
         </section>
     </system>
