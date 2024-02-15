@@ -20,4 +20,3 @@
         <log type="coverage-xml" target="./coverage-report" />
     </logging>
 </phpunit>
-
