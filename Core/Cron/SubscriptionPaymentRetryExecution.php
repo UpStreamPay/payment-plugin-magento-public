@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace UpStreamPay\Core\Cron;
 
 use Psr\Log\LoggerInterface;
+use UpStreamPay\Core\Model\Config;
 
 /**
  * Class SubscriptionPaymentRetryExecution
@@ -23,7 +24,8 @@ use Psr\Log\LoggerInterface;
  */
 class SubscriptionPaymentRetryExecution {
     public function __construct(
-        private readonly LoggerInterface $logger
+        private readonly LoggerInterface $logger,
+        private readonly Config $config
     )
     {}
 
@@ -34,7 +36,9 @@ class SubscriptionPaymentRetryExecution {
      */
     public function execute(): void
     {
-        //TODO implement proper logic (should only call one service).
-        $this->logger->info('Cron Works');
+        if ($this->config->getSubscriptionPaymentEnabled()) {
+            //TODO implement proper logic (should only call one service).
+            $this->logger->info('Cron Works');
+        }
     }
 }
