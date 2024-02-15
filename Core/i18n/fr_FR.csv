@@ -53,5 +53,5 @@
 "Attribute code used to determine if a product is a subscription product", "Code de l'attribut déterminant si le produit est éligible à la récurrence"
 "Attribute code used to know how long the subscription is (in days)", "Code de l'attribut pour la fréquence de récurrence (en jours)"
 "Number of maximum retries", "Nombre maximum de tentatives de paiement"
-"Frequency", "Fréquence"
-"Start time", "Heure de début"
+"Payment cron expression", "Expression CRON pour les paiements"
+"Payment retry cron expression", "Expression CRON pour tentatives de paiements"

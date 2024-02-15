@@ -53,5 +53,5 @@
 "Attribute code used to determine if a product is a subscription product", "Attribute code used to determine if a product is a subscription product"
 "Attribute code used to know how long the subscription is (in days)", "Attribute code used to know how long the subscription is (in days)"
 "Number of maximum retries", "Number of maximum retries"
-"Frequency", "Frequency"
-"Start time", "Start time"
+"Payment cron expression", "Payment cron expression"
+"Payment retry cron expression", "Payment retry cron expression"
