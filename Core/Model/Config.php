@@ -46,6 +46,13 @@ class Config
     public const WIDGET_URL_CONFIG_PATH = 'payment/upstream_pay/api_config/widget_url';
     public const MANAGE_STORED_PAYMENT_METHOD_CONFIG_PATH = 'payment/upstream_pay/wallet/mange_stored_payment_methods_customer_account';
     public const MERCHANT_ID_CONFIG_PATH = 'payment/upstream_pay/wallet/merchant_id';
+    public const SUBSCRIPTION_PAYMENT_ENABLED = 'payment/upstream_pay/subscription_payment/enabled';
+    public const SUBSCRIPTION_PAYMENT_ENABLE_CUSTOMER_INTERFACE = 'payment/upstream_pay/subscription_payment/enable_customer_interface';
+    public const SUBSCRIPTION_PAYMENT_ATTR_CODE_IS_PROD_SUBSC = 'payment/upstream_pay/subscription_payment/attribute_code_is_product_subscription';
+    public const SUBSCRIPTION_PAYMENT_ATTR_CODE_PROD_SUBSC_DURATION = 'payment/upstream_pay/subscription_payment/attribute_code_product_subscription_duration';
+    public const SUBSCRIPTION_PAYMENT_MAX_PAYMENT_RETRY = 'payment/upstream_pay/subscription_payment/maximum_of_payment_retry';
+    public const SUBSCRIPTION_PAYMENT_CRON_EXPR = 'payment/upstream_pay/subscription_payment/payment_cron_expr';
+    public const SUBSCRIPTION_PAYMENT_RETRY_CRON_EXPR = 'payment/upstream_pay/subscription_payment/payment_retry_cron_expr';
 
     /**
      * @param ScopeConfigInterface $config
@@ -269,5 +276,75 @@ class Config
     public function getMerchantId(): string
     {
         return $this->config->getValue(self::MERCHANT_ID_CONFIG_PATH, ScopeInterface::SCOPE_STORE);
+    }
+
+    /**
+     * Return true if the subscription payment is enabled.
+     *
+     * @return null|string
+     */
+    public function getSubscriptionPaymentEnabled(): ?string
+    {
+        return $this->config->getValue(self::SUBSCRIPTION_PAYMENT_ENABLED, ScopeInterface::SCOPE_STORE);
+    }
+
+    /**
+     * Return true if the subscription payment customer interface is enabled.
+     *
+     * @return null|string
+     */
+    public function getSubscriptionPaymentEnableCustomerInterface(): ?string
+    {
+        return $this->config->getValue(self::SUBSCRIPTION_PAYMENT_ENABLE_CUSTOMER_INTERFACE, ScopeInterface::SCOPE_STORE);
+    }
+
+    /**
+     * Return the attribute code used to know if a product is subscription eligible.
+     *
+     * @return null|string
+     */
+    public function getSubscriptionPaymentProductSubscriptionAttributeCode(): ?string
+    {
+        return $this->config->getValue(self::SUBSCRIPTION_PAYMENT_ATTR_CODE_IS_PROD_SUBSC, ScopeInterface::SCOPE_STORE);
+    }
+
+    /**
+     * Return the attribute code used to set the subscription duration.
+     *
+     * @return null|string
+     */
+    public function getSubscriptionPaymentProductSubscriptionDurationAttributeCode(): ?string
+    {
+        return $this->config->getValue(self::SUBSCRIPTION_PAYMENT_ATTR_CODE_PROD_SUBSC_DURATION, ScopeInterface::SCOPE_STORE);
+    }
+
+    /**
+     * Return the maximum payment retry number
+     *
+     * @return null|string
+     */
+    public function getSubscriptionPaymentMaximumPaymentRetry(): ?string
+    {
+        return $this->config->getValue(self::SUBSCRIPTION_PAYMENT_MAX_PAYMENT_RETRY, ScopeInterface::SCOPE_STORE);
+    }
+
+    /**
+     * Return the subscription payment cron expr.
+     *
+     * @return null|string
+     */
+    public function getSubscriptionPaymentCronExpr(): ?string
+    {
+        return $this->config->getValue(self::SUBSCRIPTION_PAYMENT_CRON_EXPR, ScopeInterface::SCOPE_STORE);
+    }
+
+    /**
+     * Return the subscription payment retry cron expr.
+     *
+     * @return null|string
+     */
+    public function getSubscriptionPaymentRetryCronExpr(): ?string
+    {
+        return $this->config->getValue(self::SUBSCRIPTION_PAYMENT_RETRY_CRON_EXPR, ScopeInterface::SCOPE_STORE);
     }
 }

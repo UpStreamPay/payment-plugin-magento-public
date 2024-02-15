@@ -123,8 +123,7 @@
                         <comment><![CDATA[This attribute will be set on the quote.]]></comment>
                     </field>
                 </group>
-                <group id="subscription_payment" translate="label" type="text" sortOrder="80" showInDefault="1"
-                       showInWebsite="1" showInStore="1">
+                <group id="subscription_payment" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Subscription payment</label>
                     <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1"
                            showInStore="1">
@@ -153,6 +152,7 @@
                         <depends>
                             <field id="enabled">1</field>
                         </depends>
+                        <validate>required-entry</validate>
                     </field>
                     <field id="maximum_of_payment_retry" translate="label" type="text" sortOrder="50" showInDefault="1"
                            showInWebsite="1" showInStore="1">
@@ -160,18 +160,18 @@
                         <depends>
                             <field id="enabled">1</field>
                         </depends>
-                        <validate>validate-digits validate-not-negative-number</validate>
+                        <validate>required-entry validate-digits validate-not-negative-number</validate>
                     </field>
-                    <field id="time" translate="label" type="time" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Start time</label>
+                    <field id="payment_cron_expr" translate="label" type="text" sortOrder="60" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Payment cron expression</label>
                         <depends>
                             <field id="enabled">1</field>
                         </depends>
                     </field>
-                    <field id="frequency" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Frequency</label>
-                        <source_model>Magento\Cron\Model\Config\Source\Frequency</source_model>
-                        <backend_model>UpStreamPay\Core\Model\Config\Backend\SubscriptionPayment</backend_model>
+                    <field id="payment_retry_cron_expr" translate="label" type="text" sortOrder="70" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Payment retry cron expression</label>
                         <depends>
                             <field id="enabled">1</field>
                         </depends>
