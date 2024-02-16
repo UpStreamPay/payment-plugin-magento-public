@@ -1,0 +1,2465 @@
+<?xml version="1.0"?>
+<phpunit xmlns="https://schema.phpunit.de/coverage/1.0">
+  <file name="StoresFixture.php" path="/setup/src/Magento/Setup/Fixtures">
+    <totals>
+      <lines total="392" comments="151" code="241" executable="117" executed="0" percent="0.00"/>
+      <methods count="11" tested="0" percent="0.00"/>
+      <functions count="0" tested="0" percent="0"/>
+      <classes count="1" tested="0" percent="0.00"/>
+      <traits count="0" tested="0" percent="0"/>
+    </totals>
+    <class name="Magento\Setup\Fixtures\StoresFixture" start="42" executable="117" executed="0" crap="420">
+      <namespace name="Magento\Setup\Fixtures"/>
+      <method name="__construct" signature="__construct(Magento\Setup\Fixtures\FixtureModel $fixtureModel, Magento\Store\Model\StoreManager $storeManager, Magento\Framework\Event\ManagerInterface $eventManager, Magento\Catalog\Model\CategoryFactory $categoryFactory, Magento\Framework\Locale\Config $localeConfig, Magento\Framework\App\Config\Storage\Writer $scopeConfig)" start="164" end="178" crap="2" executable="6" executed="0" coverage="0"/>
+      <method name="execute" signature="execute()" start="185" end="214" crap="30" executable="22" executed="0" coverage="0"/>
+      <method name="generateWebsites" signature="generateWebsites()" start="221" end="241" crap="6" executable="17" executed="0" coverage="0"/>
+      <method name="generateStoreGroups" signature="generateStoreGroups()" start="248" end="270" crap="6" executable="19" executed="0" coverage="0"/>
+      <method name="generateStoreViews" signature="generateStoreViews()" start="277" end="305" crap="6" executable="25" executed="0" coverage="0"/>
+      <method name="saveStoreLocale" signature="saveStoreLocale($storeId, $localeCode)" start="314" end="322" crap="2" executable="6" executed="0" coverage="0"/>
+      <method name="getStoreCategoryId" signature="getStoreCategoryId($storeGroupName)" start="330" end="347" crap="6" executable="12" executed="0" coverage="0"/>
+      <method name="getActionTitle" signature="getActionTitle()" start="352" end="355" crap="2" executable="1" executed="0" coverage="0"/>
+      <method name="introduceParamLabels" signature="introduceParamLabels()" start="360" end="367" crap="2" executable="5" executed="0" coverage="0"/>
+      <method name="getDefaultCategoryId" signature="getDefaultCategoryId()" start="374" end="380" crap="6" executable="3" executed="0" coverage="0"/>
+      <method name="getWebsiteCodes" signature="getWebsiteCodes()" start="387" end="390" crap="2" executable="1" executed="0" coverage="0"/>
+    </class>
+    <source>
+      <line no="1">
+        <token name="T_OPEN_TAG">&lt;?php</token>
+      </line>
+      <line no="2">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="3">
+        <token name="T_DOC_COMMENT"> * Copyright &#xA9; Magento, Inc. All rights reserved.</token>
+      </line>
+      <line no="4">
+        <token name="T_DOC_COMMENT"> * See COPYING.txt for license details.</token>
+      </line>
+      <line no="5">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="6"/>
+      <line no="7">
+        <token name="T_NAMESPACE">namespace</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Setup\Fixtures</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="8"/>
+      <line no="9">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Catalog\Model\Category</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="10">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Catalog\Model\CategoryFactory</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="11">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Framework\App\Config\Storage\Writer</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="12">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Framework\Event\ManagerInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="13">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Framework\Locale\Config</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="14">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Store\Api\Data\StoreInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="15">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Store\Model\Group</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="16">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Store\Model\StoreManager</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="17">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Store\Model\Website</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="18"/>
+      <line no="19">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="20">
+        <token name="T_DOC_COMMENT"> * Generate websites, store groups and store views based on profile configuration</token>
+      </line>
+      <line no="21">
+        <token name="T_DOC_COMMENT"> * Supports next format:</token>
+      </line>
+      <line no="22">
+        <token name="T_DOC_COMMENT"> * &lt;websites&gt;{amount of websites}&lt;/websites&gt;</token>
+      </line>
+      <line no="23">
+        <token name="T_DOC_COMMENT"> * &lt;store_groups&gt;{amount of store groups}&lt;/store_groups&gt;</token>
+      </line>
+      <line no="24">
+        <token name="T_DOC_COMMENT"> * &lt;store_views&gt;{amount of store views}&lt;/store_views&gt;</token>
+      </line>
+      <line no="25">
+        <token name="T_DOC_COMMENT"> * &lt;assign_entities_to_all_websites&gt;{1|0}&lt;/assign_entities_to_all_websites&gt;</token>
+      </line>
+      <line no="26">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="27">
+        <token name="T_DOC_COMMENT"> * Each node of configuration except &lt;assign_entities_to_all_websites/&gt;</token>
+      </line>
+      <line no="28">
+        <token name="T_DOC_COMMENT"> * means how many entities need to be generated</token>
+      </line>
+      <line no="29">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="30">
+        <token name="T_DOC_COMMENT"> * Store groups will have normal distribution among websites</token>
+      </line>
+      <line no="31">
+        <token name="T_DOC_COMMENT"> * Store views will have normal distribution among store groups</token>
+      </line>
+      <line no="32">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="33">
+        <token name="T_DOC_COMMENT"> * &lt;assign_entities_to_all_websites&gt;1&lt;assign_entities_to_all_websites/&gt;</token>
+      </line>
+      <line no="34">
+        <token name="T_DOC_COMMENT"> * means that all stores will have the same root category</token>
+      </line>
+      <line no="35">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="36">
+        <token name="T_DOC_COMMENT"> * &lt;assign_entities_to_all_websites&gt;0&lt;assign_entities_to_all_websites/&gt;</token>
+      </line>
+      <line no="37">
+        <token name="T_DOC_COMMENT"> * means that all stores will have unique root category</token>
+      </line>
+      <line no="38">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="39">
+        <token name="T_DOC_COMMENT"> * @see setup/performance-toolkit/profiles/ce/small.xml</token>
+      </line>
+      <line no="40">
+        <token name="T_DOC_COMMENT"> * @SuppressWarnings(PHPMD)</token>
+      </line>
+      <line no="41">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="42">
+        <token name="T_CLASS">class</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">StoresFixture</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EXTENDS">extends</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Fixture</token>
+      </line>
+      <line no="43">
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="44">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONST">const</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">DEFAULT_WEBSITE_COUNT</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_LNUMBER">1</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="45"/>
+      <line no="46">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONST">const</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">DEFAULT_STORE_COUNT</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_LNUMBER">1</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="47"/>
+      <line no="48">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONST">const</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">DEFAULT_STORE_VIEW_COUNT</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_LNUMBER">1</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="49"/>
+      <line no="50">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="51">
+        <token name="T_DOC_COMMENT">     * @var int</token>
+      </line>
+      <line no="52">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="53">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PROTECTED">protected</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$priority</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_LNUMBER">10</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="54"/>
+      <line no="55">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="56">
+        <token name="T_DOC_COMMENT">     * @var array</token>
+      </line>
+      <line no="57">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="58">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$websiteIds</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="59"/>
+      <line no="60">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="61">
+        <token name="T_DOC_COMMENT">     * @var array</token>
+      </line>
+      <line no="62">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="63">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$storeGroupsIds</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="64"/>
+      <line no="65">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="66">
+        <token name="T_DOC_COMMENT">     * @var array</token>
+      </line>
+      <line no="67">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="68">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$storeGroupsToWebsites</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="69"/>
+      <line no="70">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="71">
+        <token name="T_DOC_COMMENT">     * @var StoreManager</token>
+      </line>
+      <line no="72">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="73">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$storeManager</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="74"/>
+      <line no="75">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="76">
+        <token name="T_DOC_COMMENT">     * @var Writer</token>
+      </line>
+      <line no="77">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="78">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$scopeConfig</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="79"/>
+      <line no="80">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="81">
+        <token name="T_DOC_COMMENT">     * @var Group</token>
+      </line>
+      <line no="82">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="83">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$defaultStoreGroup</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="84"/>
+      <line no="85">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="86">
+        <token name="T_DOC_COMMENT">     * @var Website</token>
+      </line>
+      <line no="87">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="88">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$defaultWebsite</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="89"/>
+      <line no="90">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="91">
+        <token name="T_DOC_COMMENT">     * @var int</token>
+      </line>
+      <line no="92">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="93">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$defaultParentCategoryId</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="94"/>
+      <line no="95">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="96">
+        <token name="T_DOC_COMMENT">     * @var int</token>
+      </line>
+      <line no="97">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="98">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$defaultStoreGroupId</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="99"/>
+      <line no="100">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="101">
+        <token name="T_DOC_COMMENT">     * @var int</token>
+      </line>
+      <line no="102">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="103">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$defaultWebsiteId</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="104"/>
+      <line no="105">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="106">
+        <token name="T_DOC_COMMENT">     * @var int</token>
+      </line>
+      <line no="107">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="108">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$storeGroupsCount</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="109"/>
+      <line no="110">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="111">
+        <token name="T_DOC_COMMENT">     * @var int</token>
+      </line>
+      <line no="112">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="113">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$storesCount</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="114"/>
+      <line no="115">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="116">
+        <token name="T_DOC_COMMENT">     * @var int</token>
+      </line>
+      <line no="117">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="118">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$websitesCount</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="119"/>
+      <line no="120">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="121">
+        <token name="T_DOC_COMMENT">     * @var bool</token>
+      </line>
+      <line no="122">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="123">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$singleRootCategory</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="124"/>
+      <line no="125">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="126">
+        <token name="T_DOC_COMMENT">     * @var StoreInterface</token>
+      </line>
+      <line no="127">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="128">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$defaultStoreView</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="129"/>
+      <line no="130">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="131">
+        <token name="T_DOC_COMMENT">     * @var int</token>
+      </line>
+      <line no="132">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="133">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$storeViewIds</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="134"/>
+      <line no="135">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="136">
+        <token name="T_DOC_COMMENT">     * @var string[]</token>
+      </line>
+      <line no="137">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="138">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$websiteCodes</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="139"/>
+      <line no="140">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="141">
+        <token name="T_DOC_COMMENT">     * @var ManagerInterface</token>
+      </line>
+      <line no="142">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="143">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$eventManager</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="144"/>
+      <line no="145">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="146">
+        <token name="T_DOC_COMMENT">     * @var CategoryFactory</token>
+      </line>
+      <line no="147">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="148">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$categoryFactory</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="149"/>
+      <line no="150">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="151">
+        <token name="T_DOC_COMMENT">     * @var Config</token>
+      </line>
+      <line no="152">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="153">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$localeConfig</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="154"/>
+      <line no="155">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="156">
+        <token name="T_DOC_COMMENT">     * StoresFixture constructor</token>
+      </line>
+      <line no="157">
+        <token name="T_DOC_COMMENT">     * @param FixtureModel $fixtureModel</token>
+      </line>
+      <line no="158">
+        <token name="T_DOC_COMMENT">     * @param StoreManager $storeManager</token>
+      </line>
+      <line no="159">
+        <token name="T_DOC_COMMENT">     * @param ManagerInterface $eventManager</token>
+      </line>
+      <line no="160">
+        <token name="T_DOC_COMMENT">     * @param CategoryFactory $categoryFactory</token>
+      </line>
+      <line no="161">
+        <token name="T_DOC_COMMENT">     * @param Config $localeConfig</token>
+      </line>
+      <line no="162">
+        <token name="T_DOC_COMMENT">     * @param Writer $scopeConfig</token>
+      </line>
+      <line no="163">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="164">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">__construct</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="165">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">FixtureModel</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$fixtureModel</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="166">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">StoreManager</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$storeManager</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="167">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">ManagerInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$eventManager</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="168">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">CategoryFactory</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$categoryFactory</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="169">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">Config</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$localeConfig</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="170">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">Writer</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$scopeConfig</token>
+      </line>
+      <line no="171">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="172">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">parent</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">__construct</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$fixtureModel</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="173">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">storeManager</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$storeManager</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="174">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">eventManager</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$eventManager</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="175">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">categoryFactory</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$categoryFactory</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="176">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">localeConfig</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$localeConfig</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="177">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">scopeConfig</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$scopeConfig</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="178">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="179"/>
+      <line no="180">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="181">
+        <token name="T_DOC_COMMENT">     * @inheritdoc</token>
+      </line>
+      <line no="182">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="183">
+        <token name="T_DOC_COMMENT">     * @SuppressWarnings(PHPMD)</token>
+      </line>
+      <line no="184">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="185">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">execute</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="186">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="187">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_COMMENT">//get settings counts</token>
+      </line>
+      <line no="188">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">websitesCount</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">fixtureModel</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getValue</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'websites'</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">DEFAULT_WEBSITE_COUNT</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="189">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">storeGroupsCount</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">fixtureModel</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getValue</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'store_groups'</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">DEFAULT_STORE_COUNT</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="190">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">storesCount</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">fixtureModel</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getValue</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'store_views'</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">DEFAULT_STORE_VIEW_COUNT</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="191">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">singleRootCategory</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_BOOL_CAST">(bool)</token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">fixtureModel</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getValue</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'assign_entities_to_all_websites'</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">false</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="192">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">websitesCount</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_SMALLER_OR_EQUAL">&lt;=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">DEFAULT_WEBSITE_COUNT</token>
+      </line>
+      <line no="193">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_BOOLEAN_AND">&amp;&amp;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">storeGroupsCount</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_SMALLER_OR_EQUAL">&lt;=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">DEFAULT_STORE_COUNT</token>
+      </line>
+      <line no="194">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_BOOLEAN_AND">&amp;&amp;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">storesCount</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_SMALLER_OR_EQUAL">&lt;=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">DEFAULT_STORE_VIEW_COUNT</token>
+      </line>
+      <line no="195">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="196">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="197">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="198">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_COMMENT">//Get existing entities counts</token>
+      </line>
+      <line no="199">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$storeGroups</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">storeManager</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getGroups</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="200">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">storeGroupsIds</token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">array_keys</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$storeGroups</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="201">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_FOREACH">foreach</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$storeGroups</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_AS">as</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$storeGroupId</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$storeGroup</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="202">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">storeGroupsToWebsites</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_VARIABLE">$storeGroupId</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$storeGroup</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getWebsiteId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="203">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="204">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">websiteIds</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">array_values</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">array_unique</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">storeGroupsToWebsites</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="205">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">defaultWebsite</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">storeManager</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getWebsite</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="206">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">defaultStoreGroup</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">storeManager</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getGroup</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="207">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">defaultWebsiteId</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">defaultWebsite</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="208">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">defaultStoreGroupId</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">defaultStoreGroup</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="209">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">defaultStoreView</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">storeManager</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getDefaultStoreView</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="210">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">storeViewIds</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">array_keys</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">storeManager</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getStores</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="211">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">generateWebsites</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="212">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">generateStoreGroups</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="213">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">generateStoreViews</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="214">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="215"/>
+      <line no="216">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="217">
+        <token name="T_DOC_COMMENT">     * Generating web sites</token>
+      </line>
+      <line no="218">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="219">
+        <token name="T_DOC_COMMENT">     * @return void</token>
+      </line>
+      <line no="220">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="221">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">generateWebsites</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="222">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="223">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$existedWebsitesCount</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">count</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">websiteIds</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_PLUS">+</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">DEFAULT_WEBSITE_COUNT</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="224">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_WHILE">while</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$existedWebsitesCount</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_SMALLER_OR_EQUAL">&lt;=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">websitesCount</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="225">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$website</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CLONE">clone</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">defaultWebsite</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="226">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$websiteCode</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">sprintf</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'website_%d'</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$existedWebsitesCount</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="227">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$websiteName</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">sprintf</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Website %d'</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$existedWebsitesCount</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="228">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$website</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">addData</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="229">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="230">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'website_id'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">null</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="231">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'code'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$websiteCode</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="232">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'name'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$websiteName</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="233">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'is_default'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">false</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="234">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+      </line>
+      <line no="235">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="236">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$website</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">save</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="237">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">websiteIds</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$website</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="238">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$existedWebsitesCount</token>
+        <token name="T_INC">++</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="239">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">websiteCodes</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$websiteCode</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="240">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="241">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="242"/>
+      <line no="243">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="244">
+        <token name="T_DOC_COMMENT">     * Generating store groups ('stores' on frontend)</token>
+      </line>
+      <line no="245">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="246">
+        <token name="T_DOC_COMMENT">     * @return void</token>
+      </line>
+      <line no="247">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="248">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">generateStoreGroups</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="249">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="250">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$existedStoreGroupCount</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">count</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">storeGroupsIds</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="251">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$existedWebsitesCount</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">count</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">websiteIds</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="252">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_WHILE">while</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$existedStoreGroupCount</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_LT">&lt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">storeGroupsCount</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="253">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$websiteId</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">websiteIds</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_VARIABLE">$existedStoreGroupCount</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_PERCENT">%</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$existedWebsitesCount</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="254">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$storeGroupName</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">sprintf</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Store Group %d - website_id_%d'</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_INC">++</token>
+        <token name="T_VARIABLE">$existedStoreGroupCount</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$websiteId</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="255">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$storeGroupCode</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">sprintf</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'store_group_%d'</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$existedStoreGroupCount</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="256">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$storeGroup</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CLONE">clone</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">defaultStoreGroup</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="257">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$storeGroup</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">addData</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="258">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="259">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'group_id'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">null</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="260">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'website_id'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$websiteId</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="261">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'name'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$storeGroupName</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="262">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'code'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$storeGroupCode</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="263">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'root_category_id'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getStoreCategoryId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$storeGroupName</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="264">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+      </line>
+      <line no="265">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="266">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$storeGroup</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">save</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="267">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">storeGroupsIds</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$storeGroup</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="268">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">storeGroupsToWebsites</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_VARIABLE">$storeGroup</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$websiteId</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="269">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="270">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="271"/>
+      <line no="272">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="273">
+        <token name="T_DOC_COMMENT">     * Generating store views</token>
+      </line>
+      <line no="274">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="275">
+        <token name="T_DOC_COMMENT">     * @return void</token>
+      </line>
+      <line no="276">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="277">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">generateStoreViews</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="278">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="279">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$localesList</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">localeConfig</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getAllowedLocales</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="280">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$localesListCount</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">count</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$localesList</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="281">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$existedStoreViewsCount</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">count</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">storeViewIds</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="282">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$existedStoreGroupCount</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">count</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">storeGroupsIds</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="283">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_WHILE">while</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$existedStoreViewsCount</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_LT">&lt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">storesCount</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="284">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$groupId</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">storeGroupsIds</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_VARIABLE">$existedStoreViewsCount</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_PERCENT">%</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$existedStoreGroupCount</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="285">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$websiteId</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">storeGroupsToWebsites</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_VARIABLE">$groupId</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="286">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$store</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CLONE">clone</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">defaultStoreView</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="287">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$storeCode</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">sprintf</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'store_view_%d'</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_INC">++</token>
+        <token name="T_VARIABLE">$existedStoreViewsCount</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="288">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$storeName</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">sprintf</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="289">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Store view %d - website_id_%d - group_id_%d'</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="290">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$existedStoreViewsCount</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="291">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$websiteId</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="292">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$groupId</token>
+      </line>
+      <line no="293">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="294">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$store</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">addData</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="295">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="296">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'store_id'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">null</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="297">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'name'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$storeName</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="298">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'website_id'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$websiteId</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="299">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'group_id'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$groupId</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="300">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'code'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$storeCode</token>
+      </line>
+      <line no="301">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+      </line>
+      <line no="302">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">save</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="303">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">saveStoreLocale</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$store</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$localesList</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_VARIABLE">$existedStoreViewsCount</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_PERCENT">%</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$localesListCount</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="304">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="305">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="306"/>
+      <line no="307">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="308">
+        <token name="T_DOC_COMMENT">     * Saves store into locale</token>
+      </line>
+      <line no="309">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="310">
+        <token name="T_DOC_COMMENT">     * @param int $storeId</token>
+      </line>
+      <line no="311">
+        <token name="T_DOC_COMMENT">     * @param string $localeCode</token>
+      </line>
+      <line no="312">
+        <token name="T_DOC_COMMENT">     * @return void</token>
+      </line>
+      <line no="313">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="314">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">saveStoreLocale</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$storeId</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$localeCode</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="315">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="316">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">scopeConfig</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">save</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="317">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_NAME_FULLY_QUALIFIED">\Magento\Directory\Helper\Data</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">XML_PATH_DEFAULT_LOCALE</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="318">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$localeCode</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="319">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_NAME_FULLY_QUALIFIED">\Magento\Store\Model\ScopeInterface</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">SCOPE_STORES</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="320">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$storeId</token>
+      </line>
+      <line no="321">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="322">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="323"/>
+      <line no="324">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="325">
+        <token name="T_DOC_COMMENT">     * Getting category id for store</token>
+      </line>
+      <line no="326">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="327">
+        <token name="T_DOC_COMMENT">     * @param string $storeGroupName</token>
+      </line>
+      <line no="328">
+        <token name="T_DOC_COMMENT">     * @return int</token>
+      </line>
+      <line no="329">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="330">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">getStoreCategoryId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$storeGroupName</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="331">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="332">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">singleRootCategory</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="333">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getDefaultCategoryId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="334">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_ELSE">else</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="335">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_COMMENT">//Generating category for store</token>
+      </line>
+      <line no="336">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$category</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">categoryFactory</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">create</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="337">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$categoryPath</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Category</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">TREE_ROOT_ID</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="338">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$category</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setName</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">"Category "</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOT">.</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$storeGroupName</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="339">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setPath</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$categoryPath</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="340">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setLevel</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_LNUMBER">1</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="341">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setAvailableSortBy</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'name'</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="342">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setDefaultSortBy</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'name'</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="343">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setIsActive</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">true</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="344">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">save</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="345">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$category</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="346">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="347">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="348"/>
+      <line no="349">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="350">
+        <token name="T_DOC_COMMENT">     * @inheritdoc</token>
+      </line>
+      <line no="351">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="352">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">getActionTitle</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="353">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="354">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Generating websites, stores and store views'</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="355">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="356"/>
+      <line no="357">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="358">
+        <token name="T_DOC_COMMENT">     * @inheritdoc</token>
+      </line>
+      <line no="359">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="360">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">introduceParamLabels</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="361">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="362">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="363">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'websites'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Websites'</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="364">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'store_groups'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Store Groups Count'</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="365">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'store_views'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Store Views Count'</token>
+      </line>
+      <line no="366">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="367">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="368"/>
+      <line no="369">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="370">
+        <token name="T_DOC_COMMENT">     * Get default category id</token>
+      </line>
+      <line no="371">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="372">
+        <token name="T_DOC_COMMENT">     * @return int</token>
+      </line>
+      <line no="373">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="374">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">getDefaultCategoryId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="375">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="376">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">null</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_IDENTICAL">===</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">defaultParentCategoryId</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="377">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">defaultParentCategoryId</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">storeManager</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getStore</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getRootCategoryId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="378">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="379">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">defaultParentCategoryId</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="380">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="381"/>
+      <line no="382">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="383">
+        <token name="T_DOC_COMMENT">     * Gets the website codes that were created by this object</token>
+      </line>
+      <line no="384">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="385">
+        <token name="T_DOC_COMMENT">     * @return string[]</token>
+      </line>
+      <line no="386">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="387">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">getWebsiteCodes</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="388">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="389">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">websiteCodes</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="390">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="391">
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="392"/>
+    </source>
+  </file>
+</phpunit>

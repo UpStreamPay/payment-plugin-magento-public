@@ -19,6 +19,6 @@ on:
 
 jobs:
   sonar:
-    uses: UpStreamPay/usp-reusable-workflows/.github/workflows/sonar-php.yaml@47-feat-add-sonar-php #gitops-workflows
+    uses: UpStreamPay/usp-reusable-workflows/.github/workflows/sonar-php.yaml@v2
     secrets:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

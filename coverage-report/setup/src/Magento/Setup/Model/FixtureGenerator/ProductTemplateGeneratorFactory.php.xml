@@ -1,0 +1,361 @@
+<?xml version="1.0"?>
+<phpunit xmlns="https://schema.phpunit.de/coverage/1.0">
+  <file name="ProductTemplateGeneratorFactory.php" path="/setup/src/Magento/Setup/Model/FixtureGenerator">
+    <totals>
+      <lines total="59" comments="21" code="38" executable="8" executed="0" percent="0.00"/>
+      <methods count="2" tested="0" percent="0.00"/>
+      <functions count="0" tested="0" percent="0"/>
+      <classes count="1" tested="0" percent="0.00"/>
+      <traits count="0" tested="0" percent="0"/>
+    </totals>
+    <class name="Magento\Setup\Model\FixtureGenerator\ProductTemplateGeneratorFactory" start="17" executable="8" executed="0" crap="20">
+      <namespace name="Magento\Setup\Model\FixtureGenerator"/>
+      <method name="__construct" signature="__construct(Magento\Framework\ObjectManagerInterface $objectManager)" start="36" end="39" crap="2" executable="1" executed="0" coverage="0"/>
+      <method name="create" signature="create(array $fixture)" start="46" end="57" crap="12" executable="7" executed="0" coverage="0"/>
+    </class>
+    <source>
+      <line no="1">
+        <token name="T_OPEN_TAG">&lt;?php</token>
+      </line>
+      <line no="2">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="3">
+        <token name="T_DOC_COMMENT"> * Copyright &#xA9; Magento, Inc. All rights reserved.</token>
+      </line>
+      <line no="4">
+        <token name="T_DOC_COMMENT"> * See COPYING.txt for license details.</token>
+      </line>
+      <line no="5">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="6"/>
+      <line no="7">
+        <token name="T_NAMESPACE">namespace</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Setup\Model\FixtureGenerator</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="8"/>
+      <line no="9">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Bundle\Model\Product\Type</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_AS">as</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">BundleType</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="10">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Catalog\Model\Product\Type</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="11">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\ConfigurableProduct\Model\Product\Type\Configurable</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="12">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Framework\ObjectManagerInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="13"/>
+      <line no="14">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="15">
+        <token name="T_DOC_COMMENT"> * Provide product template generator based on specified product type from fixture</token>
+      </line>
+      <line no="16">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="17">
+        <token name="T_CLASS">class</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">ProductTemplateGeneratorFactory</token>
+      </line>
+      <line no="18">
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="19">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="20">
+        <token name="T_DOC_COMMENT">     * @var ObjectManagerInterface</token>
+      </line>
+      <line no="21">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="22">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$objectManager</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="23"/>
+      <line no="24">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="25">
+        <token name="T_DOC_COMMENT">     * @var array</token>
+      </line>
+      <line no="26">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="27">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$templateEntityMap</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="28">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">Type</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">TYPE_SIMPLE</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">SimpleProductTemplateGenerator</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_CLASS">class</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="29">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">BundleType</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">TYPE_CODE</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">BundleProductTemplateGenerator</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_CLASS">class</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="30">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">Configurable</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">TYPE_CODE</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">ConfigurableProductTemplateGenerator</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_CLASS">class</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="31">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="32"/>
+      <line no="33">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="34">
+        <token name="T_DOC_COMMENT">     * @param ObjectManagerInterface $objectManager</token>
+      </line>
+      <line no="35">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="36">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">__construct</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">ObjectManagerInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$objectManager</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="37">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="38">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">objectManager</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$objectManager</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="39">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="40"/>
+      <line no="41">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="42">
+        <token name="T_DOC_COMMENT">     * @param array $fixture</token>
+      </line>
+      <line no="43">
+        <token name="T_DOC_COMMENT">     * @return TemplateEntityGeneratorInterface</token>
+      </line>
+      <line no="44">
+        <token name="T_DOC_COMMENT">     * @throws \InvalidArgumentException</token>
+      </line>
+      <line no="45">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="46">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">create</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_ARRAY">array</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$fixture</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="47">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="48">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$type</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_ISSET">isset</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$fixture</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'type_id'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_QUESTION_MARK">?</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$fixture</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'type_id'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Type</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">TYPE_SIMPLE</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="49">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_EXCLAMATION_MARK">!</token>
+        <token name="T_ISSET">isset</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">templateEntityMap</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_VARIABLE">$type</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="50">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_THROW">throw</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NEW">new</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_FULLY_QUALIFIED">\InvalidArgumentException</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">sprintf</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="51">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Cannot instantiate product template generator. Wrong type_id "%s" passed'</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="52">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$type</token>
+      </line>
+      <line no="53">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="54">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="55"/>
+      <line no="56">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">objectManager</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">create</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">templateEntityMap</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_VARIABLE">$type</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'fixture'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$fixture</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="57">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="58">
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="59"/>
+    </source>
+  </file>
+</phpunit>

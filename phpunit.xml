@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="vendor/autoload.php"
+         colors="true"
+         verbose="true">
+    <testsuites>
+        <testsuite name="Client Tests">
+            <directory>./Client/Test</directory>
+        </testsuite>
+        <testsuite name="Core Tests">
+            <directory>./Core/Test</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">./Client</directory>
+            <directory suffix=".php">./Core</directory>
+        </whitelist>
+    </filter>
+    <logging>
+        <log type="coverage-xml" target="./coverage-report" />
+    </logging>
+</phpunit>

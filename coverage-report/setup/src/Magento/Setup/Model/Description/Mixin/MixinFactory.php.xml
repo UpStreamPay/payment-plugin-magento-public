@@ -1,0 +1,478 @@
+<?xml version="1.0"?>
+<phpunit xmlns="https://schema.phpunit.de/coverage/1.0">
+  <file name="MixinFactory.php" path="/setup/src/Magento/Setup/Model/Description/Mixin">
+    <totals>
+      <lines total="77" comments="28" code="49" executable="12" executed="0" percent="0.00"/>
+      <methods count="2" tested="0" percent="0.00"/>
+      <functions count="0" tested="0" percent="0"/>
+      <classes count="1" tested="0" percent="0.00"/>
+      <traits count="0" tested="0" percent="0"/>
+    </totals>
+    <class name="Magento\Setup\Model\Description\Mixin\MixinFactory" start="11" executable="12" executed="0" crap="20">
+      <namespace name="Magento\Setup\Model\Description\Mixin"/>
+      <method name="__construct" signature="__construct(Magento\Framework\ObjectManagerInterface $objectManager)" start="45" end="48" crap="2" executable="1" executed="0" coverage="0"/>
+      <method name="create" signature="create($mixinType)" start="57" end="75" crap="12" executable="11" executed="0" coverage="0"/>
+    </class>
+    <source>
+      <line no="1">
+        <token name="T_OPEN_TAG">&lt;?php</token>
+      </line>
+      <line no="2">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="3">
+        <token name="T_DOC_COMMENT"> * Copyright &#xA9; Magento, Inc. All rights reserved.</token>
+      </line>
+      <line no="4">
+        <token name="T_DOC_COMMENT"> * See COPYING.txt for license details.</token>
+      </line>
+      <line no="5">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="6">
+        <token name="T_NAMESPACE">namespace</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Setup\Model\Description\Mixin</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="7"/>
+      <line no="8">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="9">
+        <token name="T_DOC_COMMENT"> * Create mixin instance based on type</token>
+      </line>
+      <line no="10">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="11">
+        <token name="T_CLASS">class</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">MixinFactory</token>
+      </line>
+      <line no="12">
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="13">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_COMMENT">/**#@+</token>
+      </line>
+      <line no="14">
+        <token name="T_COMMENT">     * Constants for existing mixin types</token>
+      </line>
+      <line no="15">
+        <token name="T_COMMENT">     */</token>
+      </line>
+      <line no="16">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CONST">const</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">SPAN_MIXIN</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'span'</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="17">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CONST">const</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">BOLD_MIXIN</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'b'</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="18">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CONST">const</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">BRAKE_MIXIN</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'br'</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="19">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CONST">const</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">PARAGRAPH_MIXIN</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'p'</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="20">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CONST">const</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">HEADER_MIXIN</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'h1'</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="21">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CONST">const</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">ITALIC_MIXIN</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'i'</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="22">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_COMMENT">/**#@-*/</token>
+      </line>
+      <line no="23"/>
+      <line no="24">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="25">
+        <token name="T_DOC_COMMENT">     * @var array</token>
+      </line>
+      <line no="26">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="27">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$typeClassMap</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="28">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">SPAN_MIXIN</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">SpanMixin</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_CLASS">class</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="29">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">BOLD_MIXIN</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">BoldMixin</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_CLASS">class</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="30">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">BRAKE_MIXIN</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">BrakeMixin</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_CLASS">class</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="31">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">PARAGRAPH_MIXIN</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">ParagraphMixin</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_CLASS">class</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="32">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">HEADER_MIXIN</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">HeaderMixin</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_CLASS">class</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="33">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">ITALIC_MIXIN</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">ItalicMixin</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_CLASS">class</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="34">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="35"/>
+      <line no="36">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="37">
+        <token name="T_DOC_COMMENT">     * @var \Magento\Framework\ObjectManagerInterface</token>
+      </line>
+      <line no="38">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="39">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$objectManager</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="40"/>
+      <line no="41">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="42">
+        <token name="T_DOC_COMMENT">     * @param \Magento\Framework\ObjectManagerInterface $objectManager</token>
+      </line>
+      <line no="43">
+        <token name="T_DOC_COMMENT">     * @throws \Magento\Setup\Exception</token>
+      </line>
+      <line no="44">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="45">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">__construct</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_NAME_FULLY_QUALIFIED">\Magento\Framework\ObjectManagerInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$objectManager</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="46">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="47">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">objectManager</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$objectManager</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="48">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="49"/>
+      <line no="50">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="51">
+        <token name="T_DOC_COMMENT">     * Create mixin by type</token>
+      </line>
+      <line no="52">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="53">
+        <token name="T_DOC_COMMENT">     * @param string $mixinType</token>
+      </line>
+      <line no="54">
+        <token name="T_DOC_COMMENT">     * @return \Magento\Setup\Model\Description\Mixin\DescriptionMixinInterface</token>
+      </line>
+      <line no="55">
+        <token name="T_DOC_COMMENT">     * @throws \InvalidArgumentException</token>
+      </line>
+      <line no="56">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="57">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">create</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$mixinType</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="58">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="59">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_EXCLAMATION_MARK">!</token>
+        <token name="T_ISSET">isset</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">typeClassMap</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_VARIABLE">$mixinType</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="60">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_THROW">throw</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NEW">new</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_FULLY_QUALIFIED">\InvalidArgumentException</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">sprintf</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Undefined mixin type: %s.'</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$mixinType</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="61">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="62"/>
+      <line no="63">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$mixin</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">objectManager</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">get</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">typeClassMap</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_VARIABLE">$mixinType</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="64"/>
+      <line no="65">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_EXCLAMATION_MARK">!</token>
+        <token name="T_VARIABLE">$mixin</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_INSTANCEOF">instanceof</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_FULLY_QUALIFIED">\Magento\Setup\Model\Description\Mixin\DescriptionMixinInterface</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="66">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_THROW">throw</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NEW">new</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_FULLY_QUALIFIED">\InvalidArgumentException</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="67">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_STRING">sprintf</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="68">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Class "%s" must implement \Magento\Setup\Model\Description\Mixin\DescriptionMixinInterface.'</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="69">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_STRING">get_class</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$mixin</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="70">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="71">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="72">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="73"/>
+      <line no="74">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$mixin</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="75">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="76">
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="77"/>
+    </source>
+  </file>
+</phpunit>

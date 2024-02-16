@@ -1,0 +1,1456 @@
+<?xml version="1.0"?>
+<phpunit xmlns="https://schema.phpunit.de/coverage/1.0">
+  <file name="TaxRulesFixture.php" path="/setup/src/Magento/Setup/Fixtures">
+    <totals>
+      <lines total="227" comments="71" code="156" executable="50" executed="0" percent="0.00"/>
+      <methods count="6" tested="0" percent="0.00"/>
+      <functions count="0" tested="0" percent="0"/>
+      <classes count="1" tested="0" percent="0.00"/>
+      <traits count="0" tested="0" percent="0"/>
+    </totals>
+    <class name="Magento\Setup\Fixtures\TaxRulesFixture" start="26" executable="50" executed="0" crap="156">
+      <namespace name="Magento\Setup\Fixtures"/>
+      <method name="__construct" signature="__construct(Magento\Setup\Fixtures\FixtureModel $fixtureModel, Magento\Tax\Api\TaxRuleRepositoryInterface $taxRuleRepository, Magento\Tax\Api\Data\TaxRuleInterfaceFactory $taxRuleFactory, Magento\Tax\Model\ResourceModel\Calculation\Rate\CollectionFactory $taxRateCollectionFactory, Magento\Tax\Api\Data\TaxRateInterfaceFactory $taxRateFactory, Magento\Tax\Api\TaxRateRepositoryInterface $taxRateRepository, Magento\Framework\App\Config\Storage\Writer $configWriter)" start="105" end="122" crap="2" executable="7" executed="0" coverage="0"/>
+      <method name="execute" signature="execute()" start="127" end="154" crap="20" executable="16" executed="0" coverage="0"/>
+      <method name="setTaxMode" signature="setTaxMode($taxMode)" start="162" end="188" crap="2" executable="15" executed="0" coverage="0"/>
+      <method name="setConfigByTaxMode" signature="setConfigByTaxMode($mode)" start="196" end="206" crap="20" executable="7" executed="0" coverage="0"/>
+      <method name="getActionTitle" signature="getActionTitle()" start="211" end="214" crap="2" executable="1" executed="0" coverage="0"/>
+      <method name="introduceParamLabels" signature="introduceParamLabels()" start="219" end="225" crap="2" executable="4" executed="0" coverage="0"/>
+    </class>
+    <source>
+      <line no="1">
+        <token name="T_OPEN_TAG">&lt;?php</token>
+      </line>
+      <line no="2">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="3">
+        <token name="T_DOC_COMMENT"> * Copyright &#xA9; Magento, Inc. All rights reserved.</token>
+      </line>
+      <line no="4">
+        <token name="T_DOC_COMMENT"> * See COPYING.txt for license details.</token>
+      </line>
+      <line no="5">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="6"/>
+      <line no="7">
+        <token name="T_NAMESPACE">namespace</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Setup\Fixtures</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="8"/>
+      <line no="9">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Config\Model\Config\Backend\Admin\Custom</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="10">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Framework\App\Config\Storage\Writer</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_AS">as</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">ConfigWriter</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="11">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Tax\Api\Data\TaxRateInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="12">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Tax\Api\Data\TaxRateInterfaceFactory</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="13">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Tax\Api\Data\TaxRuleInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="14">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Tax\Api\Data\TaxRuleInterfaceFactory</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="15">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Tax\Api\TaxRateRepositoryInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="16">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Tax\Api\TaxRuleRepositoryInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="17">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Tax\Model\Config</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="18">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Tax\Model\ResourceModel\Calculation\Rate\CollectionFactory</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="19"/>
+      <line no="20">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="21">
+        <token name="T_DOC_COMMENT"> * Tax rules fixture generator</token>
+      </line>
+      <line no="22">
+        <token name="T_DOC_COMMENT"> * Tax Config Settings setter for different Tax Modes (for example VAT)</token>
+      </line>
+      <line no="23">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="24">
+        <token name="T_DOC_COMMENT"> * @SuppressWarnings(PHPMD.CouplingBetweenObjects)</token>
+      </line>
+      <line no="25">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="26">
+        <token name="T_CLASS">class</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">TaxRulesFixture</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EXTENDS">extends</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Fixture</token>
+      </line>
+      <line no="27">
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="28">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CONST">const</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">DEFAULT_CUSTOMER_TAX_CLASS_ID</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_LNUMBER">3</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="29"/>
+      <line no="30">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CONST">const</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">DEFAULT_PRODUCT_TAX_CLASS_ID</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_LNUMBER">2</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="31"/>
+      <line no="32">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CONST">const</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">DEFAULT_TAX_MODE</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'VAT'</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="33"/>
+      <line no="34">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CONST">const</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">DEFAULT_TAX_RATE</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_LNUMBER">5</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="35"/>
+      <line no="36">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CONST">const</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">DEFAULT_TAX_COUNTRY</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'US'</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="37"/>
+      <line no="38">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="39">
+        <token name="T_DOC_COMMENT">     * @var array config paths and values for tax modes</token>
+      </line>
+      <line no="40">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="41">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$configs</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="42">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'VAT'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="43">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_STRING">Config</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">CONFIG_XML_PATH_SHIPPING_INCLUDES_TAX</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_LNUMBER">1</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="44">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_STRING">Config</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">CONFIG_XML_PATH_PRICE_INCLUDES_TAX</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_LNUMBER">1</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="45">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_STRING">Config</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">CONFIG_XML_PATH_APPLY_AFTER_DISCOUNT</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_LNUMBER">1</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="46">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_STRING">Config</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">XML_PATH_DISPLAY_SALES_PRICE</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Config</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">DISPLAY_TYPE_INCLUDING_TAX</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="47">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_STRING">Config</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">XML_PATH_DISPLAY_SALES_SUBTOTAL</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Config</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">DISPLAY_TYPE_INCLUDING_TAX</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="48">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_STRING">Config</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">XML_PATH_DISPLAY_SALES_SHIPPING</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Config</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">DISPLAY_TYPE_INCLUDING_TAX</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="49">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_STRING">Config</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">XML_PATH_DISPLAY_SALES_DISCOUNT</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Config</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">DISPLAY_TYPE_INCLUDING_TAX</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="50">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_STRING">Config</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">XML_PATH_DISPLAY_SALES_GRANDTOTAL</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Config</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">DISPLAY_TYPE_INCLUDING_TAX</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="51">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_STRING">Config</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">XML_PATH_DISPLAY_SALES_FULL_SUMMARY</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Config</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">DISPLAY_TYPE_INCLUDING_TAX</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="52">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_STRING">Config</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">CONFIG_XML_PATH_DISPLAY_SHIPPING</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Config</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">DISPLAY_TYPE_INCLUDING_TAX</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="53">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_STRING">Config</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">CONFIG_XML_PATH_PRICE_DISPLAY_TYPE</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Config</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">DISPLAY_TYPE_INCLUDING_TAX</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="54">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_STRING">Config</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">XML_PATH_DISPLAY_CART_PRICE</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Config</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">DISPLAY_TYPE_INCLUDING_TAX</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="55">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_STRING">Config</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">XML_PATH_DISPLAY_CART_SUBTOTAL</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Config</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">DISPLAY_TYPE_INCLUDING_TAX</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="56">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_STRING">Config</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">XML_PATH_DISPLAY_CART_SHIPPING</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Config</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">DISPLAY_TYPE_INCLUDING_TAX</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="57">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_STRING">Custom</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">XML_PATH_TAX_WEEE_ENABLE</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_LNUMBER">1</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="58">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+      </line>
+      <line no="59">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="60"/>
+      <line no="61">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="62">
+        <token name="T_DOC_COMMENT">     * @var int</token>
+      </line>
+      <line no="63">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="64">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PROTECTED">protected</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$priority</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_LNUMBER">101</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="65"/>
+      <line no="66">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="67">
+        <token name="T_DOC_COMMENT">     * @var TaxRuleRepositoryInterface</token>
+      </line>
+      <line no="68">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="69">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$taxRuleRepository</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="70"/>
+      <line no="71">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="72">
+        <token name="T_DOC_COMMENT">     * @var TaxRuleInterfaceFactory</token>
+      </line>
+      <line no="73">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="74">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$taxRuleFactory</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="75"/>
+      <line no="76">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="77">
+        <token name="T_DOC_COMMENT">     * @var TaxRateInterfaceFactory</token>
+      </line>
+      <line no="78">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="79">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$taxRateFactory</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="80"/>
+      <line no="81">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="82">
+        <token name="T_DOC_COMMENT">     * @var CollectionFactory</token>
+      </line>
+      <line no="83">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="84">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$taxRateCollectionFactory</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="85"/>
+      <line no="86">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="87">
+        <token name="T_DOC_COMMENT">     * @var TaxRateRepositoryInterface</token>
+      </line>
+      <line no="88">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="89">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$taxRateRepository</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="90"/>
+      <line no="91">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="92">
+        <token name="T_DOC_COMMENT">     * @var ConfigWriter</token>
+      </line>
+      <line no="93">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="94">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$configWriter</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="95"/>
+      <line no="96">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="97">
+        <token name="T_DOC_COMMENT">     * @param FixtureModel $fixtureModel</token>
+      </line>
+      <line no="98">
+        <token name="T_DOC_COMMENT">     * @param TaxRuleRepositoryInterface $taxRuleRepository</token>
+      </line>
+      <line no="99">
+        <token name="T_DOC_COMMENT">     * @param TaxRuleInterfaceFactory $taxRuleFactory</token>
+      </line>
+      <line no="100">
+        <token name="T_DOC_COMMENT">     * @param CollectionFactory $taxRateCollectionFactory</token>
+      </line>
+      <line no="101">
+        <token name="T_DOC_COMMENT">     * @param TaxRateInterfaceFactory $taxRateFactory</token>
+      </line>
+      <line no="102">
+        <token name="T_DOC_COMMENT">     * @param TaxRateRepositoryInterface $taxRateRepository</token>
+      </line>
+      <line no="103">
+        <token name="T_DOC_COMMENT">     * @param ConfigWriter $configWriter</token>
+      </line>
+      <line no="104">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="105">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">__construct</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="106">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">FixtureModel</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$fixtureModel</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="107">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">TaxRuleRepositoryInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$taxRuleRepository</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="108">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">TaxRuleInterfaceFactory</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$taxRuleFactory</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="109">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">CollectionFactory</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$taxRateCollectionFactory</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="110">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">TaxRateInterfaceFactory</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$taxRateFactory</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="111">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">TaxRateRepositoryInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$taxRateRepository</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="112">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">ConfigWriter</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$configWriter</token>
+      </line>
+      <line no="113">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="114">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">parent</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">__construct</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$fixtureModel</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="115"/>
+      <line no="116">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">taxRuleRepository</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$taxRuleRepository</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="117">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">taxRuleFactory</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$taxRuleFactory</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="118">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">taxRateCollectionFactory</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$taxRateCollectionFactory</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="119">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">taxRateFactory</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$taxRateFactory</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="120">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">taxRateRepository</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$taxRateRepository</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="121">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">configWriter</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$configWriter</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="122">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="123"/>
+      <line no="124">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="125">
+        <token name="T_DOC_COMMENT">     * {@inheritdoc}</token>
+      </line>
+      <line no="126">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="127">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">execute</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="128">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="129">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_COMMENT">//Getting config values</token>
+      </line>
+      <line no="130">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$taxMode</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">fixtureModel</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getValue</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'tax_mode'</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">null</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="131">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$taxRules</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">fixtureModel</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getValue</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'tax_rules'</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_LNUMBER">0</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="132"/>
+      <line no="133">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$taxMode</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_BOOLEAN_AND">&amp;&amp;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">in_array</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$taxMode</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">array_keys</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">configs</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="134">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setTaxMode</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$taxMode</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="135">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="136"/>
+      <line no="137">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$taxRateIds</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">taxRateCollectionFactory</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">create</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getAllIds</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="138">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$taxRatesCount</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">count</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$taxRateIds</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="139"/>
+      <line no="140">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_WHILE">while</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$taxRules</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="141">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_DOC_COMMENT">/** @var $taxRuleDataObject TaxRuleInterface */</token>
+      </line>
+      <line no="142">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$taxRuleDataObject</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">taxRuleFactory</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">create</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="143">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$taxRuleDataObject</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setCode</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Tax_Rule_'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOT">.</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$taxRules</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="144">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setTaxRateIds</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_VARIABLE">$taxRateIds</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_VARIABLE">$taxRules</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_PERCENT">%</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$taxRatesCount</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="145">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setCustomerTaxClassIds</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">DEFAULT_CUSTOMER_TAX_CLASS_ID</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="146">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setProductTaxClassIds</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">DEFAULT_PRODUCT_TAX_CLASS_ID</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="147">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setPriority</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_LNUMBER">0</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="148">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setPosition</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_LNUMBER">0</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="149"/>
+      <line no="150">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">taxRuleRepository</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">save</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$taxRuleDataObject</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="151"/>
+      <line no="152">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$taxRules</token>
+        <token name="T_DEC">--</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="153">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="154">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="155"/>
+      <line no="156">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="157">
+        <token name="T_DOC_COMMENT">     * Adding appropriate Tax Rate, Tax Rule and Config Settings for selected Tax Mode (for example EU/VAT)</token>
+      </line>
+      <line no="158">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="159">
+        <token name="T_DOC_COMMENT">     * @param string $taxMode</token>
+      </line>
+      <line no="160">
+        <token name="T_DOC_COMMENT">     * @return void</token>
+      </line>
+      <line no="161">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="162">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">setTaxMode</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$taxMode</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="163">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="164">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_COMMENT">//Add Tax Rate for selected Tax Mode</token>
+      </line>
+      <line no="165">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_DOC_COMMENT">/** @var $taxRate TaxRateInterface */</token>
+      </line>
+      <line no="166">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$taxRate</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">taxRateFactory</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">create</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="167">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$taxRate</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setCode</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$taxMode</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="168">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setRate</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">DEFAULT_TAX_RATE</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="169">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setTaxCountryId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">DEFAULT_TAX_COUNTRY</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="170">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setTaxPostcode</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'*'</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="171"/>
+      <line no="172">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$taxRateData</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">taxRateRepository</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">save</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$taxRate</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="173"/>
+      <line no="174">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_COMMENT">//Add Tax Rule for Tax Mode</token>
+      </line>
+      <line no="175">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_DOC_COMMENT">/** @var $taxRuleDataObject TaxRuleInterface */</token>
+      </line>
+      <line no="176">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$taxRuleDataObject</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">taxRuleFactory</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">create</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="177">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$taxRuleDataObject</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setCode</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$taxMode</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="178">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setTaxRateIds</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_VARIABLE">$taxRateData</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="179">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setCustomerTaxClassIds</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">DEFAULT_CUSTOMER_TAX_CLASS_ID</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="180">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setProductTaxClassIds</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">DEFAULT_PRODUCT_TAX_CLASS_ID</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="181">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setPriority</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_LNUMBER">0</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="182">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setPosition</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_LNUMBER">0</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="183"/>
+      <line no="184">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">taxRuleRepository</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">save</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$taxRuleDataObject</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="185"/>
+      <line no="186">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_COMMENT">//Set Tax Mode configs</token>
+      </line>
+      <line no="187">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setConfigByTaxMode</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$taxMode</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="188">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="189"/>
+      <line no="190">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="191">
+        <token name="T_DOC_COMMENT">     * Set appropriate Tax Config Settings for selected Tax Mode</token>
+      </line>
+      <line no="192">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="193">
+        <token name="T_DOC_COMMENT">     * @param string $mode</token>
+      </line>
+      <line no="194">
+        <token name="T_DOC_COMMENT">     * @return void</token>
+      </line>
+      <line no="195">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="196">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">setConfigByTaxMode</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$mode</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">DEFAULT_TAX_MODE</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="197">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="198">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_ISSET">isset</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">configs</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_VARIABLE">$mode</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_BOOLEAN_AND">&amp;&amp;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">is_array</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">configs</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_VARIABLE">$mode</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="199">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_FOREACH">foreach</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">configs</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_VARIABLE">$mode</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_AS">as</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$configPath</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$value</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="200">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">configWriter</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">save</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="201">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$configPath</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="202">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$value</token>
+      </line>
+      <line no="203">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="204">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="205">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="206">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="207"/>
+      <line no="208">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="209">
+        <token name="T_DOC_COMMENT">     * {@inheritdoc}</token>
+      </line>
+      <line no="210">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="211">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">getActionTitle</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="212">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="213">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Generating tax rules'</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="214">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="215"/>
+      <line no="216">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="217">
+        <token name="T_DOC_COMMENT">     * {@inheritdoc}</token>
+      </line>
+      <line no="218">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="219">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">introduceParamLabels</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="220">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="221">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="222">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'tax_rules'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Tax Rules Count'</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="223">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'tax_mode'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Tax Mode'</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="224">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="225">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="226">
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="227"/>
+    </source>
+  </file>
+</phpunit>

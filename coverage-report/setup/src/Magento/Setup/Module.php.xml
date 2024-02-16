@@ -1,0 +1,588 @@
+<?xml version="1.0"?>
+<phpunit xmlns="https://schema.phpunit.de/coverage/1.0">
+  <file name="Module.php" path="/setup/src/Magento/Setup">
+    <totals>
+      <lines total="84" comments="22" code="62" executable="31" executed="0" percent="0.00"/>
+      <methods count="2" tested="0" percent="0.00"/>
+      <functions count="0" tested="0" percent="0"/>
+      <classes count="1" tested="0" percent="0.00"/>
+      <traits count="0" tested="0" percent="0"/>
+    </totals>
+    <class name="Magento\Setup\Module" start="22" executable="31" executed="0" crap="56">
+      <namespace name="Magento\Setup"/>
+      <method name="onBootstrap" signature="onBootstrap(Laminas\EventManager\EventInterface $e)" start="29" end="68" crap="42" executable="26" executed="0" coverage="0"/>
+      <method name="getConfig" signature="getConfig()" start="73" end="82" crap="2" executable="5" executed="0" coverage="0"/>
+    </class>
+    <source>
+      <line no="1">
+        <token name="T_OPEN_TAG">&lt;?php</token>
+      </line>
+      <line no="2">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="3">
+        <token name="T_DOC_COMMENT"> * Copyright &#xA9; Magento, Inc. All rights reserved.</token>
+      </line>
+      <line no="4">
+        <token name="T_DOC_COMMENT"> * See COPYING.txt for license details.</token>
+      </line>
+      <line no="5">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="6"/>
+      <line no="7">
+        <token name="T_NAMESPACE">namespace</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Setup</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="8"/>
+      <line no="9">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Laminas\EventManager\EventInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="10">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Laminas\EventManager\EventManager</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="11">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Laminas\ModuleManager\Feature\BootstrapListenerInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="12">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Laminas\ModuleManager\Feature\ConfigProviderInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="13">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Laminas\Mvc\ModuleRouteListener</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="14">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Laminas\Mvc\MvcEvent</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="15">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Laminas\Stdlib\DispatchableInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="16">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Framework\App\Response\HeaderProvider\XssProtection</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="17">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Setup\Mvc\View\Http\InjectTemplateListener</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="18"/>
+      <line no="19">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="20">
+        <token name="T_DOC_COMMENT"> * Laminas module declaration</token>
+      </line>
+      <line no="21">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="22">
+        <token name="T_CLASS">class</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Module</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IMPLEMENTS">implements</token>
+      </line>
+      <line no="23">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_STRING">BootstrapListenerInterface</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="24">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_STRING">ConfigProviderInterface</token>
+      </line>
+      <line no="25">
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="26">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="27">
+        <token name="T_DOC_COMMENT">     * @inheritDoc</token>
+      </line>
+      <line no="28">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="29">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">onBootstrap</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">EventInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$e</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="30">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="31">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_DOC_COMMENT">/** @var MvcEvent $e */</token>
+      </line>
+      <line no="32">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_DOC_COMMENT">/** @var \Laminas\Mvc\Application $application */</token>
+      </line>
+      <line no="33">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$application</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$e</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getApplication</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="34">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_DOC_COMMENT">/** @var EventManager $events */</token>
+      </line>
+      <line no="35">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$events</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$application</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getEventManager</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="36">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_DOC_COMMENT">/** @var \Laminas\EventManager\SharedEventManager $sharedEvents */</token>
+      </line>
+      <line no="37">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$sharedEvents</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$events</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getSharedManager</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="38"/>
+      <line no="39">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$moduleRouteListener</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NEW">new</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">ModuleRouteListener</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="40">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$moduleRouteListener</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">attach</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$events</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="41"/>
+      <line no="42">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_COMMENT">// Override Laminas\Mvc\View\Http\InjectTemplateListener</token>
+      </line>
+      <line no="43">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_COMMENT">// to process templates by Vendor/Module</token>
+      </line>
+      <line no="44">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$injectTemplateListener</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NEW">new</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">InjectTemplateListener</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="45">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$sharedEvents</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">attach</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="46">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_STRING">DispatchableInterface</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_CLASS">class</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="47">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_STRING">MvcEvent</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">EVENT_DISPATCH</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="48">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_VARIABLE">$injectTemplateListener</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'injectTemplate'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="49">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_MINUS">-</token>
+        <token name="T_LNUMBER">89</token>
+      </line>
+      <line no="50">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="51">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$response</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$e</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getResponse</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="52">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$response</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_INSTANCEOF">instanceof</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_FULLY_QUALIFIED">\Laminas\Http\Response</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="53">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$headers</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$response</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getHeaders</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="54">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$headers</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="55">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$headers</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">addHeaderLine</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Cache-Control'</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'no-cache, no-store, must-revalidate'</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="56">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$headers</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">addHeaderLine</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Pragma'</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'no-cache'</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="57">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$headers</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">addHeaderLine</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Expires'</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'1970-01-01'</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="58">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$headers</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">addHeaderLine</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'X-Frame-Options: SAMEORIGIN'</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="59">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$headers</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">addHeaderLine</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'X-Content-Type-Options: nosniff'</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="60">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_DOC_COMMENT">/** @var \Laminas\Http\Header\UserAgent $userAgentHeader */</token>
+      </line>
+      <line no="61">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$userAgentHeader</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$e</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getRequest</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getHeader</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'User-Agent'</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="62">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$xssHeaderValue</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$userAgentHeader</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_BOOLEAN_AND">&amp;&amp;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$userAgentHeader</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getFieldValue</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="63">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_BOOLEAN_AND">&amp;&amp;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">strpos</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$userAgentHeader</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getFieldValue</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">XssProtection</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">IE_8_USER_AGENT</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_IDENTICAL">===</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">false</token>
+      </line>
+      <line no="64">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_QUESTION_MARK">?</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">XssProtection</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">HEADER_ENABLED</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">XssProtection</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">HEADER_DISABLED</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="65">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$headers</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">addHeaderLine</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'X-XSS-Protection: '</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOT">.</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$xssHeaderValue</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="66">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="67">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="68">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="69"/>
+      <line no="70">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="71">
+        <token name="T_DOC_COMMENT">     * @inheritDoc</token>
+      </line>
+      <line no="72">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="73">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">getConfig</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="74">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="75">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_COMMENT">// phpcs:disable</token>
+      </line>
+      <line no="76">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$result</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">array_merge_recursive</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="77">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_INCLUDE">include</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DIR">__DIR__</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOT">.</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'/../../../config/module.config.php'</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="78">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_INCLUDE">include</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DIR">__DIR__</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOT">.</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'/../../../config/di.config.php'</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="79">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="80">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_COMMENT">// phpcs:enable</token>
+      </line>
+      <line no="81">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$result</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="82">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="83">
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="84"/>
+    </source>
+  </file>
+</phpunit>

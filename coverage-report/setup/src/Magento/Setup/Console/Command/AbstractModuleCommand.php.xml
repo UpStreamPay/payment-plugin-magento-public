@@ -1,0 +1,614 @@
+<?xml version="1.0"?>
+<phpunit xmlns="https://schema.phpunit.de/coverage/1.0">
+  <file name="AbstractModuleCommand.php" path="/setup/src/Magento/Setup/Console/Command">
+    <totals>
+      <lines total="103" comments="37" code="66" executable="31" executed="0" percent="0.00"/>
+      <methods count="3" tested="0" percent="0.00"/>
+      <functions count="0" tested="0" percent="0"/>
+      <classes count="1" tested="0" percent="0.00"/>
+      <traits count="0" tested="0" percent="0"/>
+    </totals>
+    <class name="Magento\Setup\Console\Command\AbstractModuleCommand" start="18" executable="31" executed="0" crap="30">
+      <namespace name="Magento\Setup\Console\Command"/>
+      <method name="__construct" signature="__construct(Magento\Setup\Model\ObjectManagerProvider $objectManagerProvider)" start="38" end="42" crap="2" executable="2" executed="0" coverage="0"/>
+      <method name="configure" signature="configure()" start="47" end="62" crap="6" executable="12" executed="0" coverage="0"/>
+      <method name="isModuleRequired" signature="isModuleRequired()" start="69" end="69" crap="0" executable="0" executed="0" coverage="100"/>
+      <method name="cleanup" signature="cleanup(Symfony\Component\Console\Input\InputInterface $input, Symfony\Component\Console\Output\OutputInterface $output)" start="78" end="101" crap="6" executable="17" executed="0" coverage="0"/>
+    </class>
+    <source>
+      <line no="1">
+        <token name="T_OPEN_TAG">&lt;?php</token>
+      </line>
+      <line no="2">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="3">
+        <token name="T_DOC_COMMENT"> * Copyright &#xA9; Magento, Inc. All rights reserved.</token>
+      </line>
+      <line no="4">
+        <token name="T_DOC_COMMENT"> * See COPYING.txt for license details.</token>
+      </line>
+      <line no="5">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="6">
+        <token name="T_NAMESPACE">namespace</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Setup\Console\Command</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="7"/>
+      <line no="8">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Framework\ObjectManagerInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="9">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Setup\Model\ObjectManagerProvider</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="10">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Symfony\Component\Console\Input\InputArgument</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="11">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Symfony\Component\Console\Input\InputInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="12">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Symfony\Component\Console\Input\InputOption</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="13">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Symfony\Component\Console\Output\OutputInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="14"/>
+      <line no="15">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="16">
+        <token name="T_DOC_COMMENT"> * Abstract class for Enable and Disable commands to consolidate common logic</token>
+      </line>
+      <line no="17">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="18">
+        <token name="T_ABSTRACT">abstract</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CLASS">class</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">AbstractModuleCommand</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EXTENDS">extends</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">AbstractSetupCommand</token>
+      </line>
+      <line no="19">
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="20">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="21">
+        <token name="T_DOC_COMMENT">     * Names of input arguments or options</token>
+      </line>
+      <line no="22">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="23">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CONST">const</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">INPUT_KEY_MODULES</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'module'</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="24">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CONST">const</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">INPUT_KEY_CLEAR_STATIC_CONTENT</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'clear-static-content'</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="25"/>
+      <line no="26">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="27">
+        <token name="T_DOC_COMMENT">     * Object manager</token>
+      </line>
+      <line no="28">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="29">
+        <token name="T_DOC_COMMENT">     * @var ObjectManagerInterface</token>
+      </line>
+      <line no="30">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="31">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PROTECTED">protected</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$objectManager</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="32"/>
+      <line no="33">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="34">
+        <token name="T_DOC_COMMENT">     * Inject dependencies</token>
+      </line>
+      <line no="35">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="36">
+        <token name="T_DOC_COMMENT">     * @param ObjectManagerProvider $objectManagerProvider</token>
+      </line>
+      <line no="37">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="38">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">__construct</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">ObjectManagerProvider</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$objectManagerProvider</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="39">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="40">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">objectManager</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$objectManagerProvider</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">get</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="41">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">parent</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">__construct</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="42">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="43"/>
+      <line no="44">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="45">
+        <token name="T_DOC_COMMENT">     * {@inheritdoc}</token>
+      </line>
+      <line no="46">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="47">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PROTECTED">protected</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">configure</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="48">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="49">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">addArgument</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="50">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">INPUT_KEY_MODULES</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="51">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_STRING">InputArgument</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">IS_ARRAY</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_PIPE">|</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">isModuleRequired</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_QUESTION_MARK">?</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">InputArgument</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">REQUIRED</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">InputArgument</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">OPTIONAL</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="52">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Name of the module'</token>
+      </line>
+      <line no="53">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="54">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">addOption</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="55">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">INPUT_KEY_CLEAR_STATIC_CONTENT</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="56">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'c'</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="57">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_STRING">InputOption</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">VALUE_NONE</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="58">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Clear generated static view files. Necessary, if the module(s) have static view files'</token>
+      </line>
+      <line no="59">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="60"/>
+      <line no="61">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">parent</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">configure</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="62">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="63"/>
+      <line no="64">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="65">
+        <token name="T_DOC_COMMENT">     * Returns if module argument is required</token>
+      </line>
+      <line no="66">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="67">
+        <token name="T_DOC_COMMENT">     * @return bool</token>
+      </line>
+      <line no="68">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="69">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_ABSTRACT">abstract</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_PROTECTED">protected</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">isModuleRequired</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="70"/>
+      <line no="71">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="72">
+        <token name="T_DOC_COMMENT">     * Cleanup after updated modules status</token>
+      </line>
+      <line no="73">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="74">
+        <token name="T_DOC_COMMENT">     * @param InputInterface $input</token>
+      </line>
+      <line no="75">
+        <token name="T_DOC_COMMENT">     * @param OutputInterface $output</token>
+      </line>
+      <line no="76">
+        <token name="T_DOC_COMMENT">     * @return void</token>
+      </line>
+      <line no="77">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="78">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PROTECTED">protected</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">cleanup</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">InputInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$input</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">OutputInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$output</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="79">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="80">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_DOC_COMMENT">/** @var \Magento\Framework\App\Cache $cache */</token>
+      </line>
+      <line no="81">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$cache</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">objectManager</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">get</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_NAME_FULLY_QUALIFIED">\Magento\Framework\App\Cache</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_CLASS">class</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="82">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$cache</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">clean</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="83">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$output</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">writeln</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'&lt;info&gt;Cache cleared successfully.&lt;/info&gt;'</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="84">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_DOC_COMMENT">/** @var \Magento\Framework\App\State\CleanupFiles $cleanupFiles */</token>
+      </line>
+      <line no="85">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$cleanupFiles</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">objectManager</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">get</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_NAME_FULLY_QUALIFIED">\Magento\Framework\App\State\CleanupFiles</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_CLASS">class</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="86">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$cleanupFiles</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">clearCodeGeneratedClasses</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="87">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$output</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">writeln</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="88">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">"&lt;info&gt;Generated classes cleared successfully. Please run the 'setup:di:compile' command to "</token>
+      </line>
+      <line no="89">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_DOT">.</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'generate classes.&lt;/info&gt;'</token>
+      </line>
+      <line no="90">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="91">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$input</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getOption</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">INPUT_KEY_CLEAR_STATIC_CONTENT</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="92">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$cleanupFiles</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">clearMaterializedViewFiles</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="93">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$output</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">writeln</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'&lt;info&gt;Generated static view files cleared successfully.&lt;/info&gt;'</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="94">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_ELSE">else</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="95">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$output</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">writeln</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="96">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">"&lt;info&gt;Info: Some modules might require static view files to be cleared. To do this, run '"</token>
+      </line>
+      <line no="97">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_DOT">.</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getName</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOT">.</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">"' with the --"</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOT">.</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">INPUT_KEY_CLEAR_STATIC_CONTENT</token>
+      </line>
+      <line no="98">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_DOT">.</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">' option to clear them.&lt;/info&gt;'</token>
+      </line>
+      <line no="99">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="100">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="101">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="102">
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="103"/>
+    </source>
+  </file>
+</phpunit>

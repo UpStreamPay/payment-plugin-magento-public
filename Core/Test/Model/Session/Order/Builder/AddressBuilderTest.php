@@ -19,6 +19,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use UpStreamPay\Core\Model\Session\Order\AddressBuilderInterface;
 use UpStreamPay\Core\Model\Session\Order\Builder\AddressBuilder;
 use PHPUnit\Framework\TestCase;
+use function PHPUnit\Framework\exactly;
 
 /**
  * Class AddressBuilderTest
@@ -231,5 +232,37 @@ class AddressBuilderTest extends TestCase
             $expectedAddressData,
             $this->addressBuilder->execute($this->quoteMock, AddressBuilderInterface::SHIPPING_ADDRESS)
         );
+    }
+
+    /**
+     * @return void
+     */
+    public function testEmail(): void
+    {
+        $this->quoteMock->expects(self::exactly(3))
+            ->method('getBillingAddress')
+            ->willReturn($this->addressMock)
+        ;
+
+        $this->quoteMock->expects(self::exactly(2))
+            ->method('getCustomerEmail')
+            ->willReturn('customer@email.com')
+        ;
+
+        $this->addressMock->expects(self::once())
+            ->method('getEmail')
+            ->willReturn('guest@email.com')
+        ;
+
+        $this->quoteMock->expects(exactly(2))
+            ->method('getCustomerIsGuest')
+            ->willReturnOnConsecutiveCalls(true, false)
+        ;
+
+        $guestData = $this->addressBuilder->execute($this->quoteMock);
+        self::assertSame($guestData['email'], 'guest@email.com');
+
+        $customerData = $this->addressBuilder->execute($this->quoteMock);
+        self::assertSame($customerData['email'], 'customer@email.com');
     }
 }

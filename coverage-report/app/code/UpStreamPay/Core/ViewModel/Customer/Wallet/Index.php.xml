@@ -1,0 +1,679 @@
+<?xml version="1.0"?>
+<phpunit xmlns="https://schema.phpunit.de/coverage/1.0">
+  <file name="Index.php" path="/app/code/UpStreamPay/Core/ViewModel/Customer/Wallet">
+    <totals>
+      <lines total="93" comments="31" code="62" executable="23" executed="23" percent="100.00"/>
+      <methods count="3" tested="3" percent="100.00"/>
+      <functions count="0" tested="0" percent="0"/>
+      <classes count="1" tested="1" percent="100.00"/>
+      <traits count="0" tested="0" percent="0"/>
+    </totals>
+    <class name="UpStreamPay\Core\ViewModel\Customer\Wallet\Index" start="28" executable="23" executed="23" crap="5">
+      <namespace name="UpStreamPay\Core\ViewModel\Customer\Wallet"/>
+      <method name="__construct" signature="__construct(UpStreamPay\Client\Model\Client\ClientInterface $client, Magento\Customer\Model\Session $customerSession, Magento\Framework\Serialize\Serializer\Json $jsonSerializer, UpStreamPay\Core\Model\Config $config, Psr\Log\LoggerInterface $logger)" start="37" end="44" crap="1" executable="1" executed="1" coverage="100"/>
+      <method name="getWalletSession" signature="getWalletSession(): string" start="51" end="74" crap="3" executable="15" executed="15" coverage="100"/>
+      <method name="getConfigValues" signature="getConfigValues(): array" start="81" end="91" crap="1" executable="7" executed="7" coverage="100"/>
+    </class>
+    <coverage>
+      <line nr="44">
+        <covered by="UpStreamPay\Core\ViewModel\Customer\Wallet\IndexTest::testGetWalletSessionWithException"/>
+        <covered by="UpStreamPay\Core\ViewModel\Customer\Wallet\IndexTest::testGetWalletSessionWithoutException"/>
+        <covered by="UpStreamPay\Core\ViewModel\Customer\Wallet\IndexTest::testGetConfigValues"/>
+      </line>
+      <line nr="53">
+        <covered by="UpStreamPay\Core\ViewModel\Customer\Wallet\IndexTest::testGetWalletSessionWithException"/>
+        <covered by="UpStreamPay\Core\ViewModel\Customer\Wallet\IndexTest::testGetWalletSessionWithoutException"/>
+      </line>
+      <line nr="54">
+        <covered by="UpStreamPay\Core\ViewModel\Customer\Wallet\IndexTest::testGetWalletSessionWithException"/>
+        <covered by="UpStreamPay\Core\ViewModel\Customer\Wallet\IndexTest::testGetWalletSessionWithoutException"/>
+      </line>
+      <line nr="56">
+        <covered by="UpStreamPay\Core\ViewModel\Customer\Wallet\IndexTest::testGetWalletSessionWithException"/>
+        <covered by="UpStreamPay\Core\ViewModel\Customer\Wallet\IndexTest::testGetWalletSessionWithoutException"/>
+      </line>
+      <line nr="57">
+        <covered by="UpStreamPay\Core\ViewModel\Customer\Wallet\IndexTest::testGetWalletSessionWithException"/>
+        <covered by="UpStreamPay\Core\ViewModel\Customer\Wallet\IndexTest::testGetWalletSessionWithoutException"/>
+      </line>
+      <line nr="61">
+        <covered by="UpStreamPay\Core\ViewModel\Customer\Wallet\IndexTest::testGetWalletSessionWithException"/>
+        <covered by="UpStreamPay\Core\ViewModel\Customer\Wallet\IndexTest::testGetWalletSessionWithoutException"/>
+      </line>
+      <line nr="62">
+        <covered by="UpStreamPay\Core\ViewModel\Customer\Wallet\IndexTest::testGetWalletSessionWithException"/>
+        <covered by="UpStreamPay\Core\ViewModel\Customer\Wallet\IndexTest::testGetWalletSessionWithoutException"/>
+      </line>
+      <line nr="63">
+        <covered by="UpStreamPay\Core\ViewModel\Customer\Wallet\IndexTest::testGetWalletSessionWithException"/>
+        <covered by="UpStreamPay\Core\ViewModel\Customer\Wallet\IndexTest::testGetWalletSessionWithoutException"/>
+      </line>
+      <line nr="66">
+        <covered by="UpStreamPay\Core\ViewModel\Customer\Wallet\IndexTest::testGetWalletSessionWithException"/>
+      </line>
+      <line nr="67">
+        <covered by="UpStreamPay\Core\ViewModel\Customer\Wallet\IndexTest::testGetWalletSessionWithException"/>
+      </line>
+      <line nr="68">
+        <covered by="UpStreamPay\Core\ViewModel\Customer\Wallet\IndexTest::testGetWalletSessionWithException"/>
+      </line>
+      <line nr="70">
+        <covered by="UpStreamPay\Core\ViewModel\Customer\Wallet\IndexTest::testGetWalletSessionWithException"/>
+      </line>
+      <line nr="72">
+        <covered by="UpStreamPay\Core\ViewModel\Customer\Wallet\IndexTest::testGetWalletSessionWithException"/>
+      </line>
+      <line nr="84">
+        <covered by="UpStreamPay\Core\ViewModel\Customer\Wallet\IndexTest::testGetConfigValues"/>
+      </line>
+      <line nr="85">
+        <covered by="UpStreamPay\Core\ViewModel\Customer\Wallet\IndexTest::testGetConfigValues"/>
+      </line>
+      <line nr="86">
+        <covered by="UpStreamPay\Core\ViewModel\Customer\Wallet\IndexTest::testGetConfigValues"/>
+      </line>
+      <line nr="88">
+        <covered by="UpStreamPay\Core\ViewModel\Customer\Wallet\IndexTest::testGetConfigValues"/>
+      </line>
+      <line nr="89">
+        <covered by="UpStreamPay\Core\ViewModel\Customer\Wallet\IndexTest::testGetConfigValues"/>
+      </line>
+      <line nr="64">
+        <covered by="UpStreamPay\Core\ViewModel\Customer\Wallet\IndexTest::testGetWalletSessionWithException"/>
+        <covered by="UpStreamPay\Core\ViewModel\Customer\Wallet\IndexTest::testGetWalletSessionWithoutException"/>
+      </line>
+      <line nr="65">
+        <covered by="UpStreamPay\Core\ViewModel\Customer\Wallet\IndexTest::testGetWalletSessionWithException"/>
+        <covered by="UpStreamPay\Core\ViewModel\Customer\Wallet\IndexTest::testGetWalletSessionWithoutException"/>
+      </line>
+      <line nr="69">
+        <covered by="UpStreamPay\Core\ViewModel\Customer\Wallet\IndexTest::testGetWalletSessionWithException"/>
+      </line>
+      <line nr="83">
+        <covered by="UpStreamPay\Core\ViewModel\Customer\Wallet\IndexTest::testGetConfigValues"/>
+      </line>
+      <line nr="90">
+        <covered by="UpStreamPay\Core\ViewModel\Customer\Wallet\IndexTest::testGetConfigValues"/>
+      </line>
+    </coverage>
+    <source>
+      <line no="1">
+        <token name="T_OPEN_TAG">&lt;?php</token>
+      </line>
+      <line no="2">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="3">
+        <token name="T_DOC_COMMENT"> * UpStream Pay</token>
+      </line>
+      <line no="4">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="5">
+        <token name="T_DOC_COMMENT"> * Copyright (c) 2023 UpStream Pay.</token>
+      </line>
+      <line no="6">
+        <token name="T_DOC_COMMENT"> * This file is open source and available under the BSD 3 license.</token>
+      </line>
+      <line no="7">
+        <token name="T_DOC_COMMENT"> * See the LICENSE file for more info.</token>
+      </line>
+      <line no="8">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="9">
+        <token name="T_DOC_COMMENT"> * Author: Claranet France &lt;info@fr.clara.net&gt;</token>
+      </line>
+      <line no="10">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="11">
+        <token name="T_DECLARE">declare</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">strict_types</token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_LNUMBER">1</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="12"/>
+      <line no="13">
+        <token name="T_NAMESPACE">namespace</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\ViewModel\Customer\Wallet</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="14"/>
+      <line no="15">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Customer\Model\Session</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="16">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Framework\Serialize\Serializer\Json</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="17">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Framework\View\Element\Block\ArgumentInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="18">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Psr\Log\LoggerInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="19">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Throwable</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="20">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Client\Model\Client\ClientInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="21">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Model\Config</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="22">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Model\Config\Source\Debug</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="23"/>
+      <line no="24">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="25">
+        <token name="T_DOC_COMMENT"> * Class Index</token>
+      </line>
+      <line no="26">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="27">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="28">
+        <token name="T_CLASS">class</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Index</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IMPLEMENTS">implements</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">ArgumentInterface</token>
+      </line>
+      <line no="29">
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="30">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="31">
+        <token name="T_DOC_COMMENT">     * @param ClientInterface $client</token>
+      </line>
+      <line no="32">
+        <token name="T_DOC_COMMENT">     * @param Session $customerSession</token>
+      </line>
+      <line no="33">
+        <token name="T_DOC_COMMENT">     * @param Json $jsonSerializer</token>
+      </line>
+      <line no="34">
+        <token name="T_DOC_COMMENT">     * @param Config $config</token>
+      </line>
+      <line no="35">
+        <token name="T_DOC_COMMENT">     * @param LoggerInterface $logger</token>
+      </line>
+      <line no="36">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="37">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">__construct</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="38">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">ClientInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$client</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="39">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Session</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$customerSession</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="40">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Json</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$jsonSerializer</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="41">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Config</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$config</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="42">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">LoggerInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$logger</token>
+      </line>
+      <line no="43">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="44">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="45"/>
+      <line no="46">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="47">
+        <token name="T_DOC_COMMENT">     * Get the wallet session.</token>
+      </line>
+      <line no="48">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="49">
+        <token name="T_DOC_COMMENT">     * @return string</token>
+      </line>
+      <line no="50">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="51">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">getWalletSession</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">string</token>
+      </line>
+      <line no="52">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="53">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$customerId</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_INT_CAST">(int)</token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">customerSession</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="54">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$logDebugMode</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">config</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getDebugMode</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_IDENTICAL">===</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Debug</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">DEBUG_VALUE</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="55"/>
+      <line no="56">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$logDebugMode</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="57">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">logger</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">debug</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_DOUBLE_QUOTES">"</token>
+        <token name="T_ENCAPSED_AND_WHITESPACE">Request made to create wallet session for customer </token>
+        <token name="T_VARIABLE">$customerId</token>
+        <token name="T_ENCAPSED_AND_WHITESPACE">.</token>
+        <token name="T_DOUBLE_QUOTES">"</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="58">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="59"/>
+      <line no="60">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_TRY">try</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="61">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">jsonSerializer</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">serialize</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="62">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">client</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">createWalletSession</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="63">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$customerId</token>
+      </line>
+      <line no="64">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="65">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="66">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CATCH">catch</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">Throwable</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$exception</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="67">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">logger</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">error</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="68">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_DOUBLE_QUOTES">"</token>
+        <token name="T_ENCAPSED_AND_WHITESPACE">Error while trying to display wallet widget in customer account for customer </token>
+        <token name="T_VARIABLE">$customerId</token>
+        <token name="T_DOUBLE_QUOTES">"</token>
+      </line>
+      <line no="69">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="70">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">logger</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">error</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$exception</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getMessage</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'exception'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$exception</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getTraceAsString</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="71"/>
+      <line no="72">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">''</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="73">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="74">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="75"/>
+      <line no="76">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="77">
+        <token name="T_DOC_COMMENT">     * Get the config needed to init the wallet widget in frontend.</token>
+      </line>
+      <line no="78">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="79">
+        <token name="T_DOC_COMMENT">     * @return array</token>
+      </line>
+      <line no="80">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="81">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">getConfigValues</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_ARRAY">array</token>
+      </line>
+      <line no="82">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="83">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="84">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'mode'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">config</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getMode</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="85">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'entityId'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">config</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getEntityId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="86">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'apiKey'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">config</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getApiKey</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="87">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_COMMENT">//The JS part of the string is not needed because the KO script requires the path without the .js.</token>
+      </line>
+      <line no="88">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'widgetUrl'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">str_replace</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'.js'</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">''</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">config</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getWidgetUrl</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="89">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'errorMessage'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">config</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getErrorMessage</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="90">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="91">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="92">
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="93"/>
+    </source>
+  </file>
+</phpunit>

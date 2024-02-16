@@ -1,0 +1,1159 @@
+<?xml version="1.0"?>
+<phpunit xmlns="https://schema.phpunit.de/coverage/1.0">
+  <file name="SearchTermDescriptionGeneratorFactory.php" path="/setup/src/Magento/Setup/Model">
+    <totals>
+      <lines total="189" comments="70" code="119" executable="55" executed="0" percent="0.00"/>
+      <methods count="5" tested="0" percent="0.00"/>
+      <functions count="0" tested="0" percent="0"/>
+      <classes count="1" tested="0" percent="0.00"/>
+      <traits count="0" tested="0" percent="0"/>
+    </totals>
+    <class name="Magento\Setup\Model\SearchTermDescriptionGeneratorFactory" start="21" executable="55" executed="0" crap="210">
+      <namespace name="Magento\Setup\Model"/>
+      <method name="__construct" signature="__construct(Magento\Framework\ObjectManagerInterface $objectManager, Magento\Setup\Fixtures\FixtureConfig $fixtureConfig, Magento\Setup\Model\Description\DescriptionSentenceGeneratorFactory $descriptionSentenceGeneratorFactory, Magento\Setup\Model\Description\DescriptionParagraphGeneratorFactory $descriptionParagraphGeneratorFactory, Magento\Setup\Model\Description\DescriptionGeneratorFactory $descriptionGeneratorFactory, Magento\Setup\Model\DictionaryFactory $dictionaryFactory, Magento\Setup\Model\SearchTermManagerFactory $searchTermManagerFactory)" start="69" end="90" crap="42" executable="12" executed="0" coverage="0"/>
+      <method name="create" signature="create($descriptionConfig, $searchTermsConfig, $totalProductsCount, $defaultDescription)" start="101" end="118" crap="12" executable="10" executed="0" coverage="0"/>
+      <method name="updateSearchTermConfig" signature="updateSearchTermConfig($searchTermsConfig)" start="127" end="141" crap="12" executable="11" executed="0" coverage="0"/>
+      <method name="buildDescriptionGenerator" signature="buildDescriptionGenerator(array $descriptionConfig)" start="149" end="170" crap="2" executable="16" executed="0" coverage="0"/>
+      <method name="buildSearchTermManager" signature="buildSearchTermManager(array $searchTermsConfig, $totalProductsCount)" start="179" end="187" crap="2" executable="6" executed="0" coverage="0"/>
+    </class>
+    <source>
+      <line no="1">
+        <token name="T_OPEN_TAG">&lt;?php</token>
+      </line>
+      <line no="2">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="3">
+        <token name="T_DOC_COMMENT"> * Copyright &#xA9; Magento, Inc. All rights reserved.</token>
+      </line>
+      <line no="4">
+        <token name="T_DOC_COMMENT"> * See COPYING.txt for license details.</token>
+      </line>
+      <line no="5">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="6">
+        <token name="T_NAMESPACE">namespace</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Setup\Model</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="7"/>
+      <line no="8">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Framework\ObjectManagerInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="9">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Setup\Fixtures\FixtureConfig</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="10">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Setup\Model\Description\DescriptionSentenceGeneratorFactory</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="11">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Setup\Model\Description\DescriptionParagraphGeneratorFactory</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="12">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Setup\Model\Description\DescriptionGeneratorFactory</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="13">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Setup\Model\DictionaryFactory</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="14">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Setup\Model\SearchTermManagerFactory</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="15"/>
+      <line no="16">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="17">
+        <token name="T_DOC_COMMENT"> * Search term description generator factory</token>
+      </line>
+      <line no="18">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="19">
+        <token name="T_DOC_COMMENT"> * @SuppressWarnings(PHPMD.CouplingBetweenObjects)</token>
+      </line>
+      <line no="20">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="21">
+        <token name="T_CLASS">class</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">SearchTermDescriptionGeneratorFactory</token>
+      </line>
+      <line no="22">
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="23">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="24">
+        <token name="T_DOC_COMMENT">     * @var \Magento\Framework\ObjectManagerInterface</token>
+      </line>
+      <line no="25">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="26">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$objectManager</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="27"/>
+      <line no="28">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="29">
+        <token name="T_DOC_COMMENT">     * @var \Magento\Setup\Fixtures\FixtureConfig</token>
+      </line>
+      <line no="30">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="31">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$fixtureConfig</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="32"/>
+      <line no="33">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="34">
+        <token name="T_DOC_COMMENT">     * @var \Magento\Setup\Model\Description\DescriptionSentenceGeneratorFactory</token>
+      </line>
+      <line no="35">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="36">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$sentenceGeneratorFactory</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="37"/>
+      <line no="38">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="39">
+        <token name="T_DOC_COMMENT">     * @var \Magento\Setup\Model\Description\DescriptionParagraphGeneratorFactory</token>
+      </line>
+      <line no="40">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="41">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$paragraphGeneratorFactory</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="42"/>
+      <line no="43">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="44">
+        <token name="T_DOC_COMMENT">     * @var \Magento\Setup\Model\Description\DescriptionGeneratorFactory</token>
+      </line>
+      <line no="45">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="46">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$descriptionGeneratorFactory</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="47"/>
+      <line no="48">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="49">
+        <token name="T_DOC_COMMENT">     * @var \Magento\Setup\Model\DictionaryFactory</token>
+      </line>
+      <line no="50">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="51">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$dictionaryFactory</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="52"/>
+      <line no="53">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="54">
+        <token name="T_DOC_COMMENT">     * @var \Magento\Setup\Model\SearchTermManagerFactory</token>
+      </line>
+      <line no="55">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="56">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$searchTermManagerFactory</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="57"/>
+      <line no="58">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="59">
+        <token name="T_DOC_COMMENT">     * Constructor</token>
+      </line>
+      <line no="60">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="61">
+        <token name="T_DOC_COMMENT">     * @param ObjectManagerInterface $objectManager</token>
+      </line>
+      <line no="62">
+        <token name="T_DOC_COMMENT">     * @param FixtureConfig $fixtureConfig</token>
+      </line>
+      <line no="63">
+        <token name="T_DOC_COMMENT">     * @param DescriptionSentenceGeneratorFactory|null $descriptionSentenceGeneratorFactory</token>
+      </line>
+      <line no="64">
+        <token name="T_DOC_COMMENT">     * @param DescriptionParagraphGeneratorFactory|null $descriptionParagraphGeneratorFactory</token>
+      </line>
+      <line no="65">
+        <token name="T_DOC_COMMENT">     * @param DescriptionGeneratorFactory|null $descriptionGeneratorFactory</token>
+      </line>
+      <line no="66">
+        <token name="T_DOC_COMMENT">     * @param DictionaryFactory|null $dictionaryFactory</token>
+      </line>
+      <line no="67">
+        <token name="T_DOC_COMMENT">     * @param SearchTermManagerFactory|null $searchTermManagerFactory</token>
+      </line>
+      <line no="68">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="69">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">__construct</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="70">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">ObjectManagerInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$objectManager</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="71">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">FixtureConfig</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$fixtureConfig</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="72">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">DescriptionSentenceGeneratorFactory</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$descriptionSentenceGeneratorFactory</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">null</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="73">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">DescriptionParagraphGeneratorFactory</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$descriptionParagraphGeneratorFactory</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">null</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="74">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">DescriptionGeneratorFactory</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$descriptionGeneratorFactory</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">null</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="75">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">DictionaryFactory</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$dictionaryFactory</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">null</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="76">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">SearchTermManagerFactory</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$searchTermManagerFactory</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">null</token>
+      </line>
+      <line no="77">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="78">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">objectManager</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$objectManager</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="79">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">fixtureConfig</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$fixtureConfig</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="80">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">sentenceGeneratorFactory</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$descriptionSentenceGeneratorFactory</token>
+      </line>
+      <line no="81">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_QUESTION_MARK">?</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$objectManager</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">get</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">DescriptionSentenceGeneratorFactory</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_CLASS">class</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="82">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">paragraphGeneratorFactory</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$descriptionParagraphGeneratorFactory</token>
+      </line>
+      <line no="83">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_QUESTION_MARK">?</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$objectManager</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">get</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">DescriptionParagraphGeneratorFactory</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_CLASS">class</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="84">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">descriptionGeneratorFactory</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$descriptionGeneratorFactory</token>
+      </line>
+      <line no="85">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_QUESTION_MARK">?</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$objectManager</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">get</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">DescriptionGeneratorFactory</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_CLASS">class</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="86">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">dictionaryFactory</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$dictionaryFactory</token>
+      </line>
+      <line no="87">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_QUESTION_MARK">?</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$objectManager</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">get</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">DictionaryFactory</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_CLASS">class</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="88">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">searchTermManagerFactory</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$searchTermManagerFactory</token>
+      </line>
+      <line no="89">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_QUESTION_MARK">?</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$objectManager</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">get</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">SearchTermManagerFactory</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_CLASS">class</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="90">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="91"/>
+      <line no="92">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="93">
+        <token name="T_DOC_COMMENT">     * Search term description factory</token>
+      </line>
+      <line no="94">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="95">
+        <token name="T_DOC_COMMENT">     * @param array|null $descriptionConfig</token>
+      </line>
+      <line no="96">
+        <token name="T_DOC_COMMENT">     * @param array|null $searchTermsConfig</token>
+      </line>
+      <line no="97">
+        <token name="T_DOC_COMMENT">     * @param int $totalProductsCount</token>
+      </line>
+      <line no="98">
+        <token name="T_DOC_COMMENT">     * @param string $defaultDescription</token>
+      </line>
+      <line no="99">
+        <token name="T_DOC_COMMENT">     * @return DescriptionGeneratorInterface</token>
+      </line>
+      <line no="100">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="101">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">create</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="102">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$descriptionConfig</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="103">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$searchTermsConfig</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="104">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$totalProductsCount</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="105">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$defaultDescription</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">''</token>
+      </line>
+      <line no="106">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="107">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">updateSearchTermConfig</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$searchTermsConfig</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="108">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_EMPTY">empty</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$descriptionConfig</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_BOOLEAN_OR">||</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EMPTY">empty</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$searchTermsConfig</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="109">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">objectManager</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">create</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="110">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_STRING">DefaultDescriptionGenerator</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_CLASS">class</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="111">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'defaultDescription'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$defaultDescription</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+      </line>
+      <line no="112">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="113">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="114">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">objectManager</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">create</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_NAME_FULLY_QUALIFIED">\Magento\Setup\Model\SearchTermDescriptionGenerator</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_CLASS">class</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="115">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'descriptionGenerator'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">buildDescriptionGenerator</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$descriptionConfig</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="116">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'searchTermManager'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">buildSearchTermManager</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$searchTermsConfig</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$totalProductsCount</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="117">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="118">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="119"/>
+      <line no="120">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="121">
+        <token name="T_DOC_COMMENT">     * Update search terms distribution to be almost the same per each website</token>
+      </line>
+      <line no="122">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="123">
+        <token name="T_DOC_COMMENT">     * @param array|null $searchTermsConfig</token>
+      </line>
+      <line no="124">
+        <token name="T_DOC_COMMENT">     * @SuppressWarnings(PHPMD.UnusedLocalVariable)</token>
+      </line>
+      <line no="125">
+        <token name="T_DOC_COMMENT">     * @return void</token>
+      </line>
+      <line no="126">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="127">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">updateSearchTermConfig</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG">&amp;</token>
+        <token name="T_VARIABLE">$searchTermsConfig</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="128">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="129">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">null</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_NOT_IDENTICAL">!==</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$searchTermsConfig</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="130">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$websitesCount</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_BOOL_CAST">(bool)</token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">fixtureConfig</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getValue</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'assign_entities_to_all_websites'</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">false</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="131">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_QUESTION_MARK">?</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_LNUMBER">1</token>
+      </line>
+      <line no="132">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_INT_CAST">(int)</token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">fixtureConfig</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getValue</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'websites'</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_LNUMBER">1</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="133">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_STRING">array_walk</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="134">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$searchTermsConfig</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="135">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG">&amp;</token>
+        <token name="T_VARIABLE">$searchTerm</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$key</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$websitesCount</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="136">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$searchTerm</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'count'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_MUL_EQUAL">*=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$websitesCount</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="137">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_CURLY">}</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="138">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$websitesCount</token>
+      </line>
+      <line no="139">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="140">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="141">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="142"/>
+      <line no="143">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="144">
+        <token name="T_DOC_COMMENT">     * Builder for DescriptionGenerator</token>
+      </line>
+      <line no="145">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="146">
+        <token name="T_DOC_COMMENT">     * @param array $descriptionConfig</token>
+      </line>
+      <line no="147">
+        <token name="T_DOC_COMMENT">     * @return \Magento\Setup\Model\Description\DescriptionGenerator</token>
+      </line>
+      <line no="148">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="149">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">buildDescriptionGenerator</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_ARRAY">array</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$descriptionConfig</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="150">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="151">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$sentenceGenerator</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">sentenceGeneratorFactory</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">create</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="152">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'dictionary'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">dictionaryFactory</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">create</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="153">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'dictionaryFilePath'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">realpath</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_DIR">__DIR__</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOT">.</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'/../Fixtures/_files/dictionary.csv'</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="154">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="155">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'sentenceConfig'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$descriptionConfig</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'paragraphs'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'sentences'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+      </line>
+      <line no="156">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="157"/>
+      <line no="158">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$paragraphGenerator</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">paragraphGeneratorFactory</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">create</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="159">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'sentenceGenerator'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$sentenceGenerator</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="160">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'paragraphConfig'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$descriptionConfig</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'paragraphs'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+      </line>
+      <line no="161">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="162"/>
+      <line no="163">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$descriptionGenerator</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">descriptionGeneratorFactory</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">create</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="164">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'paragraphGenerator'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$paragraphGenerator</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="165">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'mixinManager'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">objectManager</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">create</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_NAME_FULLY_QUALIFIED">\Magento\Setup\Model\Description\MixinManager</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_CLASS">class</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="166">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'descriptionConfig'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$descriptionConfig</token>
+      </line>
+      <line no="167">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="168"/>
+      <line no="169">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$descriptionGenerator</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="170">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="171"/>
+      <line no="172">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="173">
+        <token name="T_DOC_COMMENT">     * Builder for SearchTermManager</token>
+      </line>
+      <line no="174">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="175">
+        <token name="T_DOC_COMMENT">     * @param array $searchTermsConfig</token>
+      </line>
+      <line no="176">
+        <token name="T_DOC_COMMENT">     * @param int $totalProductsCount</token>
+      </line>
+      <line no="177">
+        <token name="T_DOC_COMMENT">     * @return \Magento\Setup\Model\SearchTermManager</token>
+      </line>
+      <line no="178">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="179">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">buildSearchTermManager</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_ARRAY">array</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$searchTermsConfig</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$totalProductsCount</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="180">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="181">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">searchTermManagerFactory</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">create</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="182">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="183">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'searchTerms'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$searchTermsConfig</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="184">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'totalProductsCount'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$totalProductsCount</token>
+      </line>
+      <line no="185">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+      </line>
+      <line no="186">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="187">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="188">
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="189"/>
+    </source>
+  </file>
+</phpunit>

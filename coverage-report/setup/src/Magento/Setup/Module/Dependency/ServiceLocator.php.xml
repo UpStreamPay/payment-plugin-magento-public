@@ -1,0 +1,964 @@
+<?xml version="1.0"?>
+<phpunit xmlns="https://schema.phpunit.de/coverage/1.0">
+  <file name="ServiceLocator.php" path="/setup/src/Magento/Setup/Module/Dependency">
+    <totals>
+      <lines total="173" comments="79" code="94" executable="32" executed="0" percent="0.00"/>
+      <methods count="7" tested="0" percent="0.00"/>
+      <functions count="0" tested="0" percent="0"/>
+      <classes count="1" tested="0" percent="0.00"/>
+      <traits count="0" tested="0" percent="0"/>
+    </totals>
+    <class name="Magento\Setup\Module\Dependency\ServiceLocator" start="20" executable="32" executed="0" crap="210">
+      <namespace name="Magento\Setup\Module\Dependency"/>
+      <method name="getDependenciesReportBuilder" signature="getDependenciesReportBuilder()" start="76" end="85" crap="6" executable="6" executed="0" coverage="0"/>
+      <method name="getCircularDependenciesReportBuilder" signature="getCircularDependenciesReportBuilder()" start="92" end="102" crap="6" executable="7" executed="0" coverage="0"/>
+      <method name="getFrameworkDependenciesReportBuilder" signature="getFrameworkDependenciesReportBuilder()" start="109" end="119" crap="6" executable="7" executed="0" coverage="0"/>
+      <method name="getXmlConfigParser" signature="getXmlConfigParser()" start="126" end="132" crap="6" executable="3" executed="0" coverage="0"/>
+      <method name="getComposerJsonParser" signature="getComposerJsonParser()" start="139" end="145" crap="6" executable="3" executed="0" coverage="0"/>
+      <method name="getFrameworkDependenciesParser" signature="getFrameworkDependenciesParser()" start="152" end="158" crap="6" executable="3" executed="0" coverage="0"/>
+      <method name="getCsvWriter" signature="getCsvWriter()" start="165" end="171" crap="6" executable="3" executed="0" coverage="0"/>
+    </class>
+    <source>
+      <line no="1">
+        <token name="T_OPEN_TAG">&lt;?php</token>
+      </line>
+      <line no="2">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="3">
+        <token name="T_DOC_COMMENT"> * Copyright &#xA9; Magento, Inc. All rights reserved.</token>
+      </line>
+      <line no="4">
+        <token name="T_DOC_COMMENT"> * See COPYING.txt for license details.</token>
+      </line>
+      <line no="5">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="6">
+        <token name="T_NAMESPACE">namespace</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Setup\Module\Dependency</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="7"/>
+      <line no="8">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Framework\File\Csv</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="9">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Framework\Filesystem\Driver\File</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="10">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Setup\Module\Dependency\Circular</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_AS">as</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">CircularTool</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="11">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Setup\Module\Dependency\Report\Circular</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_AS">as</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">CircularReport</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="12">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Setup\Module\Dependency\Report\Dependency</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="13">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Setup\Module\Dependency\Report\Framework</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="14"/>
+      <line no="15">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="16">
+        <token name="T_DOC_COMMENT"> * Service Locator (instead DI container)</token>
+      </line>
+      <line no="17">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="18">
+        <token name="T_DOC_COMMENT"> * @SuppressWarnings(PHPMD.CouplingBetweenObjects)</token>
+      </line>
+      <line no="19">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="20">
+        <token name="T_CLASS">class</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">ServiceLocator</token>
+      </line>
+      <line no="21">
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="22">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="23">
+        <token name="T_DOC_COMMENT">     * Xml config dependencies parser</token>
+      </line>
+      <line no="24">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="25">
+        <token name="T_DOC_COMMENT">     * @var \Magento\Setup\Module\Dependency\ParserInterface</token>
+      </line>
+      <line no="26">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="27">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STATIC">static</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$xmlConfigParser</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="28"/>
+      <line no="29">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="30">
+        <token name="T_DOC_COMMENT">     * Composer Json parser</token>
+      </line>
+      <line no="31">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="32">
+        <token name="T_DOC_COMMENT">     * @var \Magento\Setup\Module\Dependency\ParserInterface</token>
+      </line>
+      <line no="33">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="34">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STATIC">static</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$composerJsonParser</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="35"/>
+      <line no="36">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="37">
+        <token name="T_DOC_COMMENT">     * Framework dependencies parser</token>
+      </line>
+      <line no="38">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="39">
+        <token name="T_DOC_COMMENT">     * @var \Magento\Setup\Module\Dependency\ParserInterface</token>
+      </line>
+      <line no="40">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="41">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STATIC">static</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$frameworkDependenciesParser</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="42"/>
+      <line no="43">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="44">
+        <token name="T_DOC_COMMENT">     * Modules dependencies report builder</token>
+      </line>
+      <line no="45">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="46">
+        <token name="T_DOC_COMMENT">     * @var \Magento\Setup\Module\Dependency\Report\BuilderInterface</token>
+      </line>
+      <line no="47">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="48">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STATIC">static</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$dependenciesReportBuilder</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="49"/>
+      <line no="50">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="51">
+        <token name="T_DOC_COMMENT">     * Modules circular dependencies report builder</token>
+      </line>
+      <line no="52">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="53">
+        <token name="T_DOC_COMMENT">     * @var \Magento\Setup\Module\Dependency\Report\BuilderInterface</token>
+      </line>
+      <line no="54">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="55">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STATIC">static</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$circularDependenciesReportBuilder</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="56"/>
+      <line no="57">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="58">
+        <token name="T_DOC_COMMENT">     * Framework dependencies report builder</token>
+      </line>
+      <line no="59">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="60">
+        <token name="T_DOC_COMMENT">     * @var \Magento\Setup\Module\Dependency\Report\BuilderInterface</token>
+      </line>
+      <line no="61">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="62">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STATIC">static</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$frameworkDependenciesReportBuilder</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="63"/>
+      <line no="64">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="65">
+        <token name="T_DOC_COMMENT">     * Csv file writer</token>
+      </line>
+      <line no="66">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="67">
+        <token name="T_DOC_COMMENT">     * @var \Magento\Framework\File\Csv</token>
+      </line>
+      <line no="68">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="69">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STATIC">static</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$csvWriter</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="70"/>
+      <line no="71">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="72">
+        <token name="T_DOC_COMMENT">     * Get modules dependencies report builder</token>
+      </line>
+      <line no="73">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="74">
+        <token name="T_DOC_COMMENT">     * @return \Magento\Setup\Module\Dependency\Report\BuilderInterface</token>
+      </line>
+      <line no="75">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="76">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STATIC">static</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">getDependenciesReportBuilder</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="77">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="78">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">null</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_IDENTICAL">===</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_VARIABLE">$dependenciesReportBuilder</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="79">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_VARIABLE">$dependenciesReportBuilder</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NEW">new</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Dependency\Builder</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="80">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">getComposerJsonParser</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="81">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_NEW">new</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Dependency\Writer</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">getCsvWriter</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="82">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="83">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="84">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_VARIABLE">$dependenciesReportBuilder</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="85">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="86"/>
+      <line no="87">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="88">
+        <token name="T_DOC_COMMENT">     * Get modules circular dependencies report builder</token>
+      </line>
+      <line no="89">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="90">
+        <token name="T_DOC_COMMENT">     * @return \Magento\Setup\Module\Dependency\Report\BuilderInterface</token>
+      </line>
+      <line no="91">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="92">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STATIC">static</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">getCircularDependenciesReportBuilder</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="93">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="94">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">null</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_IDENTICAL">===</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_VARIABLE">$circularDependenciesReportBuilder</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="95">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_VARIABLE">$circularDependenciesReportBuilder</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NEW">new</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">CircularReport\Builder</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="96">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">getComposerJsonParser</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="97">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_NEW">new</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">CircularReport\Writer</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">getCsvWriter</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="98">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_NEW">new</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">CircularTool</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="99">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="100">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="101">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_VARIABLE">$circularDependenciesReportBuilder</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="102">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="103"/>
+      <line no="104">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="105">
+        <token name="T_DOC_COMMENT">     * Get framework dependencies report builder</token>
+      </line>
+      <line no="106">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="107">
+        <token name="T_DOC_COMMENT">     * @return \Magento\Setup\Module\Dependency\Report\BuilderInterface</token>
+      </line>
+      <line no="108">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="109">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STATIC">static</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">getFrameworkDependenciesReportBuilder</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="110">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="111">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">null</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_IDENTICAL">===</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_VARIABLE">$frameworkDependenciesReportBuilder</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="112">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_VARIABLE">$frameworkDependenciesReportBuilder</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NEW">new</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Framework\Builder</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="113">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">getFrameworkDependenciesParser</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="114">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_NEW">new</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Framework\Writer</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">getCsvWriter</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="115">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">getXmlConfigParser</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="116">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="117">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="118">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_VARIABLE">$frameworkDependenciesReportBuilder</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="119">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="120"/>
+      <line no="121">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="122">
+        <token name="T_DOC_COMMENT">     * Get modules dependencies parser</token>
+      </line>
+      <line no="123">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="124">
+        <token name="T_DOC_COMMENT">     * @return \Magento\Setup\Module\Dependency\ParserInterface</token>
+      </line>
+      <line no="125">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="126">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STATIC">static</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">getXmlConfigParser</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="127">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="128">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">null</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_IDENTICAL">===</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_VARIABLE">$xmlConfigParser</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="129">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_VARIABLE">$xmlConfigParser</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NEW">new</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Parser\Config\Xml</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="130">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="131">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_VARIABLE">$xmlConfigParser</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="132">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="133"/>
+      <line no="134">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="135">
+        <token name="T_DOC_COMMENT">     * Get modules dependencies from composer.json parser</token>
+      </line>
+      <line no="136">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="137">
+        <token name="T_DOC_COMMENT">     * @return \Magento\Setup\Module\Dependency\ParserInterface</token>
+      </line>
+      <line no="138">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="139">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STATIC">static</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">getComposerJsonParser</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="140">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="141">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">null</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_IDENTICAL">===</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_VARIABLE">$composerJsonParser</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="142">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_VARIABLE">$composerJsonParser</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NEW">new</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Parser\Composer\Json</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="143">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="144">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_VARIABLE">$composerJsonParser</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="145">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="146"/>
+      <line no="147">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="148">
+        <token name="T_DOC_COMMENT">     * Get framework dependencies parser</token>
+      </line>
+      <line no="149">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="150">
+        <token name="T_DOC_COMMENT">     * @return \Magento\Setup\Module\Dependency\ParserInterface</token>
+      </line>
+      <line no="151">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="152">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STATIC">static</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">getFrameworkDependenciesParser</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="153">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="154">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">null</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_IDENTICAL">===</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_VARIABLE">$frameworkDependenciesParser</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="155">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_VARIABLE">$frameworkDependenciesParser</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NEW">new</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Parser\Code</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="156">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="157">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_VARIABLE">$frameworkDependenciesParser</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="158">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="159"/>
+      <line no="160">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="161">
+        <token name="T_DOC_COMMENT">     * Get csv file writer</token>
+      </line>
+      <line no="162">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="163">
+        <token name="T_DOC_COMMENT">     * @return \Magento\Framework\File\Csv</token>
+      </line>
+      <line no="164">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="165">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STATIC">static</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">getCsvWriter</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="166">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="167">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">null</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_IDENTICAL">===</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_VARIABLE">$csvWriter</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="168">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_VARIABLE">$csvWriter</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NEW">new</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Csv</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_NEW">new</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">File</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="169">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="170">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">self</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_VARIABLE">$csvWriter</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="171">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="172">
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="173"/>
+    </source>
+  </file>
+</phpunit>

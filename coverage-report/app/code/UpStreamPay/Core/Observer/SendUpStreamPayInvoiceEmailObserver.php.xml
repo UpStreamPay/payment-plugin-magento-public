@@ -1,0 +1,638 @@
+<?xml version="1.0"?>
+<phpunit xmlns="https://schema.phpunit.de/coverage/1.0">
+  <file name="SendUpStreamPayInvoiceEmailObserver.php" path="/app/code/UpStreamPay/Core/Observer">
+    <totals>
+      <lines total="94" comments="40" code="54" executable="13" executed="13" percent="100.00"/>
+      <methods count="3" tested="3" percent="100.00"/>
+      <functions count="0" tested="0" percent="0"/>
+      <classes count="1" tested="1" percent="100.00"/>
+      <traits count="0" tested="0" percent="0"/>
+    </totals>
+    <class name="UpStreamPay\Core\Observer\SendUpStreamPayInvoiceEmailObserver" start="31" executable="13" executed="13" crap="9">
+      <namespace name="UpStreamPay\Core\Observer"/>
+      <method name="__construct" signature="__construct(Psr\Log\LoggerInterface $logger, Magento\Sales\Model\Order\Email\Sender\InvoiceSender $invoiceSender, Magento\Sales\Model\Order\Email\Container\InvoiceIdentity $invoiceIdentity)" start="38" end="43" crap="1" executable="1" executed="1" coverage="100"/>
+      <method name="execute" signature="execute(Magento\Framework\Event\Observer $observer): void" start="54" end="82" crap="7" executable="11" executed="11" coverage="100"/>
+      <method name="isInvoiceEmailAllowed" signature="isInvoiceEmailAllowed(): bool" start="89" end="92" crap="1" executable="1" executed="1" coverage="100"/>
+    </class>
+    <coverage>
+      <line nr="43">
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteInvoiceEmailNotAllowed"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteOrderEmailNotAllowed"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteNoInvoice"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteWithUpStreamPayMethod"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteWithoutUpStreamPayMethod"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteException"/>
+      </line>
+      <line nr="56">
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteInvoiceEmailNotAllowed"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteOrderEmailNotAllowed"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteNoInvoice"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteWithUpStreamPayMethod"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteWithoutUpStreamPayMethod"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteException"/>
+      </line>
+      <line nr="57">
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteInvoiceEmailNotAllowed"/>
+      </line>
+      <line nr="61">
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteOrderEmailNotAllowed"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteNoInvoice"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteWithUpStreamPayMethod"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteWithoutUpStreamPayMethod"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteException"/>
+      </line>
+      <line nr="63">
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteOrderEmailNotAllowed"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteNoInvoice"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteWithUpStreamPayMethod"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteWithoutUpStreamPayMethod"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteException"/>
+      </line>
+      <line nr="68">
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteOrderEmailNotAllowed"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteNoInvoice"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteWithUpStreamPayMethod"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteWithoutUpStreamPayMethod"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteException"/>
+      </line>
+      <line nr="69">
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteOrderEmailNotAllowed"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteNoInvoice"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteWithUpStreamPayMethod"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteWithoutUpStreamPayMethod"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteException"/>
+      </line>
+      <line nr="72">
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteNoInvoice"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteWithUpStreamPayMethod"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteWithoutUpStreamPayMethod"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteException"/>
+      </line>
+      <line nr="75">
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteNoInvoice"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteWithUpStreamPayMethod"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteWithoutUpStreamPayMethod"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteException"/>
+      </line>
+      <line nr="76">
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteNoInvoice"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteWithUpStreamPayMethod"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteWithoutUpStreamPayMethod"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteException"/>
+      </line>
+      <line nr="78">
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteException"/>
+      </line>
+      <line nr="79">
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteException"/>
+      </line>
+      <line nr="91">
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteInvoiceEmailNotAllowed"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteOrderEmailNotAllowed"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteNoInvoice"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteWithUpStreamPayMethod"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteWithoutUpStreamPayMethod"/>
+        <covered by="UpStreamPay\Core\Test\Observer\SendUpStreamPayInvoiceEmailObserverTest::testExecuteException"/>
+      </line>
+    </coverage>
+    <source>
+      <line no="1">
+        <token name="T_OPEN_TAG">&lt;?php</token>
+      </line>
+      <line no="2">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="3">
+        <token name="T_DOC_COMMENT"> * UpStream Pay</token>
+      </line>
+      <line no="4">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="5">
+        <token name="T_DOC_COMMENT"> * Copyright (c) 2023 UpStream Pay.</token>
+      </line>
+      <line no="6">
+        <token name="T_DOC_COMMENT"> * This file is open source and available under the BSD 3 license.</token>
+      </line>
+      <line no="7">
+        <token name="T_DOC_COMMENT"> * See the LICENSE file for more info.</token>
+      </line>
+      <line no="8">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="9">
+        <token name="T_DOC_COMMENT"> * Author: Claranet France &lt;info@fr.clara.net&gt;</token>
+      </line>
+      <line no="10">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="11">
+        <token name="T_DECLARE">declare</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">strict_types</token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_LNUMBER">1</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="12"/>
+      <line no="13">
+        <token name="T_NAMESPACE">namespace</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Observer</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="14"/>
+      <line no="15">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Framework\Event\Observer</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="16">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Framework\Event\ObserverInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="17">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Quote\Model\Quote</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="18">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Sales\Model\Order</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="19">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Sales\Model\Order\Email\Container\InvoiceIdentity</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="20">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Sales\Model\Order\Email\Sender\InvoiceSender</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="21">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Sales\Model\Order\Invoice</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="22">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Psr\Log\LoggerInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="23">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Throwable</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="24">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Model\Config</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="25"/>
+      <line no="26">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="27">
+        <token name="T_DOC_COMMENT"> * Class SendUpStreamPayInvoiceEmailObserver</token>
+      </line>
+      <line no="28">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="29">
+        <token name="T_DOC_COMMENT"> * @package UpStreamPay\Core\Observer</token>
+      </line>
+      <line no="30">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="31">
+        <token name="T_CLASS">class</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">SendUpStreamPayInvoiceEmailObserver</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IMPLEMENTS">implements</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">ObserverInterface</token>
+      </line>
+      <line no="32">
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="33">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="34">
+        <token name="T_DOC_COMMENT">     * @param LoggerInterface $logger</token>
+      </line>
+      <line no="35">
+        <token name="T_DOC_COMMENT">     * @param InvoiceSender $invoiceSender</token>
+      </line>
+      <line no="36">
+        <token name="T_DOC_COMMENT">     * @param InvoiceIdentity $invoiceIdentity</token>
+      </line>
+      <line no="37">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="38">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">__construct</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="39">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">LoggerInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$logger</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="40">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">InvoiceSender</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$invoiceSender</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="41">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">InvoiceIdentity</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$invoiceIdentity</token>
+      </line>
+      <line no="42">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="43">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="44"/>
+      <line no="45">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="46">
+        <token name="T_DOC_COMMENT">     * Send invoice email if allowed.</token>
+      </line>
+      <line no="47">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="48">
+        <token name="T_DOC_COMMENT">     * @see sendEmailInvoiceUpstream</token>
+      </line>
+      <line no="49">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="50">
+        <token name="T_DOC_COMMENT">     * @param Observer $observer</token>
+      </line>
+      <line no="51">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="52">
+        <token name="T_DOC_COMMENT">     * @return void</token>
+      </line>
+      <line no="53">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="54">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">execute</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">Observer</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$observer</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">void</token>
+      </line>
+      <line no="55">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="56">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_EXCLAMATION_MARK">!</token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">isInvoiceEmailAllowed</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="57">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="58">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="59"/>
+      <line no="60">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_DOC_COMMENT">/** @var  Quote $quote */</token>
+      </line>
+      <line no="61">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$quote</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$observer</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getEvent</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getQuote</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="62">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_DOC_COMMENT">/** @var  Order $order */</token>
+      </line>
+      <line no="63">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$order</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$observer</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getEvent</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getOrder</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="64"/>
+      <line no="65">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="66">
+        <token name="T_DOC_COMMENT">         * a flag to set that there will be redirect to third party after confirmation</token>
+      </line>
+      <line no="67">
+        <token name="T_DOC_COMMENT">         */</token>
+      </line>
+      <line no="68">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$redirectUrl</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$quote</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getPayment</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getOrderPlaceRedirectUrl</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="69">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_EXCLAMATION_MARK">!</token>
+        <token name="T_VARIABLE">$redirectUrl</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_BOOLEAN_AND">&amp;&amp;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$order</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getCanSendNewEmailFlag</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="70">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_TRY">try</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="71">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_DOC_COMMENT">/** @var Invoice $invoice */</token>
+      </line>
+      <line no="72">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$invoice</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">current</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$order</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getInvoiceCollection</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getItems</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="73"/>
+      <line no="74">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_COMMENT">//Add this condition to block emails only if using upstream pay.</token>
+      </line>
+      <line no="75">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$invoice</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_BOOLEAN_AND">&amp;&amp;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$order</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getPayment</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getMethod</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_NOT_IDENTICAL">!==</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Config</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">METHOD_CODE_UPSTREAM_PAY</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="76">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">invoiceSender</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">send</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$invoice</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="77">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="78">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_CURLY">}</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CATCH">catch</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">Throwable</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$exception</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="79">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">logger</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">critical</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$exception</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="80">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="81">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="82">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="83"/>
+      <line no="84">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="85">
+        <token name="T_DOC_COMMENT">     * Is invoice email sending enabled</token>
+      </line>
+      <line no="86">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="87">
+        <token name="T_DOC_COMMENT">     * @return bool</token>
+      </line>
+      <line no="88">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="89">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">isInvoiceEmailAllowed</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">bool</token>
+      </line>
+      <line no="90">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="91">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">invoiceIdentity</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">isEnabled</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="92">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="93">
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="94"/>
+    </source>
+  </file>
+</phpunit>

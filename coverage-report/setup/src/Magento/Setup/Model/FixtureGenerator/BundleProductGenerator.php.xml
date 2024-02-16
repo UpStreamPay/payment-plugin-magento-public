@@ -1,0 +1,1648 @@
+<?xml version="1.0"?>
+<phpunit xmlns="https://schema.phpunit.de/coverage/1.0">
+  <file name="BundleProductGenerator.php" path="/setup/src/Magento/Setup/Model/FixtureGenerator">
+    <totals>
+      <lines total="253" comments="73" code="180" executable="110" executed="0" percent="0.00"/>
+      <methods count="6" tested="0" percent="0.00"/>
+      <functions count="0" tested="0" percent="0"/>
+      <classes count="1" tested="0" percent="0.00"/>
+      <traits count="0" tested="0" percent="0"/>
+    </totals>
+    <class name="Magento\Setup\Model\FixtureGenerator\BundleProductGenerator" start="24" executable="110" executed="0" crap="272">
+      <namespace name="Magento\Setup\Model\FixtureGenerator"/>
+      <method name="__construct" signature="__construct(Magento\Setup\Model\FixtureGenerator\ProductGeneratorFactory $productGeneratorFactory, Magento\Framework\App\ResourceConnection $resource)" start="48" end="57" crap="6" executable="4" executed="0" coverage="0"/>
+      <method name="generate" signature="generate($products, $fixtureMap)" start="69" end="176" crap="56" executable="88" executed="0" coverage="0"/>
+      <method name="generateOptionId" signature="generateOptionId($entityNumber, $originalOptionId, array $fixture)" start="187" end="194" crap="6" executable="3" executed="0" coverage="0"/>
+      <method name="generateSelectionId" signature="generateSelectionId($entityNumber, $originalSelectionId, array $fixture)" start="205" end="214" crap="6" executable="4" executed="0" coverage="0"/>
+      <method name="generateSequenceId" signature="generateSequenceId($tableName)" start="223" end="237" crap="6" executable="9" executed="0" coverage="0"/>
+      <method name="generateSimpleProductId" signature="generateSimpleProductId($previousProductId, $entityNumber, array $fixture)" start="247" end="251" crap="2" executable="2" executed="0" coverage="0"/>
+    </class>
+    <source>
+      <line no="1">
+        <token name="T_OPEN_TAG">&lt;?php</token>
+      </line>
+      <line no="2">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="3">
+        <token name="T_DOC_COMMENT"> * Copyright &#xA9; Magento, Inc. All rights reserved.</token>
+      </line>
+      <line no="4">
+        <token name="T_DOC_COMMENT"> * See COPYING.txt for license details.</token>
+      </line>
+      <line no="5">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="6">
+        <token name="T_NAMESPACE">namespace</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Setup\Model\FixtureGenerator</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="7"/>
+      <line no="8">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Framework\App\ObjectManager</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="9">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Framework\App\ResourceConnection</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="10"/>
+      <line no="11">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="12">
+        <token name="T_DOC_COMMENT"> * Generate specified amount of bundle products based on passed fixture</token>
+      </line>
+      <line no="13">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="14">
+        <token name="T_DOC_COMMENT"> * See ProductGenerator for fixture arguments</token>
+      </line>
+      <line no="15">
+        <token name="T_DOC_COMMENT"> * Fixture must return some specific options for generate bundle product:</token>
+      </line>
+      <line no="16">
+        <token name="T_DOC_COMMENT"> * [</token>
+      </line>
+      <line no="17">
+        <token name="T_DOC_COMMENT"> *      '_bundle_variation_sku_pattern' =&gt; simple product sku pattern, which will be used as configurable variation,</token>
+      </line>
+      <line no="18">
+        <token name="T_DOC_COMMENT"> *      '_bundle_options' =&gt; amount of options per bundle product,</token>
+      </line>
+      <line no="19">
+        <token name="T_DOC_COMMENT"> *      '_bundle_products_per_option' =&gt; amount of simple products per each option,</token>
+      </line>
+      <line no="20">
+        <token name="T_DOC_COMMENT"> * ]</token>
+      </line>
+      <line no="21">
+        <token name="T_DOC_COMMENT"> * @see ProductGenerator</token>
+      </line>
+      <line no="22">
+        <token name="T_DOC_COMMENT"> * @see BundleProductTemplateGenerator</token>
+      </line>
+      <line no="23">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="24">
+        <token name="T_CLASS">class</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">BundleProductGenerator</token>
+      </line>
+      <line no="25">
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="26">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="27">
+        <token name="T_DOC_COMMENT">     * @var array</token>
+      </line>
+      <line no="28">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="29">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$sequenceValues</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="30">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'sequence_product_bundle_option'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">null</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="31">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'sequence_product_bundle_selection'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">null</token>
+      </line>
+      <line no="32">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="33"/>
+      <line no="34">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="35">
+        <token name="T_DOC_COMMENT">     * @var ProductGeneratorFactory</token>
+      </line>
+      <line no="36">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="37">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$productGeneratorFactory</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="38"/>
+      <line no="39">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="40">
+        <token name="T_DOC_COMMENT">     * @var ResourceConnection</token>
+      </line>
+      <line no="41">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="42">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$resource</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="43"/>
+      <line no="44">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="45">
+        <token name="T_DOC_COMMENT">     * @param ProductGeneratorFactory $productGeneratorFactory</token>
+      </line>
+      <line no="46">
+        <token name="T_DOC_COMMENT">     * @param ResourceConnection $resource|null</token>
+      </line>
+      <line no="47">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="48">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">__construct</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="49">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">ProductGeneratorFactory</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$productGeneratorFactory</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="50">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">ResourceConnection</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$resource</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">null</token>
+      </line>
+      <line no="51">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="52">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">productGeneratorFactory</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$productGeneratorFactory</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="53"/>
+      <line no="54">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">resource</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$resource</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_QUESTION_MARK">?</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">ObjectManager</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">getInstance</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">get</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="55">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_STRING">ResourceConnection</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_CLASS">class</token>
+      </line>
+      <line no="56">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="57">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="58"/>
+      <line no="59">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="60">
+        <token name="T_DOC_COMMENT">     * Generates bundle products.</token>
+      </line>
+      <line no="61">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="62">
+        <token name="T_DOC_COMMENT">     * @param int $products</token>
+      </line>
+      <line no="63">
+        <token name="T_DOC_COMMENT">     * @param array $fixtureMap</token>
+      </line>
+      <line no="64">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="65">
+        <token name="T_DOC_COMMENT">     * @return void</token>
+      </line>
+      <line no="66">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="67">
+        <token name="T_DOC_COMMENT">     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)</token>
+      </line>
+      <line no="68">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="69">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">generate</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$products</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$fixtureMap</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="70">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="71">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">productGeneratorFactory</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">create</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="72">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'customTableMap'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="73">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'catalog_product_bundle_option'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="74">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'entity_id_field'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">EntityGenerator</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">SKIP_ENTITY_ID_BINDING</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="75">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'handler'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$productId</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$entityNumber</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$fixture</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$binds</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="76">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_FOREACH">foreach</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$binds</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_AS">as</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG">&amp;</token>
+        <token name="T_VARIABLE">$bind</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="77">
+        <token name="T_WHITESPACE">                            </token>
+        <token name="T_VARIABLE">$bind</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'option_id'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">generateOptionId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="78">
+        <token name="T_WHITESPACE">                                </token>
+        <token name="T_VARIABLE">$entityNumber</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="79">
+        <token name="T_WHITESPACE">                                </token>
+        <token name="T_VARIABLE">$bind</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'option_id'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="80">
+        <token name="T_WHITESPACE">                                </token>
+        <token name="T_VARIABLE">$fixture</token>
+      </line>
+      <line no="81">
+        <token name="T_WHITESPACE">                            </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="82"/>
+      <line no="83">
+        <token name="T_WHITESPACE">                            </token>
+        <token name="T_VARIABLE">$bind</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'parent_id'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$productId</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="84">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="85"/>
+      <line no="86">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$binds</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="87">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="88">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="89">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'sequence_product_bundle_option'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="90">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'entity_id_field'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">EntityGenerator</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">SKIP_ENTITY_ID_BINDING</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="91">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'handler'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$productId</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$entityNumber</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$fixture</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$binds</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="92">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_FOREACH">foreach</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$binds</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_AS">as</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG">&amp;</token>
+        <token name="T_VARIABLE">$bind</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="93">
+        <token name="T_WHITESPACE">                            </token>
+        <token name="T_VARIABLE">$bind</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'sequence_value'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">generateSequenceId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="94">
+        <token name="T_WHITESPACE">                                </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'sequence_product_bundle_option'</token>
+      </line>
+      <line no="95">
+        <token name="T_WHITESPACE">                            </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="96">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="97"/>
+      <line no="98">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$binds</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="99">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="100">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="101">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'catalog_product_bundle_option_value'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="102">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'entity_id_field'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">EntityGenerator</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">SKIP_ENTITY_ID_BINDING</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="103">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'handler'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$productId</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$entityNumber</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$fixture</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$binds</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="104">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_FOREACH">foreach</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$binds</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_AS">as</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG">&amp;</token>
+        <token name="T_VARIABLE">$bind</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="105">
+        <token name="T_WHITESPACE">                            </token>
+        <token name="T_VARIABLE">$bind</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'option_id'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">generateOptionId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="106">
+        <token name="T_WHITESPACE">                                </token>
+        <token name="T_VARIABLE">$entityNumber</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="107">
+        <token name="T_WHITESPACE">                                </token>
+        <token name="T_VARIABLE">$bind</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'option_id'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="108">
+        <token name="T_WHITESPACE">                                </token>
+        <token name="T_VARIABLE">$fixture</token>
+      </line>
+      <line no="109">
+        <token name="T_WHITESPACE">                            </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="110"/>
+      <line no="111">
+        <token name="T_WHITESPACE">                            </token>
+        <token name="T_VARIABLE">$bind</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'parent_product_id'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$productId</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="112">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="113"/>
+      <line no="114">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$binds</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="115">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="116">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="117">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'catalog_product_bundle_selection'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="118">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'entity_id_field'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">EntityGenerator</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">SKIP_ENTITY_ID_BINDING</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="119">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'handler'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$productId</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$entityNumber</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$fixture</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$binds</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="120">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_FOREACH">foreach</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$binds</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_AS">as</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG">&amp;</token>
+        <token name="T_VARIABLE">$bind</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="121">
+        <token name="T_WHITESPACE">                            </token>
+        <token name="T_VARIABLE">$bind</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'selection_id'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">generateSelectionId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="122">
+        <token name="T_WHITESPACE">                                </token>
+        <token name="T_VARIABLE">$entityNumber</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="123">
+        <token name="T_WHITESPACE">                                </token>
+        <token name="T_VARIABLE">$bind</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'selection_id'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="124">
+        <token name="T_WHITESPACE">                                </token>
+        <token name="T_VARIABLE">$fixture</token>
+      </line>
+      <line no="125">
+        <token name="T_WHITESPACE">                            </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="126"/>
+      <line no="127">
+        <token name="T_WHITESPACE">                            </token>
+        <token name="T_VARIABLE">$bind</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'parent_product_id'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$productId</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="128"/>
+      <line no="129">
+        <token name="T_WHITESPACE">                            </token>
+        <token name="T_VARIABLE">$bind</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'option_id'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">generateOptionId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="130">
+        <token name="T_WHITESPACE">                                </token>
+        <token name="T_VARIABLE">$entityNumber</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="131">
+        <token name="T_WHITESPACE">                                </token>
+        <token name="T_VARIABLE">$bind</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'option_id'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="132">
+        <token name="T_WHITESPACE">                                </token>
+        <token name="T_VARIABLE">$fixture</token>
+      </line>
+      <line no="133">
+        <token name="T_WHITESPACE">                            </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="134"/>
+      <line no="135">
+        <token name="T_WHITESPACE">                            </token>
+        <token name="T_VARIABLE">$bind</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'product_id'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">generateSimpleProductId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="136">
+        <token name="T_WHITESPACE">                                </token>
+        <token name="T_VARIABLE">$bind</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'product_id'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="137">
+        <token name="T_WHITESPACE">                                </token>
+        <token name="T_VARIABLE">$entityNumber</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="138">
+        <token name="T_WHITESPACE">                                </token>
+        <token name="T_VARIABLE">$fixture</token>
+      </line>
+      <line no="139">
+        <token name="T_WHITESPACE">                            </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="140"/>
+      <line no="141">
+        <token name="T_WHITESPACE">                            </token>
+        <token name="T_VARIABLE">$bind</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'selection_price_type'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$fixture</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'priceType'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$bind</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'product_id'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="142">
+        <token name="T_WHITESPACE">                            </token>
+        <token name="T_VARIABLE">$bind</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'selection_price_value'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$fixture</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'price'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$bind</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'product_id'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="143">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="144"/>
+      <line no="145">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$binds</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="146">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="147">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="148">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'sequence_product_bundle_selection'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="149">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'entity_id_field'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">EntityGenerator</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">SKIP_ENTITY_ID_BINDING</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="150">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'handler'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$productId</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$entityNumber</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$fixture</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$binds</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="151">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_FOREACH">foreach</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$binds</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_AS">as</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG">&amp;</token>
+        <token name="T_VARIABLE">$bind</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="152">
+        <token name="T_WHITESPACE">                            </token>
+        <token name="T_VARIABLE">$bind</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'sequence_value'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">generateSequenceId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="153">
+        <token name="T_WHITESPACE">                                </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'sequence_product_bundle_selection'</token>
+      </line>
+      <line no="154">
+        <token name="T_WHITESPACE">                            </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="155">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="156"/>
+      <line no="157">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$binds</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="158">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="159">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="160">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'catalog_product_relation'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="161">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'entity_id_field'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">EntityGenerator</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">SKIP_ENTITY_ID_BINDING</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="162">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'handler'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$productId</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$entityNumber</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$fixture</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$binds</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="163">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_FOREACH">foreach</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$binds</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_AS">as</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG">&amp;</token>
+        <token name="T_VARIABLE">$bind</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="164">
+        <token name="T_WHITESPACE">                            </token>
+        <token name="T_VARIABLE">$bind</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'parent_id'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$productId</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="165">
+        <token name="T_WHITESPACE">                            </token>
+        <token name="T_VARIABLE">$bind</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'child_id'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">generateSimpleProductId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="166">
+        <token name="T_WHITESPACE">                                </token>
+        <token name="T_VARIABLE">$bind</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'child_id'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="167">
+        <token name="T_WHITESPACE">                                </token>
+        <token name="T_VARIABLE">$entityNumber</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="168">
+        <token name="T_WHITESPACE">                                </token>
+        <token name="T_VARIABLE">$fixture</token>
+      </line>
+      <line no="169">
+        <token name="T_WHITESPACE">                            </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="170">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="171">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$binds</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="172">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="173">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="174">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+      </line>
+      <line no="175">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">generate</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$products</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$fixtureMap</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="176">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="177"/>
+      <line no="178">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="179">
+        <token name="T_DOC_COMMENT">     * Generates an option Id.</token>
+      </line>
+      <line no="180">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="181">
+        <token name="T_DOC_COMMENT">     * @param int $entityNumber</token>
+      </line>
+      <line no="182">
+        <token name="T_DOC_COMMENT">     * @param int $originalOptionId</token>
+      </line>
+      <line no="183">
+        <token name="T_DOC_COMMENT">     * @param array $fixture</token>
+      </line>
+      <line no="184">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="185">
+        <token name="T_DOC_COMMENT">     * @return int|null</token>
+      </line>
+      <line no="186">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="187">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">generateOptionId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$entityNumber</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$originalOptionId</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_ARRAY">array</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$fixture</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="188">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="189">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$originalOptionId</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="190">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$fixture</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'_bundle_options'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_MULT">*</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$entityNumber</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_PLUS">+</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_LNUMBER">1</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_PLUS">+</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$originalOptionId</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="191">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="192"/>
+      <line no="193">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$originalOptionId</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="194">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="195"/>
+      <line no="196">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="197">
+        <token name="T_DOC_COMMENT">     * Generates a selection Id.</token>
+      </line>
+      <line no="198">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="199">
+        <token name="T_DOC_COMMENT">     * @param int $entityNumber</token>
+      </line>
+      <line no="200">
+        <token name="T_DOC_COMMENT">     * @param int $originalSelectionId</token>
+      </line>
+      <line no="201">
+        <token name="T_DOC_COMMENT">     * @param array $fixture</token>
+      </line>
+      <line no="202">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="203">
+        <token name="T_DOC_COMMENT">     * @return int|null</token>
+      </line>
+      <line no="204">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="205">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">generateSelectionId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$entityNumber</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$originalSelectionId</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_ARRAY">array</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$fixture</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="206">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="207">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$originalSelectionId</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="208">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$selectionsPerProduct</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$fixture</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'_bundle_products_per_option'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_MULT">*</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$fixture</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'_bundle_options'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="209"/>
+      <line no="210">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$selectionsPerProduct</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_MULT">*</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$entityNumber</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_PLUS">+</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_LNUMBER">1</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_PLUS">+</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$originalSelectionId</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="211">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="212"/>
+      <line no="213">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$originalSelectionId</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="214">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="215"/>
+      <line no="216">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="217">
+        <token name="T_DOC_COMMENT">     * Generates an Id for the given sequence table.</token>
+      </line>
+      <line no="218">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="219">
+        <token name="T_DOC_COMMENT">     * @param string $tableName</token>
+      </line>
+      <line no="220">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="221">
+        <token name="T_DOC_COMMENT">     * @return int</token>
+      </line>
+      <line no="222">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="223">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">generateSequenceId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$tableName</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="224">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="225">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_EXCLAMATION_MARK">!</token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">sequenceValues</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_VARIABLE">$tableName</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="226">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$connection</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">resource</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getConnection</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="227"/>
+      <line no="228">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">sequenceValues</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_VARIABLE">$tableName</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$connection</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">fetchOne</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="229">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$connection</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">select</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">from</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="230">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">resource</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getTableName</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$tableName</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="231">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'MAX(`sequence_value`)'</token>
+      </line>
+      <line no="232">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="233">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="234">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="235"/>
+      <line no="236">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_INC">++</token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">sequenceValues</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_VARIABLE">$tableName</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="237">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="238"/>
+      <line no="239">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="240">
+        <token name="T_DOC_COMMENT">     * Generate value of simple product id which is used for $entityNumber bundle product as option item</token>
+      </line>
+      <line no="241">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="242">
+        <token name="T_DOC_COMMENT">     * @param int $previousProductId</token>
+      </line>
+      <line no="243">
+        <token name="T_DOC_COMMENT">     * @param int $entityNumber</token>
+      </line>
+      <line no="244">
+        <token name="T_DOC_COMMENT">     * @param array $fixture</token>
+      </line>
+      <line no="245">
+        <token name="T_DOC_COMMENT">     * @return mixed</token>
+      </line>
+      <line no="246">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="247">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">generateSimpleProductId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$previousProductId</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$entityNumber</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_ARRAY">array</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$fixture</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="248">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="249">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$previousProductId</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_PLUS">+</token>
+      </line>
+      <line no="250">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$entityNumber</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_MULT">*</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$fixture</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'_bundle_products_per_option'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_MULT">*</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$fixture</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'_bundle_options'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="251">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="252">
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="253"/>
+    </source>
+  </file>
+</phpunit>

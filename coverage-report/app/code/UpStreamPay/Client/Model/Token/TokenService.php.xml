@@ -1,0 +1,693 @@
+<?xml version="1.0"?>
+<phpunit xmlns="https://schema.phpunit.de/coverage/1.0">
+  <file name="TokenService.php" path="/app/code/UpStreamPay/Client/Model/Token">
+    <totals>
+      <lines total="104" comments="39" code="65" executable="25" executed="25" percent="100.00"/>
+      <methods count="3" tested="3" percent="100.00"/>
+      <functions count="0" tested="0" percent="0"/>
+      <classes count="1" tested="1" percent="100.00"/>
+      <traits count="0" tested="0" percent="0"/>
+    </totals>
+    <class name="UpStreamPay\Client\Model\Token\TokenService" start="26" executable="25" executed="25" crap="5">
+      <namespace name="UpStreamPay\Client\Model\Token"/>
+      <method name="__construct" signature="__construct(UpStreamPay\Client\Model\Token\TokenFactory $tokenFactory, Magento\Framework\Stdlib\DateTime\TimezoneInterface $timezone, Magento\Framework\App\CacheInterface $cache, Magento\Framework\Serialize\SerializerInterface $serializer)" start="34" end="40" crap="1" executable="1" executed="1" coverage="100"/>
+      <method name="getToken" signature="getToken(): UpStreamPay\Client\Api\Data\TokenInterface" start="48" end="66" crap="3" executable="8" executed="8" coverage="100"/>
+      <method name="setToken" signature="setToken(array $tokenData): UpStreamPay\Client\Api\Data\TokenInterface" start="77" end="102" crap="1" executable="16" executed="16" coverage="100"/>
+    </class>
+    <coverage>
+      <line nr="40">
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testSetToken"/>
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testGetTokenWithNoCache"/>
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testGetTokenWithWrongCacheData"/>
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testGetToken"/>
+      </line>
+      <line nr="51">
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testGetTokenWithNoCache"/>
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testGetTokenWithWrongCacheData"/>
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testGetToken"/>
+      </line>
+      <line nr="53">
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testGetTokenWithNoCache"/>
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testGetTokenWithWrongCacheData"/>
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testGetToken"/>
+      </line>
+      <line nr="55">
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testGetTokenWithNoCache"/>
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testGetTokenWithWrongCacheData"/>
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testGetToken"/>
+      </line>
+      <line nr="56">
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testGetTokenWithNoCache"/>
+      </line>
+      <line nr="59">
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testGetTokenWithWrongCacheData"/>
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testGetToken"/>
+      </line>
+      <line nr="61">
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testGetTokenWithWrongCacheData"/>
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testGetToken"/>
+      </line>
+      <line nr="62">
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testGetTokenWithWrongCacheData"/>
+      </line>
+      <line nr="65">
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testGetToken"/>
+      </line>
+      <line nr="80">
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testSetToken"/>
+      </line>
+      <line nr="81">
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testSetToken"/>
+      </line>
+      <line nr="85">
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testSetToken"/>
+      </line>
+      <line nr="88">
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testSetToken"/>
+      </line>
+      <line nr="89">
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testSetToken"/>
+      </line>
+      <line nr="90">
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testSetToken"/>
+      </line>
+      <line nr="91">
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testSetToken"/>
+      </line>
+      <line nr="94">
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testSetToken"/>
+      </line>
+      <line nr="95">
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testSetToken"/>
+      </line>
+      <line nr="96">
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testSetToken"/>
+      </line>
+      <line nr="97">
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testSetToken"/>
+      </line>
+      <line nr="98">
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testSetToken"/>
+      </line>
+      <line nr="101">
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testSetToken"/>
+      </line>
+      <line nr="87">
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testSetToken"/>
+      </line>
+      <line nr="92">
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testSetToken"/>
+      </line>
+      <line nr="99">
+        <covered by="UpStreamPay\Client\Test\Model\Token\TokenServiceTest::testSetToken"/>
+      </line>
+    </coverage>
+    <source>
+      <line no="1">
+        <token name="T_OPEN_TAG">&lt;?php</token>
+      </line>
+      <line no="2">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="3">
+        <token name="T_DOC_COMMENT"> * UpStream Pay</token>
+      </line>
+      <line no="4">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="5">
+        <token name="T_DOC_COMMENT"> * Copyright (c) 2023 UpStream Pay.</token>
+      </line>
+      <line no="6">
+        <token name="T_DOC_COMMENT"> * This file is open source and available under the BSD 3 license.</token>
+      </line>
+      <line no="7">
+        <token name="T_DOC_COMMENT"> * See the LICENSE file for more info.</token>
+      </line>
+      <line no="8">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="9">
+        <token name="T_DOC_COMMENT"> * Author: Claranet France &lt;info@fr.clara.net&gt;</token>
+      </line>
+      <line no="10">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="11">
+        <token name="T_DECLARE">declare</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">strict_types</token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_LNUMBER">1</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="12"/>
+      <line no="13">
+        <token name="T_NAMESPACE">namespace</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Client\Model\Token</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="14"/>
+      <line no="15">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Framework\App\CacheInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="16">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Framework\Serialize\SerializerInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="17">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Framework\Stdlib\DateTime\TimezoneInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="18">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Client\Api\Data\TokenInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="19">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Client\Model\Cache\Type\UpStreamPay</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="20"/>
+      <line no="21">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="22">
+        <token name="T_DOC_COMMENT"> * Class TokenService</token>
+      </line>
+      <line no="23">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="24">
+        <token name="T_DOC_COMMENT"> * @package UpstreamPay\Client\Model\Token</token>
+      </line>
+      <line no="25">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="26">
+        <token name="T_CLASS">class</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">TokenService</token>
+      </line>
+      <line no="27">
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="28">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="29">
+        <token name="T_DOC_COMMENT">     * @param TokenFactory $tokenFactory</token>
+      </line>
+      <line no="30">
+        <token name="T_DOC_COMMENT">     * @param TimezoneInterface $timezone</token>
+      </line>
+      <line no="31">
+        <token name="T_DOC_COMMENT">     * @param CacheInterface $cache</token>
+      </line>
+      <line no="32">
+        <token name="T_DOC_COMMENT">     * @param SerializerInterface $serializer</token>
+      </line>
+      <line no="33">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="34">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">__construct</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="35">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">TokenFactory</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$tokenFactory</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="36">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">TimezoneInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$timezone</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="37">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">CacheInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$cache</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="38">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">SerializerInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$serializer</token>
+      </line>
+      <line no="39">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="40">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="41"/>
+      <line no="42">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="43">
+        <token name="T_DOC_COMMENT">     * Get the token from the cache.</token>
+      </line>
+      <line no="44">
+        <token name="T_DOC_COMMENT">     * Return a token with no values in case there is no token in cache.</token>
+      </line>
+      <line no="45">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="46">
+        <token name="T_DOC_COMMENT">     * @return TokenInterface</token>
+      </line>
+      <line no="47">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="48">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">getToken</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">TokenInterface</token>
+      </line>
+      <line no="49">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="50">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_DOC_COMMENT">/** @var TokenInterface $token */</token>
+      </line>
+      <line no="51">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$token</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">tokenFactory</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">create</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="52"/>
+      <line no="53">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$cachedToken</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">cache</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">load</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">UpStreamPay</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">TYPE_IDENTIFIER</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="54"/>
+      <line no="55">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_EXCLAMATION_MARK">!</token>
+        <token name="T_VARIABLE">$cachedToken</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="56">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$token</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="57">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="58"/>
+      <line no="59">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$rawToken</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">serializer</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">unserialize</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$cachedToken</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="60"/>
+      <line no="61">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$rawToken</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_IDENTICAL">===</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">null</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="62">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$token</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="63">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="64"/>
+      <line no="65">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$token</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setData</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$rawToken</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="66">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="67"/>
+      <line no="68">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="69">
+        <token name="T_DOC_COMMENT">     * Set a token in cache based on token data received from API &amp; return a token object.</token>
+      </line>
+      <line no="70">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="71">
+        <token name="T_DOC_COMMENT">     * In case the API sends back an incorrect result, throw exception &amp; log critical error.</token>
+      </line>
+      <line no="72">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="73">
+        <token name="T_DOC_COMMENT">     * @param array $tokenData</token>
+      </line>
+      <line no="74">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="75">
+        <token name="T_DOC_COMMENT">     * @return TokenInterface</token>
+      </line>
+      <line no="76">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="77">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">setToken</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_ARRAY">array</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$tokenData</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">TokenInterface</token>
+      </line>
+      <line no="78">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="79">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_DOC_COMMENT">/** @var TokenInterface $token */</token>
+      </line>
+      <line no="80">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$token</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">tokenFactory</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">create</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="81">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$createdAt</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">timezone</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">date</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="82"/>
+      <line no="83">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_COMMENT">//Substract 5 minutes of validity in order to account for request time, cpu time etc.</token>
+      </line>
+      <line no="84">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_COMMENT">//That way we are sure we will never send an expired token (that could be expired since 1 second).</token>
+      </line>
+      <line no="85">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$tokenLifetimeInSeconds</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$tokenData</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'expires_in'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_MINUS">-</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_LNUMBER">300</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="86"/>
+      <line no="87">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$token</token>
+      </line>
+      <line no="88">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setValue</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$tokenData</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'access_token'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="89">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setLifetime</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$tokenData</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'expires_in'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="90">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setCreatedAt</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$createdAt</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">format</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Y-m-d H:i:s'</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="91">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setExpirationDate</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$createdAt</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">modify</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_DOUBLE_QUOTES">"</token>
+        <token name="T_ENCAPSED_AND_WHITESPACE">+</token>
+        <token name="T_VARIABLE">$tokenLifetimeInSeconds</token>
+        <token name="T_ENCAPSED_AND_WHITESPACE"> seconds</token>
+        <token name="T_DOUBLE_QUOTES">"</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">format</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Y-m-d H:i:s'</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="92">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="93"/>
+      <line no="94">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">cache</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">save</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="95">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">serializer</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">serialize</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$token</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">toArray</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="96">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_STRING">UpStreamPay</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">CACHE_TAG</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="97">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_STRING">UpStreamPay</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">CACHE_TAG</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="98">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$token</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getLifetime</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="99">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="100"/>
+      <line no="101">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$token</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="102">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="103">
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="104"/>
+    </source>
+  </file>
+</phpunit>

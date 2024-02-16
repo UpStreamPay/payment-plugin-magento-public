@@ -1,0 +1,457 @@
+<?xml version="1.0"?>
+<phpunit xmlns="https://schema.phpunit.de/coverage/1.0">
+  <file name="ItemBuilder.php" path="/app/code/UpStreamPay/Core/Model/Session/Order/Builder">
+    <totals>
+      <lines total="61" comments="23" code="38" executable="19" executed="19" percent="100.00"/>
+      <methods count="1" tested="1" percent="100.00"/>
+      <functions count="0" tested="0" percent="0"/>
+      <classes count="1" tested="1" percent="100.00"/>
+      <traits count="0" tested="0" percent="0"/>
+    </totals>
+    <class name="UpStreamPay\Core\Model\Session\Order\Builder\ItemBuilder" start="24" executable="19" executed="19" crap="3">
+      <namespace name="UpStreamPay\Core\Model\Session\Order\Builder"/>
+      <method name="execute" signature="execute(Magento\Quote\Api\Data\CartInterface $quote): array" start="35" end="59" crap="3" executable="19" executed="19" coverage="100"/>
+    </class>
+    <coverage>
+      <line nr="37">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\ItemBuilderTest::testExecute"/>
+      </line>
+      <line nr="39">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\ItemBuilderTest::testExecute"/>
+      </line>
+      <line nr="40">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\ItemBuilderTest::testExecute"/>
+      </line>
+      <line nr="41">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\ItemBuilderTest::testExecute"/>
+      </line>
+      <line nr="42">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\ItemBuilderTest::testExecute"/>
+      </line>
+      <line nr="43">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\ItemBuilderTest::testExecute"/>
+      </line>
+      <line nr="44">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\ItemBuilderTest::testExecute"/>
+      </line>
+      <line nr="45">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\ItemBuilderTest::testExecute"/>
+      </line>
+      <line nr="46">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\ItemBuilderTest::testExecute"/>
+      </line>
+      <line nr="49">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\ItemBuilderTest::testExecute"/>
+      </line>
+      <line nr="50">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\ItemBuilderTest::testExecute"/>
+      </line>
+      <line nr="51">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\ItemBuilderTest::testExecute"/>
+      </line>
+      <line nr="52">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\ItemBuilderTest::testExecute"/>
+      </line>
+      <line nr="58">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\ItemBuilderTest::testExecute"/>
+      </line>
+      <line nr="47">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\ItemBuilderTest::testExecute"/>
+      </line>
+      <line nr="48">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\ItemBuilderTest::testExecute"/>
+      </line>
+      <line nr="53">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\ItemBuilderTest::testExecute"/>
+      </line>
+      <line nr="54">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\ItemBuilderTest::testExecute"/>
+      </line>
+      <line nr="55">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\ItemBuilderTest::testExecute"/>
+      </line>
+    </coverage>
+    <source>
+      <line no="1">
+        <token name="T_OPEN_TAG">&lt;?php</token>
+      </line>
+      <line no="2">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="3">
+        <token name="T_DOC_COMMENT"> * UpStream Pay</token>
+      </line>
+      <line no="4">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="5">
+        <token name="T_DOC_COMMENT"> * Copyright (c) 2023 UpStream Pay.</token>
+      </line>
+      <line no="6">
+        <token name="T_DOC_COMMENT"> * This file is open source and available under the BSD 3 license.</token>
+      </line>
+      <line no="7">
+        <token name="T_DOC_COMMENT"> * See the LICENSE file for more info.</token>
+      </line>
+      <line no="8">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="9">
+        <token name="T_DOC_COMMENT"> * Author: Claranet France &lt;info@fr.clara.net&gt;</token>
+      </line>
+      <line no="10">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="11">
+        <token name="T_DECLARE">declare</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">strict_types</token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_LNUMBER">1</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="12"/>
+      <line no="13">
+        <token name="T_NAMESPACE">namespace</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Model\Session\Order\Builder</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="14"/>
+      <line no="15">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Catalog\Model\Product\Type</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="16">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Quote\Api\Data\CartInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="17">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Model\Session\Order\BuilderInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="18"/>
+      <line no="19">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="20">
+        <token name="T_DOC_COMMENT"> * Class ItemBuilder</token>
+      </line>
+      <line no="21">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="22">
+        <token name="T_DOC_COMMENT"> * @package UpStreamPay\Core\Model\Session\Order\Builder</token>
+      </line>
+      <line no="23">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="24">
+        <token name="T_CLASS">class</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">ItemBuilder</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IMPLEMENTS">implements</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">BuilderInterface</token>
+      </line>
+      <line no="25">
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="26">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="27">
+        <token name="T_DOC_COMMENT">     * Build the item data for the UpStream Pay order.</token>
+      </line>
+      <line no="28">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="29">
+        <token name="T_DOC_COMMENT">     * @param CartInterface $quote</token>
+      </line>
+      <line no="30">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="31">
+        <token name="T_DOC_COMMENT">     * @return array</token>
+      </line>
+      <line no="32">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="33">
+        <token name="T_DOC_COMMENT">     * @see UpStream Pay documentation regarding all the fields &amp; format.</token>
+      </line>
+      <line no="34">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="35">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">execute</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">CartInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$quote</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_ARRAY">array</token>
+      </line>
+      <line no="36">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="37">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$itemsData</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="38"/>
+      <line no="39">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_FOREACH">foreach</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$quote</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getAllVisibleItems</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_AS">as</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$item</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="40">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$itemsData</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="41">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'type_code'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$item</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getProductType</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_IDENTICAL">===</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Type</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">TYPE_VIRTUAL</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_QUESTION_MARK">?</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'digital'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'product'</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="42">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'sku_reference'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$item</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getSku</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="43">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'name'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$item</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getName</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="44">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'price'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$item</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getBasePrice</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="45">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'quantity'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$item</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getQty</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="46">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'amount'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$item</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getBaseRowTotal</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_MINUS">-</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$item</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getBaseDiscountAmount</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_PLUS">+</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$item</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getBaseTaxAmount</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="47">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'tax_lines'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="48">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_LNUMBER">0</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="49">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'type_code'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'vat'</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="50">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'subtype_code'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'standard'</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="51">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'rate'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$item</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getTaxPercent</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="52">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'amount'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$item</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getBaseTaxAmount</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="53">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+      </line>
+      <line no="54">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+      </line>
+      <line no="55">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="56">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="57"/>
+      <line no="58">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$itemsData</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="59">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="60">
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="61"/>
+    </source>
+  </file>
+</phpunit>

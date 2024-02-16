@@ -36,6 +36,15 @@ class AddressBuilder implements AddressBuilderInterface
     public function execute(CartInterface $quote, string $addressType = self::BILLING_ADDRESS): array
     {
         $addressData = [];
+        $customerEmail = $quote->getCustomerEmail();
+
+        //When we have a guest customer, the email address is only on the billing address at this point of the checkout.
+        //But it's only available after a payment method has been set. So in order to avoid rewriting Magento, we use
+        //the email provided by the frontend. On the next call with the same cart, the DB will be up-to-date,
+        //thus using the DB value.
+        if ($quote->getCustomerIsGuest()) {
+            $customerEmail = $quote->getBillingAddress()->getEmail() ?? $quote->getData('guest_email');
+        }
 
         /** @var Address $address */
         if ($addressType === self::BILLING_ADDRESS) {
@@ -43,7 +52,7 @@ class AddressBuilder implements AddressBuilderInterface
         } else {
             if ($quote->getIsVirtual()) {
                 //It's the only information that does not rely on a shipping address.
-                return ['email' => $quote->getCustomerEmail()];
+                return ['email' => $customerEmail];
             }
 
             $address = $quote->getShippingAddress();
@@ -65,7 +74,7 @@ class AddressBuilder implements AddressBuilderInterface
             );
         }
 
-        $addressData['email'] = $quote->getCustomerEmail();
+        $addressData['email'] = $customerEmail;
         $addressData['phone'] = $address->getTelephone();
 
         return $addressData;
