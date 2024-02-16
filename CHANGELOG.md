@@ -1,3 +1,23 @@
+# [1.4.0](https://github.com/UpStreamPay/payment-plugin-magento/compare/v1.3.0...v1.4.0) (2024-02-16)
+
+
+### Bug Fixes
+
+* add workflows ([d34dbb9](https://github.com/UpStreamPay/payment-plugin-magento/commit/d34dbb9dbdc545c318f5159dad08411948c6e603))
+* CI/CD ([3407455](https://github.com/UpStreamPay/payment-plugin-magento/commit/34074557ce1e0eeeb5d95393ece583e524ba5a82))
+* Mise à jour du fichier phpunit.xml pour ajouter une balise de journalisation pour la couverture de code. ([d3d0f58](https://github.com/UpStreamPay/payment-plugin-magento/commit/d3d0f581671bcfc1dd0be561a801698d495cb977))
+
+
+### Features
+
+* add coverage-report ([b405b38](https://github.com/UpStreamPay/payment-plugin-magento/commit/b405b3814c76ba1ff9bbfb0a04bfc49b4835ac05))
+
+
+
+# [1.3.0](https://github.com/UpStreamPay/payment-plugin-magento/compare/v1.2.0...v1.3.0) (2023-12-21)
+
+
+
 # [1.2.0](https://github.com/UpStreamPay/payment-plugin-magento/compare/v1.0.0...v1.2.0) (2023-09-13)
 
 
