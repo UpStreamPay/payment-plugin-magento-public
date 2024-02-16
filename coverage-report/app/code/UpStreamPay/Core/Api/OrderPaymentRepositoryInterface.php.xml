@@ -1,0 +1,504 @@
+<?xml version="1.0"?>
+<phpunit xmlns="https://schema.phpunit.de/coverage/1.0">
+  <file name="OrderPaymentRepositoryInterface.php" path="/app/code/UpStreamPay/Core/Api">
+    <totals>
+      <lines total="119" comments="89" code="30" executable="0" executed="0" percent="0"/>
+      <methods count="0" tested="0" percent="0"/>
+      <functions count="0" tested="0" percent="0"/>
+      <classes count="0" tested="0" percent="0"/>
+      <traits count="0" tested="0" percent="0"/>
+    </totals>
+    <source>
+      <line no="1">
+        <token name="T_OPEN_TAG">&lt;?php</token>
+      </line>
+      <line no="2">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="3">
+        <token name="T_DOC_COMMENT"> * UpStream Pay</token>
+      </line>
+      <line no="4">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="5">
+        <token name="T_DOC_COMMENT"> * Copyright (c) 2023 UpStream Pay.</token>
+      </line>
+      <line no="6">
+        <token name="T_DOC_COMMENT"> * This file is open source and available under the BSD 3 license.</token>
+      </line>
+      <line no="7">
+        <token name="T_DOC_COMMENT"> * See the LICENSE file for more info.</token>
+      </line>
+      <line no="8">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="9">
+        <token name="T_DOC_COMMENT"> * Author: Claranet France &lt;info@fr.clara.net&gt;</token>
+      </line>
+      <line no="10">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="11">
+        <token name="T_NAMESPACE">namespace</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Api</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="12"/>
+      <line no="13">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Framework\Api\SearchCriteriaInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="14">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Framework\Exception\LocalizedException</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="15">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Framework\Exception\NoSuchEntityException</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="16">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Api\Data\OrderPaymentInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="17">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Api\Data\OrderPaymentSearchResultsInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="18"/>
+      <line no="19">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="20">
+        <token name="T_DOC_COMMENT"> * Interface OrderPaymentRepositoryInterface</token>
+      </line>
+      <line no="21">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="22">
+        <token name="T_DOC_COMMENT"> * @package UpStreamPay\Core\Api</token>
+      </line>
+      <line no="23">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="24">
+        <token name="T_INTERFACE">interface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">OrderPaymentRepositoryInterface</token>
+      </line>
+      <line no="25">
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="26">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="27">
+        <token name="T_DOC_COMMENT">     * Save UpStream Pay order payment.</token>
+      </line>
+      <line no="28">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="29">
+        <token name="T_DOC_COMMENT">     * @param OrderPaymentInterface $orderPayment</token>
+      </line>
+      <line no="30">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="31">
+        <token name="T_DOC_COMMENT">     * @return OrderPaymentInterface</token>
+      </line>
+      <line no="32">
+        <token name="T_DOC_COMMENT">     * @throws LocalizedException</token>
+      </line>
+      <line no="33">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="34">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">save</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">OrderPaymentInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderPayment</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">OrderPaymentInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="35"/>
+      <line no="36">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="37">
+        <token name="T_DOC_COMMENT">     * Get UpStream Pay order payment.</token>
+      </line>
+      <line no="38">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="39">
+        <token name="T_DOC_COMMENT">     * @param int $orderPaymentId</token>
+      </line>
+      <line no="40">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="41">
+        <token name="T_DOC_COMMENT">     * @return OrderPaymentInterface</token>
+      </line>
+      <line no="42">
+        <token name="T_DOC_COMMENT">     * @throws LocalizedException</token>
+      </line>
+      <line no="43">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="44">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">getById</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">int</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderPaymentId</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">OrderPaymentInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="45"/>
+      <line no="46">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="47">
+        <token name="T_DOC_COMMENT">     * Get UpStream Pay order payment by quote ID.</token>
+      </line>
+      <line no="48">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="49">
+        <token name="T_DOC_COMMENT">     * @param int $quoteId</token>
+      </line>
+      <line no="50">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="51">
+        <token name="T_DOC_COMMENT">     * @return OrderPaymentInterface[]</token>
+      </line>
+      <line no="52">
+        <token name="T_DOC_COMMENT">     * @throws LocalizedException</token>
+      </line>
+      <line no="53">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="54">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="55">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">getByQuoteId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">int</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$quoteId</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_ARRAY">array</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="56"/>
+      <line no="57">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="58">
+        <token name="T_DOC_COMMENT">     * Get UpStream Pay order payment by session ID.</token>
+      </line>
+      <line no="59">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="60">
+        <token name="T_DOC_COMMENT">     * @param string $sessionId</token>
+      </line>
+      <line no="61">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="62">
+        <token name="T_DOC_COMMENT">     * @return OrderPaymentInterface[]</token>
+      </line>
+      <line no="63">
+        <token name="T_DOC_COMMENT">     * @throws LocalizedException</token>
+      </line>
+      <line no="64">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="65">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="66">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">getBySessionId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">string</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$sessionId</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_ARRAY">array</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="67"/>
+      <line no="68">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="69">
+        <token name="T_DOC_COMMENT">     * Get UpStream Pay order payment by order ID.</token>
+      </line>
+      <line no="70">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="71">
+        <token name="T_DOC_COMMENT">     * @param int $orderId</token>
+      </line>
+      <line no="72">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="73">
+        <token name="T_DOC_COMMENT">     * @return OrderPaymentInterface[]</token>
+      </line>
+      <line no="74">
+        <token name="T_DOC_COMMENT">     * @throws LocalizedException</token>
+      </line>
+      <line no="75">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="76">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="77">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">getByOrderId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">int</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderId</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_ARRAY">array</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="78"/>
+      <line no="79">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="80">
+        <token name="T_DOC_COMMENT">     * Get UpStream Pay order payment by default transaction ID (that is unique).</token>
+      </line>
+      <line no="81">
+        <token name="T_DOC_COMMENT">     * So we only return one element.</token>
+      </line>
+      <line no="82">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="83">
+        <token name="T_DOC_COMMENT">     * @param string $defaultTransactionId</token>
+      </line>
+      <line no="84">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="85">
+        <token name="T_DOC_COMMENT">     * @return OrderPaymentInterface</token>
+      </line>
+      <line no="86">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="87">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">getByDefaultTransactionId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">string</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$defaultTransactionId</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">OrderPaymentInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="88"/>
+      <line no="89">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="90">
+        <token name="T_DOC_COMMENT">     * Retrieve UpStream Pay order payment matching the specified criteria.</token>
+      </line>
+      <line no="91">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="92">
+        <token name="T_DOC_COMMENT">     * @param SearchCriteriaInterface $searchCriteria</token>
+      </line>
+      <line no="93">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="94">
+        <token name="T_DOC_COMMENT">     * @return OrderPaymentSearchResultsInterface</token>
+      </line>
+      <line no="95">
+        <token name="T_DOC_COMMENT">     * @throws LocalizedException</token>
+      </line>
+      <line no="96">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="97">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">getList</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">SearchCriteriaInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$searchCriteria</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">OrderPaymentSearchResultsInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="98"/>
+      <line no="99">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="100">
+        <token name="T_DOC_COMMENT">     * Delete UpStream Pay order payment.</token>
+      </line>
+      <line no="101">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="102">
+        <token name="T_DOC_COMMENT">     * @param OrderPaymentInterface $orderPayment</token>
+      </line>
+      <line no="103">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="104">
+        <token name="T_DOC_COMMENT">     * @return bool true on success</token>
+      </line>
+      <line no="105">
+        <token name="T_DOC_COMMENT">     * @throws LocalizedException</token>
+      </line>
+      <line no="106">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="107">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">delete</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">OrderPaymentInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderPayment</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">bool</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="108"/>
+      <line no="109">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="110">
+        <token name="T_DOC_COMMENT">     * Delete UpStream Pay order payment by ID.</token>
+      </line>
+      <line no="111">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="112">
+        <token name="T_DOC_COMMENT">     * @param int $orderPaymentId</token>
+      </line>
+      <line no="113">
+        <token name="T_DOC_COMMENT">     * @return bool true on success</token>
+      </line>
+      <line no="114">
+        <token name="T_DOC_COMMENT">     * @throws NoSuchEntityException</token>
+      </line>
+      <line no="115">
+        <token name="T_DOC_COMMENT">     * @throws LocalizedException</token>
+      </line>
+      <line no="116">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="117">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">deleteById</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">int</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderPaymentId</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">bool</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="118">
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="119"/>
+    </source>
+  </file>
+</phpunit>

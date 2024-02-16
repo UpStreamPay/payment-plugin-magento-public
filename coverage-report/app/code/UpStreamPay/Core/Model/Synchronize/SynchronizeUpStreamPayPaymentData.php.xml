@@ -1,0 +1,1360 @@
+<?xml version="1.0"?>
+<phpunit xmlns="https://schema.phpunit.de/coverage/1.0">
+  <file name="SynchronizeUpStreamPayPaymentData.php" path="/app/code/UpStreamPay/Core/Model/Synchronize">
+    <totals>
+      <lines total="196" comments="68" code="128" executable="56" executed="56" percent="100.00"/>
+      <methods count="5" tested="5" percent="100.00"/>
+      <functions count="0" tested="0" percent="0"/>
+      <classes count="1" tested="1" percent="100.00"/>
+      <traits count="0" tested="0" percent="0"/>
+    </totals>
+    <class name="UpStreamPay\Core\Model\Synchronize\SynchronizeUpStreamPayPaymentData" start="32" executable="56" executed="56" crap="18">
+      <namespace name="UpStreamPay\Core\Model\Synchronize"/>
+      <method name="__construct" signature="__construct(UpStreamPay\Core\Model\OrderPayment $orderPayment, UpStreamPay\Core\Model\OrderTransactions $orderTransactions, UpStreamPay\Core\Api\OrderPaymentRepositoryInterface $orderPaymentRepository, UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface $orderTransactionsRepository, UpStreamPay\Core\Api\PaymentMethodRepositoryInterface $paymentMethodRepository, UpStreamPay\Core\Model\Config $config, Psr\Log\LoggerInterface $logger)" start="43" end="52" crap="1" executable="1" executed="1" coverage="100"/>
+      <method name="execute" signature="execute(array $orderTransactionsResponse, int $orderId, int $quoteId, int $paymentId): void" start="67" end="118" crap="7" executable="32" executed="32" coverage="100"/>
+      <method name="getPaymentMethodTypeFromResponse" signature="getPaymentMethodTypeFromResponse(array $orderTransactionResponse, int $orderId): string" start="130" end="148" crap="3" executable="11" executed="11" coverage="100"/>
+      <method name="log" signature="log(array $orderTransactionResponse, int $orderId): void" start="156" end="165" crap="4" executable="5" executed="5" coverage="100"/>
+      <method name="createTransaction" signature="createTransaction(UpStreamPay\Core\Api\Data\OrderTransactionsInterface $orderTransaction, array $orderTransactionResponse, int $orderId, int $quoteId, ?int $parentPaymentId): void" start="177" end="194" crap="3" executable="7" executed="7" coverage="100"/>
+    </class>
+    <coverage>
+      <line nr="52">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecuteException"/>
+      </line>
+      <line nr="69">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecuteException"/>
+      </line>
+      <line nr="71">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecuteException"/>
+      </line>
+      <line nr="72">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecuteException"/>
+      </line>
+      <line nr="73">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecuteException"/>
+      </line>
+      <line nr="77">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecuteException"/>
+      </line>
+      <line nr="78">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecuteException"/>
+      </line>
+      <line nr="79">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecuteException"/>
+      </line>
+      <line nr="84">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecuteException"/>
+      </line>
+      <line nr="85">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecuteException"/>
+      </line>
+      <line nr="87">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecuteException"/>
+      </line>
+      <line nr="88">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecuteException"/>
+      </line>
+      <line nr="93">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+      </line>
+      <line nr="94">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+      </line>
+      <line nr="101">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+      </line>
+      <line nr="105">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+      </line>
+      <line nr="106">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+      </line>
+      <line nr="109">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+      </line>
+      <line nr="110">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+      </line>
+      <line nr="132">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecuteException"/>
+      </line>
+      <line nr="133">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecuteException"/>
+      </line>
+      <line nr="135">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecuteException"/>
+      </line>
+      <line nr="136">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+      </line>
+      <line nr="139">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecuteException"/>
+      </line>
+      <line nr="140">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecuteException"/>
+      </line>
+      <line nr="145">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecuteException"/>
+      </line>
+      <line nr="147">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecuteException"/>
+      </line>
+      <line nr="158">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecuteException"/>
+      </line>
+      <line nr="159">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecuteException"/>
+      </line>
+      <line nr="160">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecuteException"/>
+      </line>
+      <line nr="161">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecuteException"/>
+      </line>
+      <line nr="162">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecuteException"/>
+      </line>
+      <line nr="185">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+      </line>
+      <line nr="187">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+      </line>
+      <line nr="188">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+      </line>
+      <line nr="80">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecuteException"/>
+      </line>
+      <line nr="89">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecuteException"/>
+      </line>
+      <line nr="90">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecuteException"/>
+      </line>
+      <line nr="95">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+      </line>
+      <line nr="96">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+      </line>
+      <line nr="97">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+      </line>
+      <line nr="98">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+      </line>
+      <line nr="99">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+      </line>
+      <line nr="107">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+      </line>
+      <line nr="111">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+      </line>
+      <line nr="112">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+      </line>
+      <line nr="113">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+      </line>
+      <line nr="114">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+      </line>
+      <line nr="115">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+      </line>
+      <line nr="141">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecuteException"/>
+      </line>
+      <line nr="142">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecuteException"/>
+      </line>
+      <line nr="143">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecuteException"/>
+      </line>
+      <line nr="189">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+      </line>
+      <line nr="190">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+      </line>
+      <line nr="191">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+      </line>
+      <line nr="192">
+        <covered by="UpStreamPay\Core\Test\Model\Synchronize\SynchronizeUpStreamPayPaymentDataTest::testExecute"/>
+      </line>
+    </coverage>
+    <source>
+      <line no="1">
+        <token name="T_OPEN_TAG">&lt;?php</token>
+      </line>
+      <line no="2">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="3">
+        <token name="T_DOC_COMMENT"> * UpStream Pay</token>
+      </line>
+      <line no="4">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="5">
+        <token name="T_DOC_COMMENT"> * Copyright (c) 2023 UpStream Pay.</token>
+      </line>
+      <line no="6">
+        <token name="T_DOC_COMMENT"> * This file is open source and available under the BSD 3 license.</token>
+      </line>
+      <line no="7">
+        <token name="T_DOC_COMMENT"> * See the LICENSE file for more info.</token>
+      </line>
+      <line no="8">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="9">
+        <token name="T_DOC_COMMENT"> * Author: Claranet France &lt;info@fr.clara.net&gt;</token>
+      </line>
+      <line no="10">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="11">
+        <token name="T_DECLARE">declare</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">strict_types</token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_LNUMBER">1</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="12"/>
+      <line no="13">
+        <token name="T_NAMESPACE">namespace</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Model\Synchronize</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="14"/>
+      <line no="15">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Framework\Exception\LocalizedException</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="16">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Psr\Log\LoggerInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="17">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Api\Data\OrderTransactionsInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="18">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Api\OrderPaymentRepositoryInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="19">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="20">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Api\PaymentMethodRepositoryInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="21">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Exception\NoPaymentMethodFoundException</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="22">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Model\OrderPayment</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="23">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Model\OrderTransactions</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="24">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Model\Config</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="25">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Model\Config\Source\Debug</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="26"/>
+      <line no="27">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="28">
+        <token name="T_DOC_COMMENT"> * Class SynchronizeUpStreamPayPaymentData</token>
+      </line>
+      <line no="29">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="30">
+        <token name="T_DOC_COMMENT"> * @package UpStreamPay\Core\Model\Synchronize</token>
+      </line>
+      <line no="31">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="32">
+        <token name="T_CLASS">class</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">SynchronizeUpStreamPayPaymentData</token>
+      </line>
+      <line no="33">
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="34">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="35">
+        <token name="T_DOC_COMMENT">     * @param OrderPayment $orderPayment</token>
+      </line>
+      <line no="36">
+        <token name="T_DOC_COMMENT">     * @param OrderTransactions $orderTransactions</token>
+      </line>
+      <line no="37">
+        <token name="T_DOC_COMMENT">     * @param OrderPaymentRepositoryInterface $orderPaymentRepository</token>
+      </line>
+      <line no="38">
+        <token name="T_DOC_COMMENT">     * @param OrderTransactionsRepositoryInterface $orderTransactionsRepository</token>
+      </line>
+      <line no="39">
+        <token name="T_DOC_COMMENT">     * @param PaymentMethodRepositoryInterface $paymentMethodRepository</token>
+      </line>
+      <line no="40">
+        <token name="T_DOC_COMMENT">     * @param Config $config</token>
+      </line>
+      <line no="41">
+        <token name="T_DOC_COMMENT">     * @param LoggerInterface $logger</token>
+      </line>
+      <line no="42">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="43">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">__construct</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="44">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">OrderPayment</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderPayment</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="45">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">OrderTransactions</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderTransactions</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="46">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">OrderPaymentRepositoryInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderPaymentRepository</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="47">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">OrderTransactionsRepositoryInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderTransactionsRepository</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="48">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">PaymentMethodRepositoryInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$paymentMethodRepository</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="49">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Config</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$config</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="50">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">LoggerInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$logger</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="51">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="52">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="53"/>
+      <line no="54">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="55">
+        <token name="T_DOC_COMMENT">     * Synchronize the DB with UpStream Pay response data.</token>
+      </line>
+      <line no="56">
+        <token name="T_DOC_COMMENT">     * Create or update based on the response.</token>
+      </line>
+      <line no="57">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="58">
+        <token name="T_DOC_COMMENT">     * @param array $orderTransactionsResponse</token>
+      </line>
+      <line no="59">
+        <token name="T_DOC_COMMENT">     * @param int $orderId</token>
+      </line>
+      <line no="60">
+        <token name="T_DOC_COMMENT">     * @param int $quoteId</token>
+      </line>
+      <line no="61">
+        <token name="T_DOC_COMMENT">     * @param int $paymentId</token>
+      </line>
+      <line no="62">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="63">
+        <token name="T_DOC_COMMENT">     * @return void</token>
+      </line>
+      <line no="64">
+        <token name="T_DOC_COMMENT">     * @throws LocalizedException</token>
+      </line>
+      <line no="65">
+        <token name="T_DOC_COMMENT">     * @throws NoPaymentMethodFoundException</token>
+      </line>
+      <line no="66">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="67">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">execute</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_ARRAY">array</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderTransactionsResponse</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">int</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderId</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">int</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$quoteId</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">int</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$paymentId</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">void</token>
+      </line>
+      <line no="68">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="69">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$parentPaymentId</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">null</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="70"/>
+      <line no="71">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$orderId</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_NOT_IDENTICAL">!==</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_LNUMBER">0</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="72">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_FOREACH">foreach</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$orderTransactionsResponse</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_AS">as</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderTransactionResponse</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="73">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">log</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$orderTransactionResponse</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderId</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="74"/>
+      <line no="75">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_COMMENT">//Create a row in payment table for each original transaction, it means transactions without</token>
+      </line>
+      <line no="76">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_COMMENT">//a parent_id.</token>
+      </line>
+      <line no="77">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_EXCLAMATION_MARK">!</token>
+        <token name="T_ISSET">isset</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$orderTransactionResponse</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'parent_transaction_id'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="78">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$orderPayment</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">orderPaymentRepository</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getByDefaultTransactionId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="79">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_VARIABLE">$orderTransactionResponse</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'id'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+      </line>
+      <line no="80">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="81"/>
+      <line no="82">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_COMMENT">//We can only create this, the payment methods should never be updated unless we are doing a capture</token>
+      </line>
+      <line no="83">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_COMMENT">//Or refund then the amount captured or refunded will be updated, but just that.</token>
+      </line>
+      <line no="84">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_EXCLAMATION_MARK">!</token>
+        <token name="T_VARIABLE">$orderPayment</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_BOOLEAN_OR">||</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EXCLAMATION_MARK">!</token>
+        <token name="T_VARIABLE">$orderPayment</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getEntityId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="85">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_BOOLEAN_AND">&amp;&amp;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderTransactionResponse</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'transaction_id'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_NOT_IDENTICAL">!==</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderPayment</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getDefaultTransactionId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="86">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="87">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_VARIABLE">$paymentMethodType</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getPaymentMethodTypeFromResponse</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="88">
+        <token name="T_WHITESPACE">                            </token>
+        <token name="T_VARIABLE">$orderTransactionResponse</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="89">
+        <token name="T_WHITESPACE">                            </token>
+        <token name="T_VARIABLE">$orderId</token>
+      </line>
+      <line no="90">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="91"/>
+      <line no="92">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_COMMENT">//Create.</token>
+      </line>
+      <line no="93">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_VARIABLE">$upStreamPayPayment</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">orderPayment</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">createPaymentFromResponse</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="94">
+        <token name="T_WHITESPACE">                            </token>
+        <token name="T_VARIABLE">$orderTransactionResponse</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="95">
+        <token name="T_WHITESPACE">                            </token>
+        <token name="T_VARIABLE">$orderId</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="96">
+        <token name="T_WHITESPACE">                            </token>
+        <token name="T_VARIABLE">$quoteId</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="97">
+        <token name="T_WHITESPACE">                            </token>
+        <token name="T_VARIABLE">$paymentId</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="98">
+        <token name="T_WHITESPACE">                            </token>
+        <token name="T_VARIABLE">$paymentMethodType</token>
+      </line>
+      <line no="99">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="100"/>
+      <line no="101">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_VARIABLE">$parentPaymentId</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$upStreamPayPayment</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getEntityId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="102">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="103">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="104"/>
+      <line no="105">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$orderTransaction</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">orderTransactionsRepository</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getByTransactionId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="106">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$orderTransactionResponse</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'id'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+      </line>
+      <line no="107">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="108"/>
+      <line no="109">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">createTransaction</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="110">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$orderTransaction</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="111">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$orderTransactionResponse</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="112">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$orderId</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="113">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$quoteId</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="114">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$parentPaymentId</token>
+      </line>
+      <line no="115">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="116">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="117">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="118">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="119"/>
+      <line no="120">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="121">
+        <token name="T_DOC_COMMENT">     * Get the payment method type.</token>
+      </line>
+      <line no="122">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="123">
+        <token name="T_DOC_COMMENT">     * @param array $orderTransactionResponse</token>
+      </line>
+      <line no="124">
+        <token name="T_DOC_COMMENT">     * @param int $orderId</token>
+      </line>
+      <line no="125">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="126">
+        <token name="T_DOC_COMMENT">     * @return string</token>
+      </line>
+      <line no="127">
+        <token name="T_DOC_COMMENT">     * @throws LocalizedException</token>
+      </line>
+      <line no="128">
+        <token name="T_DOC_COMMENT">     * @throws NoPaymentMethodFoundException</token>
+      </line>
+      <line no="129">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="130">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">getPaymentMethodTypeFromResponse</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_ARRAY">array</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderTransactionResponse</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">int</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderId</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">string</token>
+      </line>
+      <line no="131">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="132">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$paymentMethodName</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderTransactionResponse</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'partner'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOT">.</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">' / '</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOT">.</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderTransactionResponse</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'method'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="133">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$paymentMethod</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">paymentMethodRepository</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getByMethod</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$paymentMethodName</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="134"/>
+      <line no="135">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$paymentMethod</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_BOOLEAN_AND">&amp;&amp;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$paymentMethod</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getEntityId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="136">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$paymentMethod</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getType</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="137">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="138"/>
+      <line no="139">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$errorMessage</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">sprintf</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="140">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Payment method %s not found in DB when creationg transaction for order with ID %s.'</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="141">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$paymentMethodName</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="142">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$orderId</token>
+      </line>
+      <line no="143">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="144"/>
+      <line no="145">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">logger</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">critical</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$errorMessage</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="146"/>
+      <line no="147">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_THROW">throw</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NEW">new</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">NoPaymentMethodFoundException</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$errorMessage</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="148">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="149"/>
+      <line no="150">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="151">
+        <token name="T_DOC_COMMENT">     * @param array $orderTransactionResponse</token>
+      </line>
+      <line no="152">
+        <token name="T_DOC_COMMENT">     * @param int $orderId</token>
+      </line>
+      <line no="153">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="154">
+        <token name="T_DOC_COMMENT">     * @return void</token>
+      </line>
+      <line no="155">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="156">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">log</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_ARRAY">array</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderTransactionResponse</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">int</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderId</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">void</token>
+      </line>
+      <line no="157">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="158">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">config</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getDebugMode</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_IDENTICAL">===</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Debug</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">SIMPLE_VALUE</token>
+      </line>
+      <line no="159">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_BOOLEAN_OR">||</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">config</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getDebugMode</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_IDENTICAL">===</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Debug</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">DEBUG_VALUE</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="160">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">logger</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">debug</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">sprintf</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Creating transaction for order with ID %s'</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderId</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="161">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$orderTransactionResponse</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="162">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">logger</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">debug</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">print_r</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$orderTransactionResponse</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">true</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="163">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="164">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="165">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="166"/>
+      <line no="167">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="168">
+        <token name="T_DOC_COMMENT">     * @param OrderTransactionsInterface $orderTransaction</token>
+      </line>
+      <line no="169">
+        <token name="T_DOC_COMMENT">     * @param array $orderTransactionResponse</token>
+      </line>
+      <line no="170">
+        <token name="T_DOC_COMMENT">     * @param int $orderId</token>
+      </line>
+      <line no="171">
+        <token name="T_DOC_COMMENT">     * @param int $quoteId</token>
+      </line>
+      <line no="172">
+        <token name="T_DOC_COMMENT">     * @param null|int $parentPaymentId</token>
+      </line>
+      <line no="173">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="174">
+        <token name="T_DOC_COMMENT">     * @return void</token>
+      </line>
+      <line no="175">
+        <token name="T_DOC_COMMENT">     * @throws LocalizedException</token>
+      </line>
+      <line no="176">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="177">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">createTransaction</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="178">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">OrderTransactionsInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderTransaction</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="179">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_ARRAY">array</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderTransactionResponse</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="180">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">int</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderId</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="181">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">int</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$quoteId</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="182">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_QUESTION_MARK">?</token>
+        <token name="T_STRING">int</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$parentPaymentId</token>
+      </line>
+      <line no="183">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">void</token>
+      </line>
+      <line no="184">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="185">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_EXCLAMATION_MARK">!</token>
+        <token name="T_VARIABLE">$orderTransaction</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_BOOLEAN_OR">||</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EXCLAMATION_MARK">!</token>
+        <token name="T_VARIABLE">$orderTransaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getEntityId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="186">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_COMMENT">//Create.</token>
+      </line>
+      <line no="187">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">orderTransactions</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">createTransactionFromResponse</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="188">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$orderTransactionResponse</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="189">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$orderId</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="190">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$quoteId</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="191">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$parentPaymentId</token>
+      </line>
+      <line no="192">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="193">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="194">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="195">
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="196"/>
+    </source>
+  </file>
+</phpunit>

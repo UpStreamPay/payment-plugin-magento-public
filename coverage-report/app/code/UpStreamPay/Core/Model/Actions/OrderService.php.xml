@@ -1,0 +1,1328 @@
+<?xml version="1.0"?>
+<phpunit xmlns="https://schema.phpunit.de/coverage/1.0">
+  <file name="OrderService.php" path="/app/code/UpStreamPay/Core/Model/Actions">
+    <totals>
+      <lines total="142" comments="42" code="100" executable="48" executed="46" percent="95.83"/>
+      <methods count="2" tested="1" percent="50.00"/>
+      <functions count="0" tested="0" percent="0"/>
+      <classes count="1" tested="0" percent="0.00"/>
+      <traits count="0" tested="0" percent="0"/>
+    </totals>
+    <class name="UpStreamPay\Core\Model\Actions\OrderService" start="32" executable="48" executed="46" crap="13">
+      <namespace name="UpStreamPay\Core\Model\Actions"/>
+      <method name="__construct" signature="__construct(UpStreamPay\Core\Model\Actions\AuthorizeService $authorizeService, UpStreamPay\Core\Model\Actions\CaptureService $captureService, Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder, UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface $orderTransactionsRepository, Psr\Log\LoggerInterface $logger, Magento\Framework\Math\FloatComparator $floatComparator)" start="42" end="50" crap="1" executable="1" executed="1" coverage="100"/>
+      <method name="execute" signature="execute(Magento\Payment\Model\InfoInterface $payment, float $amount): Magento\Payment\Model\InfoInterface" start="68" end="140" crap="12" executable="47" executed="45" coverage="95.744680851064"/>
+    </class>
+    <coverage>
+      <line nr="50">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithNoTransactions"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One capture transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One authorize transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;Several transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One authorize transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with no pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture &amp; authorize pending&quot;"/>
+      </line>
+      <line nr="70">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithNoTransactions"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One capture transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One authorize transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;Several transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One authorize transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with no pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture &amp; authorize pending&quot;"/>
+      </line>
+      <line nr="71">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithNoTransactions"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One capture transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One authorize transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;Several transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One authorize transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with no pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture &amp; authorize pending&quot;"/>
+      </line>
+      <line nr="74">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithNoTransactions"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One capture transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One authorize transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;Several transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One authorize transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with no pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture &amp; authorize pending&quot;"/>
+      </line>
+      <line nr="75">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithNoTransactions"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One capture transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One authorize transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;Several transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One authorize transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with no pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture &amp; authorize pending&quot;"/>
+      </line>
+      <line nr="76">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithNoTransactions"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One capture transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One authorize transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;Several transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One authorize transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with no pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture &amp; authorize pending&quot;"/>
+      </line>
+      <line nr="77">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithNoTransactions"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One capture transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One authorize transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;Several transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One authorize transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with no pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture &amp; authorize pending&quot;"/>
+      </line>
+      <line nr="78">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithNoTransactions"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One capture transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One authorize transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;Several transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One authorize transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with no pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture &amp; authorize pending&quot;"/>
+      </line>
+      <line nr="80">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithNoTransactions"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One capture transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One authorize transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;Several transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One authorize transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with no pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture &amp; authorize pending&quot;"/>
+      </line>
+      <line nr="83">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithNoTransactions"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One capture transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One authorize transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;Several transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One authorize transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with no pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture &amp; authorize pending&quot;"/>
+      </line>
+      <line nr="87">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithNoTransactions"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One capture transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One authorize transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;Several transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One authorize transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with no pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture &amp; authorize pending&quot;"/>
+      </line>
+      <line nr="88">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithNoTransactions"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One capture transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One authorize transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;Several transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One authorize transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with no pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture &amp; authorize pending&quot;"/>
+      </line>
+      <line nr="91">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithNoTransactions"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One capture transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One authorize transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;Several transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One authorize transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with no pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture &amp; authorize pending&quot;"/>
+      </line>
+      <line nr="92">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithNoTransactions"/>
+      </line>
+      <line nr="94">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithNoTransactions"/>
+      </line>
+      <line nr="97">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One capture transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One authorize transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;Several transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One authorize transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with no pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture &amp; authorize pending&quot;"/>
+      </line>
+      <line nr="98">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One capture transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One authorize transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;Several transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One authorize transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with no pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture &amp; authorize pending&quot;"/>
+      </line>
+      <line nr="99">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One capture transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;Several transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with no pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture &amp; authorize pending&quot;"/>
+      </line>
+      <line nr="100">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One authorize transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;Several transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One authorize transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with no pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture &amp; authorize pending&quot;"/>
+      </line>
+      <line nr="101">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One authorize transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;Several transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One authorize transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with no pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture &amp; authorize pending&quot;"/>
+      </line>
+      <line nr="106">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One capture transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One authorize transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;Several transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One authorize transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with no pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture &amp; authorize pending&quot;"/>
+      </line>
+      <line nr="107">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One capture transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One authorize transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;Several transaction with wrong amount&quot;"/>
+      </line>
+      <line nr="108">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One capture transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One authorize transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;Several transaction with wrong amount&quot;"/>
+      </line>
+      <line nr="113">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One capture transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One authorize transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;Several transaction with wrong amount&quot;"/>
+      </line>
+      <line nr="116">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One capture transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One authorize transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;Several transaction with wrong amount&quot;"/>
+      </line>
+      <line nr="117">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One capture transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One authorize transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;Several transaction with wrong amount&quot;"/>
+      </line>
+      <line nr="119">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One capture transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One authorize transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;Several transaction with wrong amount&quot;"/>
+      </line>
+      <line nr="122">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One authorize transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with no pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture &amp; authorize pending&quot;"/>
+      </line>
+      <line nr="123">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One authorize transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with no pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture &amp; authorize pending&quot;"/>
+      </line>
+      <line nr="125">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One authorize transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with no pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture &amp; authorize pending&quot;"/>
+      </line>
+      <line nr="126">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One authorize transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with no pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture &amp; authorize pending&quot;"/>
+      </line>
+      <line nr="129">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One authorize transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with no pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture &amp; authorize pending&quot;"/>
+      </line>
+      <line nr="134">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One authorize transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with no pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture &amp; authorize pending&quot;"/>
+      </line>
+      <line nr="135">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture &amp; authorize pending&quot;"/>
+      </line>
+      <line nr="136">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture &amp; authorize pending&quot;"/>
+      </line>
+      <line nr="139">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One authorize transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with no pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture &amp; authorize pending&quot;"/>
+      </line>
+      <line nr="79">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithNoTransactions"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One capture transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One authorize transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;Several transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One authorize transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with no pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture &amp; authorize pending&quot;"/>
+      </line>
+      <line nr="81">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithNoTransactions"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One capture transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One authorize transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;Several transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One authorize transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with no pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture &amp; authorize pending&quot;"/>
+      </line>
+      <line nr="82">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithNoTransactions"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One capture transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One authorize transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;Several transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One authorize transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with no pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture &amp; authorize pending&quot;"/>
+      </line>
+      <line nr="84">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithNoTransactions"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One capture transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One authorize transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;Several transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One authorize transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with no pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture &amp; authorize pending&quot;"/>
+      </line>
+      <line nr="85">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithNoTransactions"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One capture transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One authorize transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;Several transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One authorize transaction not in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;One capture transaction in pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with no pending&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithTransactions with data set &quot;Several transaction with capture &amp; authorize pending&quot;"/>
+      </line>
+      <line nr="109">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One capture transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One authorize transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;Several transaction with wrong amount&quot;"/>
+      </line>
+      <line nr="110">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One capture transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One authorize transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;Several transaction with wrong amount&quot;"/>
+      </line>
+      <line nr="111">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One capture transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One authorize transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;Several transaction with wrong amount&quot;"/>
+      </line>
+      <line nr="112">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One capture transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One authorize transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;Several transaction with wrong amount&quot;"/>
+      </line>
+      <line nr="114">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One capture transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;One authorize transaction with wrong amount&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderServiceTest::testExecuteWithDifferentAmountProcessed with data set &quot;Several transaction with wrong amount&quot;"/>
+      </line>
+    </coverage>
+    <source>
+      <line no="1">
+        <token name="T_OPEN_TAG">&lt;?php</token>
+      </line>
+      <line no="2">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="3">
+        <token name="T_DOC_COMMENT"> * UpStream Pay</token>
+      </line>
+      <line no="4">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="5">
+        <token name="T_DOC_COMMENT"> * Copyright (c) 2023 UpStream Pay.</token>
+      </line>
+      <line no="6">
+        <token name="T_DOC_COMMENT"> * This file is open source and available under the BSD 3 license.</token>
+      </line>
+      <line no="7">
+        <token name="T_DOC_COMMENT"> * See the LICENSE file for more info.</token>
+      </line>
+      <line no="8">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="9">
+        <token name="T_DOC_COMMENT"> * Author: Claranet France &lt;info@fr.clara.net&gt;</token>
+      </line>
+      <line no="10">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="11">
+        <token name="T_DECLARE">declare</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">strict_types</token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_LNUMBER">1</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="12"/>
+      <line no="13">
+        <token name="T_NAMESPACE">namespace</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Model\Actions</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="14"/>
+      <line no="15">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Framework\Api\SearchCriteriaBuilder</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="16">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Framework\Exception\LocalizedException</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="17">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Framework\Math\FloatComparator</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="18">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Payment\Model\InfoInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="19">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Psr\Log\LoggerInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="20">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Api\Data\OrderTransactionsInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="21">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="22">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Exception\AuthorizeErrorException</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="23">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Exception\CaptureErrorException</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="24">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Exception\OrderErrorException</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="25">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Model\OrderTransactions</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="26"/>
+      <line no="27">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="28">
+        <token name="T_DOC_COMMENT"> * Class OrderService</token>
+      </line>
+      <line no="29">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="30">
+        <token name="T_DOC_COMMENT"> * @package UpStreamPay\Core\Model\Actions</token>
+      </line>
+      <line no="31">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="32">
+        <token name="T_CLASS">class</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">OrderService</token>
+      </line>
+      <line no="33">
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="34">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="35">
+        <token name="T_DOC_COMMENT">     * @param AuthorizeService $authorizeService</token>
+      </line>
+      <line no="36">
+        <token name="T_DOC_COMMENT">     * @param CaptureService $captureService</token>
+      </line>
+      <line no="37">
+        <token name="T_DOC_COMMENT">     * @param SearchCriteriaBuilder $searchCriteriaBuilder</token>
+      </line>
+      <line no="38">
+        <token name="T_DOC_COMMENT">     * @param OrderTransactionsRepositoryInterface $orderTransactionsRepository</token>
+      </line>
+      <line no="39">
+        <token name="T_DOC_COMMENT">     * @param LoggerInterface $logger</token>
+      </line>
+      <line no="40">
+        <token name="T_DOC_COMMENT">     * @param FloatComparator $floatComparator</token>
+      </line>
+      <line no="41">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="42">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">__construct</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="43">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">AuthorizeService</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$authorizeService</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="44">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">CaptureService</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$captureService</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="45">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">SearchCriteriaBuilder</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$searchCriteriaBuilder</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="46">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">OrderTransactionsRepositoryInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderTransactionsRepository</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="47">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">LoggerInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$logger</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="48">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">FloatComparator</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$floatComparator</token>
+      </line>
+      <line no="49">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="50">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="51"/>
+      <line no="52">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="53">
+        <token name="T_DOC_COMMENT">     * For the order action we have to check first for the authorized transactions &amp; then check the captured</token>
+      </line>
+      <line no="54">
+        <token name="T_DOC_COMMENT">     * transactions.</token>
+      </line>
+      <line no="55">
+        <token name="T_DOC_COMMENT">     * After the place order all we want is success for both.</token>
+      </line>
+      <line no="56">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="57">
+        <token name="T_DOC_COMMENT">     * This function should only be called after place order or in case of waiting &amp; webhook notification.</token>
+      </line>
+      <line no="58">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="59">
+        <token name="T_DOC_COMMENT">     * @param InfoInterface $payment</token>
+      </line>
+      <line no="60">
+        <token name="T_DOC_COMMENT">     * @param float $amount</token>
+      </line>
+      <line no="61">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="62">
+        <token name="T_DOC_COMMENT">     * @return InfoInterface</token>
+      </line>
+      <line no="63">
+        <token name="T_DOC_COMMENT">     * @throws LocalizedException</token>
+      </line>
+      <line no="64">
+        <token name="T_DOC_COMMENT">     * @throws AuthorizeErrorException</token>
+      </line>
+      <line no="65">
+        <token name="T_DOC_COMMENT">     * @throws CaptureErrorException</token>
+      </line>
+      <line no="66">
+        <token name="T_DOC_COMMENT">     * @throws OrderErrorException</token>
+      </line>
+      <line no="67">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="68">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">execute</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">InfoInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$payment</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">float</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$amount</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">InfoInterface</token>
+      </line>
+      <line no="69">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="70">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$amountToAuthorize</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_LNUMBER">0</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="71">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$amountToCapture</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_LNUMBER">0</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="72"/>
+      <line no="73">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_COMMENT">//Get the transactions for the current order.</token>
+      </line>
+      <line no="74">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">searchCriteriaBuilder</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">addFilter</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="75">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_STRING">OrderTransactionsInterface</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">ORDER_ID</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="76">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$payment</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getOrder</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getEntityId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="77">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">addFilter</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="78">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_STRING">OrderTransactions</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">TRANSACTION_TYPE</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="79">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="80">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_STRING">OrderTransactions</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">CAPTURE_ACTION</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="81">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_STRING">OrderTransactions</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">AUTHORIZE_ACTION</token>
+      </line>
+      <line no="82">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="83">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'in'</token>
+      </line>
+      <line no="84">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="85">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="86"/>
+      <line no="87">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$searchCriteria</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">searchCriteriaBuilder</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">create</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="88">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$transactions</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">orderTransactionsRepository</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getList</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$searchCriteria</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getItems</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="89"/>
+      <line no="90">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_COMMENT">//If there are no transactions, no need to go further.</token>
+      </line>
+      <line no="91">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">count</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$transactions</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_IDENTICAL">===</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_LNUMBER">0</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="92">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$payment</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setIsTransactionPending</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">true</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="93"/>
+      <line no="94">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$payment</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="95">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="96"/>
+      <line no="97">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_FOREACH">foreach</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$transactions</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_AS">as</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="98">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getTransactionType</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_IDENTICAL">===</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">OrderTransactions</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">CAPTURE_ACTION</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="99">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$amountToCapture</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_PLUS_EQUAL">+=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getAmount</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="100">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_CURLY">}</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_ELSEIF">elseif</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getTransactionType</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_IDENTICAL">===</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">OrderTransactions</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">AUTHORIZE_ACTION</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="101">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$amountToAuthorize</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_PLUS_EQUAL">+=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getAmount</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="102">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="103">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="104"/>
+      <line no="105">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_COMMENT">//Check that the amount captured and authorized match the total due.</token>
+      </line>
+      <line no="106">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_EXCLAMATION_MARK">!</token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">floatComparator</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">equal</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$amount</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$amountToAuthorize</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_PLUS">+</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$amountToCapture</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="107">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$errorMessage</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">sprintf</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="108">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Amount to capture &amp; authorize is different than total amount of order.</token>
+      </line>
+      <line no="109">
+        <token name="T_CONSTANT_ENCAPSED_STRING">                Order total is %s and capture total is %s and authorize total is %s for order with ID %s.'</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="110">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$amount</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="111">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$amountToCapture</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="112">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$amountToAuthorize</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="113">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$payment</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getOrder</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getEntityId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="114">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="115"/>
+      <line no="116">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$payment</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getOrder</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">addCommentToStatusHistory</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$errorMessage</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="117">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">logger</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">critical</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$errorMessage</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="118"/>
+      <line no="119">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_THROW">throw</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NEW">new</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">OrderErrorException</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$errorMessage</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="120">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="121"/>
+      <line no="122">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$payment</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">authorizeService</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">execute</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$payment</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$amountToAuthorize</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="123">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$isAuthorizeTransactionPending</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$amountToAuthorize</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_GT">&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_LNUMBER">0</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_QUESTION_MARK">?</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$payment</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getIsTransactionPending</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">false</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="124"/>
+      <line no="125">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$payment</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">captureService</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">execute</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$payment</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$amountToCapture</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="126">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$isCaptureTransactionPending</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$amountToCapture</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_GT">&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_LNUMBER">0</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_QUESTION_MARK">?</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$payment</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getIsTransactionPending</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">false</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="127"/>
+      <line no="128">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_COMMENT">//Check if one of the transaction type is pending.</token>
+      </line>
+      <line no="129">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$isAuthorizeTransactionPending</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_BOOLEAN_AND">&amp;&amp;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EXCLAMATION_MARK">!</token>
+        <token name="T_VARIABLE">$isCaptureTransactionPending</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="130">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$payment</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setIsTransactionPending</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">true</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="131">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$payment</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setIsTransactionApproved</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">false</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="132">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="133"/>
+      <line no="134">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_EXCLAMATION_MARK">!</token>
+        <token name="T_VARIABLE">$isAuthorizeTransactionPending</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_BOOLEAN_AND">&amp;&amp;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$isCaptureTransactionPending</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="135">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$payment</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setIsTransactionPending</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">true</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="136">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$payment</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setIsTransactionApproved</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">false</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="137">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="138"/>
+      <line no="139">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$payment</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="140">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="141">
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="142"/>
+    </source>
+  </file>
+</phpunit>
