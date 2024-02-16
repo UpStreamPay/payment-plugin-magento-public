@@ -10,7 +10,7 @@
  */
 declare(strict_types=1);
 
-namespace Adminhtml\Subscriptions;
+namespace UpStreamPay\Core\Controller\Adminhtml\Subscriptions;
 
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
