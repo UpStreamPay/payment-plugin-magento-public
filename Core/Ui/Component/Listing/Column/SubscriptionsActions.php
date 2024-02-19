@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace UpstreamPay\Core\Ui\Component\Listing\Column;
+namespace UpStreamPay\Core\Ui\Component\Listing\Column;
 
 use Magento\Framework\Escaper;
 use Magento\Framework\Exception\LocalizedException;
@@ -19,6 +19,7 @@ use Magento\Framework\UrlInterface;
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
 use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Ui\Component\Listing\Columns\Column;
+use UpStreamPay\Core\Controller\Adminhtml\Subscriptions\Cancel;
 use UpStreamPay\Core\Model\Subscription;
 use UpStreamPay\Core\Model\SubscriptionRepository;
 
@@ -29,12 +30,6 @@ use UpStreamPay\Core\Model\SubscriptionRepository;
  */
 class SubscriptionsActions extends Column
 {
-    /**
-     * Url path
-     */
-    const URL_PATH_CANCEL = 'core/subscriptions/cancel';
-
-
     /**
      * Constructor
      *
@@ -77,7 +72,7 @@ class SubscriptionsActions extends Column
                     if ($subscription->canCancel()) {
                         $item[$this->getData('name')]['cancel'] = [
                             'href' => $this->urlBuilder->getUrl(
-                                static::URL_PATH_CANCEL,
+                                Cancel::URL_PATH_CANCEL,
                                 [
                                     'id' => $item['entity_id']
                                 ]
