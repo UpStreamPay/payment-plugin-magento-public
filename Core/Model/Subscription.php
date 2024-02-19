@@ -275,4 +275,16 @@ class Subscription extends AbstractExtensibleModel implements SubscriptionInterf
         return $this->setData(SubscriptionInterface::ORIGINAL_TRANSACTION_ID, $originalTransactionId);
     }
 
+    /**
+     * Return true if a subscription can be canceled :
+     * payment_status = 'to_pay'
+     * subscription_status = 'disabled'
+     *
+     * @return bool
+     */
+    public function canCancel(): bool
+    {
+        return $this->getPaymentStatus() === self::TO_PAY && $this->getSubscriptionStatus() === self::DISABLED;
+    }
+
 }

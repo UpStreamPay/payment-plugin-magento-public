@@ -55,3 +55,5 @@
 "Number of maximum retries", "Number of maximum retries"
 "Payment cron expression", "Payment cron expression"
 "Payment retry cron expression", "Payment retry cron expression"
+"Subscription canceled", "Subscription canceled"
+"Subscriptions cancel failed", "Subscriptions cancel failed"

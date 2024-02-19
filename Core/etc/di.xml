@@ -66,6 +66,9 @@
                 <item name="upstreampay_transactions_grid_data_source" xsi:type="string">
                     UpStreamPay\Core\Model\ResourceModel\Transactions\Grid\Collection
                 </item>
+                <item name="upstreampay_subscriptions_grid_data_source" xsi:type="string">
+                    UpStreamPay\Core\Model\ResourceModel\Subscriptions\Grid\Collection
+                </item>
             </argument>
         </arguments>
     </type>
@@ -85,6 +88,16 @@
             <argument name="mainTable" xsi:type="string">upstream_pay_order_transactions</argument>
             <argument name="resourceModel" xsi:type="string">
                 UpStreamPay\Core\Model\ResourceModel\OrderTransactions
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="UpStreamPay\Core\Model\ResourceModel\Subscriptions\Grid\Collection"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">upstream_pay_subscription</argument>
+            <argument name="resourceModel" xsi:type="string">
+                UpStreamPay\Core\Model\ResourceModel\Subscription
             </argument>
         </arguments>
     </virtualType>
