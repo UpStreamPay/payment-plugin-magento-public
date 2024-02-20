@@ -22,4 +22,8 @@
     <event name="cancel_purse_subscription">
         <observer name="cancelPurseSubscription" instance="UpStreamPay\Core\Observer\CancelPurseSubscriptionObserver" />
     </event>
+<!-- save a subscription -->
+    <event name="sales_order_invoice_pay">
+        <observer name="upstreampay_save_subscription" instance="UpStreamPay\Core\Observer\SaveSubscriptionObserver" />
+    </event>
 </config>

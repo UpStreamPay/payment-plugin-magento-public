@@ -281,21 +281,21 @@ class Config
     /**
      * Return true if the subscription payment is enabled.
      *
-     * @return null|string
+     * @return bool
      */
-    public function getSubscriptionPaymentEnabled(): ?string
+    public function getSubscriptionPaymentEnabled(): bool
     {
-        return $this->config->getValue(self::SUBSCRIPTION_PAYMENT_ENABLED, ScopeInterface::SCOPE_STORE);
+        return (bool)$this->config->getValue(self::SUBSCRIPTION_PAYMENT_ENABLED, ScopeInterface::SCOPE_STORE);
     }
 
     /**
      * Return true if the subscription payment customer interface is enabled.
      *
-     * @return null|string
+     * @return null|int
      */
-    public function getSubscriptionPaymentEnableCustomerInterface(): ?string
+    public function getSubscriptionPaymentEnableCustomerInterface(): ?int
     {
-        return $this->config->getValue(self::SUBSCRIPTION_PAYMENT_ENABLE_CUSTOMER_INTERFACE, ScopeInterface::SCOPE_STORE);
+        return (int)$this->config->getValue(self::SUBSCRIPTION_PAYMENT_ENABLE_CUSTOMER_INTERFACE, ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -321,11 +321,11 @@ class Config
     /**
      * Return the maximum payment retry number
      *
-     * @return null|string
+     * @return null|int
      */
-    public function getSubscriptionPaymentMaximumPaymentRetry(): ?string
+    public function getSubscriptionPaymentMaximumPaymentRetry(): ?int
     {
-        return $this->config->getValue(self::SUBSCRIPTION_PAYMENT_MAX_PAYMENT_RETRY, ScopeInterface::SCOPE_STORE);
+        return (int)$this->config->getValue(self::SUBSCRIPTION_PAYMENT_MAX_PAYMENT_RETRY, ScopeInterface::SCOPE_STORE);
     }
 
     /**

@@ -22,8 +22,12 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
 use UpStreamPay\Core\Api\Data\OrderTransactionsSearchResultsInterface;
 use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
+use UpStreamPay\Core\Exception\NoTransactionsException;
 use UpStreamPay\Core\Model\ResourceModel\OrderTransactions as ResourceModel;
 use UpStreamPay\Core\Model\ResourceModel\OrderTransactions\CollectionFactory;
+use UpStreamPay\Core\Model\PaymentMethodRepository;
+use UpStreamPay\Core\Api\Data\PaymentMethodInterface;
+use UpStreamPay\Core\Model\PaymentMethod;
 
 /**
  * Class OrderTransactionsRepository
@@ -40,7 +44,8 @@ class OrderTransactionsRepository implements OrderTransactionsRepositoryInterfac
         private readonly CollectionFactory $collectionFactory,
         private readonly SearchCriteriaBuilder $searchCriteriaBuilder,
         private readonly OrderTransactionsSearchResultsFactory $searchResultsFactory,
-        private readonly CollectionProcessorInterface $collectionProcessor
+        private readonly CollectionProcessorInterface $collectionProcessor,
+        private readonly PaymentMethodRepository $paymentMethodRepository
     ) {
     }
 
@@ -165,6 +170,30 @@ class OrderTransactionsRepository implements OrderTransactionsRepositoryInterfac
         $searchResults->setItems($items);
 
         return $searchResults;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getByInvoiceIdAndPrimaryMethod(int $invoiceId): string
+    {
+        $searchCriteria = $this->searchCriteriaBuilder
+            ->addFilter(PaymentMethodInterface::TYPE,PaymentMethod::PRIMARY)
+            ->create();
+        $primaryPaymentMethods = $this->paymentMethodRepository->getList($searchCriteria);
+        $methods = [];
+        foreach ($primaryPaymentMethods->getItems() as $method) {
+            $methods[] = $method->getMethod();
+        }
+        foreach ($this->getByInvoiceId($invoiceId) as $transaction) {
+            if (in_array($transaction->getMethod(), $methods)) {
+                return $transaction->getTransactionId();
+            }
+        }
+
+        throw new NoTransactionsException(
+            'No transaction with primary payment found'
+        );
     }
 
     /**

@@ -128,6 +128,18 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
     /**
      * @inheritDoc
      */
+    public function getBySubscriptionIdentifier(string $identifier): SubscriptionInterface
+    {
+        /** @var SubscriptionInterface $subscription */
+        $subscription = $this->subscriptionFactory->create();
+        $this->resourceModel->load($subscription, $identifier, SubscriptionInterface::SUBSCRIPTION_IDENTIFIER);
+
+        return $subscription;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function deleteById(int $entityId): bool
     {
         return $this->delete($this->getById($entityId));
