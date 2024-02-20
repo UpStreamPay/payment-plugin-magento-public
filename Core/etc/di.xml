@@ -141,4 +141,12 @@
         <plugin name="paymentInformationPlugin" type="UpStreamPay\Core\Plugin\PaymentInformationPlugin" sortOrder="1"
                 disabled="false" />
     </type>
+
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="subscription_renew" xsi:type="object">UpStreamPay\Core\Console\RenewSubscription</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
