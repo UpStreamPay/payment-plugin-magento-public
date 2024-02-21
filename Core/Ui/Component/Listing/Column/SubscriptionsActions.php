@@ -27,6 +27,8 @@ use UpStreamPay\Core\Model\SubscriptionRepository;
  * Class SubscriptionsActions
  *
  * Subscription actions column
+ * 
+ * @codeCoverageIgnore
  */
 class SubscriptionsActions extends Column
 {

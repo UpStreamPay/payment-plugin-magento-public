@@ -39,6 +39,8 @@ class Subscription extends AbstractExtensibleModel implements SubscriptionInterf
 
     /**
      * @inheritDoc
+     *
+     * @codeCoverageIgnore
      */
     protected function _construct()
     {

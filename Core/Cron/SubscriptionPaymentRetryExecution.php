@@ -21,6 +21,8 @@ use UpStreamPay\Core\Model\Config;
  * Cron used to retry to pay the subscription
  *
  * @package UpStreamPay\Core\Cron
+ *
+ * @codeCoverageIgnore
  */
 class SubscriptionPaymentRetryExecution {
     public function __construct(
