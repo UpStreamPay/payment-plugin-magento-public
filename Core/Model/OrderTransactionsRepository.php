@@ -21,7 +21,10 @@ use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
 use UpStreamPay\Core\Api\Data\OrderTransactionsSearchResultsInterface;
+use UpStreamPay\Core\Api\Data\PaymentMethodInterface;
 use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
+use UpStreamPay\Core\Api\PaymentMethodRepositoryInterface;
+use UpStreamPay\Core\Exception\NoTransactionsException;
 use UpStreamPay\Core\Model\ResourceModel\OrderTransactions as ResourceModel;
 use UpStreamPay\Core\Model\ResourceModel\OrderTransactions\CollectionFactory;
 
@@ -34,14 +37,25 @@ use UpStreamPay\Core\Model\ResourceModel\OrderTransactions\CollectionFactory;
  */
 class OrderTransactionsRepository implements OrderTransactionsRepositoryInterface
 {
+    /**
+     * @param ResourceModel $resourceModel
+     * @param OrderTransactionsFactory $orderTransactionsFactory
+     * @param CollectionFactory $collectionFactory
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param OrderTransactionsSearchResultsFactory $searchResultsFactory
+     * @param CollectionProcessorInterface $collectionProcessor
+     * @param PaymentMethodRepositoryInterface $paymentMethodRepository
+     */
     public function __construct(
         private readonly ResourceModel $resourceModel,
         private readonly OrderTransactionsFactory $orderTransactionsFactory,
         private readonly CollectionFactory $collectionFactory,
         private readonly SearchCriteriaBuilder $searchCriteriaBuilder,
         private readonly OrderTransactionsSearchResultsFactory $searchResultsFactory,
-        private readonly CollectionProcessorInterface $collectionProcessor
-    ) {
+        private readonly CollectionProcessorInterface $collectionProcessor,
+        private readonly PaymentMethodRepositoryInterface $paymentMethodRepository
+    )
+    {
     }
 
     /**
@@ -165,6 +179,33 @@ class OrderTransactionsRepository implements OrderTransactionsRepositoryInterfac
         $searchResults->setItems($items);
 
         return $searchResults;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getByInvoiceIdAndPrimaryMethod(int $invoiceId): string
+    {
+        $searchCriteria = $this->searchCriteriaBuilder
+            ->addFilter(PaymentMethodInterface::TYPE, PaymentMethod::PRIMARY)
+            ->create();
+        $primaryPaymentMethods = $this->paymentMethodRepository->getList($searchCriteria);
+        $methods = [];
+
+        foreach ($primaryPaymentMethods->getItems() as $method) {
+            $methods[] = $method->getMethod();
+        }
+
+        //Loop transactions to find the primary capture transaction used to pay the current invoice.
+        //Get the parent transaction ID, which is the authorize transaction ID.
+        foreach ($this->getByInvoiceId($invoiceId) as $transaction) {
+            if (in_array($transaction->getMethod(), $methods)
+                && $transaction->getTransactionType() === OrderTransactions::CAPTURE_ACTION) {
+                return $transaction->getParentTransactionId();
+            }
+        }
+
+        throw new NoTransactionsException('No transaction with primary payment found');
     }
 
     /**

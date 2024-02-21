@@ -12,16 +12,15 @@ declare(strict_types=1);
 
 namespace UpStreamPay\Core\Model;
 
-use UpStreamPay\Core\Api\Data\SubscriptionRetryInterface;
-use UpStreamPay\Core\Model\ResourceModel\SubscriptionRetry as SubscriptionRetryResource;
 use Magento\Framework\Api\AttributeValueFactory;
 use Magento\Framework\Api\ExtensionAttributesFactory;
 use Magento\Framework\Data\Collection\AbstractDb;
-use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\Framework\Model\Context;
 use Magento\Framework\Model\ResourceModel\AbstractResource;
 use Magento\Framework\Registry;
+use UpStreamPay\Core\Api\Data\SubscriptionRetryInterface;
+use UpStreamPay\Core\Model\ResourceModel\SubscriptionRetry as SubscriptionRetryResource;
 
 /**
  * Class OrderPayment
@@ -31,6 +30,8 @@ use Magento\Framework\Registry;
 class SubscriptionRetry extends AbstractExtensibleModel implements SubscriptionRetryInterface
 {
     /**
+     * @codeCoverageIgnore
+     *
      * @param Context $context
      * @param Registry $registry
      * @param ExtensionAttributesFactory $extensionFactory
@@ -61,6 +62,8 @@ class SubscriptionRetry extends AbstractExtensibleModel implements SubscriptionR
 
     /**
      * @inheritDoc
+     *
+     * @codeCoverageIgnore
      */
     protected function _construct()
     {

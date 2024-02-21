@@ -21,6 +21,8 @@ use UpStreamPay\Core\Model\Config;
  * Cron used to renew & pay the subscription
  *
  * @package UpStreamPay\Core\Cron
+ *
+ * @codeCoverageIgnore
  */
 class SubscriptionPaymentExecution {
     public function __construct(

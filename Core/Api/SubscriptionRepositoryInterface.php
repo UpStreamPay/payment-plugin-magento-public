@@ -42,6 +42,14 @@ interface SubscriptionRepositoryInterface
     public function getById(int $entityId): SubscriptionInterface;
 
     /**
+     * @param string $identifier
+     *
+     * @return SubscriptionInterface
+     * @throws LocalizedException
+     */
+    public function getBySubscriptionIdentifier(string $identifier): SubscriptionInterface;
+
+    /**
      * Retrieve UpStream Pay order payment matching the specified criteria.
      *
      * @param SearchCriteriaInterface $searchCriteria

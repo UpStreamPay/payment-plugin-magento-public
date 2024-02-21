@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace UpStreamPay\Core\Model;
 
 use Magento\Framework\Data\Collection\AbstractDb;
+use Magento\Framework\Event\ManagerInterface as EventManager;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\Context;
@@ -23,7 +24,6 @@ use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
 use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
 use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
 use UpStreamPay\Core\Model\ResourceModel\OrderTransactions as ResourceModel;
-use Magento\Framework\Event\ManagerInterface as EventManager;
 
 /**
  * Class OrderTransactions
@@ -59,6 +59,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @param OrderTransactionsFactory $orderTransactionsFactory
      * @param OrderTransactionsRepositoryInterface $transactionsRepository
      * @param OrderPaymentRepositoryInterface $orderPaymentRepository
