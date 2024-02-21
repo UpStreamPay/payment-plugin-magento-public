@@ -17,10 +17,10 @@ use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Payment\Model\MethodInterface;
 use Magento\Sales\Api\Data\InvoiceInterface;
+use Psr\Log\LoggerInterface;
+use Throwable;
 use UpStreamPay\Core\Model\Config;
 use UpStreamPay\Core\Model\Subscription\SaveSubscriptionService;
-use Throwable;
-use Psr\Log\LoggerInterface;
 
 /**
  * Class CancelOrderObserver
@@ -58,7 +58,6 @@ class SaveSubscriptionObserver implements ObserverInterface
     public function execute(Observer $observer): void
     {
         if ($this->config->getSubscriptionPaymentEnabled()) {
-
             /** @var InvoiceInterface $invoice */
             $invoice = $observer->getData('invoice');
             $order = $invoice->getOrder();
@@ -73,6 +72,11 @@ class SaveSubscriptionObserver implements ObserverInterface
         }
     }
 
+    /**
+     * @param $order
+     *
+     * @return bool
+     */
     public function hasSubscriptionEligibleProducts($order): bool
     {
         foreach ($order->getItems() as $orderItem) {
@@ -81,9 +85,18 @@ class SaveSubscriptionObserver implements ObserverInterface
             } catch (Throwable $exception) {
                 $this->logger->critical('Error while trying to load a product');
                 $this->logger->critical($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
+
+                return false;
             }
-            $productSubDuration = $product->getData($this->config->getSubscriptionPaymentProductSubscriptionDurationAttributeCode());
-            if ($product->getData($this->config->getSubscriptionPaymentProductSubscriptionAttributeCode()) && isset($productSubDuration)) {
+
+            $productSubscriptionEligibe = $product->getData(
+                $this->config->getSubscriptionPaymentProductSubscriptionAttributeCode()
+            );
+            $productSubDuration = $product->getData(
+                $this->config->getSubscriptionPaymentProductSubscriptionDurationAttributeCode()
+            );
+
+            if ($productSubscriptionEligibe && null !== $productSubDuration && $productSubDuration > 0) {
                 return true;
             }
         }

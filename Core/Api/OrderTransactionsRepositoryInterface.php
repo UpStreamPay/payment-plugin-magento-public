@@ -8,6 +8,7 @@
  *
  * Author: Claranet France <info@fr.clara.net>
  */
+
 namespace UpStreamPay\Core\Api;
 
 use Magento\Framework\Api\SearchCriteriaInterface;
@@ -95,6 +96,8 @@ interface OrderTransactionsRepositoryInterface
      * @param int $invoiceId
      *
      * @return string
+     *
+     * @throws LocalizedException
      * @throws NoTransactionsException
      */
     public function getByInvoiceIdAndPrimaryMethod(int $invoiceId): string;

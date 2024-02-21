@@ -31,6 +31,12 @@
     <preference for="UpStreamPay\Core\Api\Data\PaymentMethodSearchResultsInterface"
                 type="UpStreamPay\Core\Model\PaymentMethodSearchResults"/>
     <preference for="UpStreamPay\Core\Api\Data\PaymentMethodInterface" type="UpStreamPay\Core\Model\PaymentMethod"/>
+    <preference for="UpStreamPay\Core\Api\Data\SubscriptionInterface" type="UpStreamPay\Core\Model\Subscription"/>
+    <preference for="UpStreamPay\Core\Api\SubscriptionRepositoryInterface" type="UpStreamPay\Core\Model\SubscriptionRepository"/>
+    <preference for="UpStreamPay\Core\Api\Data\SubscriptionSearchResultsInterface" type="UpStreamPay\Core\Model\SubscriptionSearchResults"/>
+    <preference for="UpStreamPay\Core\Api\Data\SubscriptionRetryInterface" type="UpStreamPay\Core\Model\SubscriptionRetry"/>
+    <preference for="UpStreamPay\Core\Api\Data\SubscriptionRetrySearchResultsInterface" type="UpStreamPay\Core\Model\SubscriptionRetrySearchResults"/>
+    <preference for="UpStreamPay\Core\Api\SubscriptionRetryRepositoryInterface" type="UpStreamPay\Core\Model\SubscriptionRetryRepository"/>
 
     <type name="UpStreamPay\Core\Model\Session\Order\OrderService">
         <arguments>
