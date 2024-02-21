@@ -29,7 +29,7 @@ use UpStreamPay\Core\Model\SubscriptionFactory;
 /**
  * Class SaveSubscriptionService
  *
- * @package UpStreamPay\Core\Model\Actions
+ * @package UpStreamPay\Core\Model\Subscription
  */
 class SaveSubscriptionService
 {
