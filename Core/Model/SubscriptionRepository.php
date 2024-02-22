@@ -23,6 +23,7 @@ use UpStreamPay\Core\Api\Data\SubscriptionSearchResultsInterface;
 use UpStreamPay\Core\Api\SubscriptionRepositoryInterface;
 use UpStreamPay\Core\Model\ResourceModel\Subscription as resourceModel;
 use UpStreamPay\Core\Model\ResourceModel\Subscription\CollectionFactory;
+use Magento\Framework\Api\SearchCriteriaBuilder;
 
 /**
  * Class SubscriptionRepository
@@ -39,13 +40,15 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
      * @param CollectionFactory $collectionFactory
      * @param SubscriptionSearchResultsFactory $searchResultsFactory
      * @param CollectionProcessorInterface $collectionProcessor
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
      */
     public function __construct(
         private readonly resourceModel                    $resourceModel,
         private readonly SubscriptionFactory              $subscriptionFactory,
         private readonly CollectionFactory                $collectionFactory,
         private readonly SubscriptionSearchResultsFactory $searchResultsFactory,
-        private readonly CollectionProcessorInterface     $collectionProcessor
+        private readonly CollectionProcessorInterface     $collectionProcessor,
+        private readonly SearchCriteriaBuilder $searchCriteriaBuilder
     )
     {
     }
@@ -135,6 +138,21 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
         $this->resourceModel->load($subscription, $identifier, SubscriptionInterface::SUBSCRIPTION_IDENTIFIER);
 
         return $subscription;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getByProductSkuAndOrderId(string $sku, int $orderId): SubscriptionInterface
+    {
+        $searchCriteria = $this->searchCriteriaBuilder
+            ->addFilter(SubscriptionInterface::PRODUCT_SKU, $sku)
+            ->addFilter(SubscriptionInterface::ORDER_ID, $orderId)
+            ->create();
+        $searchCriteria
+            ->setPageSize(1)
+            ->setCurrentPage(1);
+        return current($this->getList($searchCriteria)->getItems());
     }
 
     /**

@@ -14,13 +14,33 @@ namespace UpStreamPay\Core\Observer;
 
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use UpStreamPay\Core\Model\Subscription\CancelService;
+use UpStreamPay\Core\Model\Config;
 
 class CancelPurseSubscriptionObserver implements ObserverInterface
 {
+    /**
+     * @param CancelService $cancelService
+     * @param Config $config
+     */
+    public function __construct(
+        private readonly CancelService $cancelService,
+        private readonly Config $config
+    )
+    {}
 
     public function execute(Observer $observer): void
     {
+        if ($this->config->getSubscriptionPaymentEnabled()) {
+            $subscriptionId = $observer->getData('subscription_id');
+            $creditMemo = $observer->getData('creditmemo');
 
+            if ($subscriptionId) {
+                $this->cancelService->execute($subscriptionId);
+            } elseif ($creditMemo) {
+                $this->cancelService->execute(null, $creditMemo);
+            }
+        }
     }
 
 }

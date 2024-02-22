@@ -12,10 +12,11 @@ declare(strict_types=1);
 
 namespace UpStreamPay\Core\Model\Subscription;
 
+use Magento\Framework\Exception\NoSuchEntityException;
 use UpStreamPay\Core\Model\Subscription;
-use UpStreamPay\Core\Model\SubscriptionRepository;
+use UpStreamPay\Core\Api\SubscriptionRepositoryInterface;
 use Magento\Sales\Api\Data\CreditmemoInterface;
-use Magento\Sales\Model\Order\CreditmemoRepository;
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Framework\Event\ManagerInterface;
 use Throwable;
 use Psr\Log\LoggerInterface;
@@ -29,16 +30,14 @@ class CancelService
 {
 
     /**
-     * @param SubscriptionRepository $subscriptionRepository
-     * @param CreditmemoInterface $creditmemo
-     * @param CreditmemoRepository $creditmemoRepository
+     * @param SubscriptionRepositoryInterface $subscriptionRepository
+     * @param ProductRepositoryInterface $productRepository
      * @param ManagerInterface $eventManager
      * @param LoggerInterface $logger
      */
     public function __construct(
-        private readonly SubscriptionRepository $subscriptionRepository,
-        private readonly CreditmemoInterface $creditmemo,
-        private readonly CreditmemoRepository $creditmemoRepository,
+        private readonly SubscriptionRepositoryInterface $subscriptionRepository,
+        private readonly ProductRepositoryInterface $productRepository,
         private readonly ManagerInterface $eventManager,
         private readonly LoggerInterface $logger
     )
@@ -46,12 +45,12 @@ class CancelService
     }
 
     /**
-     * @param int $subscriptionId
-     * @param int|null $creditMemoId
+     * @param int|null $subscriptionId
+     * @param CreditmemoInterface|null $creditMemo
      * @return void
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws NoSuchEntityException
      */
-    public function execute(int $subscriptionId = null, int $creditMemoId = null): void
+    public function execute(int $subscriptionId = null, CreditmemoInterface $creditMemo = null): void
     {
         if ($subscriptionId) {
             try {
@@ -67,6 +66,7 @@ class CancelService
                 $this->logger->info('Subscription id : ' . $subscription->getEntityId());
                 $this->logger->info('Asociated order id : ' . $associatedOrderId);
                 $this->logger->info('Subscription identifier : ' . $subscription->getSubscriptionIdentifier());
+                throw new \Exception;
             } else {
                 $subscription
                     ->setSubscriptionStatus(Subscription::CANCELED)
@@ -77,11 +77,32 @@ class CancelService
                     ['subscription_id' => $subscription->getEntityId(), 'subscription_identifier' => $subscription->getSubscriptionIdentifier()]
                 );
             }
-        } elseif ($creditMemoId) {
-            $creditMemo = $this->creditmemoRepository->get($creditMemoId);
+        } elseif ($creditMemo) {
             $creditMemoOrderId = $creditMemo->getOrderId();
             foreach ($creditMemo->getItems() as $creditmemoItem) {
-
+                $productId = $creditmemoItem->getProductId();
+                try {
+                    $product = $this->productRepository->getById($productId);
+                } catch (NoSuchEntityException $exception) {
+                    $this->logger->critical(__('No product found with id "%1"', $productId));
+                    $this->logger->critical($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
+                    throw new \Exception;
+                }
+                $subscription = $this->subscriptionRepository->getByProductSkuAndOrderId($product->getSku(), (int) $creditMemoOrderId);
+                if ($subscription && $subscription->getEntityId()) {
+                    $subscription
+                        ->setSubscriptionStatus(Subscription::CANCELED)
+                        ->setPaymentStatus(Subscription::CANCELED);
+                    $this->subscriptionRepository->save($subscription);
+                    $this->eventManager->dispatch(
+                        'usp_creditmemo_subscription_canceled',
+                        [
+                            'subscription_id' => $subscription->getEntityId(),
+                            'subscription_identifier' => $subscription->getSubscriptionIdentifier(),
+                            'creditmemo_id' => $creditMemo->getEntityId()
+                        ]
+                    );
+                }
             }
         }
 

@@ -165,7 +165,6 @@ class SaveSubscriptionService
             ->setProductPrice((float)$product->getPrice())
             ->setProductName($product->getName())
             ->setProductSku($product->getSku())
-            ->setOrderId((int)$order->getEntityId())
             ->setOriginalTransactionId($transactionId);
 
         /* set first subscription dates */
@@ -180,7 +179,8 @@ class SaveSubscriptionService
                 ->setSubscriptionStatus(Subscription::ENABLED)
                 ->setPaymentStatus(Subscription::PAID)
                 ->setStartDate($startDate)
-                ->setEndDate($endDate);
+                ->setEndDate($endDate)
+                ->setOrderId((int)$order->getEntityId());
         } else {
             $futureStartDate = date('Y-m-d', strtotime($endDate . ' + 1 days'));
             $futureEndDate = date(

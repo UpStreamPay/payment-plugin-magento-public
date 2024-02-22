@@ -4,7 +4,7 @@ After cancelling a subscription, an event is dispatched.
 
 ## With creditmemo (refund)
 
-Event name : usp_subscription_creditmemo_canceled
+Event name : usp_creditmemo_subscription_canceled
 
 Provided data :
 

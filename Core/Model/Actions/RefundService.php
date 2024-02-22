@@ -24,6 +24,7 @@ use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
 use UpStreamPay\Core\Model\OrderTransactions;
 use UpStreamPay\Core\Model\PaymentFinder\AllTransactionsToRefundFinder;
 use Magento\Framework\Event\ManagerInterface as EventManager;
+use UpStreamPay\Core\Model\Subscription\CancelService;
 
 /**
  * Class RefundService
@@ -39,6 +40,7 @@ class RefundService
      * @param OrderPaymentRepositoryInterface $orderPaymentRepository
      * @param LoggerInterface $logger
      * @param EventManager $eventManager
+     * @param CancelService $cancelService
      */
     public function __construct(
         private readonly AllTransactionsToRefundFinder  $allTransactionsToRefundFinder,
@@ -46,7 +48,8 @@ class RefundService
         private readonly OrderTransactions $orderTransactions,
         private readonly OrderPaymentRepositoryInterface $orderPaymentRepository,
         private readonly LoggerInterface $logger,
-        private readonly EventManager $eventManager
+        private readonly EventManager $eventManager,
+        private readonly CancelService $cancelService
     ) {
     }
 
@@ -62,6 +65,9 @@ class RefundService
         $amountLeftToRefund = $amount;
         /** @var Creditmemo $creditmemo */
         $creditmemo = $payment->getCreditmemo();
+
+        $this->cancelService->execute(null, $creditmemo);
+
         $invoice = $creditmemo->getInvoice();
         $captureTransactionsToRefund = $this->allTransactionsToRefundFinder->execute(
             (int)$payment->getOrder()->getEntityId(),

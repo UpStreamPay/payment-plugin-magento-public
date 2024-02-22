@@ -60,6 +60,13 @@ interface SubscriptionRepositoryInterface
     public function getList(SearchCriteriaInterface $searchCriteria): SubscriptionSearchResultsInterface;
 
     /**
+     * @param string $sku
+     * @param int $orderId
+     * @return SubscriptionInterface
+     */
+    public function getByProductSkuAndOrderId(string $sku, int $orderId): SubscriptionInterface;
+
+    /**
      * Delete UpStream Pay Subscription
      *
      * @param SubscriptionInterface $subscription
