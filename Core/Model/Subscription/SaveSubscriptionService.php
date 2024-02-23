@@ -22,6 +22,8 @@ use Throwable;
 use UpStreamPay\Core\Api\Data\SubscriptionInterface;
 use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
 use UpStreamPay\Core\Api\SubscriptionRepositoryInterface;
+use UpStreamPay\Core\Exception\CreateSubscriptionException;
+use UpStreamPay\Core\Exception\NoTransactionsException;
 use UpStreamPay\Core\Model\Config;
 use UpStreamPay\Core\Model\Subscription;
 use UpStreamPay\Core\Model\SubscriptionFactory;
@@ -60,6 +62,9 @@ class SaveSubscriptionService
      * @param int $invoiceId
      *
      * @return void
+     * @throws CreateSubscriptionException
+     * @throws NoSuchEntityException
+     * @throws NoTransactionsException
      */
     public function execute(OrderInterface $order, int $invoiceId): void
     {
@@ -69,23 +74,14 @@ class SaveSubscriptionService
             $this->logger->critical('Error while trying to load a transaction for invoice with ID: ' . $invoiceId);
             $this->logger->critical($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
 
-            return;
+            throw new NoTransactionsException();
         }
 
         $subscriptionEligibleAttrCode = $this->config->getSubscriptionPaymentProductSubscriptionAttributeCode();
         $subscriptionDurationAttrCode = $this->config->getSubscriptionPaymentProductSubscriptionDurationAttributeCode();
 
         foreach ($order->getItems() as $orderItem) {
-            try {
-                $product = $this->productRepository->getById($orderItem->getProductId());
-            } catch (NoSuchEntityException $exception) {
-                $this->logger->critical(
-                    'Error while trying to load the product with ID: ' . $orderItem->getProductId()
-                );
-                $this->logger->critical($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
-
-                return;
-            }
+            $product = $this->productRepository->getById($orderItem->getProductId());
             $productSubDuration = $product->getData($subscriptionDurationAttrCode);
             /* check if there already is a subscription with that order and product */
             try {
@@ -98,7 +94,7 @@ class SaveSubscriptionService
                 );
                 $this->logger->critical($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
 
-                return;
+                throw new NoSuchEntityException(__($exception->getMessage()));
             }
 
             //At this point if we have no subscription found it means that this is the original order, not a renewal.
@@ -127,7 +123,7 @@ class SaveSubscriptionService
                         );
                     } catch (Throwable $exception) {
                         $this->logger->critical(
-                            'Error while trying to the subscriptions for order ' . $order->getIncrementId()
+                            'Error while trying to the create subscriptions for order ' . $order->getIncrementId()
                         );
                         $this->logger->critical(
                             $exception->getMessage(),
@@ -135,8 +131,9 @@ class SaveSubscriptionService
                                 'exception' => $exception->getTraceAsString(),
                             ]
                         );
-                    }
 
+                        throw new CreateSubscriptionException($exception->getMessage());
+                    }
                 }
             }
         }
@@ -200,5 +197,4 @@ class SaveSubscriptionService
 
         return $subscription;
     }
-
 }
