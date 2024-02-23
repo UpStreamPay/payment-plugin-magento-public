@@ -17,7 +17,8 @@ use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\Result\Redirect;
-use Magento\Framework\Exception\LocalizedException;
+use Psr\Log\LoggerInterface;
+use UpStreamPay\Core\Model\Subscription\CancelService;
 use UpStreamPay\Core\Model\SubscriptionRepository;
 
 /**
@@ -30,15 +31,19 @@ class Cancel extends Action implements HttpPostActionInterface, HttpGetActionInt
     /**
      * Url path
      */
-    const URL_PATH_CANCEL = 'core/subscriptions/cancel';
+    const URL_PATH_CANCEL = 'upstreampay/subscriptions/cancel';
 
     /**
      * @param Context $context
      * @param SubscriptionRepository $subscriptionRepository
+     * @param CancelService $cancelService
+     * @param LoggerInterface $logger
      */
     public function __construct(
         Context                                 $context,
-        private readonly SubscriptionRepository $subscriptionRepository
+        private readonly SubscriptionRepository $subscriptionRepository,
+        private readonly CancelService $cancelService,
+        private readonly LoggerInterface $logger
     )
     {
         parent::__construct($context);
@@ -47,23 +52,32 @@ class Cancel extends Action implements HttpPostActionInterface, HttpGetActionInt
     /**
      * @inheritdoc
      * @return Redirect
-     * @throws LocalizedException
      */
     public function execute(): Redirect
     {
-        if ($entity_id = $this->getRequest()->getParam('id', false)) {
-            $subscription = $this->subscriptionRepository->getById($entity_id);
-            if ($subscription->canCancel()) {
-                try {
-                    /** TODO: Call cancel service */
+        $entityId = $this->getRequest()->getParam('id', false);
 
+        if ($entityId) {
+            try {
+                $subscription = $this->subscriptionRepository->getById((int)$entityId);
+
+                if ($subscription->canCancel()) {
+                    $this->cancelService->execute($subscription->getEntityId());
                     $this->messageManager->addSuccessMessage(__('Subscription canceled'));
-                } catch (\Exception $e) {
-                    $this->messageManager->addErrorMessage(__('Subscriptions cancel failed'));
-                }
 
+                }
+            } catch (\Throwable $exception) {
+                $this->messageManager->addErrorMessage(__('Subscriptions cancel failed'));
+                $errorMessage = sprintf(
+                    'Error while trying to cancel subscription with ID %s from admin because %s',
+                    $entityId,
+                    $exception->getMessage()
+                );
+                $this->logger->error($errorMessage);
+                $this->logger->error($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
             }
         }
+
         return $this->resultRedirectFactory->create()->setPath('*/*/index');
     }
 }

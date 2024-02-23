@@ -22,7 +22,7 @@
         <column xsi:type="varchar" name="type" nullable="false" length="255"
                 comment="Primary or secondary payment method"/>
         <column xsi:type="int" name="quote_id" unsigned="true" nullable="false" comment="Quote ID"/>
-        <column xsi:type="int" name="order_id" unsigned="true" nullable="false" comment="Order ID"/>
+        <column xsi:type="int" name="order_id" unsigned="true" nullable="true" comment="Order ID"/>
         <column xsi:type="int" name="payment_id" unsigned="true" nullable="false" comment="Payment ID"/>
         <column xsi:type="decimal" name="amount" scale="4" precision="12" nullable="false" default="0.00"
                 comment="Total Amount"/>
@@ -200,7 +200,7 @@
         <column xsi:type="timestamp" name="start_date" nullable="false" comment="Start subscription date"/>
         <column xsi:type="timestamp" name="end_date" nullable="false" comment="End subscription date"/>
         <column xsi:type="timestamp" name="next_payment_date" nullable="true" comment="Next payment date"/>
-        <column xsi:type="int" name="order_id" unsigned="true" nullable="false" comment="Order ID"/>
+        <column xsi:type="int" name="order_id" unsigned="true" nullable="true" comment="Order ID"/>
         <column xsi:type="varchar" name="original_transaction_id" nullable="false" length="255" comment="Original transaction id"/>
 
         <constraint xsi:type="primary" referenceId="PRIMARY">

@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace UpStreamPay\Core\Model;
 
+use Magento\Framework\Event\ManagerInterface as EventManager;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Payment\Model\MethodInterface;
 use Magento\Sales\Api\InvoiceRepositoryInterface;
@@ -26,7 +27,6 @@ use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
 use UpStreamPay\Core\Exception\AuthorizeErrorException;
 use UpStreamPay\Core\Exception\CaptureErrorException;
 use UpStreamPay\Core\Exception\OrderErrorException;
-use Magento\Framework\Event\ManagerInterface as EventManager;
 use UpStreamPay\Core\Model\Actions\CancelService;
 use UpStreamPay\Core\Model\Config\Source\Debug;
 

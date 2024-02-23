@@ -14,6 +14,7 @@ namespace UpStreamPay\Core\Model;
 
 use Exception;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
+use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
@@ -39,13 +40,15 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
      * @param CollectionFactory $collectionFactory
      * @param SubscriptionSearchResultsFactory $searchResultsFactory
      * @param CollectionProcessorInterface $collectionProcessor
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
      */
     public function __construct(
         private readonly resourceModel                    $resourceModel,
         private readonly SubscriptionFactory              $subscriptionFactory,
         private readonly CollectionFactory                $collectionFactory,
         private readonly SubscriptionSearchResultsFactory $searchResultsFactory,
-        private readonly CollectionProcessorInterface     $collectionProcessor
+        private readonly CollectionProcessorInterface     $collectionProcessor,
+        private readonly SearchCriteriaBuilder $searchCriteriaBuilder
     )
     {
     }
@@ -135,6 +138,54 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
         $this->resourceModel->load($subscription, $identifier, SubscriptionInterface::SUBSCRIPTION_IDENTIFIER);
 
         return $subscription;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAllSubscriptionsToCancel(string $sku, int $orderId): ?array
+    {
+        //First load the active subscription linked to the order.
+        $searchCriteria = $this->searchCriteriaBuilder
+            ->addFilter(SubscriptionInterface::PRODUCT_SKU, $sku)
+            ->addFilter(SubscriptionInterface::ORDER_ID, $orderId)
+            ->create()
+        ;
+
+        $originalTransactionId = '';
+
+        $subscriptions = $this->getList($searchCriteria)->getItems();
+
+        if (count($subscriptions) === 0) {
+            return null;
+        }
+
+        foreach ($subscriptions as $subscription) {
+            $originalTransactionId = $subscription->getOriginalTransactionId();
+
+            break;
+        }
+
+        //Now retrieve all the transactions that are
+        //- Matching the sku we want to cancel
+        //- In a disabled or enabled status, we don't want to cancel other status.
+        //- With a payment that was a success or that has not been done yet.
+        //- With the original authorize transaction ID.
+        //This will ensure we always retrieve the full list of transactions to cancel for a given SKU & order id.
+        $searchCriteria = $this->searchCriteriaBuilder
+            ->addFilter(SubscriptionInterface::PRODUCT_SKU, $sku)
+            ->addFilter(SubscriptionInterface::SUBSCRIPTION_STATUS, [Subscription::ENABLED, Subscription::DISABLED], 'in')
+            ->addFilter(SubscriptionInterface::PAYMENT_STATUS, [Subscription::TO_PAY, Subscription::PAID], 'in')
+            ->addFilter(SubscriptionInterface::ORIGINAL_TRANSACTION_ID, $originalTransactionId)
+            ->create();
+
+        $subscriptions = $this->getList($searchCriteria)->getItems();
+
+        if (count($subscriptions) === 0) {
+            return null;
+        }
+
+        return $subscriptions;
     }
 
     /**

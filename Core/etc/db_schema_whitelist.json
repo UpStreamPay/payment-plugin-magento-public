@@ -147,7 +147,8 @@
         },
         "constraint": {
             "PRIMARY": true,
-            "SUBSCRIPTION_ID_UPSTREAM_PAY_SUBSCRIPTION_ID": true
+            "SUBSCRIPTION_ID_UPSTREAM_PAY_SUBSCRIPTION_ID": true,
+            "FK_E7826D2368D2FC3BD7C5D96B716ECD04": true
         }
     }
 }

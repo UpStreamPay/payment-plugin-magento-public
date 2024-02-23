@@ -242,7 +242,7 @@ class Subscription extends AbstractExtensibleModel implements SubscriptionInterf
      *
      * @inheritDoc
      */
-    public function getOrderId(): int
+    public function getOrderId(): ?int
     {
         return (int)$this->getData(SubscriptionInterface::ORDER_ID);
     }
