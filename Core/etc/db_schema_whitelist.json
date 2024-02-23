@@ -123,6 +123,7 @@
             "order_id": true,
             "original_transaction_id": true,
             "entity_id": true,
+            "parent_subscription_id": true,
             "customer_id": true
         },
         "index": {

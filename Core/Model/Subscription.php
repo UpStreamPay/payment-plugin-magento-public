@@ -62,6 +62,26 @@ class Subscription extends AbstractExtensibleModel implements SubscriptionInterf
      *
      * @inheritDoc
      */
+    public function getParentSubscriptionId(): ?int
+    {
+        return (int)$this->getData(SubscriptionInterface::PARENT_SUBSCRIPTION_ID);
+    }
+
+    /**
+     * @codeCoverageIgnore
+     *
+     * @inheritDoc
+     */
+    public function setParentSubscriptionId(int $entity_id): SubscriptionInterface
+    {
+        return $this->setData(SubscriptionInterface::PARENT_SUBSCRIPTION_ID, $entity_id);
+    }
+
+    /**
+     * @codeCoverageIgnore
+     *
+     * @inheritDoc
+     */
     public function getSubscriptionIdentifier(): string
     {
         return $this->getData(SubscriptionInterface::SUBSCRIPTION_IDENTIFIER);

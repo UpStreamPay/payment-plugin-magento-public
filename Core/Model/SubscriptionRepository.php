@@ -20,6 +20,7 @@ use Magento\Framework\Api\SortOrder;
 use Magento\Framework\Api\SortOrderBuilder;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use UpStreamPay\Core\Api\Data\SubscriptionInterface;
 use UpStreamPay\Core\Api\Data\SubscriptionSearchResultsInterface;
@@ -220,5 +221,44 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
     public function deleteById(int $entityId): bool
     {
         return $this->delete($this->getById($entityId));
+    }
+
+    /**
+     * @inheritDoc
+     * @throws LocalizedException
+     */
+    public function getAllSubscriptionsToRenew(): array
+    {
+        $now = date('Y-m-d 00:00:00', time());
+
+        $this->searchCriteriaBuilder->addFilter(
+            SubscriptionInterface::NEXT_PAYMENT_DATE,
+            $now
+        )->addFilter(
+            SubscriptionInterface::PAYMENT_STATUS,
+            Subscription::TO_PAY
+        );
+        $searchCriteria = $this->searchCriteriaBuilder->create();
+        return $this->getList($searchCriteria)->getItems();
+    }
+
+    /**
+     * @inheritDoc
+     * @throws LocalizedException
+     */
+    public function getParentSubscription(SubscriptionInterface $subscription): array
+    {
+        $this->searchCriteriaBuilder->addFilter(
+            SubscriptionInterface::PARENT_SUBSCRIPTION_ID,
+            $subscription->getParentSubscriptionId()
+        )->addFilter(
+            SubscriptionInterface::PAYMENT_STATUS,
+            Subscription::PAID
+        )->addFilter(
+            SubscriptionInterface::SUBSCRIPTION_STATUS,
+            Subscription::ENABLED
+        );
+        $searchCriteria = $this->searchCriteriaBuilder->create();
+        return $this->getList($searchCriteria)->getItems();
     }
 }

@@ -94,4 +94,19 @@ interface SubscriptionRepositoryInterface
      * @throws NoSuchEntityException
      */
     public function deleteById(int $entityId): bool;
+
+    /**
+     * Return Subscriptions that need to be renewed
+     *
+     * @return array
+     */
+    public function getAllSubscriptionsToRenew(): array;
+
+    /**
+     * Return the current subscription from the future one
+     *
+     * @param SubscriptionInterface $subscription
+     * @return array
+     */
+    public function getParentSubscription(SubscriptionInterface $subscription): array;
 }

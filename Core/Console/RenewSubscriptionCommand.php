@@ -8,15 +8,18 @@
  *
  * Author: Claranet France <info@fr.clara.net>
  */
+
 namespace UpStreamPay\Core\Console;
 
 use Magento\Framework\Console\Cli;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use UpStreamPay\Core\Model\Subscription\SubscriptionToRenewFinder;
+use UpStreamPay\Core\Api\Data\SubscriptionInterface;
+use UpStreamPay\Core\Model\Subscription\RenewSubscriptionService;
+use UpStreamPay\Core\Model\SubscriptionRepository;
 
-class RenewSubscription extends Command
+class RenewSubscriptionCommand extends Command
 {
     /**
      * Initialize dependencies.
@@ -24,7 +27,8 @@ class RenewSubscription extends Command
      * @param null $name
      */
     public function __construct(
-        private readonly SubscriptionToRenewFinder $subscriptionFinder,
+        private readonly SubscriptionRepository $subscriptionRepository,
+        private readonly RenewSubscriptionService $renewSubscriptionService,
         $name = null
     )
     {
@@ -48,8 +52,14 @@ class RenewSubscription extends Command
     {
 
         try {
-            // EntryPoint
-            $this->subscriptionFinder->execute();
+            $subscriptionToRenew = $this->subscriptionRepository->getAllSubscriptionsToRenew();
+            if (!empty($subscriptionToRenew)) {
+                /** @var SubscriptionInterface $subscription */
+                foreach ($subscriptionToRenew as $subscription) {
+                    /** Call renewSubService */
+                    $this->renewSubscriptionService->execute($subscription);
+                }
+            }
 
             return Cli::RETURN_SUCCESS;
         } catch (\Exception $e) {
