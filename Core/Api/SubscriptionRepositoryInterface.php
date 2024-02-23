@@ -62,9 +62,10 @@ interface SubscriptionRepositoryInterface
     /**
      * @param string $sku
      * @param int $orderId
-     * @return SubscriptionInterface
+     *
+     * @return ?SubscriptionInterface[]
      */
-    public function getByProductSkuAndOrderId(string $sku, int $orderId): SubscriptionInterface;
+    public function getAllSubscriptionsToCancel(string $sku, int $orderId): ?array;
 
     /**
      * Delete UpStream Pay Subscription
