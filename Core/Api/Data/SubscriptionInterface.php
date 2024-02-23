@@ -178,9 +178,9 @@ interface SubscriptionInterface extends ExtensibleDataInterface
     /**
      * Get order id
      *
-     * @return int
+     * @return ?int
      */
-    public function getOrderId(): int;
+    public function getOrderId(): ?int;
 
     /**
      * Set the order id
