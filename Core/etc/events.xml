@@ -31,7 +31,7 @@
         <observer name="cancelPurseSubscription" instance="UpStreamPay\Core\Observer\CancelPurseSubscriptionObserver" />
     </event>
     <!-- save a subscription -->
-    <event name="sales_order_invoice_pay">
+    <event name="usp_create_subscription_from_invoice">
         <observer name="upstreampay_save_subscription" instance="UpStreamPay\Core\Observer\SaveSubscriptionObserver" />
     </event>
 
