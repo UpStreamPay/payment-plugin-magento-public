@@ -2,10 +2,10 @@
 
 ## Goal
 
-To configure the subscription you will have to create 2 product attributes :
+To configure the subscription you will have to create 2 product attributes:
 
-    - one which will determine if the product is subscription eligible
-    - one that will be used to set the subscription's duration in days
+    - one which will determine if the product is a product with a subscription
+    - one that will be used to determine the subscription's duration (in days)
 
 ## Magento installer example
 

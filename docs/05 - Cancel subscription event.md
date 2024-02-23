@@ -1,6 +1,6 @@
 # Cancel subscription event
 
-In order to cancel a subscription, Purse provide a magento event :
+In order to cancel a subscription, you must dispatch the following event:
 
     event id => cancel_purse_subscription
 
