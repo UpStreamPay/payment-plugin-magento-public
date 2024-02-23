@@ -262,6 +262,26 @@ class Subscription extends AbstractExtensibleModel implements SubscriptionInterf
      *
      * @inheritDoc
      */
+    public function getCustomerId(): ?int
+    {
+        return (int)$this->getData(SubscriptionInterface::CUSTOMER_ID);
+    }
+
+    /**
+     * @codeCoverageIgnore
+     *
+     * @inheritDoc
+     */
+    public function setCustomerId(int $customerId): SubscriptionInterface
+    {
+        return $this->setData(SubscriptionInterface::CUSTOMER_ID, $customerId);
+    }
+
+    /**
+     * @codeCoverageIgnore
+     *
+     * @inheritDoc
+     */
     public function getOriginalTransactionId(): string
     {
         return $this->getData(SubscriptionInterface::ORIGINAL_TRANSACTION_ID);

@@ -201,6 +201,7 @@
         <column xsi:type="timestamp" name="end_date" nullable="false" comment="End subscription date"/>
         <column xsi:type="timestamp" name="next_payment_date" nullable="true" comment="Next payment date"/>
         <column xsi:type="int" name="order_id" unsigned="true" nullable="true" comment="Order ID"/>
+        <column xsi:type="int" name="customer_id" unsigned="true" nullable="true" comment="Customer ID"/>
         <column xsi:type="varchar" name="original_transaction_id" nullable="false" length="255" comment="Original transaction id"/>
 
         <constraint xsi:type="primary" referenceId="PRIMARY">

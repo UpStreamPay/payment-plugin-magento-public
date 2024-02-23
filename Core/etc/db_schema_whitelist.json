@@ -121,7 +121,8 @@
             "next_payment_date": true,
             "order_id": true,
             "original_transaction_id": true,
-            "entity_id": true
+            "entity_id": true,
+            "customer_id": true
         },
         "index": {
             "UPSTREAM_PAY_SUBSCRIPTION_ID": true,

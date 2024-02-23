@@ -164,6 +164,11 @@ class SaveSubscriptionService
             ->setProductSku($product->getSku())
             ->setOriginalTransactionId($transactionId);
 
+        $customerId = $order->getCustomerId();
+        if ($customerId) {
+            $subscription->setCustomerId((int)$customerId);
+        }
+
         /* set first subscription dates */
         $startDate = date('Y-m-d', time());
         $endDate = date(

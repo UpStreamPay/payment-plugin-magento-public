@@ -28,6 +28,15 @@
                     <argument name="sortOrder" xsi:type="number">160</argument>
                 </arguments>
             </block>
+            <block class="UpStreamPay\Core\Block\Customer\Account\Subscription"
+                   name="customer-account-navigation-subscription"
+            >
+                <arguments>
+                    <argument name="path" xsi:type="string">upstreampay/subscription/index</argument>
+                    <argument name="label" xsi:type="string" translate="true">Subscriptions</argument>
+                    <argument name="sortOrder" xsi:type="number">170</argument>
+                </arguments>
+            </block>
         </referenceBlock>
     </body>
 </page>
