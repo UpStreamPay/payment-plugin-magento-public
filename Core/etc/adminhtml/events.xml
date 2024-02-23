@@ -10,10 +10,7 @@
   -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
-<!--    Trigger the payment of an invoice after it has been saved.-->
-    <event name="sales_order_invoice_save_after">
-        <observer name="upstreampay_invoice_save_after" instance="UpStreamPay\Core\Observer\PayInvoiceObserver" />
-    </event>
+
 <!--    Cancel the transactions after a cancel order if Magento cannot cancel the transactions on its own.-->
     <event name="order_cancel_after">
         <observer name="upstreampay_cancel_order" instance="UpStreamPay\Core\Observer\CancelOrderObserver" />

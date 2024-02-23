@@ -34,4 +34,9 @@
     <event name="sales_order_invoice_pay">
         <observer name="upstreampay_save_subscription" instance="UpStreamPay\Core\Observer\SaveSubscriptionObserver" />
     </event>
+
+    <!--    Trigger the payment of an invoice after it has been saved.-->
+    <event name="sales_order_invoice_save_after">
+        <observer name="upstreampay_invoice_save_after" instance="UpStreamPay\Core\Observer\PayInvoiceObserver" />
+    </event>
 </config>
