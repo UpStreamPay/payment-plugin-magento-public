@@ -14,9 +14,17 @@ namespace UpStreamPay\Core\Observer;
 
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
-use UpStreamPay\Core\Model\Subscription\CancelService;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use UpStreamPay\Core\Exception\WrongSubscriptionCancelMethodException;
 use UpStreamPay\Core\Model\Config;
+use UpStreamPay\Core\Model\Subscription\CancelService;
 
+/**
+ * Class CancelPurseSubscriptionObserver
+ *
+ * @package UpStreamPay\Core\Observer
+ */
 class CancelPurseSubscriptionObserver implements ObserverInterface
 {
     /**
@@ -29,18 +37,22 @@ class CancelPurseSubscriptionObserver implements ObserverInterface
     )
     {}
 
+    /**
+     * @param Observer $observer
+     *
+     * @return void
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
+     * @throws WrongSubscriptionCancelMethodException
+     */
     public function execute(Observer $observer): void
     {
         if ($this->config->getSubscriptionPaymentEnabled()) {
-            $subscriptionId = $observer->getData('subscription_id');
-            $creditMemo = $observer->getData('creditmemo');
+            $subscriptionId = $observer->getData('subscriptionId');
 
             if ($subscriptionId) {
                 $this->cancelService->execute($subscriptionId);
-            } elseif ($creditMemo) {
-                $this->cancelService->execute(null, $creditMemo);
             }
         }
     }
-
 }
