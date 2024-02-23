@@ -102,6 +102,8 @@ class RenewSubscriptionService
                 'The order could not be created, no payment has been made & the subscription has been canceled.'
             );
             $this->logger->critical($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
+
+            return;
         }
     }
 
