@@ -50,7 +50,9 @@ class RenewSubscriptionCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-
+        //TODO Check that we have enabled the recurring payments in admin before doing anything.
+        //TODO If disabled output a message to the user letting him know that the recurring payments are disabled.
+        //TODO Add a progressbar
         try {
             $subscriptionToRenew = $this->subscriptionRepository->getAllSubscriptionsToRenew();
             if (!empty($subscriptionToRenew)) {
