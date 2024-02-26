@@ -82,7 +82,7 @@ class RenewSubscriptionService
         $order = $this->orderRepository->get($parentSubscription->getOrderId());
 
         try {
-            $quote = $this->cartManagementRenew->execute($subscription->getProductSku(), $order->getQuoteId());
+            $quote = $this->cartManagementRenew->createQuote($subscription->getProductSku(), $order->getQuoteId());
         } catch (\Throwable $exception) {
             //In case of error while creating the quote, cancel the subscription to renew & don't process any further.
             $this->cancelSubscription($subscription);
