@@ -17,6 +17,8 @@ use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Sales\Api\Data\OrderInterface;
+use Magento\Sales\Model\Order\Invoice;
+use Magento\Sales\Model\Order\Invoice\Item;
 use Psr\Log\LoggerInterface;
 use Throwable;
 use UpStreamPay\Core\Api\Data\SubscriptionInterface;
@@ -59,19 +61,19 @@ class SaveSubscriptionService
 
     /**
      * @param OrderInterface $order
-     * @param int $invoiceId
+     * @param Invoice $invoice
      *
      * @return void
      * @throws CreateSubscriptionException
      * @throws NoSuchEntityException
      * @throws NoTransactionsException
      */
-    public function execute(OrderInterface $order, int $invoiceId): void
+    public function execute(OrderInterface $order, Invoice $invoice): void
     {
         try {
-            $transactionId = $this->orderTransactionsRepository->getByInvoiceIdAndPrimaryMethod($invoiceId);
+            $transactionId = $this->orderTransactionsRepository->getByInvoiceIdAndPrimaryMethod((int)$invoice->getEntityId());
         } catch (Throwable $exception) {
-            $this->logger->critical('Error while trying to load a transaction for invoice with ID: ' . $invoiceId);
+            $this->logger->critical('Error while trying to load a transaction for invoice with ID: ' . $invoice->getEntityId());
             $this->logger->critical($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
 
             throw new NoTransactionsException();
@@ -80,13 +82,23 @@ class SaveSubscriptionService
         $subscriptionEligibleAttrCode = $this->config->getSubscriptionPaymentProductSubscriptionAttributeCode();
         $subscriptionDurationAttrCode = $this->config->getSubscriptionPaymentProductSubscriptionDurationAttributeCode();
 
-        foreach ($order->getItems() as $orderItem) {
-            $product = $this->productRepository->getById($orderItem->getProductId());
+        /** @var Item $invoiceItem */
+        foreach ($invoice->getItems() as $invoiceItem) {
+            $product = $this->productRepository->getById($invoiceItem->getProductId());
             $productSubDuration = $product->getData($subscriptionDurationAttrCode);
+
+            //In case product is not a subscription, no need to process this item.
+            if (!$product->getData($subscriptionEligibleAttrCode) && !isset($productSubDuration)) {
+                continue;
+            }
+
+            //Use original_increment_id if set, otherwise use increment_id.
+            $incrementId = $order->getData(RenewSubscriptionService::ORIGINAL_INCREMENT_ID) ?? $order->getIncrementId();
+
             /* check if there already is a subscription with that order and product */
             try {
                 $existingSubscription = $this->subscriptionRepository->getBySubscriptionIdentifier(
-                    $product->getSku() . '_' . $order->getIncrementId()
+                    $product->getSku() . '_' . $incrementId
                 );
             } catch (Throwable $exception) {
                 $this->logger->critical(
@@ -99,42 +111,47 @@ class SaveSubscriptionService
 
             //At this point if we have no subscription found it means that this is the original order, not a renewal.
             if (!$existingSubscription || !$existingSubscription->getEntityId()) {
-                if ($product->getData($subscriptionEligibleAttrCode) && isset($productSubDuration)) {
-                    try {
-                        $subscription = $this->createAndSaveSubscription(
-                            $order,
-                            $product,
-                            $transactionId,
-                            $subscriptionDurationAttrCode
-                        );
-                        $futureSubscription = $this->createAndSaveSubscription(
-                            $order,
-                            $product,
-                            $transactionId,
-                            $subscriptionDurationAttrCode,
-                            true
-                        );
-                        $this->eventManager->dispatch(
-                            'new_usp_subscription_saved',
-                            [
-                                'subscription' => $subscription,
-                                'future_subscription' => $futureSubscription,
-                            ]
-                        );
-                    } catch (Throwable $exception) {
-                        $this->logger->critical(
-                            'Error while trying to the create subscriptions for order ' . $order->getIncrementId()
-                        );
-                        $this->logger->critical(
-                            $exception->getMessage(),
-                            [
-                                'exception' => $exception->getTraceAsString(),
-                            ]
-                        );
+                try {
+                    $subscription = $this->createAndSaveSubscription(
+                        $order,
+                        $product,
+                        $transactionId,
+                        $subscriptionDurationAttrCode
+                    );
+                    $futureSubscription = $this->createAndSaveSubscription(
+                        $order,
+                        $product,
+                        $transactionId,
+                        $subscriptionDurationAttrCode,
+                        true
+                    );
+                    $this->eventManager->dispatch(
+                        'new_usp_subscription_saved',
+                        [
+                            'subscription' => $subscription,
+                            'future_subscription' => $futureSubscription,
+                        ]
+                    );
+                } catch (Throwable $exception) {
+                    $this->logger->critical(
+                        'Error while trying to the create subscriptions for order ' . $order->getIncrementId()
+                    );
+                    $this->logger->critical(
+                        $exception->getMessage(),
+                        [
+                            'exception' => $exception->getTraceAsString(),
+                        ]
+                    );
 
-                        throw new CreateSubscriptionException($exception->getMessage());
-                    }
+                    throw new CreateSubscriptionException($exception->getMessage());
                 }
+            } else {
+                //TODO we have at least one subscription found.
+                //This means we just paid an invoice and we already have at least 1 subscription line for this invoice item.
+                //We are renewing a subscription, meaning we have to create the future subscription.
+                //- current active subscription becomes expired bcs we are trying to renew the subscription (if not set inactive previously).
+                //- the existing future subscription (the one that we are trying to renew) becomes the current subscription with proper status & payment status.
+                //- the future subscription (next subscription to pay) does not exist yet & must be created.
             }
         }
     }

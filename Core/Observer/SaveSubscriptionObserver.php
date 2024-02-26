@@ -81,7 +81,7 @@ class SaveSubscriptionObserver implements ObserverInterface
                     $this->config->getPaymentAction() === MethodInterface::ACTION_ORDER &&
                     $invoice->getState() === Invoice::STATE_PAID
                 ) {
-                    $this->saveSubscriptionService->execute($order, (int)$invoice->getEntityId());
+                    $this->saveSubscriptionService->execute($order, $invoice);
                 }
             }
         } catch (\Throwable $exception) {
