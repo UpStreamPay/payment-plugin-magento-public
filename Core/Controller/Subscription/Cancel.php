@@ -19,6 +19,7 @@ use UpStreamPay\Core\Model\Subscription\CancelService;
 use UpStreamPay\Core\Model\SubscriptionRepository;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Controller\Result\RedirectFactory;
+use Magento\Framework\Message\ManagerInterface;
 /**
  * Class Cancel
  *
@@ -37,13 +38,15 @@ class Cancel implements HttpPostActionInterface
      * @param RequestInterface $request
      * @param LoggerInterface $logger
      * @param RedirectFactory $redirectFactory
+     * @param ManagerInterface $messageManager
      */
     public function __construct(
         private readonly SubscriptionRepository $subscriptionRepository,
         private readonly CancelService $cancelService,
         private readonly RequestInterface $request,
         private readonly LoggerInterface $logger,
-        private readonly RedirectFactory $redirectFactory
+        private readonly RedirectFactory $redirectFactory,
+        private readonly ManagerInterface $messageManager
     )
     {}
 
@@ -60,6 +63,7 @@ class Cancel implements HttpPostActionInterface
                 $subscription = $this->subscriptionRepository->getById((int)$subscriptionId);
                 if ($subscription->canCancel()) {
                     $this->cancelService->execute($subscription->getEntityId());
+                    $this->messageManager->addSuccessMessage(__('Subscription canceled'));
                 }
             } catch (\Throwable $exception) {
                 $errorMessage = sprintf(
