@@ -30,6 +30,8 @@ use UpStreamPay\Core\Model\SubscriptionRepository;
  */
 class RenewSubscriptionService
 {
+    //Used to reference the original increment id of the original order that purchased the subscription.
+    public const ORIGINAL_INCREMENT_ID = 'original_increment_id';
 
     /**
      * @param SubscriptionRepository $subscriptionRepository
@@ -93,7 +95,15 @@ class RenewSubscriptionService
         }
 
         try {
-            $order = $this->cartManagementRenew->submitQuote($quote);
+            $renewOrder = $this->cartManagementRenew->submitQuote($quote);
+            //Very important to set the original increment id to be able to create the subscription identifier.
+            //In case this is the first renew, $order is the original order => the original increment id is null,
+            //so we have to use the default increment id.
+            $renewOrder->setData(
+                self::ORIGINAL_INCREMENT_ID,
+                $order->getData(self::ORIGINAL_INCREMENT_ID) ?? $order->getIncrementId()
+            );
+            $this->orderRepository->save($renewOrder);
         } catch (\Throwable $exception) {
             //In case of error while creating the order, cancel the subscription to renew & don't process any further.
             $this->cancelSubscription($subscription);

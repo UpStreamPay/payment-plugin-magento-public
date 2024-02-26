@@ -102,7 +102,8 @@
     },
     "sales_order": {
         "column": {
-            "order_sent_to_purse": true
+            "order_sent_to_purse": true,
+            "original_increment_id": true
         },
         "index": {
             "SALES_ORDER_ORDER_SENT_TO_PURSE": true

@@ -181,6 +181,8 @@
     <table name="sales_order" resource="sales" engine="innodb" comment="Sales Flat Order">
         <column xsi:type="smallint" name="order_sent_to_purse" unsigned="true" nullable="false" identity="false"
                 default="0" comment="Purse session ID"/>
+        <column xsi:type="varchar" name="original_increment_id" nullable="true" length="50"
+                comment="Original order increment id"/>
 
         <!-- Index colmumns -->
         <index referenceId="SALES_ORDER_ORDER_SENT_TO_PURSE" indexType="btree">
