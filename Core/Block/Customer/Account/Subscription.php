@@ -8,6 +8,7 @@ use Magento\Customer\Block\Account\SortLinkInterface;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Framework\View\Helper\SecureHtmlRenderer;
 use UpStreamPay\Core\Model\Config;
+use UpStreamPay\Core\Controller\Subscription\Cancel;
 
 class Subscription extends Link implements SortLinkInterface
 {
@@ -28,7 +29,10 @@ class Subscription extends Link implements SortLinkInterface
         parent::__construct($context, $data, $secureRenderer, $random);
     }
 
-    protected function _toHtml()
+    /**
+     * @inheritdoc
+     */
+    protected function _toHtml(): string
     {
         if ($this->config->getSubscriptionPaymentEnabled() && $this->config->getSubscriptionPaymentEnableCustomerInterface()) {
             return parent::_toHtml();
@@ -36,9 +40,20 @@ class Subscription extends Link implements SortLinkInterface
         return '';
     }
 
-    public function getSortOrder()
+    /**
+     * @inheritdoc
+     */
+    public function getSortOrder(): string
     {
         return $this->getData(self::SORT_ORDER);
+    }
+
+    /**
+     * @return string
+     */
+    public function getCancelUrl(): string
+    {
+        return $this->getUrl(Cancel::URL_PATH);
     }
 
 }

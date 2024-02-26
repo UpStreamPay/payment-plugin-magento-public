@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace UpStreamPay\Core\ViewModel\Customer\Subscription;
 
 use Magento\Customer\Model\Session;
-use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
-use Psr\Log\LoggerInterface;
-use Throwable;
-use UpStreamPay\Client\Model\Client\ClientInterface;
-use UpStreamPay\Core\Model\Config;
-use UpStreamPay\Core\Model\Config\Source\Debug;
+use UpStreamPay\Core\Api\SubscriptionRepositoryInterface;
+use UpStreamPay\Core\Api\Data\SubscriptionInterface;
+use UpStreamPay\Core\Model\Subscription;
 
 /**
  * Class Index
@@ -27,5 +24,41 @@ use UpStreamPay\Core\Model\Config\Source\Debug;
  */
 class Index implements ArgumentInterface
 {
+    /**
+     * @param Session $customerSession
+     * @param SubscriptionRepositoryInterface $subscriptionRepository
+     */
+    public function __construct(
+        private readonly Session $customerSession,
+        private readonly SubscriptionRepositoryInterface $subscriptionRepository
+    )
+    {}
+
+    /**
+     * @return array|null
+     */
+    public function getSubscriptions(): ?array
+    {
+        $customerId = (int)$this->customerSession->getId();
+        return $this->subscriptionRepository->getByCustomerId($customerId);
+    }
+
+    /**
+     * @param SubscriptionInterface $subscription
+     * @return bool
+     */
+    public function isCurrentSubscription(SubscriptionInterface $subscription): bool
+    {
+        return ($subscription->getSubscriptionStatus() === Subscription::ENABLED && $subscription->getPaymentStatus() === Subscription::PAID);
+    }
+
+    /**
+     * @param SubscriptionInterface $subscription
+     * @return bool
+     */
+    public function isFutureSubscription(SubscriptionInterface $subscription): bool
+    {
+        return ($subscription->getSubscriptionStatus() === Subscription::DISABLED && $subscription->getPaymentStatus() === Subscription::TO_PAY);
+    }
 
 }

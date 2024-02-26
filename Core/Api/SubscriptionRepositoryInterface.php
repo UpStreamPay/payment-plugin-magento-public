@@ -60,6 +60,12 @@ interface SubscriptionRepositoryInterface
     public function getList(SearchCriteriaInterface $searchCriteria): SubscriptionSearchResultsInterface;
 
     /**
+     * @param int $customerId
+     * @return array|null
+     */
+    public function getByCustomerId(int $customerId): ?array;
+
+    /**
      * @param string $sku
      * @param int $orderId
      *

@@ -24,6 +24,8 @@ use UpStreamPay\Core\Api\Data\SubscriptionSearchResultsInterface;
 use UpStreamPay\Core\Api\SubscriptionRepositoryInterface;
 use UpStreamPay\Core\Model\ResourceModel\Subscription as resourceModel;
 use UpStreamPay\Core\Model\ResourceModel\Subscription\CollectionFactory;
+use Magento\Framework\Api\SortOrderBuilder;
+use Magento\Framework\Api\SortOrder;
 
 /**
  * Class SubscriptionRepository
@@ -41,6 +43,7 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
      * @param SubscriptionSearchResultsFactory $searchResultsFactory
      * @param CollectionProcessorInterface $collectionProcessor
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param SortOrderBuilder $sortOrderBuilder
      */
     public function __construct(
         private readonly resourceModel                    $resourceModel,
@@ -48,7 +51,8 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
         private readonly CollectionFactory                $collectionFactory,
         private readonly SubscriptionSearchResultsFactory $searchResultsFactory,
         private readonly CollectionProcessorInterface     $collectionProcessor,
-        private readonly SearchCriteriaBuilder $searchCriteriaBuilder
+        private readonly SearchCriteriaBuilder $searchCriteriaBuilder,
+        private readonly SortOrderBuilder $sortOrderBuilder
     )
     {
     }
@@ -138,6 +142,33 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
         $this->resourceModel->load($subscription, $identifier, SubscriptionInterface::SUBSCRIPTION_IDENTIFIER);
 
         return $subscription;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getByCustomerId(int $customerId): ?array
+    {
+        $searchCriteriaBuilder = $this->searchCriteriaBuilder
+            ->addFilter(SubscriptionInterface::CUSTOMER_ID, $customerId)
+            ->addFilter(SubscriptionInterface::SUBSCRIPTION_STATUS, [Subscription::ENABLED, Subscription::DISABLED], 'in')
+            ->addFilter(SubscriptionInterface::PAYMENT_STATUS, [Subscription::TO_PAY, Subscription::PAID], 'in')
+        ;
+
+        $sortOrderIdentifier = $this->sortOrderBuilder
+            ->setField(SubscriptionInterface::SUBSCRIPTION_IDENTIFIER)
+            ->setDirection(SortOrder::SORT_ASC)
+            ->create();
+        $sortOrderEntityId = $this->sortOrderBuilder
+            ->setField(SubscriptionInterface::ENTITY_ID)
+            ->setDirection(SortOrder::SORT_ASC)
+            ->create();
+        $searchCriteriaBuilder->addSortOrder($sortOrderIdentifier);
+        $searchCriteriaBuilder->addSortOrder($sortOrderEntityId);
+
+        $searchCriteria = $searchCriteriaBuilder->create();
+
+        return $this->getList($searchCriteria)->getItems();
     }
 
     /**
