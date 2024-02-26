@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace UpStreamPay\Core\Model\Subscription;
 
+use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Exception\LocalizedException;
@@ -81,6 +82,8 @@ class SaveSubscriptionService
 
         $subscriptionEligibleAttrCode = $this->config->getSubscriptionPaymentProductSubscriptionAttributeCode();
         $subscriptionDurationAttrCode = $this->config->getSubscriptionPaymentProductSubscriptionDurationAttributeCode();
+        //Use original_increment_id if set, otherwise use increment_id.
+        $incrementId = $order->getData(RenewSubscriptionService::ORIGINAL_INCREMENT_ID) ?? $order->getIncrementId();
 
         /** @var Item $invoiceItem */
         foreach ($invoice->getItems() as $invoiceItem) {
@@ -91,9 +94,6 @@ class SaveSubscriptionService
             if (!$product->getData($subscriptionEligibleAttrCode) && !isset($productSubDuration)) {
                 continue;
             }
-
-            //Use original_increment_id if set, otherwise use increment_id.
-            $incrementId = $order->getData(RenewSubscriptionService::ORIGINAL_INCREMENT_ID) ?? $order->getIncrementId();
 
             /* check if there already is a subscription with that order and product */
             try {
@@ -113,13 +113,15 @@ class SaveSubscriptionService
             if (!$existingSubscription || !$existingSubscription->getEntityId()) {
                 try {
                     $subscription = $this->createAndSaveSubscription(
-                        $order,
+                        $incrementId,
+                        (int)$order->getEntityId(),
                         $product,
                         $transactionId,
                         $subscriptionDurationAttrCode
                     );
                     $futureSubscription = $this->createAndSaveSubscription(
-                        $order,
+                        $incrementId,
+                        (int)$order->getEntityId(),
                         $product,
                         $transactionId,
                         $subscriptionDurationAttrCode,
@@ -134,7 +136,7 @@ class SaveSubscriptionService
                     );
                 } catch (Throwable $exception) {
                     $this->logger->critical(
-                        'Error while trying to the create subscriptions for order ' . $order->getIncrementId()
+                        'Error while trying to the create subscriptions for order ' . $incrementId
                     );
                     $this->logger->critical(
                         $exception->getMessage(),
@@ -157,8 +159,9 @@ class SaveSubscriptionService
     }
 
     /**
-     * @param $order
-     * @param $product
+     * @param string $incrementId
+     * @param int $orderId
+     * @param ProductInterface $product
      * @param string $transactionId
      * @param string $subscriptionDurationAttrCode
      * @param bool $future
@@ -167,15 +170,16 @@ class SaveSubscriptionService
      * @throws LocalizedException
      */
     public function createAndSaveSubscription(
-        $order,
-        $product,
+        string $incrementId,
+        int $orderId,
+        ProductInterface $product,
         string $transactionId,
         string $subscriptionDurationAttrCode,
         bool $future = false
     ): SubscriptionInterface
     {
         $subscription = $this->subscriptionFactory->create()
-            ->setSubscriptionIdentifier($product->getSku() . '_' . $order->getIncrementId())
+            ->setSubscriptionIdentifier($product->getSku() . '_' . $incrementId)
             ->setProductPrice((float)$product->getPrice())
             ->setProductName($product->getName())
             ->setProductSku($product->getSku())
@@ -199,7 +203,7 @@ class SaveSubscriptionService
                 ->setPaymentStatus(Subscription::PAID)
                 ->setStartDate($startDate)
                 ->setEndDate($endDate)
-                ->setOrderId((int)$order->getEntityId());
+                ->setOrderId($orderId);
         } else {
             $futureStartDate = date('Y-m-d', strtotime($endDate . ' + 1 days'));
             $futureEndDate = date(
