@@ -104,4 +104,11 @@ interface SubscriptionRetryInterface extends ExtensibleDataInterface
      * @return $this
      */
     public function setTransactionId(int $transactionId): self;
+
+    /**
+     * Return true if the retry can be performed, false otherwise.
+     *
+     * @return bool
+     */
+    public function canBeRetried(): bool;
 }

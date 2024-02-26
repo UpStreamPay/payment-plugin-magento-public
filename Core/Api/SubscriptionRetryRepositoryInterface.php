@@ -92,4 +92,12 @@ interface SubscriptionRetryRepositoryInterface
      * @throws LocalizedException
      */
     public function deleteById(int $id): bool;
+
+    /**
+     * Get all the subscription to retry payment on. We can only retry with an error status.
+     *
+     * @return SubscriptionRetryInterface[]
+     * @throws LocalizedException
+     */
+    public function getAllSubscriptionToRetryPayment(): array;
 }

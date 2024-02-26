@@ -29,6 +29,15 @@ use UpStreamPay\Core\Model\ResourceModel\SubscriptionRetry as SubscriptionRetryR
  */
 class SubscriptionRetry extends AbstractExtensibleModel implements SubscriptionRetryInterface
 {
+    //This means that the retry has returned an error and can be retried if the max number of retry hasn't been reached.
+    public const ERROR_STATUS = 'error';
+    //This means that the retry was a success and there is no need to retry payment on it again.
+    public const SUCCESS_STATUS = 'success';
+    //This means that the retry is in progress. Will transform into error, success or failure.
+    public const WAITING_STATUS = 'waiting';
+    //This means that we reached the maximum number of retry allowed.
+    public const FAILURE_STATUS = 'failure';
+
     /**
      * @codeCoverageIgnore
      *
@@ -38,6 +47,7 @@ class SubscriptionRetry extends AbstractExtensibleModel implements SubscriptionR
      * @param AttributeValueFactory $customAttributeFactory
      * @param AbstractResource|null $resource
      * @param AbstractDb|null $resourceCollection
+     * @param Config $config
      * @param array $data
      */
     public function __construct(
@@ -47,6 +57,7 @@ class SubscriptionRetry extends AbstractExtensibleModel implements SubscriptionR
         AttributeValueFactory $customAttributeFactory,
         AbstractResource $resource = null,
         AbstractDb $resourceCollection = null,
+        private readonly Config $config,
         array $data = []
     ) {
         parent::__construct(
@@ -180,4 +191,14 @@ class SubscriptionRetry extends AbstractExtensibleModel implements SubscriptionR
         return $this->setData(SubscriptionRetryInterface::TRANSACTION_ID, $transactionId);
     }
 
+    /**
+     * Return true if the retry can be performed, false otherwise.
+     *
+     * @return bool
+     */
+    public function canBeRetried(): bool
+    {
+        return $this->getRetryStatus() === self::ERROR_STATUS
+            && $this->getNumberOfRetries() < $this->config->getSubscriptionPaymentMaximumPaymentRetry();
+    }
 }

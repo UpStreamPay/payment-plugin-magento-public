@@ -18,6 +18,7 @@ use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use UpStreamPay\Core\Api\Data\SubscriptionRetryInterface;
 use UpStreamPay\Core\Api\Data\SubscriptionRetrySearchResultsInterface;
@@ -158,4 +159,19 @@ class SubscriptionRetryRepository implements SubscriptionRetryRepositoryInterfac
         return $this->delete($this->getById($id));
     }
 
+    /**
+     * Get all the subscription to retry payment on. We can only retry with an error status.
+     *
+     * @return SubscriptionRetryInterface[]
+     * @throws LocalizedException
+     */
+    public function getAllSubscriptionToRetryPayment(): array
+    {
+        $searchCriteria = $this->searchCriteriaBuilder
+            ->addFilter(SubscriptionRetryInterface::RETRY_STATUS, Subscription::ERROR)
+            ->create()
+        ;
+
+        return $this->getList($searchCriteria)->getItems();
+    }
 }
