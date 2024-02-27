@@ -2,31 +2,28 @@
 
 namespace UpStreamPay\Core\Block\Customer\Account;
 
-use Magento\Framework\Math\Random;
-use Magento\Framework\View\Element\Html\Link;
+use Magento\Framework\View\Element\Html\Link\Current;
 use Magento\Customer\Block\Account\SortLinkInterface;
 use Magento\Framework\View\Element\Template\Context;
-use Magento\Framework\View\Helper\SecureHtmlRenderer;
 use UpStreamPay\Core\Model\Config;
 use UpStreamPay\Core\Controller\Subscription\Cancel;
+use Magento\Framework\App\DefaultPathInterface;
 
-class Subscription extends Link implements SortLinkInterface
+class Subscription extends Current implements SortLinkInterface
 {
     /**
      * @param Config $config
      * @param Context $context
+     * @param DefaultPathInterface $defaultPath
      * @param array $data
-     * @param SecureHtmlRenderer|null $secureRenderer
-     * @param Random|null $random
      */
     public function __construct(
         private readonly Config $config,
         Context $context,
-        array $data = [],
-        ?SecureHtmlRenderer $secureRenderer = null,
-        ?Random $random = null
+        DefaultPathInterface $defaultPath,
+        array $data = []
     ) {
-        parent::__construct($context, $data, $secureRenderer, $random);
+        parent::__construct($context, $defaultPath, $data);
     }
 
     /**
