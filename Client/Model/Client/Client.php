@@ -44,6 +44,8 @@ class Client implements ClientInterface
     private const CAPTURE_URI = '/capture';
     private const VOID_URI = '/void';
     private const REFUND_URI = '/refund';
+
+    private const DUPLICATE_URI = '/off_session_authorize';
     private const API_URI_SKELETON = '%s%s%s%s';
 
     /**
@@ -384,6 +386,29 @@ class Client implements ClientInterface
                 throw $exception;
             }
         }
+    }
+
+    /**
+     * @throws GuzzleException
+     * @throws JsonException
+     */
+    public function duplicate(string $transactionId, array $body): array
+    {
+        if ($this->config->getDebugMode() === Debug::DEBUG_VALUE) {
+            $this->logger->debug('--DUPLICATE TRANSACTION--');
+        }
+
+        $uri = sprintf(
+            self::API_URI_SKELETON,
+            $this->config->getEntityId(),
+            self::TRANSACTIONS_URI,
+            $transactionId,
+            self::DUPLICATE_URI,
+        );
+
+        $duplicateResponse = $this->callApi($this->buildHeader(), $body, self::POST, $uri, []);
+
+        return $duplicateResponse;
     }
 
     /**

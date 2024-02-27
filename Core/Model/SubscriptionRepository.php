@@ -246,19 +246,8 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
      * @inheritDoc
      * @throws LocalizedException
      */
-    public function getParentSubscription(SubscriptionInterface $subscription): array
+    public function getParentSubscription(SubscriptionInterface $subscription): SubscriptionInterface
     {
-        $this->searchCriteriaBuilder->addFilter(
-            SubscriptionInterface::PARENT_SUBSCRIPTION_ID,
-            $subscription->getParentSubscriptionId()
-        )->addFilter(
-            SubscriptionInterface::PAYMENT_STATUS,
-            Subscription::PAID
-        )->addFilter(
-            SubscriptionInterface::SUBSCRIPTION_STATUS,
-            Subscription::ENABLED
-        );
-        $searchCriteria = $this->searchCriteriaBuilder->create();
-        return $this->getList($searchCriteria)->getItems();
+        return $this->getById($subscription->getParentSubscriptionId());
     }
 }

@@ -129,4 +129,6 @@ interface ClientInterface
      * @throws ConflictRetrieveTransactionsException
      */
     public function refund(string $transactionId, array $body): array;
+
+    public function duplicate(string $transactionId, array $body): array;
 }

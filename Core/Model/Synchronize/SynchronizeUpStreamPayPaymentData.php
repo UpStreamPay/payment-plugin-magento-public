@@ -19,10 +19,10 @@ use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
 use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
 use UpStreamPay\Core\Api\PaymentMethodRepositoryInterface;
 use UpStreamPay\Core\Exception\NoPaymentMethodFoundException;
-use UpStreamPay\Core\Model\OrderPayment;
-use UpStreamPay\Core\Model\OrderTransactions;
 use UpStreamPay\Core\Model\Config;
 use UpStreamPay\Core\Model\Config\Source\Debug;
+use UpStreamPay\Core\Model\OrderPayment;
+use UpStreamPay\Core\Model\OrderTransactions;
 
 /**
  * Class SynchronizeUpStreamPayPaymentData
@@ -41,14 +41,15 @@ class SynchronizeUpStreamPayPaymentData
      * @param LoggerInterface $logger
      */
     public function __construct(
-        private readonly OrderPayment $orderPayment,
-        private readonly OrderTransactions $orderTransactions,
-        private readonly OrderPaymentRepositoryInterface $orderPaymentRepository,
+        private readonly OrderPayment                         $orderPayment,
+        private readonly OrderTransactions                    $orderTransactions,
+        private readonly OrderPaymentRepositoryInterface      $orderPaymentRepository,
         private readonly OrderTransactionsRepositoryInterface $orderTransactionsRepository,
-        private readonly PaymentMethodRepositoryInterface $paymentMethodRepository,
-        private readonly Config $config,
-        private readonly LoggerInterface $logger,
-    ) {
+        private readonly PaymentMethodRepositoryInterface     $paymentMethodRepository,
+        private readonly Config                               $config,
+        private readonly LoggerInterface                      $logger,
+    )
+    {
     }
 
     /**
@@ -59,7 +60,6 @@ class SynchronizeUpStreamPayPaymentData
      * @param int $orderId
      * @param int $quoteId
      * @param int $paymentId
-     *
      * @return void
      * @throws LocalizedException
      * @throws NoPaymentMethodFoundException
@@ -176,10 +176,10 @@ class SynchronizeUpStreamPayPaymentData
      */
     private function createTransaction(
         OrderTransactionsInterface $orderTransaction,
-        array $orderTransactionResponse,
-        int $orderId,
-        int $quoteId,
-        ?int $parentPaymentId
+        array                      $orderTransactionResponse,
+        int                        $orderId,
+        int                        $quoteId,
+        ?int                       $parentPaymentId
     ): void
     {
         if (!$orderTransaction || !$orderTransaction->getEntityId()) {

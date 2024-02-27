@@ -53,16 +53,17 @@ class OrderSynchronizeService
      * @param CancelService $cancelService
      */
     public function __construct(
-        private readonly ClientInterface $client,
+        private readonly ClientInterface                   $client,
         private readonly SynchronizeUpStreamPayPaymentData $synchronizeUpStreamPayPaymentData,
-        private readonly CaptureService $captureService,
-        private readonly AuthorizeService $authorizeService,
-        private readonly VoidService $voidService,
-        private readonly RefundService $refundService,
-        private readonly OrderService $orderService,
-        private readonly OrderActionCaptureService $orderActionCaptureService,
-        private readonly CancelService $cancelService
-    ) {
+        private readonly CaptureService                    $captureService,
+        private readonly AuthorizeService                  $authorizeService,
+        private readonly VoidService                       $voidService,
+        private readonly RefundService                     $refundService,
+        private readonly OrderService                      $orderService,
+        private readonly OrderActionCaptureService         $orderActionCaptureService,
+        private readonly CancelService                     $cancelService
+    )
+    {
     }
 
     /**
@@ -87,7 +88,7 @@ class OrderSynchronizeService
     public function execute(InfoInterface $payment, float $amount, string $action): InfoInterface
     {
         $purseSessionId = $payment->getData(PurseSessionDataManager::PAYMENT_PURSE_SESSION_ID);
-        $orderId = (int) $payment->getParentId();
+        $orderId = (int)$payment->getParentId();
 
         if ($action !== OrderTransactions::VOID_ACTION && $action !== OrderTransactions::REFUND_ACTION) {
             $sessionTransactionsResponse = $this->client->getAllTransactionsForSession($purseSessionId);
@@ -103,20 +104,20 @@ class OrderSynchronizeService
                 $sessionTransactionsResponse,
                 $orderId,
                 (int)$payment->getOrder()->getQuoteId(),
-                (int)$payment->getEntityId()
+                (int)$payment->getEntityId(),
             );
         }
 
         if ($action === OrderTransactions::AUTHORIZE_ACTION) {
             $payment = $this->authorizeService->execute($payment, $amount);
         } elseif ($action === OrderTransactions::CAPTURE_ACTION) {
-            $payment =  $this->captureService->execute($payment, $amount);
+            $payment = $this->captureService->execute($payment, $amount);
         } elseif ($action === OrderTransactions::VOID_ACTION) {
             $payment = $this->voidService->execute($payment);
         } elseif ($action === OrderTransactions::REFUND_ACTION) {
             $payment = $this->refundService->execute($payment, $amount);
         } elseif ($action === OrderTransactions::ORDER_ACTION) {
-            $payment =  $this->orderService->execute($payment, $amount);
+            $payment = $this->orderService->execute($payment, $amount);
         } elseif ($action === OrderTransactions::ORDER_CAPTURE_ACTION) {
             $payment = $this->orderActionCaptureService->execute($payment, $amount);
         } elseif ($action === OrderTransactions::ORDER_CANCEL) {

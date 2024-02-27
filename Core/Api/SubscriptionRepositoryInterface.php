@@ -106,7 +106,7 @@ interface SubscriptionRepositoryInterface
      * Return the current subscription from the future one
      *
      * @param SubscriptionInterface $subscription
-     * @return array
+     * @return SubscriptionInterface
      */
-    public function getParentSubscription(SubscriptionInterface $subscription): array;
+    public function getParentSubscription(SubscriptionInterface $subscription): SubscriptionInterface;
 }

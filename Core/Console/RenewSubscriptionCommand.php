@@ -11,13 +11,16 @@
 
 namespace UpStreamPay\Core\Console;
 
+use Magento\Framework\App\Area;
 use Magento\Framework\Console\Cli;
+use Magento\Framework\Exception\LocalizedException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use UpStreamPay\Core\Api\Data\SubscriptionInterface;
 use UpStreamPay\Core\Model\Subscription\RenewSubscriptionService;
 use UpStreamPay\Core\Model\SubscriptionRepository;
+use Magento\Framework\App\State;
 
 class RenewSubscriptionCommand extends Command
 {
@@ -29,6 +32,7 @@ class RenewSubscriptionCommand extends Command
     public function __construct(
         private readonly SubscriptionRepository $subscriptionRepository,
         private readonly RenewSubscriptionService $renewSubscriptionService,
+        private readonly State $state,
         $name = null
     )
     {
@@ -37,7 +41,7 @@ class RenewSubscriptionCommand extends Command
 
     protected function configure()
     {
-        $this->setName('upstreampay:subscriction:renew');
+        $this->setName('upstreampay:subscription:renew');
         $this->setDescription('Renew subscriptions');
 
         parent::configure();
@@ -47,9 +51,12 @@ class RenewSubscriptionCommand extends Command
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int|void
+     * @throws LocalizedException
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+
+        $this->state->setAreaCode(Area::AREA_GLOBAL);
         //TODO Check that we have enabled the recurring payments in admin before doing anything.
         //TODO If disabled output a message to the user letting him know that the recurring payments are disabled.
         //TODO Add a progressbar
@@ -61,9 +68,13 @@ class RenewSubscriptionCommand extends Command
                     /** Call renewSubService */
                     $this->renewSubscriptionService->execute($subscription);
                 }
+                return Cli::RETURN_SUCCESS;
+            } else {
+                $output->writeln("<error>$msg</error>", OutputInterface::OUTPUT_NORMAL);
             }
 
-            return Cli::RETURN_SUCCESS;
+
+
         } catch (\Exception $e) {
             $msg = $e->getMessage();
             $output->writeln("<error>$msg</error>", OutputInterface::OUTPUT_NORMAL);

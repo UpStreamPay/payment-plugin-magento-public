@@ -192,7 +192,7 @@
 
     <table name="upstream_pay_subscription" resource="default" engine="innodb" comment="Upstream Pay subscription table">
         <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="ENTITY ID"/>
-        <column xsi:type="int" name="parent_subscription_id" unsigned="true" nullable="false" comment="Previous subscription ENTITY ID"/>
+        <column xsi:type="int" name="parent_subscription_id" unsigned="true" nullable="true" comment="Previous subscription ENTITY ID"/>
         <column xsi:type="varchar" name="subscription_identifier" nullable="false" length="255" comment="Subscription identifier"/>
         <column xsi:type="varchar" name="subscription_status" nullable="false" length="10" default="disabled"
                 comment="Subscription status"/>

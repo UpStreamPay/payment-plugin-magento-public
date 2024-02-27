@@ -19,6 +19,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Psr\Log\LoggerInterface;
 use UpStreamPay\Core\Api\Data\SubscriptionInterface;
+use UpStreamPay\Core\Model\Actions\DuplicateService;
 use UpStreamPay\Core\Model\Subscription;
 use UpStreamPay\Core\Model\Subscription\Renew\CartManagement;
 use UpStreamPay\Core\Model\SubscriptionRepository;
@@ -40,6 +41,7 @@ class RenewSubscriptionService
      * @param CartManagement $cartManagementRenew
      * @param OrderRepositoryInterface $orderRepository
      * @param LoggerInterface $logger
+     * @param DuplicateService $duplicateService
      */
     public function __construct
     (
@@ -48,7 +50,8 @@ class RenewSubscriptionService
         private readonly EventManager $eventManager,
         private readonly CartManagement $cartManagementRenew,
         private readonly OrderRepositoryInterface $orderRepository,
-        private readonly LoggerInterface $logger
+        private readonly LoggerInterface $logger,
+        private readonly DuplicateService $duplicateService
     )
     {
     }
@@ -67,7 +70,7 @@ class RenewSubscriptionService
          * Check Price Variation
          */
         if ($subscription->getProductPrice() !== $product->getPrice()) {
-            $subscription->setProductPrice($product->getPrice());
+            $subscription->setProductPrice((float)$product->getPrice());
             $this->subscriptionRepository->save($subscription);
 
             $this->eventManager->dispatch('subscription_usp_price_update', [
@@ -77,12 +80,11 @@ class RenewSubscriptionService
             ]);
         }
 
-        //TODO We have a subscription list, we need one subscription. The following code will not work.
         $parentSubscription = $this->subscriptionRepository->getParentSubscription($subscription);
         $order = $this->orderRepository->get($parentSubscription->getOrderId());
 
         try {
-            $quote = $this->cartManagementRenew->createQuote($subscription->getProductSku(), $order->getQuoteId());
+            $quote = $this->cartManagementRenew->createQuote($subscription->getProductSku(), (int)$order->getQuoteId());
         } catch (\Throwable $exception) {
             //In case of error while creating the quote, cancel the subscription to renew & don't process any further.
             $this->cancelSubscription($subscription);
@@ -115,6 +117,14 @@ class RenewSubscriptionService
 
             return;
         }
+
+        try {
+            $this->duplicateService->execute($quote, $subscription->getOriginalTransactionId(), $renewOrder);
+        } catch (\Throwable $exception) {
+            echo $exception->getTraceAsString();
+        }
+
+
     }
 
     /**
