@@ -358,6 +358,28 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     /**
      * @codeCoverageIgnore
      *
+     * @return null|int
+     */
+    public function getSubscriptionId(): ?int
+    {
+        return (int)$this->getData(self::SUBSCRIPTION_ID);
+    }
+
+    /**
+     * @codeCoverageIgnore
+     *
+     * @param null|int $subscriptionId
+     *
+     * @return OrderTransactionsInterface
+     */
+    public function setSubscriptionId(?int $subscriptionId): OrderTransactionsInterface
+    {
+        return $this->setData(self::SUBSCRIPTION_ID, $subscriptionId);
+    }
+
+    /**
+     * @codeCoverageIgnore
+     *
      * Create an order transaction based on an API response.
      *
      * @param array $transactionResponse
