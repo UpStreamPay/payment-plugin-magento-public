@@ -115,6 +115,7 @@ class SaveSubscriptionService
                     $subscription = $this->createAndSaveSubscription(
                         $incrementId,
                         (int)$order->getEntityId(),
+                        (int)$invoice->getEntityId(),
                         $product,
                         $transactionId,
                         $subscriptionDurationAttrCode,
@@ -124,6 +125,7 @@ class SaveSubscriptionService
                     $futureSubscription = $this->createAndSaveSubscription(
                         $incrementId,
                         (int)$order->getEntityId(),
+                        (int)$invoice->getEntityId(),
                         $product,
                         $transactionId,
                         $subscriptionDurationAttrCode,
@@ -164,6 +166,7 @@ class SaveSubscriptionService
                             $futureSubscription = $this->createAndSaveSubscription(
                                 $incrementId,
                                 null,
+                                (int)$invoice->getEntityId(),
                                 $product,
                                 $subscription->getOriginalTransactionId(),
                                 $subscriptionDurationAttrCode,
@@ -192,6 +195,7 @@ class SaveSubscriptionService
     /**
      * @param string $incrementId
      * @param null|int $orderId
+     * @param int $invoiceId
      * @param ProductInterface $product
      * @param string $transactionId
      * @param string $subscriptionDurationAttrCode
@@ -206,6 +210,7 @@ class SaveSubscriptionService
     public function createAndSaveSubscription(
         string $incrementId,
         ?int $orderId,
+        int $invoiceId,
         ProductInterface $product,
         string $transactionId,
         string $subscriptionDurationAttrCode,
@@ -220,6 +225,7 @@ class SaveSubscriptionService
             ->setProductPrice($subscriptionTotal)
             ->setProductName($product->getName())
             ->setProductSku($product->getSku())
+            ->setInvoiceId($invoiceId)
             ->setOriginalTransactionId($transactionId);
 
         if ($customerId) {
