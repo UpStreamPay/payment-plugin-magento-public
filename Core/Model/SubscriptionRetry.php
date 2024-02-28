@@ -98,7 +98,7 @@ class SubscriptionRetry extends AbstractExtensibleModel implements SubscriptionR
      */
     public function getSubscriptionId(): ?int
     {
-        return $this->getData(SubscriptionRetryInterface::SUBSCRIPTION_ID);
+        return (int)$this->getData(SubscriptionRetryInterface::SUBSCRIPTION_ID);
     }
 
     /**
