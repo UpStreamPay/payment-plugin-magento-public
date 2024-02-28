@@ -34,6 +34,7 @@ interface SubscriptionInterface extends ExtensibleDataInterface
     public const NEXT_PAYMENT_DATE = 'next_payment_date';
     public const ORDER_ID = 'order_id';
     public const CUSTOMER_ID = 'customer_id';
+    public const INVOICE_ID = 'invoice_id';
     public const ORIGINAL_TRANSACTION_ID = 'original_transaction_id';
 
     /**
@@ -222,6 +223,21 @@ interface SubscriptionInterface extends ExtensibleDataInterface
      * @return $this
      */
     public function setCustomerId(int $customerId): self;
+
+    /**
+     * Get invoice id
+     *
+     * @return ?int
+     */
+    public function getInvoiceId(): ?int;
+
+    /**
+     * Set the invoice id
+     *
+     * @param int $invoiceId
+     * @return $this
+     */
+    public function setInvoiceId(int $invoiceId): self;
 
     /**
      * Get the original transaction id

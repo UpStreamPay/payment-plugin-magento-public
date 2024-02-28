@@ -197,6 +197,7 @@
         <column xsi:type="timestamp" name="next_payment_date" nullable="true" comment="Next payment date"/>
         <column xsi:type="int" name="order_id" unsigned="true" nullable="true" comment="Order ID"/>
         <column xsi:type="int" name="customer_id" unsigned="true" nullable="true" comment="Customer ID"/>
+        <column xsi:type="int" name="invoice_id" unsigned="true" nullable="true" comment="Invoice ID"/>
         <column xsi:type="varchar" name="original_transaction_id" nullable="false" length="255" comment="Original transaction id"/>
 
         <constraint xsi:type="primary" referenceId="PRIMARY">
@@ -208,12 +209,20 @@
                     table="upstream_pay_subscription" column="order_id" referenceTable="sales_order"
                     referenceColumn="entity_id" onDelete="CASCADE"/>
 
+        <!-- sales_invoice table foreign key-->
+        <constraint xsi:type="foreign" referenceId="UPSTREAM_PAY_SUBSCRIPTION_INVOICE_ID_SALES_INVOICE_ENTITY_ID"
+                    table="upstream_pay_subscription" column="invoice_id" referenceTable="sales_invoice"
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
+
         <!-- Index colmumns -->
         <index referenceId="UPSTREAM_PAY_SUBSCRIPTION_SUBSCRIPTION_IDENTIFIER" indexType="btree">
             <column name="subscription_identifier"/>
         </index>
         <index referenceId="UPSTREAM_PAY_SUBSCRIPTION_ORDER_ID" indexType="btree">
             <column name="order_id"/>
+        </index>
+        <index referenceId="UPSTREAM_PAY_SUBSCRIPTION_INVOICE_ID" indexType="btree">
+            <column name="invoice_id"/>
         </index>
     </table>
 

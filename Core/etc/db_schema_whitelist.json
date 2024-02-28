@@ -113,15 +113,18 @@
             "next_payment_date": true,
             "order_id": true,
             "customer_id": true,
-            "original_transaction_id": true
+            "original_transaction_id": true,
+            "invoice_id": true
         },
         "index": {
             "UPSTREAM_PAY_SUBSCRIPTION_SUBSCRIPTION_IDENTIFIER": true,
-            "UPSTREAM_PAY_SUBSCRIPTION_ORDER_ID": true
+            "UPSTREAM_PAY_SUBSCRIPTION_ORDER_ID": true,
+            "UPSTREAM_PAY_SUBSCRIPTION_INVOICE_ID": true
         },
         "constraint": {
             "PRIMARY": true,
-            "UPSTREAM_PAY_SUBSCRIPTION_ORDER_ID_SALES_ORDER_ENTITY_ID": true
+            "UPSTREAM_PAY_SUBSCRIPTION_ORDER_ID_SALES_ORDER_ENTITY_ID": true,
+            "UPSTREAM_PAY_SUBSCRIPTION_INVOICE_ID_SALES_INVOICE_ENTITY_ID": true
         }
     },
     "upstream_pay_subscription_retry": {

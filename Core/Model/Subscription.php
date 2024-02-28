@@ -329,4 +329,23 @@ class Subscription extends AbstractExtensibleModel implements SubscriptionInterf
         return $this->getPaymentStatus() === self::TO_PAY && $this->getSubscriptionStatus() === self::DISABLED;
     }
 
+    /**
+     * @codeCoverageIgnore
+     *
+     * @inheritDoc
+     */
+    public function getInvoiceId(): ?int
+    {
+        return (int)$this->getData(SubscriptionInterface::INVOICE_ID);
+    }
+
+    /**
+     * @codeCoverageIgnore
+     *
+     * @inheritDoc
+     */
+    public function setInvoiceId(int $invoiceId): SubscriptionInterface
+    {
+        return $this->setData(SubscriptionInterface::INVOICE_ID, $invoiceId);
+    }
 }
