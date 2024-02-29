@@ -79,7 +79,7 @@
         <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
         <column xsi:type="varchar" name="session_id" length="255" nullable="false" comment="Session ID"/>
         <column xsi:type="varchar" name="transaction_id" nullable="false" length="255" comment="Transaction ID"/>
-        <column xsi:type="varchar" name="subscription_id" nullable="true" length="255" comment="Subscription ID"/>
+        <column xsi:type="int" name="subscription_id" nullable="true" unsigned="true" comment="Subscription ID"/>
         <column xsi:type="varchar" name="parent_transaction_id" nullable="true" length="255"
                 comment="Parent transaction ID"/>
         <column xsi:type="int" name="parent_payment_id" nullable="true" comment="Parent transaction ID"/>
@@ -111,9 +111,9 @@
                     referenceColumn="entity_id" onDelete="CASCADE"/>
 
         <!-- upstream_pay_subscription table foreign key-->
-        <constraint xsi:type="foreign" referenceId="UPSTREAM_PAY_ORDER_TRANSACTIONS_SUBSCRIPTION_ID_SUBSCRIPTION_SUBSCRIPTION_IDENTIFIER"
+        <constraint xsi:type="foreign" referenceId="UPSTREAM_PAY_ORDER_TRANSACTIONS_SUBSCRIPTION_ID_UPSTREAM_PAY_SUBSCRIPTION_ENTITY_ID"
                     table="upstream_pay_order_transactions" column="subscription_id" referenceTable="upstream_pay_subscription"
-                    referenceColumn="subscription_identifier" onDelete="CASCADE"/>
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
 
         <!-- We can't have two rows with the same session id & transaction id. -->
         <constraint xsi:type="unique" referenceId="UPSTREAM_PAY_ORDER_PAYMENT_SESSION_ID_TRANSACTION_ID">
