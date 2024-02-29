@@ -28,6 +28,8 @@
                     <argument name="sortOrder" xsi:type="number">160</argument>
                 </arguments>
             </block>
+
+            <!-- Add Purse subscriptions listing-->
             <block class="UpStreamPay\Core\Block\Customer\Account\Subscription"
                    name="customer-account-navigation-subscription"
             >

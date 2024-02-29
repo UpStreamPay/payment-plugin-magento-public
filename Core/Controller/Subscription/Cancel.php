@@ -13,13 +13,14 @@ declare(strict_types=1);
 namespace UpStreamPay\Core\Controller\Subscription;
 
 use Magento\Framework\App\Action\HttpPostActionInterface;
+use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Controller\Result\Redirect;
+use Magento\Framework\Controller\Result\RedirectFactory;
+use Magento\Framework\Message\ManagerInterface;
 use Psr\Log\LoggerInterface;
 use UpStreamPay\Core\Model\Subscription\CancelService;
 use UpStreamPay\Core\Model\SubscriptionRepository;
-use Magento\Framework\App\RequestInterface;
-use Magento\Framework\Controller\Result\RedirectFactory;
-use Magento\Framework\Message\ManagerInterface;
+
 /**
  * Class Cancel
  *
@@ -27,9 +28,6 @@ use Magento\Framework\Message\ManagerInterface;
  */
 class Cancel implements HttpPostActionInterface
 {
-    /**
-     * Url path
-     */
     public const URL_PATH = 'upstreampay/subscription/cancel';
 
     /**

@@ -16,6 +16,8 @@ use Exception;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SearchCriteriaInterface;
+use Magento\Framework\Api\SortOrder;
+use Magento\Framework\Api\SortOrderBuilder;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -24,8 +26,6 @@ use UpStreamPay\Core\Api\Data\SubscriptionSearchResultsInterface;
 use UpStreamPay\Core\Api\SubscriptionRepositoryInterface;
 use UpStreamPay\Core\Model\ResourceModel\Subscription as resourceModel;
 use UpStreamPay\Core\Model\ResourceModel\Subscription\CollectionFactory;
-use Magento\Framework\Api\SortOrderBuilder;
-use Magento\Framework\Api\SortOrder;
 
 /**
  * Class SubscriptionRepository
@@ -147,7 +147,7 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
     /**
      * @inheritDoc
      */
-    public function getByCustomerId(int $customerId): ?array
+    public function getSubscriptionsToDisplayOnFrontend(int $customerId): ?array
     {
         $searchCriteriaBuilder = $this->searchCriteriaBuilder
             ->addFilter(SubscriptionInterface::CUSTOMER_ID, $customerId)

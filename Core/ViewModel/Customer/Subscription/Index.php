@@ -13,14 +13,16 @@ declare(strict_types=1);
 namespace UpStreamPay\Core\ViewModel\Customer\Subscription;
 
 use Magento\Customer\Model\Session;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
-use UpStreamPay\Core\Api\SubscriptionRepositoryInterface;
 use UpStreamPay\Core\Api\Data\SubscriptionInterface;
+use UpStreamPay\Core\Api\SubscriptionRepositoryInterface;
 use UpStreamPay\Core\Model\Subscription;
 
 /**
  * Class Index
  *
+ * @package UpStreamPay\Core\ViewModel\Customer\Subscription
  */
 class Index implements ArgumentInterface
 {
@@ -36,29 +38,34 @@ class Index implements ArgumentInterface
 
     /**
      * @return array|null
+     * @throws LocalizedException
      */
     public function getSubscriptions(): ?array
     {
         $customerId = (int)$this->customerSession->getId();
-        return $this->subscriptionRepository->getByCustomerId($customerId);
+
+        return $this->subscriptionRepository->getSubscriptionsToDisplayOnFrontend($customerId);
     }
 
     /**
      * @param SubscriptionInterface $subscription
+     *
      * @return bool
      */
     public function isCurrentSubscription(SubscriptionInterface $subscription): bool
     {
-        return ($subscription->getSubscriptionStatus() === Subscription::ENABLED && $subscription->getPaymentStatus() === Subscription::PAID);
+        return ($subscription->getSubscriptionStatus() === Subscription::ENABLED
+            && $subscription->getPaymentStatus() === Subscription::PAID);
     }
 
     /**
      * @param SubscriptionInterface $subscription
+     *
      * @return bool
      */
     public function isFutureSubscription(SubscriptionInterface $subscription): bool
     {
-        return ($subscription->getSubscriptionStatus() === Subscription::DISABLED && $subscription->getPaymentStatus() === Subscription::TO_PAY);
+        return ($subscription->getSubscriptionStatus() === Subscription::DISABLED
+            && $subscription->getPaymentStatus() === Subscription::TO_PAY);
     }
-
 }

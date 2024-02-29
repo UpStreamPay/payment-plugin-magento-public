@@ -9,7 +9,7 @@
  * Author: Claranet France <info@fr.clara.net>
  */
 
-use \Magento\Framework\Data\Helper\PostHelper;
+use Magento\Framework\Data\Helper\PostHelper;
 
 /** @var UpStreamPay\Core\Block\Customer\Account\Subscription $block */
 $viewModel = $block->getViewModel();
@@ -18,11 +18,8 @@ $subscriptions = $viewModel->getSubscriptions();
 ?>
 
 <div class="table-wrapper subscriptions-history">
-
     <?php foreach($subscriptions as $subscription): ?>
-
         <?php if($viewModel->isCurrentSubscription($subscription)): ?>
-
             <h3><?= $subscription->getProductName(); ?></h3>
             <h4><?= $block->escapeHtml(__('Current subscription')) ?></h4>
             <table class="data table table-subscriptions history" id="my-subscriptions-table">
@@ -59,7 +56,6 @@ $subscriptions = $viewModel->getSubscriptions();
             </table>
 
         <?php elseif($viewModel->isFutureSubscription($subscription)): ?>
-
             <h4><?= $block->escapeHtml(__('Next subscription')) ?></h4>
             <table class="data table table-subscriptions history" id="my-subscriptions-table">
                 <caption class="table-caption"><?= $block->escapeHtml(__('My subscriptions')) ?></caption>
@@ -112,9 +108,6 @@ $subscriptions = $viewModel->getSubscriptions();
                 </tr>
                 </tbody>
             </table>
-
         <?php endif; ?>
-
     <?php endforeach; ?>
-
 </div>

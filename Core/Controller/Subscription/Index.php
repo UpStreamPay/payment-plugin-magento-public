@@ -19,7 +19,6 @@ use Magento\Framework\Controller\Result\RedirectFactory;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\SessionException;
 use Magento\Framework\View\Result\PageFactory;
-use Psr\Log\LoggerInterface;
 use UpStreamPay\Core\Model\Config;
 
 /**
@@ -35,7 +34,6 @@ class Index implements HttpGetActionInterface
      * @param Url $customerUrl
      * @param RedirectFactory $redirectFactory
      * @param Config $config
-     * @param LoggerInterface $logger
      */
     public function __construct(
         private readonly Session $session,
@@ -43,22 +41,30 @@ class Index implements HttpGetActionInterface
         private readonly Url $customerUrl,
         private readonly RedirectFactory $redirectFactory,
         private readonly Config $config,
-        private readonly LoggerInterface $logger
     ) {
     }
 
+    /**
+     * Display the subscription list in customer account.
+     *
+     * @return ResultInterface
+     * @throws SessionException
+     */
     public function execute(): ResultInterface
     {
         $resultRedirect = $this->redirectFactory->create();
+
         if ($this->config->getSubscriptionPaymentEnabled() && $this->config->getSubscriptionPaymentEnableCustomerInterface()) {
             if ($this->session->authenticate()) {
                 $resultPage = $this->pageFactory->create();
                 $resultPage->getConfig()->getTitle()->set(__('Subscriptions'));
+
                 return $resultPage;
             } else {
                 $resultRedirect->setPath($this->customerUrl->getLoginUrl());
             }
         }
+        
         return $resultRedirect;
     }
 }
