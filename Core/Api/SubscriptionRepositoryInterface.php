@@ -60,6 +60,16 @@ interface SubscriptionRepositoryInterface
     public function getList(SearchCriteriaInterface $searchCriteria): SubscriptionSearchResultsInterface;
 
     /**
+     * Get a list of all subscriptions to display on frontend.
+     *
+     * @param int $customerId
+     * @return array|null
+     *
+     * @throws LocalizedException
+     */
+    public function getSubscriptionsToDisplayOnFrontend(int $customerId): ?array;
+
+    /**
      * @param string $sku
      * @param int $orderId
      *

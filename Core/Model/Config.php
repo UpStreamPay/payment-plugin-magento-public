@@ -291,11 +291,11 @@ class Config
     /**
      * Return true if the subscription payment customer interface is enabled.
      *
-     * @return null|int
+     * @return bool
      */
-    public function getSubscriptionPaymentEnableCustomerInterface(): ?int
+    public function getSubscriptionPaymentEnableCustomerInterface(): bool
     {
-        return (int)$this->config->getValue(self::SUBSCRIPTION_PAYMENT_ENABLE_CUSTOMER_INTERFACE, ScopeInterface::SCOPE_STORE);
+        return (bool)$this->config->getValue(self::SUBSCRIPTION_PAYMENT_ENABLE_CUSTOMER_INTERFACE, ScopeInterface::SCOPE_STORE);
     }
 
     /**

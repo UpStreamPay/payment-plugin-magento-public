@@ -16,6 +16,8 @@ use Exception;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SearchCriteriaInterface;
+use Magento\Framework\Api\SortOrder;
+use Magento\Framework\Api\SortOrderBuilder;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -41,6 +43,7 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
      * @param SubscriptionSearchResultsFactory $searchResultsFactory
      * @param CollectionProcessorInterface $collectionProcessor
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param SortOrderBuilder $sortOrderBuilder
      */
     public function __construct(
         private readonly resourceModel                    $resourceModel,
@@ -48,7 +51,8 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
         private readonly CollectionFactory                $collectionFactory,
         private readonly SubscriptionSearchResultsFactory $searchResultsFactory,
         private readonly CollectionProcessorInterface     $collectionProcessor,
-        private readonly SearchCriteriaBuilder $searchCriteriaBuilder
+        private readonly SearchCriteriaBuilder $searchCriteriaBuilder,
+        private readonly SortOrderBuilder $sortOrderBuilder
     )
     {
     }
@@ -138,6 +142,28 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
         $this->resourceModel->load($subscription, $identifier, SubscriptionInterface::SUBSCRIPTION_IDENTIFIER);
 
         return $subscription;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSubscriptionsToDisplayOnFrontend(int $customerId): ?array
+    {
+        $searchCriteriaBuilder = $this->searchCriteriaBuilder
+            ->addFilter(SubscriptionInterface::CUSTOMER_ID, $customerId)
+            ->addFilter(SubscriptionInterface::SUBSCRIPTION_STATUS, [Subscription::ENABLED, Subscription::DISABLED], 'in')
+            ->addFilter(SubscriptionInterface::PAYMENT_STATUS, [Subscription::TO_PAY, Subscription::PAID], 'in')
+        ;
+
+        $sortOrderEntityId = $this->sortOrderBuilder
+            ->setField(SubscriptionInterface::ENTITY_ID)
+            ->setDirection(SortOrder::SORT_ASC)
+            ->create();
+        $searchCriteriaBuilder->addSortOrder($sortOrderEntityId);
+
+        $searchCriteria = $searchCriteriaBuilder->create();
+
+        return $this->getList($searchCriteria)->getItems();
     }
 
     /**
