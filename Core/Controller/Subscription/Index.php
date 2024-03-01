@@ -40,7 +40,7 @@ class Index implements HttpGetActionInterface
         private readonly PageFactory $pageFactory,
         private readonly Url $customerUrl,
         private readonly RedirectFactory $redirectFactory,
-        private readonly Config $config,
+        private readonly Config $config
     ) {
     }
 

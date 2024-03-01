@@ -20,6 +20,8 @@ use Magento\Framework\Message\ManagerInterface;
 use Psr\Log\LoggerInterface;
 use UpStreamPay\Core\Model\Subscription\CancelService;
 use UpStreamPay\Core\Model\SubscriptionRepository;
+use Magento\Customer\Model\Session;
+use UpStreamPay\Core\Model\Config;
 
 /**
  * Class Cancel
@@ -37,6 +39,8 @@ class Cancel implements HttpPostActionInterface
      * @param LoggerInterface $logger
      * @param RedirectFactory $redirectFactory
      * @param ManagerInterface $messageManager
+     * @param Session $session
+     * @param Config $config
      */
     public function __construct(
         private readonly SubscriptionRepository $subscriptionRepository,
@@ -44,7 +48,9 @@ class Cancel implements HttpPostActionInterface
         private readonly RequestInterface $request,
         private readonly LoggerInterface $logger,
         private readonly RedirectFactory $redirectFactory,
-        private readonly ManagerInterface $messageManager
+        private readonly ManagerInterface $messageManager,
+        private readonly Session $session,
+        private readonly Config $config
     )
     {}
 
@@ -54,25 +60,32 @@ class Cancel implements HttpPostActionInterface
      */
     public function execute(): Redirect
     {
-        $subscriptionId = $this->request->getParam('subscription_id', false);
+        if ($this->config->getSubscriptionPaymentEnabled()
+            && $this->config->getSubscriptionPaymentEnableCustomerInterface()
+            && $this->session->authenticate()
+        ) {
 
-        if ($subscriptionId) {
-            try {
-                $subscription = $this->subscriptionRepository->getById((int)$subscriptionId);
-                if ($subscription->canCancel()) {
-                    $this->cancelService->execute($subscription->getEntityId());
-                    $this->messageManager->addSuccessMessage(__('Subscription canceled'));
+            $subscriptionId = $this->request->getParam('subscription_id', false);
+
+            if ($subscriptionId) {
+                try {
+                    $subscription = $this->subscriptionRepository->getById((int)$subscriptionId);
+                    if ($subscription->canCancel() && ($subscription->getCustomerId() === (int)$this->session->getCustomerId())) {
+                        $this->cancelService->execute($subscription->getEntityId());
+                        $this->messageManager->addSuccessMessage(__('Subscription canceled'));
+                    }
+                } catch (\Throwable $exception) {
+                    $errorMessage = sprintf(
+                        'Error while trying to cancel subscription with ID %s',
+                        $subscriptionId
+                    );
+                    $this->logger->error($errorMessage);
+                    $this->logger->error($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
+                    $this->messageManager->addSuccessMessage(__('Cancellation error'));
                 }
-            } catch (\Throwable $exception) {
-                $errorMessage = sprintf(
-                    'Error while trying to cancel subscription with ID %s',
-                    $subscriptionId
-                );
-                $this->logger->error($errorMessage);
-                $this->logger->error($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
             }
-        }
 
-        return $this->redirectFactory->create()->setPath('*/*/index');
+            return $this->redirectFactory->create()->setPath('*/*/index');
+        }
     }
 }

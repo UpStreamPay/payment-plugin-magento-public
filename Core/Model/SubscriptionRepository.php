@@ -155,15 +155,10 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
             ->addFilter(SubscriptionInterface::PAYMENT_STATUS, [Subscription::TO_PAY, Subscription::PAID], 'in')
         ;
 
-        $sortOrderIdentifier = $this->sortOrderBuilder
-            ->setField(SubscriptionInterface::SUBSCRIPTION_IDENTIFIER)
-            ->setDirection(SortOrder::SORT_ASC)
-            ->create();
         $sortOrderEntityId = $this->sortOrderBuilder
             ->setField(SubscriptionInterface::ENTITY_ID)
             ->setDirection(SortOrder::SORT_ASC)
             ->create();
-        $searchCriteriaBuilder->addSortOrder($sortOrderIdentifier);
         $searchCriteriaBuilder->addSortOrder($sortOrderEntityId);
 
         $searchCriteria = $searchCriteriaBuilder->create();

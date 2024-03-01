@@ -18,6 +18,7 @@ use Magento\Framework\View\Element\Block\ArgumentInterface;
 use UpStreamPay\Core\Api\Data\SubscriptionInterface;
 use UpStreamPay\Core\Api\SubscriptionRepositoryInterface;
 use UpStreamPay\Core\Model\Subscription;
+use Magento\Framework\Pricing\Helper\Data;
 
 /**
  * Class Index
@@ -29,10 +30,12 @@ class Index implements ArgumentInterface
     /**
      * @param Session $customerSession
      * @param SubscriptionRepositoryInterface $subscriptionRepository
+     * @param Data $priceHelper
      */
     public function __construct(
         private readonly Session $customerSession,
-        private readonly SubscriptionRepositoryInterface $subscriptionRepository
+        private readonly SubscriptionRepositoryInterface $subscriptionRepository,
+        private readonly Data $priceHelper
     )
     {}
 
@@ -68,4 +71,14 @@ class Index implements ArgumentInterface
         return ($subscription->getSubscriptionStatus() === Subscription::DISABLED
             && $subscription->getPaymentStatus() === Subscription::TO_PAY);
     }
+
+    /**
+     * @param SubscriptionInterface $subscription
+     * @return string
+     */
+    public function getFormattedPrice(SubscriptionInterface $subscription): string
+    {
+        return $this->priceHelper->currency($subscription->getProductPrice(), true, false);
+    }
+
 }
