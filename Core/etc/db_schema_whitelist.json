@@ -87,17 +87,11 @@
         "column": {
             "purse_session_amount": true,
             "purse_session_id": true
-        },
-        "constraint": {
-            "QUOTE_PAYMENT_PURSE_SESSION_ID": true
         }
     },
     "sales_order_payment": {
         "column": {
             "purse_session_id": true
-        },
-        "constraint": {
-            "SALES_ORDER_PAYMENT_PURSE_SESSION_ID": true
         }
     },
     "sales_order": {

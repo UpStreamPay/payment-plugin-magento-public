@@ -14,7 +14,6 @@ namespace UpStreamPay\Core\Model\Synchronize;
 
 use Magento\Framework\Exception\LocalizedException;
 use Psr\Log\LoggerInterface;
-use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
 use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
 use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
 use UpStreamPay\Core\Api\PaymentMethodRepositoryInterface;
@@ -41,13 +40,13 @@ class SynchronizeUpStreamPayPaymentData
      * @param LoggerInterface $logger
      */
     public function __construct(
-        private readonly OrderPayment                         $orderPayment,
-        private readonly OrderTransactions                    $orderTransactions,
-        private readonly OrderPaymentRepositoryInterface      $orderPaymentRepository,
+        private readonly OrderPayment $orderPayment,
+        private readonly OrderTransactions $orderTransactions,
+        private readonly OrderPaymentRepositoryInterface $orderPaymentRepository,
         private readonly OrderTransactionsRepositoryInterface $orderTransactionsRepository,
-        private readonly PaymentMethodRepositoryInterface     $paymentMethodRepository,
-        private readonly Config                               $config,
-        private readonly LoggerInterface                      $logger,
+        private readonly PaymentMethodRepositoryInterface $paymentMethodRepository,
+        private readonly Config $config,
+        private readonly LoggerInterface $logger,
     )
     {
     }
@@ -60,16 +59,26 @@ class SynchronizeUpStreamPayPaymentData
      * @param int $orderId
      * @param int $quoteId
      * @param int $paymentId
+     *
      * @return void
      * @throws LocalizedException
      * @throws NoPaymentMethodFoundException
      */
-    public function execute(array $orderTransactionsResponse, int $orderId, int $quoteId, int $paymentId): void
+    public function execute(
+        array $orderTransactionsResponse,
+        int $orderId,
+        int $quoteId,
+        int $paymentId,
+    ): void
     {
         $parentPaymentId = null;
 
         if ($orderId !== 0) {
             foreach ($orderTransactionsResponse as $orderTransactionResponse) {
+                if (!$this->isValidTransactionToCreate($orderTransactionResponse)) {
+                    continue;
+                }
+
                 $this->log($orderTransactionResponse, $orderId);
 
                 //Create a row in payment table for each original transaction, it means transactions without
@@ -106,13 +115,14 @@ class SynchronizeUpStreamPayPaymentData
                     $orderTransactionResponse['id']
                 );
 
-                $this->createTransaction(
-                    $orderTransaction,
-                    $orderTransactionResponse,
-                    $orderId,
-                    $quoteId,
-                    $parentPaymentId
-                );
+                if (!$orderTransaction || !$orderTransaction->getEntityId()) {
+                    $this->orderTransactions->createTransactionFromResponse(
+                        $orderTransactionResponse,
+                        $orderId,
+                        $quoteId,
+                        $parentPaymentId
+                    );
+                }
             }
         }
     }
@@ -165,31 +175,20 @@ class SynchronizeUpStreamPayPaymentData
     }
 
     /**
-     * @param OrderTransactionsInterface $orderTransaction
-     * @param array $orderTransactionResponse
-     * @param int $orderId
-     * @param int $quoteId
-     * @param null|int $parentPaymentId
+     * @param array $transactionResponse
      *
-     * @return void
-     * @throws LocalizedException
+     * @return bool
      */
-    private function createTransaction(
-        OrderTransactionsInterface $orderTransaction,
-        array                      $orderTransactionResponse,
-        int                        $orderId,
-        int                        $quoteId,
-        ?int                       $parentPaymentId
-    ): void
+    private function isValidTransactionToCreate(array $transactionResponse): bool
     {
-        if (!$orderTransaction || !$orderTransaction->getEntityId()) {
-            //Create.
-            $this->orderTransactions->createTransactionFromResponse(
-                $orderTransactionResponse,
-                $orderId,
-                $quoteId,
-                $parentPaymentId
-            );
+        if ($transactionResponse['status']['action'] === OrderTransactions::AUTHORIZE_ACTION
+            && !isset($transactionResponse['parent_transaction_id'])) {
+            return true;
+        } elseif ($transactionResponse['status']['action'] === OrderTransactions::CAPTURE_ACTION
+            && !isset($transactionResponse['parent_transaction_id'])) {
+            return true;
         }
+
+        return false;
     }
 }
