@@ -217,12 +217,15 @@ class DuplicateService
                 )
             );
             $this->logger->critical($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
-            $this->eventManager->dispatch(
-                'cancel_purse_subscription',
-                [
-                    'subscriptionId' => $subscription->getEntityId()
-                ]
-            );
+            $subscription
+                ->setSubscriptionStatus(Subscription::CANCELED)
+                ->setPaymentStatus(Subscription::CANCELED)
+                ->setNextPaymentDate(null)
+            ;
+            $this->subscriptionRepository->save($subscription);
+
+            $parentSubscription->setSubscriptionStatus(Subscription::EXPIRED);
+            $this->subscriptionRepository->save($parentSubscription);
 
             $renewOrder->cancel();
             $this->orderRepository->save($renewOrder);

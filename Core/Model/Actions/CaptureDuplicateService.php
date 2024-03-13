@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace UpStreamPay\Core\Model\Actions;
 
-use Magento\Framework\Event\ManagerInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Sales\Api\CreditmemoManagementInterface;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\InvoiceRepositoryInterface;
@@ -29,9 +29,11 @@ use UpStreamPay\Client\Model\Client\ClientInterface;
 use UpStreamPay\Core\Api\Data\OrderPaymentInterface;
 use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
 use UpStreamPay\Core\Api\Data\SubscriptionInterface;
+use UpStreamPay\Core\Api\SubscriptionRepositoryInterface;
 use UpStreamPay\Core\Model\Config;
 use UpStreamPay\Core\Model\Config\Source\Debug;
 use UpStreamPay\Core\Model\OrderTransactions;
+use UpStreamPay\Core\Model\Subscription;
 
 /**
  * Class CaptureDuplicateService
@@ -48,12 +50,12 @@ class CaptureDuplicateService
      * @param InvoiceRepositoryInterface $invoiceRepository
      * @param OrderSender $orderSender
      * @param InvoiceSender $invoiceSender
-     * @param ManagerInterface $eventManager
      * @param OrderRepositoryInterface $orderRepository
      * @param CreditmemoFactory $creditmemoFactory
      * @param CreditmemoManagementInterface $creditmemoManagement
      * @param StatusResolver $statusResolver
      * @param Config $config
+     * @param SubscriptionRepositoryInterface $subscriptionRepository
      */
     public function __construct(
         private readonly LoggerInterface $logger,
@@ -63,12 +65,12 @@ class CaptureDuplicateService
         private readonly InvoiceRepositoryInterface $invoiceRepository,
         private readonly OrderSender $orderSender,
         private readonly InvoiceSender $invoiceSender,
-        private readonly ManagerInterface $eventManager,
         private readonly OrderRepositoryInterface $orderRepository,
         private readonly CreditmemoFactory $creditmemoFactory,
         private readonly CreditmemoManagementInterface $creditmemoManagement,
         private readonly StatusResolver $statusResolver,
-        private readonly Config $config
+        private readonly Config $config,
+        private readonly SubscriptionRepositoryInterface $subscriptionRepository
     )
     {
     }
@@ -81,6 +83,7 @@ class CaptureDuplicateService
      * @param null|OrderTransactionsInterface $capture
      *
      * @return void
+     * @throws LocalizedException
      */
     public function execute(
         Order $order,
@@ -253,15 +256,21 @@ class CaptureDuplicateService
      * @param OrderInterface $order
      *
      * @return void
+     * @throws LocalizedException
      */
     private function cancelOrder(SubscriptionInterface $subscription, OrderInterface $order): void
     {
-        $this->eventManager->dispatch(
-            'cancel_purse_subscription',
-            [
-                'subscriptionId' => $subscription->getEntityId()
-            ]
-        );
+        $subscription
+            ->setSubscriptionStatus(Subscription::CANCELED)
+            ->setPaymentStatus(Subscription::CANCELED)
+            ->setNextPaymentDate(null)
+        ;
+
+        $this->subscriptionRepository->save($subscription);
+
+        $parentSubscription = $this->subscriptionRepository->getParentSubscription($subscription);
+        $parentSubscription->setSubscriptionStatus(Subscription::EXPIRED);
+        $this->subscriptionRepository->save($parentSubscription);
 
         $order->cancel();
         $this->orderRepository->save($order);
