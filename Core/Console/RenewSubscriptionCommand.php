@@ -8,37 +8,49 @@
  *
  * Author: Claranet France <info@fr.clara.net>
  */
+declare(strict_types=1);
 
 namespace UpStreamPay\Core\Console;
 
 use Magento\Framework\App\Area;
+use Magento\Framework\App\State;
 use Magento\Framework\Console\Cli;
 use Magento\Framework\Exception\LocalizedException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use UpStreamPay\Core\Api\Data\SubscriptionInterface;
+use UpStreamPay\Core\Model\Config;
 use UpStreamPay\Core\Model\Subscription\RenewSubscriptionService;
 use UpStreamPay\Core\Model\SubscriptionRepository;
-use Magento\Framework\App\State;
 
+/**
+ * Class RenewSubscriptionCommand
+ *
+ * @package UpStreamPay\Core\Console
+ */
 class RenewSubscriptionCommand extends Command
 {
     /**
-     * Initialize dependencies.
-     *
-     * @param null $name
+     * @param SubscriptionRepository $subscriptionRepository
+     * @param RenewSubscriptionService $renewSubscriptionService
+     * @param State $state
+     * @param Config $config
+     * @param $name
      */
     public function __construct(
         private readonly SubscriptionRepository $subscriptionRepository,
         private readonly RenewSubscriptionService $renewSubscriptionService,
         private readonly State $state,
+        private readonly Config $config,
         $name = null
     )
     {
         parent::__construct($name);
     }
 
+    /**
+     * @return void
+     */
     protected function configure()
     {
         $this->setName('upstreampay:subscription:renew');
@@ -50,35 +62,41 @@ class RenewSubscriptionCommand extends Command
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return int|void
+     *
+     * @return int
      * @throws LocalizedException
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-
         $this->state->setAreaCode(Area::AREA_GLOBAL);
-        //TODO Check that we have enabled the recurring payments in admin before doing anything.
-        //TODO If disabled output a message to the user letting him know that the recurring payments are disabled.
-        //TODO Add a progressbar
-        try {
-            $subscriptionToRenew = $this->subscriptionRepository->getAllSubscriptionsToRenew();
-            if (!empty($subscriptionToRenew)) {
-                /** @var SubscriptionInterface $subscription */
-                foreach ($subscriptionToRenew as $subscription) {
-                    /** Call renewSubService */
-                    $this->renewSubscriptionService->execute($subscription);
+
+        if ($this->config->getSubscriptionPaymentEnabled()) {
+            //TODO Add a progressbar
+            try {
+                $subscriptionToRenew = $this->subscriptionRepository->getAllSubscriptionsToRenew();
+                if (!empty($subscriptionToRenew)) {
+                    foreach ($subscriptionToRenew as $subscription) {
+                        $this->renewSubscriptionService->execute($subscription);
+                    }
+                } else {
+                    $output->writeln(
+                        "<info>There are no subscriptions to renew for today's date.</info>",
+                        OutputInterface::OUTPUT_NORMAL
+                    );
                 }
-                return Cli::RETURN_SUCCESS;
-            } else {
+            } catch (\Exception $exception) {
+                $msg = $exception->getMessage();
                 $output->writeln("<error>$msg</error>", OutputInterface::OUTPUT_NORMAL);
+
+                return Cli::RETURN_FAILURE;
             }
-
-
-
-        } catch (\Exception $e) {
-            $msg = $e->getMessage();
-            $output->writeln("<error>$msg</error>", OutputInterface::OUTPUT_NORMAL);
-            return Cli::RETURN_FAILURE;
+        } else {
+            $output->writeln(
+                "<info>The reccuring payments are disabled, enable it in admin.</info>",
+                OutputInterface::OUTPUT_NORMAL
+            );
         }
+
+        return Cli::RETURN_SUCCESS;
     }
 }
