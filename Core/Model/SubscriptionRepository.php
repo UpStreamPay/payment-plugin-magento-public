@@ -224,7 +224,9 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
     }
 
     /**
-     * @inheritDoc
+     * Return Subscriptions that need to be renewed
+     *
+     * @return SubscriptionInterface[]
      * @throws LocalizedException
      */
     public function getAllSubscriptionsToRenew(): array
@@ -237,8 +239,17 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
         )->addFilter(
             SubscriptionInterface::PAYMENT_STATUS,
             Subscription::TO_PAY
+        )->addFilter(
+            SubscriptionInterface::SUBSCRIPTION_STATUS,
+            Subscription::DISABLED
+        )->addFilter(
+            SubscriptionInterface::ORDER_ID,
+            true,
+            'null'
         );
+
         $searchCriteria = $this->searchCriteriaBuilder->create();
+
         return $this->getList($searchCriteria)->getItems();
     }
 
@@ -249,5 +260,36 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
     public function getParentSubscription(SubscriptionInterface $subscription): SubscriptionInterface
     {
         return $this->getById($subscription->getParentSubscriptionId());
+    }
+
+    /**
+     * @param int $orderId
+     *
+     * @return SubscriptionInterface[]
+     * @throws LocalizedException
+     */
+    public function getByOrderId(int $orderId): array
+    {
+        $searchCriteria = $this->searchCriteriaBuilder
+            ->addFilter(SubscriptionInterface::ORDER_ID, $orderId)
+            ->create()
+        ;
+
+        return $this->getList($searchCriteria)->getItems();
+    }
+
+    /**
+     * @param string $field
+     * @param string $value
+     *
+     * @return SubscriptionInterface
+     */
+    public function getBy(string $field, string $value): SubscriptionInterface
+    {
+        /** @var SubscriptionInterface $subscription */
+        $subscription = $this->subscriptionFactory->create();
+        $this->resourceModel->load($subscription, $value, $field);
+
+        return $subscription;
     }
 }
