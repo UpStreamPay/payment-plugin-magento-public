@@ -14,6 +14,7 @@ namespace UpStreamPay\Core\Model\Synchronize;
 
 use Magento\Framework\Exception\LocalizedException;
 use Psr\Log\LoggerInterface;
+use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
 use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
 use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
 use UpStreamPay\Core\Api\PaymentMethodRepositoryInterface;
@@ -150,6 +151,33 @@ class SynchronizeUpStreamPayPaymentData
             'Payment method %s not found in DB when creationg transaction for order with ID %s.',
             $paymentMethodName,
             $orderId
+        );
+
+        $this->logger->critical($errorMessage);
+
+        throw new NoPaymentMethodFoundException($errorMessage);
+    }
+
+    /**
+     * @param OrderTransactionsInterface $transaction
+     *
+     * @return string
+     * @throws LocalizedException
+     * @throws NoPaymentMethodFoundException
+     */
+    public function getPaymentMethodTypeFromTransaction(OrderTransactionsInterface $transaction): string
+    {
+        $paymentMethodName = $transaction->getMethod();
+        $paymentMethod = $this->paymentMethodRepository->getByMethod($paymentMethodName);
+
+        if ($paymentMethod && $paymentMethod->getEntityId()) {
+            return $paymentMethod->getType();
+        }
+
+        $errorMessage = sprintf(
+            'Payment method %s not found in DB when creationg transaction for order with ID %s.',
+            $paymentMethodName,
+            $transaction->getOrderId()
         );
 
         $this->logger->critical($errorMessage);
