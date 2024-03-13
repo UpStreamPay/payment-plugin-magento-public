@@ -186,9 +186,9 @@
         <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="ENTITY ID"/>
         <column xsi:type="int" name="parent_subscription_id" unsigned="true" nullable="true" comment="Previous subscription ENTITY ID"/>
         <column xsi:type="varchar" name="subscription_identifier" nullable="false" length="255" comment="Subscription identifier"/>
-        <column xsi:type="varchar" name="subscription_status" nullable="false" length="10" default="disabled"
+        <column xsi:type="varchar" name="subscription_status" nullable="false" length="255" default="disabled"
                 comment="Subscription status"/>
-        <column xsi:type="varchar" name="payment_status" nullable="false" length="20" default="to_pay" comment="Payment Status"/>
+        <column xsi:type="varchar" name="payment_status" nullable="false" length="255" default="to_pay" comment="Payment Status"/>
         <column xsi:type="float" name="product_price" scale="4" precision="12" nullable="false" default="0.00" comment="Product price"/>
         <column xsi:type="varchar" name="product_name" length="255" comment="Product Name"/>
         <column xsi:type="varchar" name="product_sku" length="255" comment="Product Sku"/>
