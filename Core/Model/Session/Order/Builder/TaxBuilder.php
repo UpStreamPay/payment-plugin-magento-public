@@ -85,6 +85,8 @@ class TaxBuilder implements BuilderInterface
             return $itemsByTaxRate;
         }
 
+        $taxPercent = sprintf('%.4f', $item->getTaxPercent());
+
         if (!isset($itemsByTaxRate[$taxPercent])) {
             $itemsByTaxRate[$taxPercent] = 0;
         }
