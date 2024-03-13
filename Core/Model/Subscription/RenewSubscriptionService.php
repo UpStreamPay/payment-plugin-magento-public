@@ -14,13 +14,10 @@ namespace UpStreamPay\Core\Model\Subscription;
 
 use Magento\Catalog\Model\ProductRepository;
 use Magento\Framework\Event\ManagerInterface as EventManager;
-use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Psr\Log\LoggerInterface;
 use UpStreamPay\Core\Api\Data\SubscriptionInterface;
 use UpStreamPay\Core\Model\Actions\DuplicateService;
-use UpStreamPay\Core\Model\Subscription;
 use UpStreamPay\Core\Model\Subscription\Renew\CartManagement;
 use UpStreamPay\Core\Model\SubscriptionRepository;
 
@@ -57,41 +54,57 @@ class RenewSubscriptionService
     }
 
     /**
+     * Renew the given subscription.
+     *
+     * - First a new quote is created.
+     * - Then a new order is created.
+     * - The duplication of the authorize transaction & capture process is then called.
+     *
      * @param SubscriptionInterface $subscription
+     *
      * @return void
-     * @throws NoSuchEntityException
-     * @throws LocalizedException
      */
     public function execute(SubscriptionInterface $subscription): void
     {
-        $product = $this->productRepository->get($subscription->getProductSku());
+        try {
+            $product = $this->productRepository->get($subscription->getProductSku());
 
-        /**
-         * Check Price Variation
-         */
-        if ($subscription->getProductPrice() !== $product->getPrice()) {
-            $subscription->setProductPrice((float)$product->getPrice());
-            $this->subscriptionRepository->save($subscription);
+            //We always use the current product price, so if it's different, we update the subscription price & this
+            //event can be used by the merchant to trigger some custom logic abt price change (send customer email...).
+            if ($subscription->getProductPrice() !== $product->getPrice()) {
+                $subscription->setProductPrice((float)$product->getPrice());
+                $this->subscriptionRepository->save($subscription);
 
-            $this->eventManager->dispatch('subscription_usp_price_update', [
-                'newProductPrice' => $product->getPrice(),
-                'subscription' => $subscription,
-                'sku' => $product->getSku()
-            ]);
+                $this->eventManager->dispatch('subscription_usp_price_update', [
+                    'newProductPrice' => $product->getPrice(),
+                    'subscription' => $subscription,
+                    'sku' => $product->getSku(),
+                ]);
+            }
+
+            $parentSubscription = $this->subscriptionRepository->getParentSubscription($subscription);
+            $order = $this->orderRepository->get($parentSubscription->getOrderId());
+        } catch (\Throwable $exception) {
+            //If we can't even retrieve the product or update the subscription price, then no need to go even further.
+            $this->logger->error(
+                sprintf(
+                    'Error while trying to renew the subscription %s before even creating the order, cancelling.',
+                    $subscription->getEntityId()
+                )
+            );
+            $this->cancelSubscription($subscription, $exception);
+
+            return;
         }
-
-        $parentSubscription = $this->subscriptionRepository->getParentSubscription($subscription);
-        $order = $this->orderRepository->get($parentSubscription->getOrderId());
 
         try {
             $quote = $this->cartManagementRenew->createQuote($subscription->getProductSku(), (int)$order->getQuoteId());
         } catch (\Throwable $exception) {
             //In case of error while creating the quote, cancel the subscription to renew & don't process any further.
-            $this->cancelSubscription($subscription);
+            $this->cancelSubscription($subscription, $exception);
             $this->logger->critical(
                 'The quote could not be created, no payment has been made & the subscription has been canceled.'
             );
-            $this->logger->critical($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
 
             return;
         }
@@ -108,43 +121,39 @@ class RenewSubscriptionService
             $this->orderRepository->save($renewOrder);
         } catch (\Throwable $exception) {
             //In case of error while creating the order, cancel the subscription to renew & don't process any further.
-            $this->cancelSubscription($subscription);
+            $this->cancelSubscription($subscription, $exception);
 
             $this->logger->critical(
                 'The order could not be created, no payment has been made & the subscription has been canceled.'
             );
-            $this->logger->critical($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
 
             return;
         }
 
-        try {
-            $this->duplicateService->execute($quote, $subscription->getOriginalTransactionId(), $renewOrder);
-        } catch (\Throwable $exception) {
-            echo $exception->getTraceAsString();
-        }
-
-
+        $this->duplicateService->execute(
+            $quote,
+            $subscription->getOriginalTransactionId(),
+            $renewOrder,
+            $subscription,
+            $parentSubscription
+        );
     }
 
     /**
      * @param SubscriptionInterface $subscription
+     * @param \Throwable $exception
      *
      * @return void
-     * @throws LocalizedException
      */
-    private function cancelSubscription(SubscriptionInterface $subscription): void
+    private function cancelSubscription(SubscriptionInterface $subscription, \Throwable $exception): void
     {
-        $subscription
-            ->setSubscriptionStatus(Subscription::CANCELED)
-            ->setPaymentStatus(Subscription::CANCELED)
-            ->setNextPaymentDate(null)
-        ;
-
-        $this->subscriptionRepository->save($subscription);
-
-        $this->logger->critical(
-            'There was an error while trying to renew the subscription with ID: ' . $subscription->getEntityId()
+        $this->eventManager->dispatch(
+            'cancel_purse_subscription',
+            [
+                'subscriptionId', $subscription->getEntityId()
+            ]
         );
+
+        $this->logger->error($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
     }
 }
