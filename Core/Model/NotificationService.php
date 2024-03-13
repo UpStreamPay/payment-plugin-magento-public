@@ -15,6 +15,8 @@ namespace UpStreamPay\Core\Model;
 use Magento\Framework\Event\ManagerInterface as EventManager;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Payment\Model\MethodInterface;
+use Magento\Quote\Api\CartRepositoryInterface;
+use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\InvoiceRepositoryInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Sales\Model\Order;
@@ -23,11 +25,16 @@ use Magento\Sales\Model\Order\Payment\Processor;
 use Psr\Log\LoggerInterface;
 use Throwable;
 use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
+use UpStreamPay\Core\Api\Data\SubscriptionInterface;
+use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
 use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
+use UpStreamPay\Core\Api\SubscriptionRepositoryInterface;
 use UpStreamPay\Core\Exception\AuthorizeErrorException;
 use UpStreamPay\Core\Exception\CaptureErrorException;
 use UpStreamPay\Core\Exception\OrderErrorException;
 use UpStreamPay\Core\Model\Actions\CancelService;
+use UpStreamPay\Core\Model\Actions\CaptureDuplicateService;
+use UpStreamPay\Core\Model\Actions\DuplicateService;
 use UpStreamPay\Core\Model\Config\Source\Debug;
 
 /**
@@ -46,6 +53,11 @@ class NotificationService
      * @param InvoiceRepositoryInterface $invoiceRepository
      * @param EventManager $eventManager
      * @param CancelService $cancelService
+     * @param CartRepositoryInterface $cartRepository
+     * @param DuplicateService $duplicateService
+     * @param SubscriptionRepositoryInterface $subscriptionRepository
+     * @param CaptureDuplicateService $captureDuplicate
+     * @param OrderPaymentRepositoryInterface $orderPaymentRepository
      */
     public function __construct(
         private readonly Config $config,
@@ -55,7 +67,12 @@ class NotificationService
         private readonly LoggerInterface $logger,
         private readonly InvoiceRepositoryInterface $invoiceRepository,
         private readonly EventManager $eventManager,
-        private readonly CancelService $cancelService
+        private readonly CancelService $cancelService,
+        private readonly CartRepositoryInterface $cartRepository,
+        private readonly DuplicateService $duplicateService,
+        private readonly SubscriptionRepositoryInterface $subscriptionRepository,
+        private readonly CaptureDuplicateService $captureDuplicate,
+        private readonly OrderPaymentRepositoryInterface $orderPaymentRepository
     ) {
     }
 
@@ -123,19 +140,23 @@ class NotificationService
         $transaction->setStatus($notification['status']['state']);
         $this->orderTransactionsRepository->save($transaction);
 
-        try {
-            if ($this->config->getPaymentAction() === MethodInterface::ACTION_AUTHORIZE) {
-                $this->paymentProcessor->authorize($payment, true, $order->getBaseTotalDue());
-            } elseif ($this->config->getPaymentAction() === MethodInterface::ACTION_ORDER) {
-                $this->paymentProcessor->order($payment, $order->getBaseTotalDue());
+        if ($this->config->getSubscriptionPaymentEnabled() && $transaction->getSubscriptionId() !== null) {
+            $this->updateDuplicateAuthorize($order, $transaction);
+        } else {
+            try {
+                if ($this->config->getPaymentAction() === MethodInterface::ACTION_AUTHORIZE) {
+                    $this->paymentProcessor->authorize($payment, true, $order->getBaseTotalDue());
+                } elseif ($this->config->getPaymentAction() === MethodInterface::ACTION_ORDER) {
+                    $this->paymentProcessor->order($payment, $order->getBaseTotalDue());
+                }
+            } catch (AuthorizeErrorException | OrderErrorException $authorizeErrorException) {
+                //This is thrown by the authorize / order function in UpStream Pay payment method.
+                $this->eventManager->dispatch('sales_order_usp_payment_error', ['payment' => $payment]);
+                $payment->deny();
             }
-        } catch (AuthorizeErrorException | OrderErrorException $authorizeErrorException) {
-            //This is thrown by the authorize / order function in UpStream Pay payment method.
-            $this->eventManager->dispatch('sales_order_usp_payment_error', ['payment' => $payment]);
-            $payment->deny();
-        }
 
-        $this->orderRepository->save($order);
+            $this->orderRepository->save($order);
+        }
     }
 
     /**
@@ -165,62 +186,66 @@ class NotificationService
             $payment = $order->getPayment();
         }
 
-        try {
-            if ($transaction->getInvoiceId() !== null) {
-                if ($this->checkIfOrderActionWithTransactionInError($transaction)) {
-                    //If the transaction is in error while we are in action order mode, then throw exception
-                    //right away so the invoice & the rest of the order can be canceled.
-                    throw new CaptureErrorException('Received notification about a transaction in error');
+        if ($this->config->getSubscriptionPaymentEnabled() && $transaction->getSubscriptionId() !== null) {
+            $this->updateCaptureDuplicate($order, $transaction);
+        } else {
+            try {
+                if ($transaction->getInvoiceId() !== null) {
+                    if ($this->checkIfOrderActionWithTransactionInError($transaction)) {
+                        //If the transaction is in error while we are in action order mode, then throw exception
+                        //right away so the invoice & the rest of the order can be canceled.
+                        throw new CaptureErrorException('Received notification about a transaction in error');
+                    } else {
+                        $this->paymentProcessor->capture($payment, $invoice);
+                    }
+
+                    //After capture is done trigger pay of the invoice.
+                    if ($invoice->getIsPaid()) {
+                        $invoice->pay();
+                    }
+
+                    $this->orderRepository->save($order);
+                    $this->invoiceRepository->save($invoice);
+                } elseif ($this->config->getPaymentAction() === MethodInterface::ACTION_ORDER
+                    && $transaction->getInvoiceId() === null
+                    && $order->getStatus() === Order::STATE_PAYMENT_REVIEW) {
+                    //Make sure that we trigger this only when we are in order action, with no invoice &
+                    //an order that is in payment review.
+                    $this->paymentProcessor->order($payment, $order->getBaseTotalDue());
+                    $this->orderRepository->save($order);
+                }
+            } catch (Throwable $exception) {
+                $this->eventManager->dispatch('sales_order_usp_payment_error', ['payment' => $payment]);
+                $order->addCommentToStatusHistory(
+                    'Notification has error on capture transaction, denying the payment'
+                );
+                $this->logger->critical(
+                    $exception->getMessage(),
+                    [
+                        'exception' => $exception->getTraceAsString(),
+                    ]
+                );
+
+                //Based on the payment action used, the error process will not be the same.
+                if ($this->config->getPaymentAction() === MethodInterface::ACTION_ORDER
+                    && (int)$invoice->getState() !== Invoice::STATE_PAID) {
+                    $order->addCommentToStatusHistory($exception->getMessage());
+
+                    //Cancel the invoice we are trying tp pay.
+                    $invoice->cancel();
+
+                    $this->invoiceRepository->save($invoice);
+                    $this->orderRepository->save($invoice->getOrder());
+
+                    //Refund & void the transactions in UpStream Pay & cancel the order that has not been
+                    //invoiced yet.
+                    $this->cancelService->execute($order);
                 } else {
-                    $this->paymentProcessor->capture($payment, $invoice);
+                    $payment->deny();
+                    //Very important to save the order coming from the payment because several things will be
+                    //set on this object.
+                    $this->orderRepository->save($payment->getOrder());
                 }
-
-                //After capture is done trigger pay of the invoice.
-                if ($invoice->getIsPaid()) {
-                    $invoice->pay();
-                }
-
-                $this->orderRepository->save($order);
-                $this->invoiceRepository->save($invoice);
-            } elseif ($this->config->getPaymentAction() === MethodInterface::ACTION_ORDER
-                && $transaction->getInvoiceId() === null
-                && $order->getStatus() === Order::STATE_PAYMENT_REVIEW) {
-                //Make sure that we trigger this only when we are in order action, with no invoice &
-                //an order that is in payment review.
-                $this->paymentProcessor->order($payment, $order->getBaseTotalDue());
-                $this->orderRepository->save($order);
-            }
-        } catch (Throwable $exception) {
-            $this->eventManager->dispatch('sales_order_usp_payment_error', ['payment' => $payment]);
-            $order->addCommentToStatusHistory(
-                'Notification has error on capture transaction, denying the payment'
-            );
-            $this->logger->critical(
-                $exception->getMessage(),
-                [
-                    'exception' => $exception->getTraceAsString()
-                ]
-            );
-
-            //Based on the payment action used, the error process will not be the same.
-            if ($this->config->getPaymentAction() === MethodInterface::ACTION_ORDER
-                && (int)$invoice->getState() !== Invoice::STATE_PAID) {
-                $order->addCommentToStatusHistory($exception->getMessage());
-
-                //Cancel the invoice we are trying tp pay.
-                $invoice->cancel();
-
-                $this->invoiceRepository->save($invoice);
-                $this->orderRepository->save($invoice->getOrder());
-
-                //Refund & void the transactions in UpStream Pay & cancel the order that has not been
-                //invoiced yet.
-                $this->cancelService->execute($order);
-            } else {
-                $payment->deny();
-                //Very important to save the order coming from the payment because several things will be
-                //set on this object.
-                $this->orderRepository->save($payment->getOrder());
             }
         }
     }
@@ -273,5 +298,103 @@ class NotificationService
     {
         return $this->config->getPaymentAction() === MethodInterface::ACTION_ORDER
         && $transaction->getStatus() === OrderTransactions::ERROR_STATUS;
+    }
+
+    /**
+     * In case we have a notification regarding a subscription, use the duplicate service.
+     *
+     * @param Order $order
+     * @param OrderTransactionsInterface $transaction
+     *
+     * @return void
+     * @throws LocalizedException
+     */
+    private function updateDuplicateAuthorize(OrderInterface $order, OrderTransactionsInterface $transaction): void
+    {
+        $subscription = null;
+
+        try {
+            $quote = $this->cartRepository->get((int)$order->getQuoteId());
+            $subscription = $this->subscriptionRepository->getById($transaction->getSubscriptionId());
+            $parentSubscription = $this->subscriptionRepository->getParentSubscription($subscription);
+            $this->duplicateService->execute(
+                $quote,
+                $transaction->getTransactionId(),
+                $order,
+                $subscription,
+                $parentSubscription,
+                $transaction
+            );
+        } catch (Throwable $exception) {
+            //In case of an error not linked to the API or authorize status, we have no choice but to cancel.
+            $this->logger->error(
+                sprintf(
+                    'There was an error while trying to update authorize duplicate %s after notification',
+                    $transaction->getTransactionId()
+                )
+            );
+
+            $this->cancelOrder($order, $exception, $subscription);
+        }
+    }
+
+    /**
+     * In case we have a notification regarding a subscription, use the duplicate service.
+     *
+     * @param Order $order
+     * @param OrderTransactionsInterface $transaction
+     *
+     * @return void
+     * @throws LocalizedException
+     */
+    private function updateCaptureDuplicate(Order $order, OrderTransactionsInterface $transaction): void
+    {
+        $subscription = null;
+
+        try {
+            $subscription = $this->subscriptionRepository->getById($transaction->getSubscriptionId());
+            $orderPayment = $this->orderPaymentRepository->getById($transaction->getParentPaymentId());
+            $this->captureDuplicate->execute($order, $orderPayment, $subscription, null, $transaction);
+        } catch (Throwable $exception) {
+            //In case of an error not linked to the API or capture status, we have no choice but to cancel.
+            $this->logger->error(
+                sprintf(
+                    'There was an error while trying to update capture duplicate %s after notification',
+                    $transaction->getTransactionId()
+                )
+            );
+
+            $this->cancelOrder($order, $exception, $subscription);
+        }
+    }
+
+    /**
+     * @param Order $order
+     * @param Throwable $exception
+     * @param null|SubscriptionInterface $subscription
+     *
+     * @return void
+     * @throws LocalizedException
+     */
+    private function cancelOrder(Order $order, Throwable $exception, ?SubscriptionInterface $subscription): void
+    {
+        $this->logger->critical($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
+
+        if ($subscription && $subscription->getEntityId()) {
+            $subscription
+                ->setSubscriptionStatus(Subscription::CANCELED)
+                ->setPaymentStatus(Subscription::CANCELED)
+                ->setNextPaymentDate(null)
+            ;
+
+            $this->subscriptionRepository->save($subscription);
+
+            $parentSubscription = $this->subscriptionRepository->getParentSubscription($subscription);
+            $parentSubscription->setSubscriptionStatus(Subscription::EXPIRED);
+            $this->subscriptionRepository->save($parentSubscription);
+        }
+
+        $order->cancel();
+        $this->orderRepository->save($order);
     }
 }
