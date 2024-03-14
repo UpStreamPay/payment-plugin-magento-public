@@ -12,16 +12,16 @@ declare(strict_types=1);
 
 namespace UpStreamPay\Client\Model\Client;
 
+use GuzzleHttp\ClientFactory;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
 use JsonException;
+use Magento\Framework\Event\ManagerInterface as EventManager;
 use Psr\Log\LoggerInterface;
 use UpStreamPay\Client\Exception\NoSessionFoundException;
 use UpStreamPay\Client\Model\Token\TokenService;
 use UpStreamPay\Core\Exception\ConflictRetrieveTransactionsException;
 use UpStreamPay\Core\Model\Config;
-use GuzzleHttp\ClientFactory;
-use Magento\Framework\Event\ManagerInterface as EventManager;
 use UpStreamPay\Core\Model\Config\Source\Debug;
 
 /**
@@ -389,6 +389,13 @@ class Client implements ClientInterface
     }
 
     /**
+     * Duplicate the given authorize transaction.
+     * The new authorize transaction will be linked to the same session as the given authorize transaction.
+     *
+     * @param string $transactionId
+     * @param array $body
+     *
+     * @return array
      * @throws GuzzleException
      * @throws JsonException
      */
@@ -407,6 +414,12 @@ class Client implements ClientInterface
         );
 
         $duplicateResponse = $this->callApi($this->buildHeader(), $body, self::POST, $uri, []);
+
+        $this->eventManager->dispatch('sales_order_usp_after_duplicate', [
+            'transactionId' => $transactionId,
+            'body' => $body,
+            'duplicateResponse' => $duplicateResponse
+        ]);
 
         return $duplicateResponse;
     }

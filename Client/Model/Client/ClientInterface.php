@@ -130,5 +130,16 @@ interface ClientInterface
      */
     public function refund(string $transactionId, array $body): array;
 
+    /**
+     * Duplicate the given authorize transaction.
+     * The new authorize transaction will be linked to the same session as the given authorize transaction.
+     *
+     * @param string $transactionId
+     * @param array $body
+     *
+     * @return array
+     * @throws GuzzleException
+     * @throws JsonException
+     */
     public function duplicate(string $transactionId, array $body): array;
 }
