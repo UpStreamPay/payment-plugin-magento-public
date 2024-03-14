@@ -117,7 +117,9 @@ class SaveSubscriptionService
                         (int)$order->getEntityId(),
                         $product,
                         $transactionId,
-                        $subscriptionDurationAttrCode
+                        $subscriptionDurationAttrCode,
+                        (float)$invoiceItem->getBaseRowTotalInclTax(),
+                        $order->getCustomerId()
                     );
                     $futureSubscription = $this->createAndSaveSubscription(
                         $incrementId,
@@ -125,8 +127,10 @@ class SaveSubscriptionService
                         $product,
                         $transactionId,
                         $subscriptionDurationAttrCode,
+                        (float)$invoiceItem->getBaseRowTotalInclTax(),
+                        $order->getCustomerId(),
                         true,
-                        $subscription->getEntityId()
+                        $subscription->getEntityId(),
                     );
                     $this->eventManager->dispatch(
                         'new_usp_subscription_saved',
@@ -163,6 +167,8 @@ class SaveSubscriptionService
                                 $product,
                                 $subscription->getOriginalTransactionId(),
                                 $subscriptionDurationAttrCode,
+                                (float)$invoiceItem->getBaseRowTotalInclTax(),
+                                $order->getCustomerId(),
                                 true,
                                 $subscription->getEntityId()
                             );
@@ -189,6 +195,8 @@ class SaveSubscriptionService
      * @param ProductInterface $product
      * @param string $transactionId
      * @param string $subscriptionDurationAttrCode
+     * @param float $subscriptionTotal
+     * @param null|int $customerId
      * @param bool $future
      * @param null|int $parentSubscriptionId
      *
@@ -201,18 +209,19 @@ class SaveSubscriptionService
         ProductInterface $product,
         string $transactionId,
         string $subscriptionDurationAttrCode,
+        float $subscriptionTotal,
+        ?int $customerId = null,
         bool $future = false,
-        ?int $parentSubscriptionId = null
+        ?int $parentSubscriptionId = null,
     ): SubscriptionInterface
     {
         $subscription = $this->subscriptionFactory->create()
             ->setSubscriptionIdentifier($product->getSku() . '_' . $incrementId)
-            ->setProductPrice((float)$product->getPrice())
+            ->setProductPrice($subscriptionTotal)
             ->setProductName($product->getName())
             ->setProductSku($product->getSku())
             ->setOriginalTransactionId($transactionId);
 
-        $customerId = $order->getCustomerId();
         if ($customerId) {
             $subscription->setCustomerId((int)$customerId);
         }
