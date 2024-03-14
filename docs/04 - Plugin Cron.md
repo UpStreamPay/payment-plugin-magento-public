@@ -4,10 +4,22 @@ You can configure the cron task features in the Adobe Commerce administration by
 
 ## General
 
-### Subscriptions cron frequency
-...
+### Subscriptions cron
+The cron `subscription_payment` is used to renew the subscriptions for today's date.
 
-### Subscriptions retry cron frequency
+**This cron must run ONCE daily, there is no need to run it more than once a day & you cannot skip a day.**
+
+To be eligible to a renewal, a subscription must:
+- have the next payment date set to today's date.
+- have the payment status set to `to_pay`.
+- have the subscription status set to `disabled`.
+- have the order id set to `null`.
+
+The class used for the cron is `UpStreamPay\Core\Cron\SubscriptionPaymentExecution`.
+
+If you'd to run an external cron to run the command & disable this one you can.
+
+### Subscriptions retry cron
 ...
 
 ## Cron group

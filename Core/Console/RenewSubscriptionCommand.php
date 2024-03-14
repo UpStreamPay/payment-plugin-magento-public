@@ -105,7 +105,7 @@ class RenewSubscriptionCommand extends Command
                     );
                 }
             } catch (\Exception $exception) {
-                $this->logger->error('Error while trying to run cron to renew the subscription of todays date.');
+                $this->logger->error('Error while trying to run command to renew the subscription of todays date.');
                 $this->logger->error($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
 
                 $msg = $exception->getMessage();
@@ -114,7 +114,7 @@ class RenewSubscriptionCommand extends Command
                 return Cli::RETURN_FAILURE;
             }
         } else {
-            $this->logger->error('Renew subscription cron is running but the subscription feature is disabled.');
+            $this->logger->error('Renew subscription command is running but the subscription feature is disabled.');
 
             $output->writeln(
                 "<info>The reccuring payments are disabled, enable it in admin.</info>",
