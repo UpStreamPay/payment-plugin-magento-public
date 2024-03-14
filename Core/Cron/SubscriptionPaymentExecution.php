@@ -14,6 +14,8 @@ namespace UpStreamPay\Core\Cron;
 
 use Psr\Log\LoggerInterface;
 use UpStreamPay\Core\Model\Config;
+use UpStreamPay\Core\Model\Subscription\RenewSubscriptionService;
+use UpStreamPay\Core\Model\SubscriptionRepository;
 
 /**
  * Class SubscriptionPaymentExecution
@@ -24,23 +26,59 @@ use UpStreamPay\Core\Model\Config;
  *
  * @codeCoverageIgnore
  */
-class SubscriptionPaymentExecution {
+class SubscriptionPaymentExecution
+{
     public function __construct(
         private readonly LoggerInterface $logger,
-        private readonly Config $config
+        private readonly Config $config,
+        private readonly SubscriptionRepository $subscriptionRepository,
+        private readonly RenewSubscriptionService $renewSubscriptionService
     )
-    {}
+    {
+    }
 
     /**
-     * Write to system.log
+     * Renew subscription cron.
      *
      * @return void
      */
     public function execute(): void
     {
+        if ($this->config->getDebugMode()) {
+            $this->logger->debug('Cron renewal process start.');
+        }
+
         if ($this->config->getSubscriptionPaymentEnabled()) {
-            //TODO implement proper logic (should only call one service).
-            $this->logger->info('Cron Works');
+            try {
+                $subscriptionToRenew = $this->subscriptionRepository->getAllSubscriptionsToRenew();
+                if (!empty($subscriptionToRenew)) {
+                    foreach ($subscriptionToRenew as $subscription) {
+                        if ($this->config->getDebugMode()) {
+                            $this->logger->debug(
+                                sprintf(
+                                    'Attempting to renew subscription with ID %s',
+                                    $subscription->getEntityId()
+                                )
+                            );
+                        }
+
+                        $this->renewSubscriptionService->execute($subscription);
+                    }
+                } else {
+                    if ($this->config->getDebugMode()) {
+                        $this->logger->debug('No subscription to renew found for the day.');
+                    }
+                }
+            } catch (\Throwable $exception) {
+                $this->logger->error('Error while trying to run cron to renew the subscription of todays date.');
+                $this->logger->error($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
+            }
+        } else {
+            $this->logger->error('Renew subscription cron is running but the subscription feature is disabled.');
+        }
+
+        if ($this->config->getDebugMode()) {
+            $this->logger->debug('Cron renewal process done.');
         }
     }
 }

@@ -19,10 +19,10 @@ use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
 use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
 use UpStreamPay\Core\Api\PaymentMethodRepositoryInterface;
 use UpStreamPay\Core\Exception\NoPaymentMethodFoundException;
-use UpStreamPay\Core\Model\OrderPayment;
-use UpStreamPay\Core\Model\OrderTransactions;
 use UpStreamPay\Core\Model\Config;
 use UpStreamPay\Core\Model\Config\Source\Debug;
+use UpStreamPay\Core\Model\OrderPayment;
+use UpStreamPay\Core\Model\OrderTransactions;
 
 /**
  * Class SynchronizeUpStreamPayPaymentData
@@ -48,7 +48,8 @@ class SynchronizeUpStreamPayPaymentData
         private readonly PaymentMethodRepositoryInterface $paymentMethodRepository,
         private readonly Config $config,
         private readonly LoggerInterface $logger,
-    ) {
+    )
+    {
     }
 
     /**
@@ -64,12 +65,21 @@ class SynchronizeUpStreamPayPaymentData
      * @throws LocalizedException
      * @throws NoPaymentMethodFoundException
      */
-    public function execute(array $orderTransactionsResponse, int $orderId, int $quoteId, int $paymentId): void
+    public function execute(
+        array $orderTransactionsResponse,
+        int $orderId,
+        int $quoteId,
+        int $paymentId,
+    ): void
     {
         $parentPaymentId = null;
 
         if ($orderId !== 0) {
             foreach ($orderTransactionsResponse as $orderTransactionResponse) {
+                if (!$this->isValidTransactionToCreate($orderTransactionResponse)) {
+                    continue;
+                }
+
                 $this->log($orderTransactionResponse, $orderId);
 
                 //Create a row in payment table for each original transaction, it means transactions without
@@ -106,13 +116,14 @@ class SynchronizeUpStreamPayPaymentData
                     $orderTransactionResponse['id']
                 );
 
-                $this->createTransaction(
-                    $orderTransaction,
-                    $orderTransactionResponse,
-                    $orderId,
-                    $quoteId,
-                    $parentPaymentId
-                );
+                if (!$orderTransaction || !$orderTransaction->getEntityId()) {
+                    $this->orderTransactions->createTransactionFromResponse(
+                        $orderTransactionResponse,
+                        $orderId,
+                        $quoteId,
+                        $parentPaymentId
+                    );
+                }
             }
         }
     }
@@ -148,6 +159,33 @@ class SynchronizeUpStreamPayPaymentData
     }
 
     /**
+     * @param OrderTransactionsInterface $transaction
+     *
+     * @return string
+     * @throws LocalizedException
+     * @throws NoPaymentMethodFoundException
+     */
+    public function getPaymentMethodTypeFromTransaction(OrderTransactionsInterface $transaction): string
+    {
+        $paymentMethodName = $transaction->getMethod();
+        $paymentMethod = $this->paymentMethodRepository->getByMethod($paymentMethodName);
+
+        if ($paymentMethod && $paymentMethod->getEntityId()) {
+            return $paymentMethod->getType();
+        }
+
+        $errorMessage = sprintf(
+            'Payment method %s not found in DB when creationg transaction for order with ID %s.',
+            $paymentMethodName,
+            $transaction->getOrderId()
+        );
+
+        $this->logger->critical($errorMessage);
+
+        throw new NoPaymentMethodFoundException($errorMessage);
+    }
+
+    /**
      * @param array $orderTransactionResponse
      * @param int $orderId
      *
@@ -165,31 +203,20 @@ class SynchronizeUpStreamPayPaymentData
     }
 
     /**
-     * @param OrderTransactionsInterface $orderTransaction
-     * @param array $orderTransactionResponse
-     * @param int $orderId
-     * @param int $quoteId
-     * @param null|int $parentPaymentId
+     * @param array $transactionResponse
      *
-     * @return void
-     * @throws LocalizedException
+     * @return bool
      */
-    private function createTransaction(
-        OrderTransactionsInterface $orderTransaction,
-        array $orderTransactionResponse,
-        int $orderId,
-        int $quoteId,
-        ?int $parentPaymentId
-    ): void
+    private function isValidTransactionToCreate(array $transactionResponse): bool
     {
-        if (!$orderTransaction || !$orderTransaction->getEntityId()) {
-            //Create.
-            $this->orderTransactions->createTransactionFromResponse(
-                $orderTransactionResponse,
-                $orderId,
-                $quoteId,
-                $parentPaymentId
-            );
+        if ($transactionResponse['status']['action'] === OrderTransactions::AUTHORIZE_ACTION
+            && !isset($transactionResponse['parent_transaction_id'])) {
+            return true;
+        } elseif ($transactionResponse['status']['action'] === OrderTransactions::CAPTURE_ACTION
+            && !isset($transactionResponse['parent_transaction_id'])) {
+            return true;
         }
+
+        return false;
     }
 }

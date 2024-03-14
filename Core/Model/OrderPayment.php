@@ -22,6 +22,7 @@ use Magento\Framework\Model\Context;
 use Magento\Framework\Model\ResourceModel\AbstractResource;
 use Magento\Framework\Registry;
 use UpStreamPay\Core\Api\Data\OrderPaymentInterface;
+use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
 use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
 use UpStreamPay\Core\Model\ResourceModel\OrderPayment as PaymentResource;
 
@@ -358,7 +359,7 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
             'orderId' => $orderId,
             'quoteId' => $quoteId,
             'paymentId' => $paymentId,
-            'paymentMethodType' => $paymentMethodType
+            'paymentMethodType' => $paymentMethodType,
         ]);
         /** @var OrderPaymentInterface $orderPayment */
         $orderPayment = $this->orderPaymentFactory->create();
@@ -372,6 +373,47 @@ class OrderPayment extends AbstractExtensibleModel implements OrderPaymentInterf
             ->setOrderId($orderId)
             ->setPaymentId($paymentId)
             ->setAmount((float)$paymentResponse['plugin_result']['amount'])
+            ->setAmountCaptured(0.00)
+            ->setAmountRefunded(0.00)
+        ;
+
+        return $this->orderPaymentRepository->save($orderPayment);
+    }
+
+    /**
+     * Create an order payment based on an API response.
+     *
+     * @param OrderTransactionsInterface $transaction
+     * @param int $paymentId
+     * @param string $paymentMethodType
+     *
+     * @return OrderPaymentInterface
+     * @throws LocalizedException
+     */
+    public function createPaymentFromTransaction(
+        OrderTransactionsInterface $transaction,
+        int $paymentId,
+        string $paymentMethodType
+    ): OrderPaymentInterface
+    {
+        $this->eventManager->dispatch('payment_usp_write_log', [
+            'orderId' => $transaction->getOrderId(),
+            'quoteId' => $transaction->getQuoteId(),
+            'paymentId' => $paymentId,
+            'paymentMethodType' => $paymentMethodType,
+        ]);
+        /** @var OrderPaymentInterface $orderPayment */
+        $orderPayment = $this->orderPaymentFactory->create();
+
+        $orderPayment
+            ->setSessionId($transaction->getSessionId())
+            ->setDefaultTransactionId($transaction->getTransactionId())
+            ->setMethod($transaction->getMethod())
+            ->setType($paymentMethodType)
+            ->setQuoteId($transaction->getQuoteId())
+            ->setOrderId($transaction->getOrderId())
+            ->setPaymentId($paymentId)
+            ->setAmount($transaction->getAmount())
             ->setAmountCaptured(0.00)
             ->setAmountRefunded(0.00)
         ;

@@ -74,6 +74,8 @@ interface SubscriptionRepositoryInterface
      * @param int $orderId
      *
      * @return ?SubscriptionInterface[]
+     *
+     * @throws LocalizedException
      */
     public function getAllSubscriptionsToCancel(string $sku, int $orderId): ?array;
 
@@ -94,4 +96,40 @@ interface SubscriptionRepositoryInterface
      * @throws NoSuchEntityException
      */
     public function deleteById(int $entityId): bool;
+
+    /**
+     * Return Subscriptions that need to be renewed
+     *
+     * @return SubscriptionInterface[]
+     *
+     * @throws LocalizedException
+     */
+    public function getAllSubscriptionsToRenew(): array;
+
+    /**
+     * Return the current subscription from the future one
+     *
+     * @param SubscriptionInterface $subscription
+     * @return SubscriptionInterface
+     *
+     * @throws LocalizedException
+     */
+    public function getParentSubscription(SubscriptionInterface $subscription): SubscriptionInterface;
+
+    /**
+     * @param int $orderId
+     *
+     * @return SubscriptionInterface[]
+     *
+     * @throws LocalizedException
+     */
+    public function getByOrderId(int $orderId): array;
+
+    /**
+     * @param string $field
+     * @param string $value
+     *
+     * @return SubscriptionInterface
+     */
+    public function getBy(string $field, string $value): SubscriptionInterface;
 }

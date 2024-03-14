@@ -4,6 +4,7 @@
             "entity_id": true,
             "session_id": true,
             "method": true,
+            "default_transaction_id": true,
             "type": true,
             "quote_id": true,
             "order_id": true,
@@ -12,14 +13,13 @@
             "amount_captured": true,
             "amount_refunded": true,
             "created_at": true,
-            "updated_at": true,
-            "default_transaction_id": true
+            "updated_at": true
         },
         "index": {
             "UPSTREAM_PAY_ORDER_PAYMENT_SESSION_ID": true,
+            "UPSTREAM_PAY_ORDER_PAYMENT_DEFAULT_TRANSACTION_ID": true,
             "UPSTREAM_PAY_ORDER_PAYMENT_QUOTE_ID": true,
-            "UPSTREAM_PAY_ORDER_PAYMENT_ORDER_ID": true,
-            "UPSTREAM_PAY_ORDER_PAYMENT_DEFAULT_TRANSACTION_ID": true
+            "UPSTREAM_PAY_ORDER_PAYMENT_ORDER_ID": true
         },
         "constraint": {
             "PRIMARY": true,
@@ -32,8 +32,11 @@
     "upstream_pay_order_transactions": {
         "column": {
             "entity_id": true,
-            "order_payment_id": true,
+            "session_id": true,
             "transaction_id": true,
+            "subscription_id": true,
+            "parent_transaction_id": true,
+            "parent_payment_id": true,
             "method": true,
             "transaction_type": true,
             "quote_id": true,
@@ -42,18 +45,13 @@
             "amount": true,
             "status": true,
             "created_at": true,
-            "updated_at": true,
-            "parent_transaction_id": true,
-            "session_id": true,
-            "parent_payment_id": true,
-            "subscription_id": true
+            "updated_at": true
         },
         "index": {
             "UPSTREAM_PAY_ORDER_TRANSACTIONS_TRANSACTION_ID": true,
             "UPSTREAM_PAY_ORDER_TRANSACTIONS_QUOTE_ID": true,
             "UPSTREAM_PAY_ORDER_TRANSACTIONS_ORDER_ID": true,
             "UPSTREAM_PAY_ORDER_TRANSACTIONS_INVOICE_ID": true,
-            "UPSTREAM_PAY_ORDER_TRANSACTIONS_PARENT_TRANSACTION_ID": true,
             "UPSTREAM_PAY_ORDER_TRANSACTIONS_SESSION_ID": true,
             "UPSTREAM_PAY_ORDER_TRANSACTIONS_SUBSCRIPTION_ID": true
         },
@@ -61,11 +59,8 @@
             "PRIMARY": true,
             "UPSTREAM_PAY_ORDER_TRANSACTIONS_QUOTE_ID_QUOTE_ENTITY_ID": true,
             "UPSTREAM_PAY_ORDER_TRANSACTIONS_ORDER_ID_SALES_ORDER_ENTITY_ID": true,
-            "FK_E4DDDCAB33CBCD09FD77D3514CC176FE": true,
-            "FK_4CC3AF1AB2A2EFA0E51C88DFBB3B614D": true,
-            "UPSTREAM_PAY_ORDER_TRANSACTIONS_SESSION_ID_TRANSACTION_ID": true,
-            "FK_F1DE4705D8F12922239CA3ABB07A5971": true,
-            "FK_0A35A8259179BCC4A7A432948DB67B74": true
+            "FK_0A35A8259179BCC4A7A432948DB67B74": true,
+            "UPSTREAM_PAY_ORDER_TRANSACTIONS_SESSION_ID_TRANSACTION_ID": true
         }
     },
     "upstream_pay_payment_method": {
@@ -87,22 +82,17 @@
         "column": {
             "purse_session_amount": true,
             "purse_session_id": true
-        },
-        "constraint": {
-            "QUOTE_PAYMENT_PURSE_SESSION_ID": true
         }
     },
     "sales_order_payment": {
         "column": {
             "purse_session_id": true
-        },
-        "constraint": {
-            "SALES_ORDER_PAYMENT_PURSE_SESSION_ID": true
         }
     },
     "sales_order": {
         "column": {
-            "order_sent_to_purse": true
+            "order_sent_to_purse": true,
+            "original_increment_id": true
         },
         "index": {
             "SALES_ORDER_ORDER_SENT_TO_PURSE": true
@@ -110,7 +100,8 @@
     },
     "upstream_pay_subscription": {
         "column": {
-            "id": true,
+            "entity_id": true,
+            "parent_subscription_id": true,
             "subscription_identifier": true,
             "subscription_status": true,
             "payment_status": true,
@@ -121,12 +112,10 @@
             "end_date": true,
             "next_payment_date": true,
             "order_id": true,
-            "original_transaction_id": true,
-            "entity_id": true,
-            "customer_id": true
+            "customer_id": true,
+            "original_transaction_id": true
         },
         "index": {
-            "UPSTREAM_PAY_SUBSCRIPTION_ID": true,
             "UPSTREAM_PAY_SUBSCRIPTION_SUBSCRIPTION_IDENTIFIER": true,
             "UPSTREAM_PAY_SUBSCRIPTION_ORDER_ID": true
         },
@@ -149,7 +138,6 @@
         },
         "constraint": {
             "PRIMARY": true,
-            "SUBSCRIPTION_ID_UPSTREAM_PAY_SUBSCRIPTION_ID": true,
             "FK_E7826D2368D2FC3BD7C5D96B716ECD04": true
         }
     }

@@ -358,6 +358,28 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     /**
      * @codeCoverageIgnore
      *
+     * @return null|int
+     */
+    public function getSubscriptionId(): ?int
+    {
+        return (int)$this->getData(self::SUBSCRIPTION_ID);
+    }
+
+    /**
+     * @codeCoverageIgnore
+     *
+     * @param null|int $subscriptionId
+     *
+     * @return OrderTransactionsInterface
+     */
+    public function setSubscriptionId(?int $subscriptionId): OrderTransactionsInterface
+    {
+        return $this->setData(self::SUBSCRIPTION_ID, $subscriptionId);
+    }
+
+    /**
+     * @codeCoverageIgnore
+     *
      * Create an order transaction based on an API response.
      *
      * @param array $transactionResponse
@@ -365,6 +387,7 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
      * @param int $quoteId
      * @param null|int $parentPaymentId
      * @param null|int $invoiceId
+     * @param null|int $subscriptionId
      *
      * @return OrderTransactionsInterface
      * @throws LocalizedException
@@ -375,6 +398,7 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
         int $quoteId,
         ?int $parentPaymentId = null,
         ?int $invoiceId = null,
+        ?int $subscriptionId = null
     ): OrderTransactionsInterface
     {
         $this->eventManager->dispatch('payment_usp_write_log', [
@@ -399,6 +423,7 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
             ->setInvoiceId($invoiceId)
             ->setAmount((float)$transactionResponse['plugin_result']['amount'])
             ->setStatus($transactionResponse['status']['state'])
+            ->setSubscriptionId($subscriptionId)
         ;
 
         return $this->transactionsRepository->save($orderTransaction);

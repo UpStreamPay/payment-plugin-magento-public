@@ -21,6 +21,8 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 interface SubscriptionInterface extends ExtensibleDataInterface
 {
     public const ENTITY_ID = 'entity_id';
+
+    public const PARENT_SUBSCRIPTION_ID = 'parent_subscription_id';
     public const SUBSCRIPTION_IDENTIFIER = 'subscription_identifier';
     public const SUBSCRIPTION_STATUS = 'subscription_status';
     public const PAYMENT_STATUS = 'payment_status';
@@ -40,6 +42,21 @@ interface SubscriptionInterface extends ExtensibleDataInterface
      * @return null|int
      */
     public function getEntityId(): ?int;
+
+    /**
+     * Get the previous subscription id
+     *
+     * @return int|null
+     */
+    public function getParentSubscriptionId(): ?int;
+
+    /**
+     * Set the previous subscription id
+     *
+     * @param int $entity_id
+     * @return self
+     */
+    public function setParentSubscriptionId(int $entity_id): self;
 
     /**
      * Get the subscription id.

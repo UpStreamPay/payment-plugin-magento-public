@@ -13,12 +13,12 @@ declare(strict_types=1);
 namespace UpStreamPay\Core\Model\Session\Order\Builder;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Event\ManagerInterface as EventManager;
 use Magento\Quote\Api\Data\CartInterface;
 use Magento\Store\Model\Information;
 use Magento\Store\Model\ScopeInterface;
 use UpStreamPay\Core\Model\Session\Order\AddressBuilderInterface;
 use UpStreamPay\Core\Model\Session\Order\BuilderInterface;
-use Magento\Framework\Event\ManagerInterface as EventManager;
 
 /**
  * Class ShipmentBuilder
@@ -62,9 +62,10 @@ class ShipmentBuilder implements BuilderInterface
         );
 
         if (!$quote->getIsVirtual()) {
-            $shipmentData['amount'] = $quote->getShippingAddress()->getBaseShippingInclTax();
-            $shipmentData['net_amount'] = $quote->getShippingAddress()->getBaseShippingAmount();
-            $shipmentData['tax_amount'] = $quote->getShippingAddress()->getBaseShippingTaxAmount();
+            $netAmount = $quote->getBaseSubtotalWithDiscount() + $quote->getShippingAddress()->getBaseShippingAmount();
+            $shipmentData['amount'] = $quote->getBaseGrandTotal();
+            $shipmentData['net_amount'] = $netAmount;
+            $shipmentData['tax_amount'] = $quote->getBaseGrandTotal() - $netAmount;
             $shipmentData['delivery_method_reference'] = $quote->getShippingAddress()->getShippingMethod();
         }
 

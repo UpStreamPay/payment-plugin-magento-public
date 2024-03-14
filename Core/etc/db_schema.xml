@@ -164,23 +164,17 @@
         <column xsi:type="decimal" name="purse_session_amount" scale="4" precision="12" nullable="false" default="0.00"
                 comment="Purse session amount"/>
         <column xsi:type="varchar" name="purse_session_id" length="255" nullable="true" comment="Purse session ID"/>
-
-        <constraint xsi:type="unique" referenceId="QUOTE_PAYMENT_PURSE_SESSION_ID">
-            <column name="purse_session_id"/>
-        </constraint>
     </table>
 
     <table name="sales_order_payment" resource="sales" engine="innodb" comment="Sales Flat Order Payment">
         <column xsi:type="varchar" name="purse_session_id" length="255" nullable="true" comment="Purse session ID"/>
-
-        <constraint xsi:type="unique" referenceId="SALES_ORDER_PAYMENT_PURSE_SESSION_ID">
-            <column name="purse_session_id"/>
-        </constraint>
     </table>
 
     <table name="sales_order" resource="sales" engine="innodb" comment="Sales Flat Order">
         <column xsi:type="smallint" name="order_sent_to_purse" unsigned="true" nullable="false" identity="false"
                 default="0" comment="Purse session ID"/>
+        <column xsi:type="varchar" name="original_increment_id" nullable="true" length="50"
+                comment="Original order increment id"/>
 
         <!-- Index colmumns -->
         <index referenceId="SALES_ORDER_ORDER_SENT_TO_PURSE" indexType="btree">
@@ -190,10 +184,11 @@
 
     <table name="upstream_pay_subscription" resource="default" engine="innodb" comment="Upstream Pay subscription table">
         <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="ENTITY ID"/>
+        <column xsi:type="int" name="parent_subscription_id" unsigned="true" nullable="true" comment="Previous subscription ENTITY ID"/>
         <column xsi:type="varchar" name="subscription_identifier" nullable="false" length="255" comment="Subscription identifier"/>
-        <column xsi:type="varchar" name="subscription_status" nullable="false" length="10" default="disabled"
+        <column xsi:type="varchar" name="subscription_status" nullable="false" length="255" default="disabled"
                 comment="Subscription status"/>
-        <column xsi:type="varchar" name="payment_status" nullable="false" length="20" default="to_pay" comment="Payment Status"/>
+        <column xsi:type="varchar" name="payment_status" nullable="false" length="255" default="to_pay" comment="Payment Status"/>
         <column xsi:type="float" name="product_price" scale="4" precision="12" nullable="false" default="0.00" comment="Product price"/>
         <column xsi:type="varchar" name="product_name" length="255" comment="Product Name"/>
         <column xsi:type="varchar" name="product_sku" length="255" comment="Product Sku"/>

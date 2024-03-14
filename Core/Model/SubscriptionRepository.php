@@ -20,6 +20,7 @@ use Magento\Framework\Api\SortOrder;
 use Magento\Framework\Api\SortOrderBuilder;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use UpStreamPay\Core\Api\Data\SubscriptionInterface;
 use UpStreamPay\Core\Api\Data\SubscriptionSearchResultsInterface;
@@ -220,5 +221,75 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
     public function deleteById(int $entityId): bool
     {
         return $this->delete($this->getById($entityId));
+    }
+
+    /**
+     * Return Subscriptions that need to be renewed
+     *
+     * @return SubscriptionInterface[]
+     * @throws LocalizedException
+     */
+    public function getAllSubscriptionsToRenew(): array
+    {
+        $now = date('Y-m-d 00:00:00', time());
+
+        $this->searchCriteriaBuilder->addFilter(
+            SubscriptionInterface::NEXT_PAYMENT_DATE,
+            $now
+        )->addFilter(
+            SubscriptionInterface::PAYMENT_STATUS,
+            Subscription::TO_PAY
+        )->addFilter(
+            SubscriptionInterface::SUBSCRIPTION_STATUS,
+            Subscription::DISABLED
+        )->addFilter(
+            SubscriptionInterface::ORDER_ID,
+            true,
+            'null'
+        );
+
+        $searchCriteria = $this->searchCriteriaBuilder->create();
+
+        return $this->getList($searchCriteria)->getItems();
+    }
+
+    /**
+     * @inheritDoc
+     * @throws LocalizedException
+     */
+    public function getParentSubscription(SubscriptionInterface $subscription): SubscriptionInterface
+    {
+        return $this->getById($subscription->getParentSubscriptionId());
+    }
+
+    /**
+     * @param int $orderId
+     *
+     * @return SubscriptionInterface[]
+     * @throws LocalizedException
+     */
+    public function getByOrderId(int $orderId): array
+    {
+        $searchCriteria = $this->searchCriteriaBuilder
+            ->addFilter(SubscriptionInterface::ORDER_ID, $orderId)
+            ->create()
+        ;
+
+        return $this->getList($searchCriteria)->getItems();
+    }
+
+    /**
+     * @param string $field
+     * @param string $value
+     *
+     * @return SubscriptionInterface
+     */
+    public function getBy(string $field, string $value): SubscriptionInterface
+    {
+        /** @var SubscriptionInterface $subscription */
+        $subscription = $this->subscriptionFactory->create();
+        $this->resourceModel->load($subscription, $value, $field);
+
+        return $subscription;
     }
 }

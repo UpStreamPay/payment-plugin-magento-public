@@ -89,7 +89,8 @@ class UpStreamPay extends AbstractMethod
         AbstractDb $resourceCollection = null,
         array $data = [],
         DirectoryHelper $directory = null
-    ) {
+    )
+    {
         parent::__construct(
             $context,
             $registry,
@@ -146,7 +147,7 @@ class UpStreamPay extends AbstractMethod
             if (true === (bool)$payment->getOrder()->getData('order_sent_to_purse')) {
                 $this->orderSynchronizeService->execute($payment, $amount, OrderTransactions::AUTHORIZE_ACTION);
             }
-        } catch (NoSessionFoundException | NoTransactionsException $exception) {
+        } catch (NoSessionFoundException|NoTransactionsException $exception) {
             //No session found because authorize is done before UpStream Pay has the order.
             //No transaction has been found.
 
@@ -177,7 +178,7 @@ class UpStreamPay extends AbstractMethod
                     $this->orderSynchronizeService->execute($payment, $amount, OrderTransactions::CAPTURE_ACTION);
                 }
             }
-        } catch (NoSessionFoundException | NoTransactionsException $exception) {
+        } catch (NoSessionFoundException|NoTransactionsException $exception) {
             //No session found because capture is done before UpStream Pay has the order.
             //No operation has been done so nothing to void or refund.
             $payment->setIsTransactionPending(true);
@@ -262,7 +263,7 @@ class UpStreamPay extends AbstractMethod
             if (true === (bool)$payment->getOrder()->getData('order_sent_to_purse')) {
                 $this->orderSynchronizeService->execute($payment, $amount, OrderTransactions::ORDER_ACTION);
             }
-        } catch (NoSessionFoundException | NoTransactionsException $exception) {
+        } catch (NoSessionFoundException|NoTransactionsException $exception) {
             //No session found because order action is done before UpStream Pay has the order.
             //No operation has been done so nothing to void or refund.
             $payment->setIsTransactionPending(true);

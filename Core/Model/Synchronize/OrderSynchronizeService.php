@@ -15,9 +15,13 @@ namespace UpStreamPay\Core\Model\Synchronize;
 use GuzzleHttp\Exception\GuzzleException;
 use JsonException;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Math\FloatComparator;
 use Magento\Payment\Model\InfoInterface;
+use Magento\Sales\Model\Order;
 use UpStreamPay\Client\Exception\NoSessionFoundException;
 use UpStreamPay\Client\Model\Client\ClientInterface;
+use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
+use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
 use UpStreamPay\Core\Exception\AuthorizeErrorException;
 use UpStreamPay\Core\Exception\CaptureErrorException;
 use UpStreamPay\Core\Exception\NoPaymentMethodFoundException;
@@ -51,6 +55,8 @@ class OrderSynchronizeService
      * @param OrderService $orderService
      * @param OrderActionCaptureService $orderActionCaptureService
      * @param CancelService $cancelService
+     * @param OrderPaymentRepositoryInterface $orderPaymentRepository
+     * @param OrderTransactionsRepositoryInterface $orderTransactionsRepository
      */
     public function __construct(
         private readonly ClientInterface $client,
@@ -61,8 +67,12 @@ class OrderSynchronizeService
         private readonly RefundService $refundService,
         private readonly OrderService $orderService,
         private readonly OrderActionCaptureService $orderActionCaptureService,
-        private readonly CancelService $cancelService
-    ) {
+        private readonly CancelService $cancelService,
+        private readonly OrderPaymentRepositoryInterface $orderPaymentRepository,
+        private readonly OrderTransactionsRepositoryInterface $orderTransactionsRepository,
+        private readonly FloatComparator $floatComparator
+    )
+    {
     }
 
     /**
@@ -87,9 +97,9 @@ class OrderSynchronizeService
     public function execute(InfoInterface $payment, float $amount, string $action): InfoInterface
     {
         $purseSessionId = $payment->getData(PurseSessionDataManager::PAYMENT_PURSE_SESSION_ID);
-        $orderId = (int) $payment->getParentId();
+        $orderId = (int)$payment->getParentId();
 
-        if ($action !== OrderTransactions::VOID_ACTION && $action !== OrderTransactions::REFUND_ACTION) {
+        if ($this->shouldSynchronizeWithPurse($action, $payment->getOrder())) {
             $sessionTransactionsResponse = $this->client->getAllTransactionsForSession($purseSessionId);
 
             if (count($sessionTransactionsResponse) === 0) {
@@ -103,20 +113,20 @@ class OrderSynchronizeService
                 $sessionTransactionsResponse,
                 $orderId,
                 (int)$payment->getOrder()->getQuoteId(),
-                (int)$payment->getEntityId()
+                (int)$payment->getEntityId(),
             );
         }
 
         if ($action === OrderTransactions::AUTHORIZE_ACTION) {
             $payment = $this->authorizeService->execute($payment, $amount);
         } elseif ($action === OrderTransactions::CAPTURE_ACTION) {
-            $payment =  $this->captureService->execute($payment, $amount);
+            $payment = $this->captureService->execute($payment, $amount);
         } elseif ($action === OrderTransactions::VOID_ACTION) {
             $payment = $this->voidService->execute($payment);
         } elseif ($action === OrderTransactions::REFUND_ACTION) {
             $payment = $this->refundService->execute($payment, $amount);
         } elseif ($action === OrderTransactions::ORDER_ACTION) {
-            $payment =  $this->orderService->execute($payment, $amount);
+            $payment = $this->orderService->execute($payment, $amount);
         } elseif ($action === OrderTransactions::ORDER_CAPTURE_ACTION) {
             $payment = $this->orderActionCaptureService->execute($payment, $amount);
         } elseif ($action === OrderTransactions::ORDER_CANCEL) {
@@ -126,5 +136,66 @@ class OrderSynchronizeService
         }
 
         return $payment;
+    }
+
+    /**
+     * @param Order $order
+     *
+     * @return bool
+     */
+    private function orderHasAllPursePayments(Order $order): bool
+    {
+        $orderPaymentsSum = 0;
+
+        try {
+            $orderPayments = $this->orderPaymentRepository->getByOrderId((int)$order->getEntityId());
+        } catch (\Exception $exception) {
+            return false;
+        }
+
+        foreach ($orderPayments as $orderPayment) {
+            $orderPaymentsSum += $orderPayment->getAmount();
+        }
+
+        return $this->floatComparator->equal($orderPaymentsSum, (float)$order->getBaseGrandTotal());
+    }
+
+    /**
+     * @param Order $order
+     *
+     * @return bool
+     */
+    private function orderHasAllPurseTransactions(Order $order): bool
+    {
+        $orderTransactionsSum = 0;
+
+        try {
+            $orderTransactions = $this->orderTransactionsRepository->getByOrderId((int)$order->getEntityId());
+        } catch (\Exception $exception) {
+            return false;
+        }
+
+        foreach ($orderTransactions as $orderTransaction) {
+            if ($orderTransaction->getTransactionType() === OrderTransactions::AUTHORIZE_ACTION ||
+                ($orderTransaction->getTransactionType() === OrderTransactions::CAPTURE_ACTION
+                    && $orderTransaction->getParentTransactionId() === null)
+            ) {
+                $orderTransactionsSum += $orderTransaction->getAmount();
+            }
+        }
+
+        return $this->floatComparator->equal($orderTransactionsSum, (float)$order->getBaseGrandTotal());
+    }
+
+    /**
+     * @param $action
+     * @param $order
+     *
+     * @return bool
+     */
+    private function shouldSynchronizeWithPurse($action, $order): bool
+    {
+        return !$this->orderHasAllPursePayments($order) && !$this->orderHasAllPurseTransactions($order)
+            && $action !== OrderTransactions::VOID_ACTION && $action !== OrderTransactions::REFUND_ACTION;
     }
 }
