@@ -34,6 +34,8 @@ use UpStreamPay\Core\Model\Config;
 use UpStreamPay\Core\Model\Config\Source\Debug;
 use UpStreamPay\Core\Model\OrderTransactions;
 use UpStreamPay\Core\Model\Subscription;
+use UpStreamPay\Core\Model\Subscription\Retry\HandleRetry;
+use UpStreamPay\Core\Model\SubscriptionRetry;
 
 /**
  * Class CaptureDuplicateService
@@ -56,6 +58,7 @@ class CaptureDuplicateService
      * @param StatusResolver $statusResolver
      * @param Config $config
      * @param SubscriptionRepositoryInterface $subscriptionRepository
+     * @param HandleRetry $handleRetry
      */
     public function __construct(
         private readonly LoggerInterface $logger,
@@ -70,13 +73,14 @@ class CaptureDuplicateService
         private readonly CreditmemoManagementInterface $creditmemoManagement,
         private readonly StatusResolver $statusResolver,
         private readonly Config $config,
-        private readonly SubscriptionRepositoryInterface $subscriptionRepository
+        private readonly SubscriptionRepositoryInterface $subscriptionRepository,
+        private readonly HandleRetry $handleRetry
     )
     {
     }
 
     /**
-     * @param Order $order
+     * @param OrderInterface|Order $order
      * @param OrderPaymentInterface $orderPayment
      * @param SubscriptionInterface $subscription
      * @param null|OrderTransactionsInterface $duplicateAuthorize
@@ -86,7 +90,7 @@ class CaptureDuplicateService
      * @throws LocalizedException
      */
     public function execute(
-        Order $order,
+        OrderInterface|Order $order,
         OrderPaymentInterface $orderPayment,
         SubscriptionInterface $subscription,
         ?OrderTransactionsInterface $duplicateAuthorize = null,
@@ -119,7 +123,13 @@ class CaptureDuplicateService
                     )
                 );
 
-                //TODO create retry.
+                $this->handleRetry->execute(
+                    $subscription,
+                    OrderTransactions::CAPTURE_ACTION,
+                    SubscriptionRetry::ERROR_STATUS,
+                    $duplicateAuthorize->getTransactionId(),
+                    $order
+                );
 
                 return;
             }
@@ -161,6 +171,14 @@ class CaptureDuplicateService
                 $this->invoiceSender->send($invoice);
             } else {
                 if ($capture->getStatus() === OrderTransactions::ERROR_STATUS) {
+                    $this->handleRetry->execute(
+                        $subscription,
+                        OrderTransactions::CAPTURE_ACTION,
+                        SubscriptionRetry::ERROR_STATUS,
+                        $capture->getParentTransactionId(),
+                        $order
+                    );
+
                     $orderComment = sprintf(
                         'Capture with transaction ID %s is in error, subscription can\'t be renewed yet.',
                         $capture->getTransactionId()
@@ -172,6 +190,16 @@ class CaptureDuplicateService
                         $order->getIncrementId()
                     );
                 } else {
+                    //Add a retry in waiting. When we have the notification we will update it error or success.
+                    //We don't actually create a new waiting retry, this is in case of update only.
+                    $this->handleRetry->execute(
+                        $subscription,
+                        OrderTransactions::CAPTURE_ACTION,
+                        SubscriptionRetry::WAITING_STATUS,
+                        $capture->getParentTransactionId(),
+                        $order
+                    );
+
                     $orderComment = sprintf(
                         'Capture with transaction ID %s is in waiting.',
                         $capture->getTransactionId()
@@ -186,8 +214,6 @@ class CaptureDuplicateService
 
                 $this->handleOrderStatus($order, Order::STATE_PAYMENT_REVIEW, $orderComment);
                 $this->log($debugMessage, $orderComment);
-
-                //TODO call retry service to register.
             }
         } catch (\Throwable $exception) {
             //In case of an error while trying to update the order or subscription, we have no choice but to cancel.
