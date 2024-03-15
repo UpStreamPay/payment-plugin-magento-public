@@ -68,6 +68,14 @@ class RetryService
     {
     }
 
+    /**
+     * Entry point for the retry process.
+     *
+     * @param SubscriptionRetryInterface $subscriptionRetry
+     *
+     * @return void
+     * @throws LocalizedException
+     */
     public function execute(SubscriptionRetryInterface $subscriptionRetry): void
     {
         $numberOfRetries = $subscriptionRetry->getNumberOfRetries() + 1;
