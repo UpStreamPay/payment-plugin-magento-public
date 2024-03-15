@@ -15,6 +15,7 @@ namespace UpStreamPay\Core\Model\Actions;
 use GuzzleHttp\Exception\GuzzleException;
 use JsonException;
 use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\Event\ManagerInterface as EventManager;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Payment\Model\InfoInterface;
 use Magento\Payment\Model\MethodInterface;
@@ -25,10 +26,9 @@ use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
 use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
 use UpStreamPay\Core\Exception\ConflictRetrieveTransactionsException;
 use UpStreamPay\Core\Model\Config;
+use UpStreamPay\Core\Model\Config\Source\Debug;
 use UpStreamPay\Core\Model\OrderTransactions;
 use UpStreamPay\Core\Model\PaymentFinder\AllTransactionsFinder;
-use Magento\Framework\Event\ManagerInterface as EventManager;
-use UpStreamPay\Core\Model\Config\Source\Debug;
 
 /**
  * Class VoidService
