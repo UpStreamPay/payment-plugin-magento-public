@@ -18,6 +18,8 @@ use Magento\Framework\Console\Cli;
 use Magento\Framework\Exception\LocalizedException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Helper\ProgressBarFactory;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use UpStreamPay\Core\Model\Config;
@@ -37,6 +39,7 @@ class RenewSubscriptionCommand extends Command
      * @param State $state
      * @param Config $config
      * @param LoggerInterface $logger
+     * @param ProgressBarFactory $progressBarFactory
      * @param null $name
      */
     public function __construct(
@@ -45,6 +48,7 @@ class RenewSubscriptionCommand extends Command
         private readonly State $state,
         private readonly Config $config,
         private readonly LoggerInterface $logger,
+        private readonly ProgressBarFactory $progressBarFactory,
         $name = null
     )
     {
@@ -78,10 +82,23 @@ class RenewSubscriptionCommand extends Command
         }
 
         if ($this->config->getSubscriptionPaymentEnabled()) {
-            //TODO Add a progressbar
             try {
                 $subscriptionToRenew = $this->subscriptionRepository->getAllSubscriptionsToRenew();
                 if (!empty($subscriptionToRenew)) {
+                    /** @var ProgressBar $progress */
+                    $progressBar = $this->progressBarFactory->create(
+                        [
+                            'output' => $output,
+                            'max' => count($subscriptionToRenew),
+                        ]
+                    );
+
+                    $progressBar->setFormat(
+                        '%current%/%max% [%bar%] %percent:3s%% %elapsed% %memory:6s%'
+                    );
+
+                    $progressBar->start();
+
                     foreach ($subscriptionToRenew as $subscription) {
                         if ($this->config->getDebugMode()) {
                             $this->logger->debug(
@@ -93,7 +110,12 @@ class RenewSubscriptionCommand extends Command
                         }
 
                         $this->renewSubscriptionService->execute($subscription);
+                        $progressBar->advance();
                     }
+
+                    $progressBar->finish();
+                    $output->write(PHP_EOL);
+                    $output->writeln('<info>Subscription renewal finished.</info>');
                 } else {
                     if ($this->config->getDebugMode()) {
                         $this->logger->debug('No subscription to renew found for the day.');
