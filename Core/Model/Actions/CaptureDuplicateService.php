@@ -298,7 +298,11 @@ class CaptureDuplicateService
         $parentSubscription->setSubscriptionStatus(Subscription::EXPIRED);
         $this->subscriptionRepository->save($parentSubscription);
 
-        $order->cancel();
+        if ($order->canCancel()) {
+            $order->cancel();
+        } else {
+            $order->getPayment()->deny();
+        }
         $this->orderRepository->save($order);
     }
 }

@@ -265,8 +265,14 @@ class DuplicateService
             $parentSubscription->setSubscriptionStatus(Subscription::EXPIRED);
             $this->subscriptionRepository->save($parentSubscription);
 
-            $renewOrder->cancel();
-            $this->orderRepository->save($renewOrder);
+            //If the order can be canceled (not in payment review) otherwise deny the payment.
+            if ($order->canCancel()) {
+                $order->cancel();
+            } else {
+                $order->getPayment()->deny();
+            }
+
+            $this->orderRepository->save($order);
         }
     }
 
