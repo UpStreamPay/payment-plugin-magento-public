@@ -22,7 +22,6 @@ use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
 use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
 use UpStreamPay\Core\Exception\CaptureErrorException;
 use UpStreamPay\Core\Exception\NotEnoughFundException;
-use UpStreamPay\Core\Model\Config;
 use UpStreamPay\Core\Model\OrderTransactions;
 use UpStreamPay\Core\Model\PaymentFinder\AllTransactionsToCaptureFinder;
 
@@ -42,7 +41,6 @@ class OrderActionCaptureService
      * @param ClientInterface $client
      * @param OrderTransactions $orderTransactions
      * @param FloatComparator $floatComparator
-     * @param Config $config
      */
     public function __construct(
         private readonly AllTransactionsToCaptureFinder $allTransactionsToCaptureFinder,
@@ -51,7 +49,6 @@ class OrderActionCaptureService
         private readonly ClientInterface $client,
         private readonly OrderTransactions $orderTransactions,
         private readonly FloatComparator $floatComparator,
-        private readonly Config $config
     ) {
     }
 
@@ -86,8 +83,6 @@ class OrderActionCaptureService
         $orderId = (int)$payment->getOrder()->getEntityId();
         $invoiceId = (int)$payment->getCreatedInvoice()->getEntityId();
         $amountPaid = 0.00;
-        //Custom data set on payment in case we come from the retry payment of a subscription.
-        $isPaymentRetrySubscription = $payment->getIsRetry();
 
         try {
             $transactionsToUseToPayInvoice = $this->allTransactionsToCaptureFinder->execute(
@@ -156,24 +151,15 @@ class OrderActionCaptureService
                         $captureTransaction->getAmount(),
                     ));
                 } elseif ($captureTransaction->getStatus() === OrderTransactions::ERROR_STATUS) {
-                    if ($isPaymentRetrySubscription && $this->config->getSubscriptionPaymentEnabled()) {
-                        //In case of an error while doing payment retry, we don't want the payment to be in error in
-                        //case the capture fails. Instead, trick Magento into thinking the payment is waiting
-                        //capture approval.
-                        $payment->setIsTransactionPending(true);
-                        //Custom data set on the payment that we will reuse later in the retry process.
-                        $payment->setIsRetryInError(true);
-                    } else {
-                        $errorMessage = sprintf(
-                            'Capture transaction %s with method %s for amount %s is in error for invoice %s.',
-                            $captureTransaction->getTransactionId(),
-                            $captureTransaction->getMethod(),
-                            $captureTransaction->getAmount(),
-                            $invoiceId
-                        );
+                    $errorMessage = sprintf(
+                        'Capture transaction %s with method %s for amount %s is in error for invoice %s.',
+                        $captureTransaction->getTransactionId(),
+                        $captureTransaction->getMethod(),
+                        $captureTransaction->getAmount(),
+                        $invoiceId
+                    );
 
-                        throw new CaptureErrorException($errorMessage);
-                    }
+                    throw new CaptureErrorException($errorMessage);
                 } elseif ($captureTransaction->getStatus() === OrderTransactions::WAITING_STATUS) {
                     $payment->setIsTransactionPending(true);
 
