@@ -28,6 +28,6 @@ class SubscriptionRetry extends AbstractDb
      */
     protected function _construct()
     {
-        $this->_init('upstream_pay_subscription_retry', 'id');
+        $this->_init('upstream_pay_subscription_retry', 'entity_id');
     }
 }

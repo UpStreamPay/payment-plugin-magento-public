@@ -54,14 +54,14 @@ interface SubscriptionRetryRepositoryInterface
     public function getBySubscriptionId(int $subscriptionId): SubscriptionRetryInterface;
 
     /**
-     * Get subscription retry by id
+     * Get subscription retry by transaction ID.
      *
-     * @param int $transactionId
+     * @param string $transactionId
      *
      * @return SubscriptionRetryInterface
      * @throws LocalizedException
      */
-    public function getByTransactionId(int $transactionId): SubscriptionRetryInterface;
+    public function getByTransactionId(string $transactionId): SubscriptionRetryInterface;
 
     /**
      * Retrieve subscription retry matching the specified criteria.

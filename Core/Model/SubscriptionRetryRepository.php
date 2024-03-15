@@ -101,7 +101,7 @@ class SubscriptionRetryRepository implements SubscriptionRetryRepositoryInterfac
     /**
      * @inheritDoc
      */
-    public function getByTransactionId(int $transactionId): SubscriptionRetryInterface
+    public function getByTransactionId(string $transactionId): SubscriptionRetryInterface
     {
         /** @var SubscriptionRetryInterface $subscriptionRetry */
         $subscriptionRetry = $this->subscriptionRetryFactory->create();
