@@ -113,8 +113,9 @@
             "next_payment_date": true,
             "order_id": true,
             "customer_id": true,
+            "invoice_id": true,
             "original_transaction_id": true,
-            "invoice_id": true
+            "qty": true
         },
         "index": {
             "UPSTREAM_PAY_SUBSCRIPTION_SUBSCRIPTION_IDENTIFIER": true,
@@ -129,7 +130,7 @@
     },
     "upstream_pay_subscription_retry": {
         "column": {
-            "id": true,
+            "entity_id": true,
             "subscription_id": true,
             "number_of_retries": true,
             "retry_status": true,

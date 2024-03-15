@@ -23,12 +23,16 @@ use UpStreamPay\Core\Api\Data\SubscriptionRetryInterface;
 use UpStreamPay\Core\Model\ResourceModel\SubscriptionRetry as SubscriptionRetryResource;
 
 /**
- * Class OrderPayment
+ * Class SubscriptionRetry
  *
  * @package UpStreamPay\Core\Model
  */
 class SubscriptionRetry extends AbstractExtensibleModel implements SubscriptionRetryInterface
 {
+    protected $_eventPrefix = 'upstream_pay_subscription_retry';
+
+    protected $_eventObject = 'subscription_retry';
+
     //This means that the retry has returned an error and can be retried if the max number of retry hasn't been reached.
     public const ERROR_STATUS = 'error';
     //This means that the retry was a success and there is no need to retry payment on it again.
@@ -55,9 +59,9 @@ class SubscriptionRetry extends AbstractExtensibleModel implements SubscriptionR
         Registry $registry,
         ExtensionAttributesFactory $extensionFactory,
         AttributeValueFactory $customAttributeFactory,
+        private readonly Config $config,
         AbstractResource $resource = null,
         AbstractDb $resourceCollection = null,
-        private readonly Config $config,
         array $data = []
     ) {
         parent::__construct(
@@ -86,9 +90,9 @@ class SubscriptionRetry extends AbstractExtensibleModel implements SubscriptionR
      *
      * @inheritDoc
      */
-    public function getId(): ?int
+    public function getEntityId(): ?int
     {
-        return (int)$this->getData(SubscriptionRetryInterface::ID);
+        return (int)$this->getData(SubscriptionRetryInterface::ENTITY_ID);
     }
 
     /**
@@ -118,7 +122,7 @@ class SubscriptionRetry extends AbstractExtensibleModel implements SubscriptionR
      */
     public function getNumberOfRetries(): ?int
     {
-        return $this->getData(SubscriptionRetryInterface::NUMBER_OF_RETRIES);
+        return (int)$this->getData(SubscriptionRetryInterface::NUMBER_OF_RETRIES);
     }
 
     /**
@@ -176,7 +180,7 @@ class SubscriptionRetry extends AbstractExtensibleModel implements SubscriptionR
      *
      * @inheritDoc
      */
-    public function getTransactionId(): ?int
+    public function getTransactionId(): ?string
     {
         return $this->getData(SubscriptionRetryInterface::TRANSACTION_ID);
     }
@@ -186,7 +190,7 @@ class SubscriptionRetry extends AbstractExtensibleModel implements SubscriptionR
      *
      * @inheritDoc
      */
-    public function setTransactionId(int $transactionId): SubscriptionRetryInterface
+    public function setTransactionId(string $transactionId): SubscriptionRetryInterface
     {
         return $this->setData(SubscriptionRetryInterface::TRANSACTION_ID, $transactionId);
     }

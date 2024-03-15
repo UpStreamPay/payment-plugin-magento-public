@@ -36,6 +36,7 @@ interface SubscriptionInterface extends ExtensibleDataInterface
     public const CUSTOMER_ID = 'customer_id';
     public const INVOICE_ID = 'invoice_id';
     public const ORIGINAL_TRANSACTION_ID = 'original_transaction_id';
+    public const QUANTITY = 'qty';
 
     /**
      * Primary key of the table.
@@ -105,14 +106,14 @@ interface SubscriptionInterface extends ExtensibleDataInterface
     public function setPaymentStatus(string $paymentStatus): self;
 
     /**
-     * Get the product subscription price.
+     * Get the product subscription price (total ordered).
      *
      * @return float
      */
     public function getProductPrice(): float;
 
     /**
-     * Set the product subscription price
+     * Set the product subscription price (total ordered).
      *
      * @param float $productPrice
      * @return $this
@@ -234,10 +235,10 @@ interface SubscriptionInterface extends ExtensibleDataInterface
     /**
      * Set the invoice id
      *
-     * @param int $invoiceId
+     * @param ?int $invoiceId
      * @return $this
      */
-    public function setInvoiceId(int $invoiceId): self;
+    public function setInvoiceId(?int $invoiceId): self;
 
     /**
      * Get the original transaction id
@@ -254,4 +255,21 @@ interface SubscriptionInterface extends ExtensibleDataInterface
      */
     public function setOriginalTransactionId(string $originalTransactionId): self;
 
+    /**
+     * Get the qty ordered.
+     * You can order the product once or more.
+     *
+     * @return int
+     */
+    public function getQty(): int;
+
+    /**
+     * Set the qty ordered.
+     * You can order the product once or more.
+     *
+     * @param int $qty
+     *
+     * @return SubscriptionInterface
+     */
+    public function setQty(int $qty): self;
 }

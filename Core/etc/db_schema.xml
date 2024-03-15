@@ -199,6 +199,7 @@
         <column xsi:type="int" name="customer_id" unsigned="true" nullable="true" comment="Customer ID"/>
         <column xsi:type="int" name="invoice_id" unsigned="true" nullable="true" comment="Invoice ID"/>
         <column xsi:type="varchar" name="original_transaction_id" nullable="false" length="255" comment="Original transaction id"/>
+        <column xsi:type="int" name="qty" unsigned="true" nullable="false" comment="Product qty ordered"/>
 
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="entity_id"/>
@@ -227,15 +228,15 @@
     </table>
 
     <table name="upstream_pay_subscription_retry" resource="default" engine="innodb" comment="Upstream Pay subscription retries table">
-        <column xsi:type="int" name="id" unsigned="true" nullable="false" identity="true" comment="ID"/>
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="ENTITY ID"/>
         <column xsi:type="int" name="subscription_id" nullable="false" unsigned="true" comment="Subscription id"/>
         <column xsi:type="int" name="number_of_retries" unsigned="true" comment="Number of retries"/>
-        <column xsi:type="varchar" name="retry_status" length="10" default="error" comment="Retry status"/>
-        <column xsi:type="varchar" name="retry_type" length="15" comment="Retry type"/>
-        <column xsi:type="int" name="transaction_id" unsigned="true" comment="Transaction id"/>
+        <column xsi:type="varchar" name="retry_status" length="255" default="error" comment="Retry status"/>
+        <column xsi:type="varchar" name="retry_type" length="255" comment="Retry type"/>
+        <column xsi:type="varchar" name="transaction_id" length="255" comment="Transaction id"/>
 
         <constraint xsi:type="primary" referenceId="PRIMARY">
-            <column name="id"/>
+            <column name="entity_id"/>
         </constraint>
 
         <!-- upstream_pay_subscription table foreign key-->

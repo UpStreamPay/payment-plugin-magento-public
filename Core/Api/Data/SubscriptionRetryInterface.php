@@ -13,13 +13,13 @@ namespace UpStreamPay\Core\Api\Data;
 use Magento\Framework\Api\ExtensibleDataInterface;
 
 /**
- * Interface OrderPaymentInterface
+ * Interface SubscriptionRetryInterface
  *
  * @package UpStreamPay\Core\Api\Data
  */
 interface SubscriptionRetryInterface extends ExtensibleDataInterface
 {
-    public const ID = 'id';
+    public const ENTITY_ID = 'entity_id';
     public const SUBSCRIPTION_ID = 'subscription_id';
     public const NUMBER_OF_RETRIES = 'number_of_retries';
     public const RETRY_STATUS = 'retry_status';
@@ -31,7 +31,7 @@ interface SubscriptionRetryInterface extends ExtensibleDataInterface
      *
      * @return null|int
      */
-    public function getId(): ?int;
+    public function getEntityId(): ?int;
 
     /**
      * Get the related subscription id
@@ -94,16 +94,16 @@ interface SubscriptionRetryInterface extends ExtensibleDataInterface
     /**
      * Get related transaction id.
      *
-     * @return null|int
+     * @return null|string
      */
-    public function getTransactionId(): ?int;
+    public function getTransactionId(): ?string;
 
     /**
      * Set related transaction id.
      *
      * @return $this
      */
-    public function setTransactionId(int $transactionId): self;
+    public function setTransactionId(string $transactionId): self;
 
     /**
      * Return true if the retry can be performed, false otherwise.
