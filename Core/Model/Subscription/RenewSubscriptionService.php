@@ -19,6 +19,7 @@ use Magento\Sales\Api\OrderRepositoryInterface;
 use Psr\Log\LoggerInterface;
 use UpStreamPay\Core\Api\Data\SubscriptionInterface;
 use UpStreamPay\Core\Model\Actions\DuplicateService;
+use UpStreamPay\Core\Model\Session\PurseSessionDataManager;
 use UpStreamPay\Core\Model\Subscription\Renew\CartManagement;
 use UpStreamPay\Core\Model\SubscriptionRepository;
 
@@ -125,7 +126,16 @@ class RenewSubscriptionService
                 self::ORIGINAL_INCREMENT_ID,
                 $order->getData(self::ORIGINAL_INCREMENT_ID) ?? $order->getIncrementId()
             );
+            
+            $renewOrder->getPayment()->setData(
+                PurseSessionDataManager::PAYMENT_PURSE_SESSION_ID,
+                $order->getPayment()->getData(PurseSessionDataManager::PAYMENT_PURSE_SESSION_ID)
+            );
             $this->orderRepository->save($renewOrder);
+
+            //Once we have the renewal order, the subscription to renew is linked to it.
+            $subscription->setOrderId((int)$renewOrder->getEntityId());
+            $this->subscriptionRepository->save($subscription);
         } catch (\Throwable $exception) {
             //In case of error while creating the order, cancel the subscription to renew & don't process any further.
             $this->cancelSubscription($subscription, $exception);
