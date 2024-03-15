@@ -146,6 +146,7 @@
         <arguments>
             <argument name="commands" xsi:type="array">
                 <item name="subscription_renew" xsi:type="object">UpStreamPay\Core\Console\RenewSubscriptionCommand</item>
+                <item name="subscription_retry" xsi:type="object">UpStreamPay\Core\Console\RetrySubscriptionPaymentCommand</item>
             </argument>
         </arguments>
     </type>

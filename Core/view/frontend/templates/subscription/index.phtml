@@ -20,6 +20,10 @@ $subscriptions = $viewModel->getSubscriptions();
 
         <?php $subIdentifier = ''; ?>
         <?php foreach($subscriptions as $subscription): ?>
+        <?php //In case there is a waiting payment, we don't want to display that kind of subscription. ?>
+        <?php if (!$viewModel->isFutureSubscription($subscription) && !$viewModel->isCurrentSubscription($subscription)): ?>
+                <?php continue; ?>
+        <?php endif; ?>
             <?php if($subIdentifier !== '' && $subIdentifier !== $subscription->getSubscriptionIdentifier()): ?>
                 <hr class="usp-page-separator" />
             <?php endif; ?>

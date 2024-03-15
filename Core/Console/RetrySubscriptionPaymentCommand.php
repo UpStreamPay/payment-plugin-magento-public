@@ -22,37 +22,37 @@ use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\ProgressBarFactory;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use UpStreamPay\Core\Model\Config;
-use UpStreamPay\Core\Model\Subscription\RenewSubscriptionService;
-use UpStreamPay\Core\Model\SubscriptionRepository;
+use UpStreamPay\Core\Api\SubscriptionRetryRepositoryInterface;
+use UpstreamPay\Core\Model\Config;
+use UpStreamPay\Core\Model\Subscription\RetryService;
 
 /**
- * Class RenewSubscriptionCommand
+ * Class RetrySubscriptionPaymentCommand
  *
  * @package UpStreamPay\Core\Console
  */
-class RenewSubscriptionCommand extends Command
+class RetrySubscriptionPaymentCommand extends Command
 {
+    public const RETRY_COMMAND_NAME = 'upstreampay:subscription:retry';
+
     /**
-     * @param SubscriptionRepository $subscriptionRepository
-     * @param RenewSubscriptionService $renewSubscriptionService
-     * @param State $state
-     * @param Config $config
-     * @param LoggerInterface $logger
+     * @param SubscriptionRetryRepositoryInterface $subscriptionRetryRepository
      * @param ProgressBarFactory $progressBarFactory
-     * @param null $name
+     * @param RetryService $retryService
+     * @param State $state
+     * @param LoggerInterface $logger
+     * @param Config $config
      */
     public function __construct(
-        private readonly SubscriptionRepository $subscriptionRepository,
-        private readonly RenewSubscriptionService $renewSubscriptionService,
-        private readonly State $state,
-        private readonly Config $config,
-        private readonly LoggerInterface $logger,
+        private readonly SubscriptionRetryRepositoryInterface $subscriptionRetryRepository,
         private readonly ProgressBarFactory $progressBarFactory,
-        $name = null
+        private readonly RetryService $retryService,
+        private readonly State $state,
+        private readonly LoggerInterface $logger,
+        private readonly Config $config
     )
     {
-        parent::__construct($name);
+        parent::__construct();
     }
 
     /**
@@ -60,8 +60,12 @@ class RenewSubscriptionCommand extends Command
      */
     protected function configure()
     {
-        $this->setName('upstreampay:subscription:renew');
-        $this->setDescription('Renew subscriptions');
+        $this
+            ->setName(self::RETRY_COMMAND_NAME)
+            ->setDescription(
+                "Will retry payment (duplicate authorize or capture) of every subscription in the retry table."
+            )
+        ;
 
         parent::configure();
     }
@@ -73,23 +77,26 @@ class RenewSubscriptionCommand extends Command
      * @return int
      * @throws LocalizedException
      */
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->state->setAreaCode(Area::AREA_GLOBAL);
 
         if ($this->config->getDebugMode()) {
-            $this->logger->debug('Command renewal process start.');
+            $this->logger->debug('Command retry subscription payment process start.');
         }
 
         if ($this->config->getSubscriptionPaymentEnabled()) {
+            $output->writeln('<info>Gather all subscription to retry payment on.</info>');
+
             try {
-                $subscriptionToRenew = $this->subscriptionRepository->getAllSubscriptionsToRenew();
-                if (!empty($subscriptionToRenew)) {
+                $subscriptionsToRetry = $this->subscriptionRetryRepository->getAllSubscriptionToRetryPayment();
+
+                if (!empty($subscriptionsToRetry)) {
                     /** @var ProgressBar $progress */
                     $progressBar = $this->progressBarFactory->create(
                         [
                             'output' => $output,
-                            'max' => count($subscriptionToRenew),
+                            'max' => count($subscriptionsToRetry),
                         ]
                     );
 
@@ -99,35 +106,35 @@ class RenewSubscriptionCommand extends Command
 
                     $progressBar->start();
 
-                    foreach ($subscriptionToRenew as $subscription) {
+                    foreach ($subscriptionsToRetry as $subscriptionRetry) {
                         if ($this->config->getDebugMode()) {
                             $this->logger->debug(
                                 sprintf(
-                                    'Attempting to renew subscription with ID %s',
-                                    $subscription->getEntityId()
+                                    'Attempting to retry subscription payment with ID %s',
+                                    $subscriptionRetry->getSubscriptionId()
                                 )
                             );
                         }
 
-                        $this->renewSubscriptionService->execute($subscription);
+                        $this->retryService->execute($subscriptionRetry);
                         $progressBar->advance();
                     }
 
                     $progressBar->finish();
                     $output->write(PHP_EOL);
-                    $output->writeln('<info>Subscription renewal finished.</info>');
+                    $output->writeln('<info>Subscription retry finished.</info>');
                 } else {
                     if ($this->config->getDebugMode()) {
-                        $this->logger->debug('No subscription to renew found for the day.');
+                        $this->logger->debug('No subscription to retry payment on found.');
                     }
 
                     $output->writeln(
-                        "<info>There are no subscriptions to renew for today's date.</info>",
+                        "<info>There are no subscriptions to retry payment on.</info>",
                         OutputInterface::OUTPUT_NORMAL
                     );
                 }
-            } catch (\Exception $exception) {
-                $this->logger->error('Error while trying to run command to renew the subscription of todays date.');
+            } catch (\Throwable $exception) {
+                $this->logger->error('Error while trying to run command to retry subscription payment.');
                 $this->logger->error($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
 
                 $msg = $exception->getMessage();
@@ -136,7 +143,7 @@ class RenewSubscriptionCommand extends Command
                 return Cli::RETURN_FAILURE;
             }
         } else {
-            $this->logger->error('Renew subscription command is running but the subscription feature is disabled.');
+            $this->logger->error('Retry subscription command is running but the subscription feature is disabled.');
 
             $output->writeln(
                 "<info>The reccuring payments are disabled, enable it in admin.</info>",
@@ -145,7 +152,7 @@ class RenewSubscriptionCommand extends Command
         }
 
         if ($this->config->getDebugMode()) {
-            $this->logger->debug('Command renewal process done.');
+            $this->logger->debug('Command retry subscription payment process done.');
         }
 
         return Cli::RETURN_SUCCESS;

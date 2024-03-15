@@ -14,10 +14,12 @@ namespace UpStreamPay\Core\Model\Subscription;
 
 use Magento\Catalog\Model\ProductRepository;
 use Magento\Framework\Event\ManagerInterface as EventManager;
+use Magento\Framework\Math\FloatComparator;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Psr\Log\LoggerInterface;
 use UpStreamPay\Core\Api\Data\SubscriptionInterface;
 use UpStreamPay\Core\Model\Actions\DuplicateService;
+use UpStreamPay\Core\Model\Session\PurseSessionDataManager;
 use UpStreamPay\Core\Model\Subscription\Renew\CartManagement;
 use UpStreamPay\Core\Model\SubscriptionRepository;
 
@@ -39,6 +41,7 @@ class RenewSubscriptionService
      * @param OrderRepositoryInterface $orderRepository
      * @param LoggerInterface $logger
      * @param DuplicateService $duplicateService
+     * @param FloatComparator $floatComparator
      */
     public function __construct
     (
@@ -48,7 +51,8 @@ class RenewSubscriptionService
         private readonly CartManagement $cartManagementRenew,
         private readonly OrderRepositoryInterface $orderRepository,
         private readonly LoggerInterface $logger,
-        private readonly DuplicateService $duplicateService
+        private readonly DuplicateService $duplicateService,
+        private readonly FloatComparator $floatComparator,
     )
     {
     }
@@ -67,23 +71,9 @@ class RenewSubscriptionService
     public function execute(SubscriptionInterface $subscription): void
     {
         try {
-            $product = $this->productRepository->get($subscription->getProductSku());
-
-            //We always use the current product price, so if it's different, we update the subscription price & this
-            //event can be used by the merchant to trigger some custom logic abt price change (send customer email...).
-            if ($subscription->getProductPrice() !== $product->getPrice()) {
-                $subscription->setProductPrice((float)$product->getPrice());
-                $this->subscriptionRepository->save($subscription);
-
-                $this->eventManager->dispatch('subscription_usp_price_update', [
-                    'newProductPrice' => $product->getPrice(),
-                    'subscription' => $subscription,
-                    'sku' => $product->getSku(),
-                ]);
-            }
-
             $parentSubscription = $this->subscriptionRepository->getParentSubscription($subscription);
             $order = $this->orderRepository->get($parentSubscription->getOrderId());
+            $product = $this->productRepository->get($subscription->getProductSku());
         } catch (\Throwable $exception) {
             //If we can't even retrieve the product or update the subscription price, then no need to go even further.
             $this->logger->error(
@@ -99,6 +89,24 @@ class RenewSubscriptionService
 
         try {
             $quote = $this->cartManagementRenew->createQuote($subscription->getProductSku(), (int)$order->getQuoteId());
+
+            foreach ($quote->getAllVisibleItems() as $item) {
+                if ($item->getSku() === $subscription->getProductSku()) {
+                    //We always use the current product price, so if it's different, we update the subscription price & this
+                    //event can be used by the merchant to trigger some custom logic abt price change (send customer email...).
+                    if (!$this->floatComparator->equal($subscription->getProductPrice(), (float)$item->getBaseRowTotalInclTax())) {
+                        $subscription->setProductPrice((float)$item->getBaseRowTotalInclTax());
+                        $this->subscriptionRepository->save($subscription);
+
+                        $this->eventManager->dispatch('subscription_usp_price_update', [
+                            'newProductPrice' => (float)$item->getBaseRowTotalInclTax(),
+                            'subscription' => $subscription,
+                            'sku' => $product->getSku(),
+                            'qty' => $subscription->getQty()
+                        ]);
+                    }
+                }
+            }
         } catch (\Throwable $exception) {
             //In case of error while creating the quote, cancel the subscription to renew & don't process any further.
             $this->cancelSubscription($subscription, $exception);
@@ -118,7 +126,16 @@ class RenewSubscriptionService
                 self::ORIGINAL_INCREMENT_ID,
                 $order->getData(self::ORIGINAL_INCREMENT_ID) ?? $order->getIncrementId()
             );
+            
+            $renewOrder->getPayment()->setData(
+                PurseSessionDataManager::PAYMENT_PURSE_SESSION_ID,
+                $order->getPayment()->getData(PurseSessionDataManager::PAYMENT_PURSE_SESSION_ID)
+            );
             $this->orderRepository->save($renewOrder);
+
+            //Once we have the renewal order, the subscription to renew is linked to it.
+            $subscription->setOrderId((int)$renewOrder->getEntityId());
+            $this->subscriptionRepository->save($subscription);
         } catch (\Throwable $exception) {
             //In case of error while creating the order, cancel the subscription to renew & don't process any further.
             $this->cancelSubscription($subscription, $exception);

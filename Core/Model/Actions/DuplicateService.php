@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace UpStreamPay\Core\Model\Actions;
 
 use Magento\Framework\Event\ManagerInterface as EventManager;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Quote\Api\CartRepositoryInterface;
 use Magento\Quote\Api\Data\CartInterface;
 use Magento\Quote\Model\Quote;
@@ -33,6 +34,8 @@ use UpStreamPay\Core\Model\OrderTransactions;
 use UpStreamPay\Core\Model\Session\Order\OrderService;
 use UpStreamPay\Core\Model\Session\PurseSessionDataManager;
 use UpStreamPay\Core\Model\Subscription;
+use UpStreamPay\Core\Model\Subscription\Retry\HandleRetry;
+use UpStreamPay\Core\Model\SubscriptionRetry;
 use UpStreamPay\Core\Model\Synchronize\SynchronizeUpStreamPayPaymentData;
 use UpStreamPay\Core\Observer\SetOrderSentToPurseObserver;
 
@@ -59,6 +62,7 @@ class DuplicateService
      * @param LoggerInterface $logger
      * @param StatusResolver $statusResolver
      * @param CaptureDuplicateService $captureDuplicate
+     * @param HandleRetry $handleRetry
      */
     public function __construct(
         private readonly OrderTransactionsRepositoryInterface $orderTransactionsRepository,
@@ -75,36 +79,41 @@ class DuplicateService
         private readonly Config $config,
         private readonly LoggerInterface $logger,
         private readonly StatusResolver $statusResolver,
-        private readonly CaptureDuplicateService $captureDuplicate
+        private readonly CaptureDuplicateService $captureDuplicate,
+        private readonly HandleRetry $handleRetry
     )
     {
     }
 
     /**
+     * Duplicate the authorize transaction & capture it.
+     *
      * @param CartInterface|Quote $quote
      * @param string $transactionId
-     * @param OrderInterface|Order $renewOrder
+     * @param OrderInterface|Order $order
      * @param Subscription $subscription
      * @param Subscription $parentSubscription
      * @param null|OrderTransactionsInterface $duplicateAuthorize
      *
      * @return void
+     * @throws LocalizedException
      */
     public function execute(
         CartInterface|Quote $quote,
         string $transactionId,
-        OrderInterface|Order $renewOrder,
+        OrderInterface|Order $order,
         Subscription $subscription,
         Subscription $parentSubscription,
         ?OrderTransactionsInterface $duplicateAuthorize = null
     ): void
     {
         $body = $this->orderService->execute($quote, true);
-        $orderId = (int)$renewOrder->getEntityId();
+        $orderId = (int)$order->getEntityId();
         $quoteId = (int)$quote->getEntityId();
-        $payment = $renewOrder->getPayment();
+        $payment = $order->getPayment();
 
         try {
+            //If $duplicateAuthorize is null it means we are not coming from a waiting notification.
             if ($duplicateAuthorize === null) {
                 $response = $this->client->duplicate($transactionId, $body);
                 $duplicateAuthorize = $this->orderTransactions->createTransactionFromResponse(
@@ -119,16 +128,23 @@ class DuplicateService
         } catch (\Throwable $exception) {
             $state = Order::STATE_PENDING_PAYMENT;
             $this->handleOrderStatus(
-                $renewOrder,
+                $order,
                 $state,
                 sprintf(
                     'Error while trying to call the capture API & save the subscription for order %s: %s',
-                    $renewOrder->getIncrementId(),
+                    $order->getIncrementId(),
                     $exception->getMessage()
                 )
             );
 
-            //TODO create retry.
+            //In case of an error here, we can create a retry.
+            $this->handleRetry->execute(
+                $subscription,
+                OrderTransactions::AUTHORIZE_ACTION,
+                SubscriptionRetry::ERROR_STATUS,
+                $transactionId,
+                $order
+            );
 
             return;
         }
@@ -145,7 +161,7 @@ class DuplicateService
                 $this->orderTransactionsRepository->save($duplicateAuthorize);
 
                 $this->eventManager->dispatch(SetOrderSentToPurseObserver::EVENT_NAME, [
-                    'order' => $renewOrder,
+                    'order' => $order,
                 ]);
 
                 $quote
@@ -158,15 +174,8 @@ class DuplicateService
 
                 $this->cartRepository->save($quote);
 
-                $renewOrder
-                    ->getPayment()
-                    ->setData(PurseSessionDataManager::PAYMENT_PURSE_SESSION_ID, $duplicateAuthorize->getSessionId());
-
-                $this->orderRepository->save($renewOrder);
-
-                //The subscription we are trying to renew is linked to the renewal order & is enabled (but not paid !!!).
+                //The subscription we are trying to renew is enabled (but not paid !!!).
                 $subscription
-                    ->setOrderId((int)$renewOrder->getEntityId())
                     ->setSubscriptionStatus(Subscription::ENABLED);
                 $this->subscriptionRepository->save($subscription);
 
@@ -174,13 +183,31 @@ class DuplicateService
                 $parentSubscription->setSubscriptionStatus(Subscription::EXPIRED);
                 $this->subscriptionRepository->save($parentSubscription);
 
-                $this->paymentProcessor->order($payment, $renewOrder->getBaseTotalDue());
-                $this->orderRepository->save($renewOrder);
+                $this->paymentProcessor->order($payment, $order->getBaseTotalDue());
+                $this->orderRepository->save($order);
+
+                //In case there was an existing retry on this action, the service will handle update of the retry
+                //to flag as a success.
+                $this->handleRetry->execute(
+                    $subscription,
+                    OrderTransactions::AUTHORIZE_ACTION,
+                    SubscriptionRetry::SUCCESS_STATUS,
+                    $transactionId,
+                    $order
+                );
+
                 //The duplication is a success and there is no error, now we can try to capture & invoice the order.
-                $this->captureDuplicate->execute($renewOrder, $orderPayment, $subscription, $duplicateAuthorize);
+                $this->captureDuplicate->execute($order, $orderPayment, $subscription, $duplicateAuthorize);
             } else {
                 if ($duplicateAuthorize->getStatus() === OrderTransactions::ERROR_STATUS) {
-                    //TODO Add retry.
+                    //Add a retry in error.
+                    $this->handleRetry->execute(
+                        $subscription,
+                        OrderTransactions::AUTHORIZE_ACTION,
+                        SubscriptionRetry::ERROR_STATUS,
+                        $transactionId,
+                        $order
+                    );
 
                     $orderComment = sprintf(
                         'Duplicate authorize with transaction ID %s is in error, subscription can\'t be renewed yet.',
@@ -190,9 +217,19 @@ class DuplicateService
                     $debugMessage = sprintf(
                         "Duplicate authorize %s resulted in an error for order %s.",
                         $duplicateAuthorize->getTransactionId(),
-                        $renewOrder->getIncrementId()
+                        $order->getIncrementId()
                     );
                 } else {
+                    //Add a retry in waiting. When we have the notification we will update it to error or success.
+                    //We don't actually create a new waiting retry, this is in case of update only.
+                    $this->handleRetry->execute(
+                        $subscription,
+                        OrderTransactions::AUTHORIZE_ACTION,
+                        SubscriptionRetry::WAITING_STATUS,
+                        $transactionId,
+                        $order
+                    );
+
                     $orderComment = sprintf(
                         'Duplicate authorize with transaction ID %s is in waiting.',
                         $duplicateAuthorize->getTransactionId()
@@ -201,11 +238,12 @@ class DuplicateService
                     $debugMessage = sprintf(
                         "Duplicate authorize %s is in waiting while trying to pay order %s.",
                         $duplicateAuthorize->getTransactionId(),
-                        $renewOrder->getIncrementId()
+                        $order->getIncrementId()
                     );
                 }
 
-                $this->handleOrderStatus($renewOrder, Order::STATE_PAYMENT_REVIEW, $orderComment);
+                //In case of an error or waiting, the order is set to a payment review state.
+                $this->handleOrderStatus($order, Order::STATE_PAYMENT_REVIEW, $orderComment);
                 $this->log($debugMessage, $orderComment);
             }
         } catch (\Throwable $exception) {
@@ -227,8 +265,14 @@ class DuplicateService
             $parentSubscription->setSubscriptionStatus(Subscription::EXPIRED);
             $this->subscriptionRepository->save($parentSubscription);
 
-            $renewOrder->cancel();
-            $this->orderRepository->save($renewOrder);
+            //If the order can be canceled (not in payment review) otherwise deny the payment.
+            if ($order->canCancel()) {
+                $order->cancel();
+            } else {
+                $order->getPayment()->deny();
+            }
+
+            $this->orderRepository->save($order);
         }
     }
 
@@ -257,11 +301,12 @@ class DuplicateService
      */
     private function handleOrderStatus(Order $order, string $state, string $orderComment): void
     {
-        $order->setState($state);;
+        $order->setState($state);
         $order->addCommentToStatusHistory(
             $orderComment,
             $this->statusResolver->getOrderStatusByState($order, $state)
         );
+
         $this->orderRepository->save($order);
     }
 }

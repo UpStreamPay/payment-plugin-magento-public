@@ -182,6 +182,8 @@ class CartManagement
             $newQuote->getShippingAddress()->setCustomerId($shippingAddress->getCustomerId());
         }
 
+        $newQuote->setRemoteIp($originalQuote->getRemoteIp());
+
         $newQuote->setPaymentMethod(Config::METHOD_CODE_UPSTREAM_PAY);
         $newQuote->setInventoryProcessed(false);
         $newQuote->getPayment()->importData(['method' => Config::METHOD_CODE_UPSTREAM_PAY]);

@@ -329,4 +329,47 @@ class Subscription extends AbstractExtensibleModel implements SubscriptionInterf
         return $this->getPaymentStatus() === self::TO_PAY && $this->getSubscriptionStatus() === self::DISABLED;
     }
 
+    /**
+     * @codeCoverageIgnore
+     *
+     * @inheritDoc
+     */
+    public function getInvoiceId(): ?int
+    {
+        return (int)$this->getData(SubscriptionInterface::INVOICE_ID);
+    }
+
+    /**
+     * @codeCoverageIgnore
+     *
+     * @inheritDoc
+     */
+    public function setInvoiceId(?int $invoiceId): SubscriptionInterface
+    {
+        return $this->setData(SubscriptionInterface::INVOICE_ID, $invoiceId);
+    }
+
+    /**
+     * Get the qty ordered.
+     * You can order the product once or more.
+     *
+     * @return int
+     */
+    public function getQty(): int
+    {
+        return (int)$this->getData(SubscriptionInterface::QUANTITY);
+    }
+
+    /**
+     * Set the qty ordered.
+     * You can order the product once or more.
+     *
+     * @param int $qty
+     *
+     * @return SubscriptionInterface
+     */
+    public function setQty(int $qty): SubscriptionInterface
+    {
+        return $this->setData(SubscriptionInterface::QUANTITY, $qty);
+    }
 }

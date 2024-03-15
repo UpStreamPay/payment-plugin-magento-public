@@ -95,6 +95,14 @@ class OrderService
         }
 
         foreach ($transactions as $transaction) {
+            //In case we have a subscription, we must exclude the transaction in error from this check below.
+            //If we are in the order action process while we have a subscription renewal, transactions in error
+            //do not matter.
+            if ($transaction->getSubscriptionId() !== null
+                && $transaction->getStatus() === OrderTransactions::ERROR_STATUS) {
+                continue;
+            }
+
             if ($transaction->getTransactionType() === OrderTransactions::CAPTURE_ACTION) {
                 $amountToCapture += $transaction->getAmount();
             } elseif ($transaction->getTransactionType() === OrderTransactions::AUTHORIZE_ACTION) {

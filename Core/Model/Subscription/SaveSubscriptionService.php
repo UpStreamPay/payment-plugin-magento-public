@@ -115,20 +115,24 @@ class SaveSubscriptionService
                     $subscription = $this->createAndSaveSubscription(
                         $incrementId,
                         (int)$order->getEntityId(),
+                        (int)$invoice->getEntityId(),
                         $product,
                         $transactionId,
                         $subscriptionDurationAttrCode,
                         (float)$invoiceItem->getBaseRowTotalInclTax(),
-                        $order->getCustomerId()
+                        (int)$invoiceItem->getQty(),
+                        (int)$order->getCustomerId()
                     );
                     $futureSubscription = $this->createAndSaveSubscription(
                         $incrementId,
-                        (int)$order->getEntityId(),
+                        null,
+                        null,
                         $product,
                         $transactionId,
                         $subscriptionDurationAttrCode,
                         (float)$invoiceItem->getBaseRowTotalInclTax(),
-                        $order->getCustomerId(),
+                        (int)$invoiceItem->getQty(),
+                        (int)$order->getCustomerId(),
                         true,
                         $subscription->getEntityId(),
                     );
@@ -164,11 +168,13 @@ class SaveSubscriptionService
                             $futureSubscription = $this->createAndSaveSubscription(
                                 $incrementId,
                                 null,
+                                null,
                                 $product,
                                 $subscription->getOriginalTransactionId(),
                                 $subscriptionDurationAttrCode,
                                 (float)$invoiceItem->getBaseRowTotalInclTax(),
-                                $order->getCustomerId(),
+                                (int)$invoiceItem->getQty(),
+                                (int)$order->getCustomerId(),
                                 true,
                                 $subscription->getEntityId()
                             );
@@ -192,10 +198,12 @@ class SaveSubscriptionService
     /**
      * @param string $incrementId
      * @param null|int $orderId
+     * @param null|int $invoiceId
      * @param ProductInterface $product
      * @param string $transactionId
      * @param string $subscriptionDurationAttrCode
      * @param float $subscriptionTotal
+     * @param int $qty
      * @param null|int $customerId
      * @param bool $future
      * @param null|int $parentSubscriptionId
@@ -206,20 +214,25 @@ class SaveSubscriptionService
     public function createAndSaveSubscription(
         string $incrementId,
         ?int $orderId,
+        ?int $invoiceId,
         ProductInterface $product,
         string $transactionId,
         string $subscriptionDurationAttrCode,
         float $subscriptionTotal,
+        int $qty,
         ?int $customerId = null,
         bool $future = false,
         ?int $parentSubscriptionId = null,
     ): SubscriptionInterface
     {
+        /** @var SubscriptionInterface $subscription */
         $subscription = $this->subscriptionFactory->create()
             ->setSubscriptionIdentifier($product->getSku() . '_' . $incrementId)
             ->setProductPrice($subscriptionTotal)
+            ->setQty($qty)
             ->setProductName($product->getName())
             ->setProductSku($product->getSku())
+            ->setInvoiceId($invoiceId)
             ->setOriginalTransactionId($transactionId);
 
         if ($customerId) {

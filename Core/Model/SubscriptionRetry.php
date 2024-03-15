@@ -23,12 +23,25 @@ use UpStreamPay\Core\Api\Data\SubscriptionRetryInterface;
 use UpStreamPay\Core\Model\ResourceModel\SubscriptionRetry as SubscriptionRetryResource;
 
 /**
- * Class OrderPayment
+ * Class SubscriptionRetry
  *
  * @package UpStreamPay\Core\Model
  */
 class SubscriptionRetry extends AbstractExtensibleModel implements SubscriptionRetryInterface
 {
+    protected $_eventPrefix = 'upstream_pay_subscription_retry';
+
+    protected $_eventObject = 'subscription_retry';
+
+    //This means that the retry has returned an error and can be retried if the max number of retry hasn't been reached.
+    public const ERROR_STATUS = 'error';
+    //This means that the retry was a success and there is no need to retry payment on it again.
+    public const SUCCESS_STATUS = 'success';
+    //This means that the retry is in progress. Will transform into error, success or failure.
+    public const WAITING_STATUS = 'waiting';
+    //This means that we reached the maximum number of retry allowed.
+    public const FAILURE_STATUS = 'failure';
+
     /**
      * @codeCoverageIgnore
      *
@@ -38,6 +51,7 @@ class SubscriptionRetry extends AbstractExtensibleModel implements SubscriptionR
      * @param AttributeValueFactory $customAttributeFactory
      * @param AbstractResource|null $resource
      * @param AbstractDb|null $resourceCollection
+     * @param Config $config
      * @param array $data
      */
     public function __construct(
@@ -45,6 +59,7 @@ class SubscriptionRetry extends AbstractExtensibleModel implements SubscriptionR
         Registry $registry,
         ExtensionAttributesFactory $extensionFactory,
         AttributeValueFactory $customAttributeFactory,
+        private readonly Config $config,
         AbstractResource $resource = null,
         AbstractDb $resourceCollection = null,
         array $data = []
@@ -75,9 +90,9 @@ class SubscriptionRetry extends AbstractExtensibleModel implements SubscriptionR
      *
      * @inheritDoc
      */
-    public function getId(): ?int
+    public function getEntityId(): ?int
     {
-        return (int)$this->getData(SubscriptionRetryInterface::ID);
+        return (int)$this->getData(SubscriptionRetryInterface::ENTITY_ID);
     }
 
     /**
@@ -87,7 +102,7 @@ class SubscriptionRetry extends AbstractExtensibleModel implements SubscriptionR
      */
     public function getSubscriptionId(): ?int
     {
-        return $this->getData(SubscriptionRetryInterface::SUBSCRIPTION_ID);
+        return (int)$this->getData(SubscriptionRetryInterface::SUBSCRIPTION_ID);
     }
 
     /**
@@ -107,7 +122,7 @@ class SubscriptionRetry extends AbstractExtensibleModel implements SubscriptionR
      */
     public function getNumberOfRetries(): ?int
     {
-        return $this->getData(SubscriptionRetryInterface::NUMBER_OF_RETRIES);
+        return (int)$this->getData(SubscriptionRetryInterface::NUMBER_OF_RETRIES);
     }
 
     /**
@@ -165,7 +180,7 @@ class SubscriptionRetry extends AbstractExtensibleModel implements SubscriptionR
      *
      * @inheritDoc
      */
-    public function getTransactionId(): ?int
+    public function getTransactionId(): ?string
     {
         return $this->getData(SubscriptionRetryInterface::TRANSACTION_ID);
     }
@@ -175,9 +190,19 @@ class SubscriptionRetry extends AbstractExtensibleModel implements SubscriptionR
      *
      * @inheritDoc
      */
-    public function setTransactionId(int $transactionId): SubscriptionRetryInterface
+    public function setTransactionId(string $transactionId): SubscriptionRetryInterface
     {
         return $this->setData(SubscriptionRetryInterface::TRANSACTION_ID, $transactionId);
     }
 
+    /**
+     * Return true if the retry can be performed, false otherwise.
+     *
+     * @return bool
+     */
+    public function canBeRetried(): bool
+    {
+        return $this->getRetryStatus() === self::ERROR_STATUS
+            && $this->getNumberOfRetries() < $this->config->getSubscriptionPaymentMaximumPaymentRetry();
+    }
 }

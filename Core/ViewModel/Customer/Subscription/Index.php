@@ -14,11 +14,11 @@ namespace UpStreamPay\Core\ViewModel\Customer\Subscription;
 
 use Magento\Customer\Model\Session;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Pricing\Helper\Data;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use UpStreamPay\Core\Api\Data\SubscriptionInterface;
 use UpStreamPay\Core\Api\SubscriptionRepositoryInterface;
 use UpStreamPay\Core\Model\Subscription;
-use Magento\Framework\Pricing\Helper\Data;
 
 /**
  * Class Index

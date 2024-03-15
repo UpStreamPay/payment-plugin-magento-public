@@ -20,8 +20,8 @@ use Magento\Payment\Model\MethodInterface;
 use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
 use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
 use UpStreamPay\Core\Exception\AuthorizeErrorException;
-use UpStreamPay\Core\Model\OrderTransactions;
 use UpStreamPay\Core\Model\Config;
+use UpStreamPay\Core\Model\OrderTransactions;
 
 /**
  * Class AuthorizeService
@@ -83,6 +83,11 @@ class AuthorizeService
         }
 
         foreach ($authorizeTransactions as $authorizeTransaction) {
+            if ($authorizeTransaction->getSubscriptionId() !== null
+                && $authorizeTransaction->getStatus() === OrderTransactions::ERROR_STATUS) {
+                continue;
+            }
+
             if ($upStreamPaySessionId === '') {
                 $upStreamPaySessionId = $authorizeTransaction->getSessionId();
             }
