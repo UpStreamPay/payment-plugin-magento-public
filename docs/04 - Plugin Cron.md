@@ -17,10 +17,22 @@ To be eligible to a renewal, a subscription must:
 
 The class used for the cron is `UpStreamPay\Core\Cron\SubscriptionPaymentExecution`.
 
-If you'd to run an external cron to run the command & disable this one you can.
+If you'd like to run an external cron to run the command & disable this one you can.
 
 ### Subscriptions retry cron
-...
+The cron `subscription_payment_retry` is used to retry the subscriptions payment. Each time it is triggered a retry
+on the payment in error will be done.
+
+**This cron can run as much as you'd like per day. But avoid running it too often, give it at least 30 minutes / 1 hour
+between each run.**
+
+To be eligible a retry must:
+- have the `error` status.
+- have a number of retry < to the maximum number of retry.
+
+The class used for the cron is `UpStreamPay\Core\Cron\SubscriptionPaymentRetryExecution`.
+
+If you'd like to run an external cron to run the command & disable this one you can.
 
 ## Cron group
 

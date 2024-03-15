@@ -12,3 +12,14 @@ To be eligible to a renewal, a subscription must:
 
 This command is used for manual renew in case the cron is not working or if you'd prefer to run an external cron with
 a script that would run this command daily.
+
+
+## Retry subscription payment
+The command `upstreampay:subscription:retry` is used to trigger a manual retry of the subscription's payment.
+
+To be eligible a retry must:
+- have the `error` status.
+- have a number of retry < to the maximum number of retry.
+
+This command is used for manual retry in case the cron is not working or if you'd prefer to run an external cron with
+a script that would run this command daily (several times a day if needed).
