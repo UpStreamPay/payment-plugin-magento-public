@@ -77,3 +77,17 @@ the merchant ID config becomes visible & required in admin.
 
 These parameters represent the names of the attributes (non static) to be transmitted to the payment provider to exempt a
 cart or provide a note. The creation and content of these attributes are the responsibility of the store if it has them.
+
+
+## Subscription settings
+
+![SUBSCRIPTION](images/02-05.png)
+
+| Parameter                                                               | Description                                                                                                |
+|-------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|
+| Enabled                                                                 | Enable / Disable the subscription (recurring payments) feature.                                            |
+| Let customers manage subscription <br/>payments from frontend           | Enable / Disable the frontend customer account interface.                                                  |
+| Attribute code used to determine if a product is a subscription product | Attribute code (int attribute) to determine if product is a subscription                                   |
+| Attribute code used to know how long the subscription is (in days)      | Attribute code (int attribute) to determine the number of days for the subscription                        |
+| Payment cron expression                                                 | The subscription payment renewal cron expression **(run ONCE a day !!!!)**.                                |
+| Payment retry cron expression                                           | The retry payment cron expression. Each time this cron runs it adds +1 to the retry counter of the payment |
