@@ -168,7 +168,7 @@ class SubscriptionRetryRepository implements SubscriptionRetryRepositoryInterfac
     public function getAllSubscriptionToRetryPayment(): array
     {
         $searchCriteria = $this->searchCriteriaBuilder
-            ->addFilter(SubscriptionRetryInterface::RETRY_STATUS, Subscription::ERROR)
+            ->addFilter(SubscriptionRetryInterface::RETRY_STATUS, SubscriptionRetry::ERROR_STATUS)
             ->create()
         ;
 
