@@ -14,6 +14,7 @@ namespace UpStreamPay\Core\Model\Subscription;
 
 use Magento\Catalog\Model\ProductRepository;
 use Magento\Framework\Event\ManagerInterface as EventManager;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Math\FloatComparator;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Psr\Log\LoggerInterface;
@@ -67,6 +68,7 @@ class RenewSubscriptionService
      * @param SubscriptionInterface $subscription
      *
      * @return void
+     * @throws LocalizedException
      */
     public function execute(SubscriptionInterface $subscription): void
     {
@@ -126,7 +128,7 @@ class RenewSubscriptionService
                 self::ORIGINAL_INCREMENT_ID,
                 $order->getData(self::ORIGINAL_INCREMENT_ID) ?? $order->getIncrementId()
             );
-            
+
             $renewOrder->getPayment()->setData(
                 PurseSessionDataManager::PAYMENT_PURSE_SESSION_ID,
                 $order->getPayment()->getData(PurseSessionDataManager::PAYMENT_PURSE_SESSION_ID)
