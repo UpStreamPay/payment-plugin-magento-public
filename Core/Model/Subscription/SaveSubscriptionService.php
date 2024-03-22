@@ -265,7 +265,7 @@ class SaveSubscriptionService
                 ->setPaymentStatus(Subscription::TO_PAY)
                 ->setStartDate($futureStartDate)
                 ->setEndDate($futureEndDate)
-                ->setNextPaymentDate($futureEndDate)
+                ->setNextPaymentDate($futureStartDate)
                 ->setParentSubscriptionId($parentSubscriptionId)
             ;
         }
