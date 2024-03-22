@@ -84,7 +84,9 @@ class CancelService
             } else {
                 $subscription
                     ->setSubscriptionStatus(Subscription::CANCELED)
-                    ->setPaymentStatus(Subscription::CANCELED);
+                    ->setPaymentStatus(Subscription::CANCELED)
+                    ->setNextPaymentDate(null)
+                ;
                 $this->subscriptionRepository->save($subscription);
                 $this->eventManager->dispatch(
                     'usp_subscription_canceled',
@@ -116,7 +118,9 @@ class CancelService
                     if ($subscription && $subscription->getEntityId()) {
                         $subscription
                             ->setSubscriptionStatus(Subscription::CANCELED)
-                            ->setPaymentStatus(Subscription::CANCELED);
+                            ->setPaymentStatus(Subscription::CANCELED)
+                            ->setNextPaymentDate(null)
+                        ;
                         $this->subscriptionRepository->save($subscription);
                         $this->eventManager->dispatch(
                             'usp_creditmemo_subscription_canceled',
