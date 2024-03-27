@@ -6,8 +6,9 @@ You can configure the cron task features in the Adobe Commerce administration by
 
 ### Subscriptions cron
 The cron `subscription_payment` is used to renew the subscriptions for today's date.
+It's best to run it twice a day to ensure there are no renewal left behind, more than that would be useless.
 
-**This cron must run ONCE daily, there is no need to run it more than once a day & you cannot skip a day.**
+**This cron must run twice daily, there is no need to run it more than twice a day & you cannot skip a day.**
 
 To be eligible to a renewal, a subscription must:
 - have the next payment date set to today's date.

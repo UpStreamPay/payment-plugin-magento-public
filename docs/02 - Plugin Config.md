@@ -89,5 +89,5 @@ cart or provide a note. The creation and content of these attributes are the res
 | Let customers manage subscription <br/>payments from frontend           | Enable / Disable the frontend customer account interface.                                                  |
 | Attribute code used to determine if a product is a subscription product | Attribute code (int attribute) to determine if product is a subscription                                   |
 | Attribute code used to know how long the subscription is (in days)      | Attribute code (int attribute) to determine the number of days for the subscription                        |
-| Payment cron expression                                                 | The subscription payment renewal cron expression **(run ONCE a day !!!!)**.                                |
+| Payment cron expression                                                 | The subscription payment renewal cron expression **(run twice a day)**.                                    |
 | Payment retry cron expression                                           | The retry payment cron expression. Each time this cron runs it adds +1 to the retry counter of the payment |
