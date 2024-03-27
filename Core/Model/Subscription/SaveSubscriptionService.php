@@ -14,9 +14,11 @@ namespace UpStreamPay\Core\Model\Subscription;
 
 use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Catalog\Api\ProductRepositoryInterface;
+use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\Order\Invoice;
 use Magento\Sales\Model\Order\Invoice\Item;
@@ -47,15 +49,17 @@ class SaveSubscriptionService
      * @param Config $config
      * @param LoggerInterface $logger
      * @param OrderTransactionsRepositoryInterface $orderTransactionsRepository
+     * @param TimezoneInterface $timezoneInterface
      */
     public function __construct(
-        private readonly SubscriptionFactory $subscriptionFactory,
-        private readonly SubscriptionRepositoryInterface $subscriptionRepository,
-        private readonly ProductRepositoryInterface $productRepository,
-        private readonly ManagerInterface $eventManager,
-        private readonly Config $config,
-        private readonly LoggerInterface $logger,
-        private readonly OrderTransactionsRepositoryInterface $orderTransactionsRepository
+        private readonly SubscriptionFactory                  $subscriptionFactory,
+        private readonly SubscriptionRepositoryInterface      $subscriptionRepository,
+        private readonly ProductRepositoryInterface           $productRepository,
+        private readonly ManagerInterface                     $eventManager,
+        private readonly Config                               $config,
+        private readonly LoggerInterface                      $logger,
+        private readonly OrderTransactionsRepositoryInterface $orderTransactionsRepository,
+        private readonly TimezoneInterface                    $timezoneInterface,
     )
     {
     }
@@ -90,6 +94,15 @@ class SaveSubscriptionService
             $product = $this->productRepository->getById($invoiceItem->getProductId());
             $productSubDuration = $product->getData($subscriptionDurationAttrCode);
 
+            // if simple product, only get baseRowTotalInclTax from invoice
+            $baseRowTotalInclTax = (float)$invoiceItem->getBaseRowTotalInclTax();
+
+            // Check if product is a child of configurable
+            if (!$baseRowTotalInclTax || $baseRowTotalInclTax == 0.0) {
+                // Always take the configurable cost
+                $baseRowTotalInclTax = $this->getParentProductPrice($order, $invoice, $invoiceItem->getSku());
+            }
+
             //In case product is not a subscription, no need to process this item.
             if (!$product->getData($subscriptionEligibleAttrCode) && !isset($productSubDuration)) {
                 continue;
@@ -119,7 +132,7 @@ class SaveSubscriptionService
                         $product,
                         $transactionId,
                         $subscriptionDurationAttrCode,
-                        (float)$invoiceItem->getBaseRowTotalInclTax(),
+                        $baseRowTotalInclTax,
                         (int)$invoiceItem->getQty(),
                         (int)$order->getCustomerId()
                     );
@@ -130,7 +143,7 @@ class SaveSubscriptionService
                         $product,
                         $transactionId,
                         $subscriptionDurationAttrCode,
-                        (float)$invoiceItem->getBaseRowTotalInclTax(),
+                        $baseRowTotalInclTax,
                         (int)$invoiceItem->getQty(),
                         (int)$order->getCustomerId(),
                         true,
@@ -172,7 +185,7 @@ class SaveSubscriptionService
                                 $product,
                                 $subscription->getOriginalTransactionId(),
                                 $subscriptionDurationAttrCode,
-                                (float)$invoiceItem->getBaseRowTotalInclTax(),
+                                $baseRowTotalInclTax,
                                 (int)$invoiceItem->getQty(),
                                 (int)$order->getCustomerId(),
                                 true,
@@ -196,6 +209,27 @@ class SaveSubscriptionService
     }
 
     /**
+     * Return the parent product baseRowTotalInclTax from invoice item
+     * @param OrderInterface $order
+     * @param Invoice $invoice
+     * @param string $invoiceSku
+     * @return float|null
+     */
+    private function getParentProductPrice(OrderInterface $order, Invoice $invoice, string $invoiceSku): ?float
+    {
+        foreach ($order->getItems() as $orderItem) {
+            if ($orderItem->getProductType() === Configurable::TYPE_CODE && $orderItem->getSku() == $invoiceSku) {
+                foreach ($invoice->getItems() as $invoiceItem) {
+                    if ($invoiceItem->getProductId() == $orderItem->getProductId() && $invoiceItem->getSku() == $invoiceSku) {
+                        return (float)$invoiceItem->getBaseRowTotalInclTax();
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
      * @param string $incrementId
      * @param null|int $orderId
      * @param null|int $invoiceId
@@ -212,17 +246,17 @@ class SaveSubscriptionService
      * @throws LocalizedException
      */
     public function createAndSaveSubscription(
-        string $incrementId,
-        ?int $orderId,
-        ?int $invoiceId,
+        string           $incrementId,
+        ?int             $orderId,
+        ?int             $invoiceId,
         ProductInterface $product,
-        string $transactionId,
-        string $subscriptionDurationAttrCode,
-        float $subscriptionTotal,
-        int $qty,
-        ?int $customerId = null,
-        bool $future = false,
-        ?int $parentSubscriptionId = null,
+        string           $transactionId,
+        string           $subscriptionDurationAttrCode,
+        float            $subscriptionTotal,
+        int              $qty,
+        ?int             $customerId = null,
+        bool             $future = false,
+        ?int             $parentSubscriptionId = null,
     ): SubscriptionInterface
     {
         /** @var SubscriptionInterface $subscription */
@@ -240,7 +274,7 @@ class SaveSubscriptionService
         }
 
         /* set first subscription dates */
-        $startDate = date('Y-m-d', time());
+        $startDate = $this->timezoneInterface->date(new \DateTime())->format('Y-m-d');
         $endDate = date(
             'Y-m-d',
             strtotime($startDate . ' + ' . $product->getData($subscriptionDurationAttrCode) . ' days')
@@ -266,8 +300,7 @@ class SaveSubscriptionService
                 ->setStartDate($futureStartDate)
                 ->setEndDate($futureEndDate)
                 ->setNextPaymentDate($futureStartDate)
-                ->setParentSubscriptionId($parentSubscriptionId)
-            ;
+                ->setParentSubscriptionId($parentSubscriptionId);
         }
 
         $this->subscriptionRepository->save($subscription);
