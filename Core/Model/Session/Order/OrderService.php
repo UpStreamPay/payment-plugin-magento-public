@@ -29,21 +29,23 @@ class OrderService
      * @param UrlInterface $url
      */
     public function __construct(
-        private readonly array $builders,
+        private readonly array        $builders,
         private readonly UrlInterface $url
-    ) {
+    )
+    {
     }
 
     /**
      * Build the order that UpStream Pay needs to create a session.
      *
      * @param Quote $quote
+     * @param bool $isDuplicate
      *
      * @return array
      *
      * @see UpStream Pay documentation regarding all the fields & format.
      */
-    public function execute(Quote $quote): array
+    public function execute(Quote $quote, bool $isDuplicate = false): array
     {
         $order = [];
 
@@ -51,7 +53,9 @@ class OrderService
 
         $order['hook'] = $this->url->getUrl(Notification::URL_PATH);
         $order['amount'] = $quote->getBaseGrandTotal();
-        $order['order']['redirection'] = $this->url->getUrl(ReturnUrl::URL_PATH);
+        if (!$isDuplicate) {
+            $order['order']['redirection'] = $this->url->getUrl(ReturnUrl::URL_PATH);
+        }
         $order['order']['reference'] = $quote->getId();
         $order['order']['amount'] = $quote->getBaseGrandTotal();
         $order['order']['net_amount'] = $netAmount;

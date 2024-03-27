@@ -31,6 +31,7 @@ interface OrderTransactionsInterface
     public const STATUS = 'status';
     public const CREATED_AT = 'created_at';
     public const UPDATED_AT = 'updated_at';
+    public const SUBSCRIPTION_ID = 'subscription_id';
 
     /**
      * @return null|int
@@ -256,4 +257,16 @@ interface OrderTransactionsInterface
      * @return $this
      */
     public function setUpdatedAt(string $updatedAt): self;
+
+    /**
+     * @return null|int
+     */
+    public function getSubscriptionId(): ?int;
+
+    /**
+     * @param null|int $subscriptionId
+     *
+     * @return $this
+     */
+    public function setSubscriptionId(?int $subscriptionId): self;
 }

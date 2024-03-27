@@ -8,6 +8,7 @@
  *
  * Author: Claranet France <info@fr.clara.net>
  */
+
 namespace UpStreamPay\Core\Api;
 
 use Magento\Framework\Api\SearchCriteriaInterface;
@@ -15,6 +16,7 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
 use UpStreamPay\Core\Api\Data\OrderTransactionsSearchResultsInterface;
+use UpStreamPay\Core\Exception\NoTransactionsException;
 
 /**
  * Interface OrderTransactionsRepositoryInterface
@@ -87,6 +89,18 @@ interface OrderTransactionsRepositoryInterface
      * @throws LocalizedException
      */
     public function getList(SearchCriteriaInterface $searchCriteria): OrderTransactionsSearchResultsInterface;
+
+    /**
+     * search a transaction with a primary payment by invoice id
+     *
+     * @param int $invoiceId
+     *
+     * @return string
+     *
+     * @throws LocalizedException
+     * @throws NoTransactionsException
+     */
+    public function getByInvoiceIdAndPrimaryMethod(int $invoiceId): string;
 
     /**
      * @param OrderTransactionsInterface $orderTransactions

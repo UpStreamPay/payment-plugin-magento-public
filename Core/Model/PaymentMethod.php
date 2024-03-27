@@ -15,6 +15,7 @@ namespace UpStreamPay\Core\Model;
 use Magento\Framework\Api\AttributeValueFactory;
 use Magento\Framework\Api\ExtensionAttributesFactory;
 use Magento\Framework\Data\Collection\AbstractDb;
+use Magento\Framework\Event\ManagerInterface as EventManager;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\Framework\Model\Context;
@@ -23,7 +24,6 @@ use Magento\Framework\Registry;
 use UpStreamPay\Core\Api\Data\PaymentMethodInterface;
 use UpStreamPay\Core\Api\PaymentMethodRepositoryInterface;
 use UpStreamPay\Core\Model\ResourceModel\OrderPayment as OrderPaymentResourceModel;
-use Magento\Framework\Event\ManagerInterface as EventManager;
 
 /**
  * Class PaymentMethod
@@ -39,6 +39,8 @@ class PaymentMethod extends AbstractExtensibleModel implements PaymentMethodInte
     protected $_eventObject = 'payment_method';
 
     /**
+     * @codeCoverageIgnore
+     *
      * @inheritdoc
      */
     protected function _construct()
@@ -47,6 +49,8 @@ class PaymentMethod extends AbstractExtensibleModel implements PaymentMethodInte
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @param PaymentMethodRepositoryInterface $paymentMethodRepository
      * @param PaymentMethodFactory $paymentMethodFactory
      * @param EventManager $eventManager

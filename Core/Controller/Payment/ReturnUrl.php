@@ -18,13 +18,11 @@ use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\App\CsrfAwareActionInterface;
 use Magento\Framework\App\Request\InvalidRequestException;
 use Magento\Framework\App\RequestInterface;
-use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\Result\RedirectFactory;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Event\Manager;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Message\ManagerInterface;
-use Magento\Framework\Phrase;
 use Magento\Payment\Model\InfoInterface;
 use Magento\Payment\Model\MethodInterface;
 use Magento\Sales\Api\Data\InvoiceInterface;
@@ -64,6 +62,8 @@ class ReturnUrl implements HttpGetActionInterface, HttpPostActionInterface, Csrf
      * @param InvoiceRepositoryInterface $invoiceRepository
      * @param ManagerInterface $messageManager
      * @param OrderSender $orderSender
+     * @param InvoiceSender $invoiceSender
+     * @param Manager $eventManager
      */
     public function __construct(
         private readonly Session $checkoutSession,

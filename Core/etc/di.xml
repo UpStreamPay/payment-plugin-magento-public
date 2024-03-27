@@ -31,6 +31,12 @@
     <preference for="UpStreamPay\Core\Api\Data\PaymentMethodSearchResultsInterface"
                 type="UpStreamPay\Core\Model\PaymentMethodSearchResults"/>
     <preference for="UpStreamPay\Core\Api\Data\PaymentMethodInterface" type="UpStreamPay\Core\Model\PaymentMethod"/>
+    <preference for="UpStreamPay\Core\Api\Data\SubscriptionInterface" type="UpStreamPay\Core\Model\Subscription"/>
+    <preference for="UpStreamPay\Core\Api\SubscriptionRepositoryInterface" type="UpStreamPay\Core\Model\SubscriptionRepository"/>
+    <preference for="UpStreamPay\Core\Api\Data\SubscriptionSearchResultsInterface" type="UpStreamPay\Core\Model\SubscriptionSearchResults"/>
+    <preference for="UpStreamPay\Core\Api\Data\SubscriptionRetryInterface" type="UpStreamPay\Core\Model\SubscriptionRetry"/>
+    <preference for="UpStreamPay\Core\Api\Data\SubscriptionRetrySearchResultsInterface" type="UpStreamPay\Core\Model\SubscriptionRetrySearchResults"/>
+    <preference for="UpStreamPay\Core\Api\SubscriptionRetryRepositoryInterface" type="UpStreamPay\Core\Model\SubscriptionRetryRepository"/>
 
     <type name="UpStreamPay\Core\Model\Session\Order\OrderService">
         <arguments>
@@ -66,6 +72,9 @@
                 <item name="upstreampay_transactions_grid_data_source" xsi:type="string">
                     UpStreamPay\Core\Model\ResourceModel\Transactions\Grid\Collection
                 </item>
+                <item name="upstreampay_subscriptions_grid_data_source" xsi:type="string">
+                    UpStreamPay\Core\Model\ResourceModel\Subscriptions\Grid\Collection
+                </item>
             </argument>
         </arguments>
     </type>
@@ -85,6 +94,16 @@
             <argument name="mainTable" xsi:type="string">upstream_pay_order_transactions</argument>
             <argument name="resourceModel" xsi:type="string">
                 UpStreamPay\Core\Model\ResourceModel\OrderTransactions
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="UpStreamPay\Core\Model\ResourceModel\Subscriptions\Grid\Collection"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">upstream_pay_subscription</argument>
+            <argument name="resourceModel" xsi:type="string">
+                UpStreamPay\Core\Model\ResourceModel\Subscription
             </argument>
         </arguments>
     </virtualType>
@@ -121,5 +140,14 @@
     <type name="Magento\Checkout\Model\PaymentInformationManagement">
         <plugin name="paymentInformationPlugin" type="UpStreamPay\Core\Plugin\PaymentInformationPlugin" sortOrder="1"
                 disabled="false" />
+    </type>
+
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="subscription_renew" xsi:type="object">UpStreamPay\Core\Console\RenewSubscriptionCommand</item>
+                <item name="subscription_retry" xsi:type="object">UpStreamPay\Core\Console\RetrySubscriptionPaymentCommand</item>
+            </argument>
+        </arguments>
     </type>
 </config>
