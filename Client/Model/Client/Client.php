@@ -12,16 +12,16 @@ declare(strict_types=1);
 
 namespace UpStreamPay\Client\Model\Client;
 
+use GuzzleHttp\ClientFactory;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
 use JsonException;
+use Magento\Framework\Event\ManagerInterface as EventManager;
 use Psr\Log\LoggerInterface;
 use UpStreamPay\Client\Exception\NoSessionFoundException;
 use UpStreamPay\Client\Model\Token\TokenService;
 use UpStreamPay\Core\Exception\ConflictRetrieveTransactionsException;
 use UpStreamPay\Core\Model\Config;
-use GuzzleHttp\ClientFactory;
-use Magento\Framework\Event\ManagerInterface as EventManager;
 use UpStreamPay\Core\Model\Config\Source\Debug;
 
 /**
@@ -44,6 +44,8 @@ class Client implements ClientInterface
     private const CAPTURE_URI = '/capture';
     private const VOID_URI = '/void';
     private const REFUND_URI = '/refund';
+
+    private const DUPLICATE_URI = '/off_session_authorize';
     private const API_URI_SKELETON = '%s%s%s%s';
 
     /**
@@ -384,6 +386,42 @@ class Client implements ClientInterface
                 throw $exception;
             }
         }
+    }
+
+    /**
+     * Duplicate the given authorize transaction.
+     * The new authorize transaction will be linked to the same session as the given authorize transaction.
+     *
+     * @param string $transactionId
+     * @param array $body
+     *
+     * @return array
+     * @throws GuzzleException
+     * @throws JsonException
+     */
+    public function duplicate(string $transactionId, array $body): array
+    {
+        if ($this->config->getDebugMode() === Debug::DEBUG_VALUE) {
+            $this->logger->debug('--DUPLICATE TRANSACTION--');
+        }
+
+        $uri = sprintf(
+            self::API_URI_SKELETON,
+            $this->config->getEntityId(),
+            self::TRANSACTIONS_URI,
+            $transactionId,
+            self::DUPLICATE_URI,
+        );
+
+        $duplicateResponse = $this->callApi($this->buildHeader(), $body, self::POST, $uri, []);
+
+        $this->eventManager->dispatch('sales_order_usp_after_duplicate', [
+            'transactionId' => $transactionId,
+            'body' => $body,
+            'duplicateResponse' => $duplicateResponse
+        ]);
+
+        return $duplicateResponse;
     }
 
     /**

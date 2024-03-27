@@ -12,7 +12,8 @@
 var config = {
     map: {
         '*': {
-            purseWallet: 'UpStreamPay_Core/js/view/customer/purse-wallet'
+            purseWallet: 'UpStreamPay_Core/js/view/customer/purse-wallet',
+            purseSubscription: 'UpStreamPay_Core/js/view/customer/purse-subscription'
         }
     }
 };

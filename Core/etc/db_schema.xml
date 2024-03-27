@@ -22,7 +22,7 @@
         <column xsi:type="varchar" name="type" nullable="false" length="255"
                 comment="Primary or secondary payment method"/>
         <column xsi:type="int" name="quote_id" unsigned="true" nullable="false" comment="Quote ID"/>
-        <column xsi:type="int" name="order_id" unsigned="true" nullable="false" comment="Order ID"/>
+        <column xsi:type="int" name="order_id" unsigned="true" nullable="true" comment="Order ID"/>
         <column xsi:type="int" name="payment_id" unsigned="true" nullable="false" comment="Payment ID"/>
         <column xsi:type="decimal" name="amount" scale="4" precision="12" nullable="false" default="0.00"
                 comment="Total Amount"/>
@@ -79,6 +79,7 @@
         <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
         <column xsi:type="varchar" name="session_id" length="255" nullable="false" comment="Session ID"/>
         <column xsi:type="varchar" name="transaction_id" nullable="false" length="255" comment="Transaction ID"/>
+        <column xsi:type="int" name="subscription_id" nullable="true" unsigned="true" comment="Subscription ID"/>
         <column xsi:type="varchar" name="parent_transaction_id" nullable="true" length="255"
                 comment="Parent transaction ID"/>
         <column xsi:type="int" name="parent_payment_id" nullable="true" comment="Parent transaction ID"/>
@@ -109,6 +110,11 @@
                     table="upstream_pay_order_transactions" column="order_id" referenceTable="sales_order"
                     referenceColumn="entity_id" onDelete="CASCADE"/>
 
+        <!-- upstream_pay_subscription table foreign key-->
+        <constraint xsi:type="foreign" referenceId="UPSTREAM_PAY_ORDER_TRANSACTIONS_SUBSCRIPTION_ID_UPSTREAM_PAY_SUBSCRIPTION_ENTITY_ID"
+                    table="upstream_pay_order_transactions" column="subscription_id" referenceTable="upstream_pay_subscription"
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
+
         <!-- We can't have two rows with the same session id & transaction id. -->
         <constraint xsi:type="unique" referenceId="UPSTREAM_PAY_ORDER_PAYMENT_SESSION_ID_TRANSACTION_ID">
             <column name="session_id"/>
@@ -130,6 +136,9 @@
         </index>
         <index referenceId="UPSTREAM_PAY_ORDER_TRANSACTIONS_SESSION_ID" indexType="btree">
             <column name="session_id"/>
+        </index>
+        <index referenceId="UPSTREAM_PAY_ORDER_TRANSACTIONS_SUBSCRIPTION_ID" indexType="btree">
+            <column name="subscription_id"/>
         </index>
     </table>
 
@@ -155,16 +164,14 @@
         <column xsi:type="decimal" name="purse_session_amount" scale="4" precision="12" nullable="false" default="0.00"
                 comment="Purse session amount"/>
         <column xsi:type="varchar" name="purse_session_id" length="255" nullable="true" comment="Purse session ID"/>
-
-        <constraint xsi:type="unique" referenceId="QUOTE_PAYMENT_PURSE_SESSION_ID">
+        <constraint xsi:type="unique" referenceId="QUOTE_PAYMENT_PURSE_SESSION_ID" disabled="true">
             <column name="purse_session_id"/>
         </constraint>
     </table>
 
     <table name="sales_order_payment" resource="sales" engine="innodb" comment="Sales Flat Order Payment">
         <column xsi:type="varchar" name="purse_session_id" length="255" nullable="true" comment="Purse session ID"/>
-
-        <constraint xsi:type="unique" referenceId="SALES_ORDER_PAYMENT_PURSE_SESSION_ID">
+        <constraint xsi:type="unique" referenceId="SALES_ORDER_PAYMENT_PURSE_SESSION_ID" disabled="true">
             <column name="purse_session_id"/>
         </constraint>
     </table>
@@ -172,10 +179,80 @@
     <table name="sales_order" resource="sales" engine="innodb" comment="Sales Flat Order">
         <column xsi:type="smallint" name="order_sent_to_purse" unsigned="true" nullable="false" identity="false"
                 default="0" comment="Purse session ID"/>
+        <column xsi:type="varchar" name="original_increment_id" nullable="true" length="50"
+                comment="Original order increment id"/>
 
         <!-- Index colmumns -->
         <index referenceId="SALES_ORDER_ORDER_SENT_TO_PURSE" indexType="btree">
             <column name="order_sent_to_purse"/>
+        </index>
+    </table>
+
+    <table name="upstream_pay_subscription" resource="default" engine="innodb" comment="Upstream Pay subscription table">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="ENTITY ID"/>
+        <column xsi:type="int" name="parent_subscription_id" unsigned="true" nullable="true" comment="Previous subscription ENTITY ID"/>
+        <column xsi:type="varchar" name="subscription_identifier" nullable="false" length="255" comment="Subscription identifier"/>
+        <column xsi:type="varchar" name="subscription_status" nullable="false" length="255" default="disabled"
+                comment="Subscription status"/>
+        <column xsi:type="varchar" name="payment_status" nullable="false" length="255" default="to_pay" comment="Payment Status"/>
+        <column xsi:type="float" name="product_price" scale="4" precision="12" nullable="false" default="0.00" comment="Product price"/>
+        <column xsi:type="varchar" name="product_name" length="255" comment="Product Name"/>
+        <column xsi:type="varchar" name="product_sku" length="255" comment="Product Sku"/>
+        <column xsi:type="timestamp" name="start_date" nullable="false" comment="Start subscription date"/>
+        <column xsi:type="timestamp" name="end_date" nullable="false" comment="End subscription date"/>
+        <column xsi:type="timestamp" name="next_payment_date" nullable="true" comment="Next payment date"/>
+        <column xsi:type="int" name="order_id" unsigned="true" nullable="true" comment="Order ID"/>
+        <column xsi:type="int" name="customer_id" unsigned="true" nullable="true" comment="Customer ID"/>
+        <column xsi:type="int" name="invoice_id" unsigned="true" nullable="true" comment="Invoice ID"/>
+        <column xsi:type="varchar" name="original_transaction_id" nullable="false" length="255" comment="Original transaction id"/>
+        <column xsi:type="int" name="qty" unsigned="true" nullable="false" comment="Product qty ordered"/>
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+
+        <!-- sales_order table foreign key-->
+        <constraint xsi:type="foreign" referenceId="UPSTREAM_PAY_SUBSCRIPTION_ORDER_ID_SALES_ORDER_ENTITY_ID"
+                    table="upstream_pay_subscription" column="order_id" referenceTable="sales_order"
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
+
+        <!-- sales_invoice table foreign key-->
+        <constraint xsi:type="foreign" referenceId="UPSTREAM_PAY_SUBSCRIPTION_INVOICE_ID_SALES_INVOICE_ENTITY_ID"
+                    table="upstream_pay_subscription" column="invoice_id" referenceTable="sales_invoice"
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
+
+        <!-- Index colmumns -->
+        <index referenceId="UPSTREAM_PAY_SUBSCRIPTION_SUBSCRIPTION_IDENTIFIER" indexType="btree">
+            <column name="subscription_identifier"/>
+        </index>
+        <index referenceId="UPSTREAM_PAY_SUBSCRIPTION_ORDER_ID" indexType="btree">
+            <column name="order_id"/>
+        </index>
+        <index referenceId="UPSTREAM_PAY_SUBSCRIPTION_INVOICE_ID" indexType="btree">
+            <column name="invoice_id"/>
+        </index>
+    </table>
+
+    <table name="upstream_pay_subscription_retry" resource="default" engine="innodb" comment="Upstream Pay subscription retries table">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="ENTITY ID"/>
+        <column xsi:type="int" name="subscription_id" nullable="false" unsigned="true" comment="Subscription id"/>
+        <column xsi:type="int" name="number_of_retries" unsigned="true" comment="Number of retries"/>
+        <column xsi:type="varchar" name="retry_status" length="255" default="error" comment="Retry status"/>
+        <column xsi:type="varchar" name="retry_type" length="255" comment="Retry type"/>
+        <column xsi:type="varchar" name="transaction_id" length="255" comment="Transaction id"/>
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+
+        <!-- upstream_pay_subscription table foreign key-->
+        <constraint xsi:type="foreign" referenceId="SUBSCRIPTION_ID_UPSTREAM_PAY_SUBSCRIPTION_ID"
+                    table="upstream_pay_subscription_retry" column="subscription_id" referenceTable="upstream_pay_subscription"
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
+
+        <!-- Index colmumns -->
+        <index referenceId="UPSTREAM_PAY_SUBSCRIPTION_RETRY_SUBSCRIPTION_ID" indexType="btree">
+            <column name="subscription_id"/>
         </index>
     </table>
 </schema>

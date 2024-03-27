@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace UpStreamPay\Core\Model;
 
 use Magento\Framework\Data\Collection\AbstractDb;
+use Magento\Framework\Event\ManagerInterface as EventManager;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\Context;
@@ -23,7 +24,6 @@ use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
 use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
 use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
 use UpStreamPay\Core\Model\ResourceModel\OrderTransactions as ResourceModel;
-use Magento\Framework\Event\ManagerInterface as EventManager;
 
 /**
  * Class OrderTransactions
@@ -59,6 +59,8 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @param OrderTransactionsFactory $orderTransactionsFactory
      * @param OrderTransactionsRepositoryInterface $transactionsRepository
      * @param OrderPaymentRepositoryInterface $orderPaymentRepository
@@ -356,6 +358,28 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
     /**
      * @codeCoverageIgnore
      *
+     * @return null|int
+     */
+    public function getSubscriptionId(): ?int
+    {
+        return (int)$this->getData(self::SUBSCRIPTION_ID);
+    }
+
+    /**
+     * @codeCoverageIgnore
+     *
+     * @param null|int $subscriptionId
+     *
+     * @return OrderTransactionsInterface
+     */
+    public function setSubscriptionId(?int $subscriptionId): OrderTransactionsInterface
+    {
+        return $this->setData(self::SUBSCRIPTION_ID, $subscriptionId);
+    }
+
+    /**
+     * @codeCoverageIgnore
+     *
      * Create an order transaction based on an API response.
      *
      * @param array $transactionResponse
@@ -363,6 +387,7 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
      * @param int $quoteId
      * @param null|int $parentPaymentId
      * @param null|int $invoiceId
+     * @param null|int $subscriptionId
      *
      * @return OrderTransactionsInterface
      * @throws LocalizedException
@@ -373,6 +398,7 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
         int $quoteId,
         ?int $parentPaymentId = null,
         ?int $invoiceId = null,
+        ?int $subscriptionId = null
     ): OrderTransactionsInterface
     {
         $this->eventManager->dispatch('payment_usp_write_log', [
@@ -397,6 +423,7 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
             ->setInvoiceId($invoiceId)
             ->setAmount((float)$transactionResponse['plugin_result']['amount'])
             ->setStatus($transactionResponse['status']['state'])
+            ->setSubscriptionId($subscriptionId)
         ;
 
         return $this->transactionsRepository->save($orderTransaction);

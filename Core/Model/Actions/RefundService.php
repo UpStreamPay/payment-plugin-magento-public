@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace UpStreamPay\Core\Model\Actions;
 
+use Magento\Framework\Event\ManagerInterface as EventManager;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Payment\Model\InfoInterface;
 use Magento\Sales\Model\Order\Creditmemo;
@@ -23,7 +24,7 @@ use UpStreamPay\Core\Api\Data\OrderTransactionsInterface;
 use UpStreamPay\Core\Api\OrderPaymentRepositoryInterface;
 use UpStreamPay\Core\Model\OrderTransactions;
 use UpStreamPay\Core\Model\PaymentFinder\AllTransactionsToRefundFinder;
-use Magento\Framework\Event\ManagerInterface as EventManager;
+use UpStreamPay\Core\Model\Subscription\CancelService;
 
 /**
  * Class RefundService
@@ -39,6 +40,7 @@ class RefundService
      * @param OrderPaymentRepositoryInterface $orderPaymentRepository
      * @param LoggerInterface $logger
      * @param EventManager $eventManager
+     * @param CancelService $subscriptionCancelService
      */
     public function __construct(
         private readonly AllTransactionsToRefundFinder  $allTransactionsToRefundFinder,
@@ -46,7 +48,8 @@ class RefundService
         private readonly OrderTransactions $orderTransactions,
         private readonly OrderPaymentRepositoryInterface $orderPaymentRepository,
         private readonly LoggerInterface $logger,
-        private readonly EventManager $eventManager
+        private readonly EventManager $eventManager,
+        private readonly CancelService $subscriptionCancelService
     ) {
     }
 
@@ -62,6 +65,10 @@ class RefundService
         $amountLeftToRefund = $amount;
         /** @var Creditmemo $creditmemo */
         $creditmemo = $payment->getCreditmemo();
+
+        //Calling the subscription cancel service in case the creditmemo has one or more subscription products.
+        $this->subscriptionCancelService->execute(null, $creditmemo);
+
         $invoice = $creditmemo->getInvoice();
         $captureTransactionsToRefund = $this->allTransactionsToRefundFinder->execute(
             (int)$payment->getOrder()->getEntityId(),

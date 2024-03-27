@@ -383,4 +383,102 @@ class ConfigTest extends TestCase
 
         self::assertEquals('pictime', $this->config->getMerchantId());
     }
+
+    /**
+     * @return void
+     */
+    public function testGetSubscriptionPaymentEnabled(): void
+    {
+        $this->scopeConfigMock
+            ->expects(self::once())
+            ->method('getValue')
+            ->with(Config::SUBSCRIPTION_PAYMENT_ENABLED)
+            ->willReturn(true);
+
+        self::assertEquals(true, $this->config->getSubscriptionPaymentEnabled());
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetSubscriptionPaymentEnableCustomerInterface(): void
+    {
+        $this->scopeConfigMock
+            ->expects(self::once())
+            ->method('getValue')
+            ->with(Config::SUBSCRIPTION_PAYMENT_ENABLE_CUSTOMER_INTERFACE)
+            ->willReturn(true);
+
+        self::assertEquals(true, $this->config->getSubscriptionPaymentEnableCustomerInterface());
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetSubscriptionPaymentProductSubscriptionAttributeCode(): void
+    {
+        $this->scopeConfigMock
+            ->expects(self::once())
+            ->method('getValue')
+            ->with(Config::SUBSCRIPTION_PAYMENT_ATTR_CODE_IS_PROD_SUBSC)
+            ->willReturn('is_subscription_eligible');
+
+        self::assertEquals('is_subscription_eligible', $this->config->getSubscriptionPaymentProductSubscriptionAttributeCode());
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetSubscriptionPaymentProductSubscriptionDurationAttributeCode(): void
+    {
+        $this->scopeConfigMock
+            ->expects(self::once())
+            ->method('getValue')
+            ->with(Config::SUBSCRIPTION_PAYMENT_ATTR_CODE_PROD_SUBSC_DURATION)
+            ->willReturn('subscription_duration');
+
+        self::assertEquals('subscription_duration', $this->config->getSubscriptionPaymentProductSubscriptionDurationAttributeCode());
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetSubscriptionPaymentMaximumPaymentRetry(): void
+    {
+        $this->scopeConfigMock
+            ->expects(self::once())
+            ->method('getValue')
+            ->with(Config::SUBSCRIPTION_PAYMENT_MAX_PAYMENT_RETRY)
+            ->willReturn(3);
+
+        self::assertEquals(3, $this->config->getSubscriptionPaymentMaximumPaymentRetry());
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetSubscriptionPaymentCronExpr(): void
+    {
+        $this->scopeConfigMock
+            ->expects(self::once())
+            ->method('getValue')
+            ->with(Config::SUBSCRIPTION_PAYMENT_CRON_EXPR)
+            ->willReturn('00 00 * * *');
+
+        self::assertEquals('00 00 * * *', $this->config->getSubscriptionPaymentCronExpr());
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetSubscriptionPaymentRetryCronExpr(): void
+    {
+        $this->scopeConfigMock
+            ->expects(self::once())
+            ->method('getValue')
+            ->with(Config::SUBSCRIPTION_PAYMENT_RETRY_CRON_EXPR)
+            ->willReturn('0 */03 * * *');
+
+        self::assertEquals('0 */03 * * *', $this->config->getSubscriptionPaymentRetryCronExpr());
+    }
 }

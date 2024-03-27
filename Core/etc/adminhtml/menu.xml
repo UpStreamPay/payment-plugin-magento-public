@@ -17,5 +17,8 @@
         <add id="UpStreamPay_Core::transactions" title="Transactions listing" module="UpStreamPay_Core" sortOrder="1001"
              parent="Magento_Sales::sales_operation" resource="UpStreamPay_Core::transactions"
              action="upstreampay/transactions" />
+        <add id="UpStreamPay_Core::subscriptions" title="Subscriptions listing" module="UpStreamPay_Core" sortOrder="1002"
+             parent="Magento_Sales::sales_operation" resource="UpStreamPay_Core::subscriptions"
+             action="upstreampay/subscriptions" />
     </menu>
 </config>

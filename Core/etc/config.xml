@@ -49,6 +49,13 @@
                 <wallet>
                     <mange_stored_payment_methods_customer_account>0</mange_stored_payment_methods_customer_account>
                 </wallet>
+                <subscription_payment>
+                    <enabled>0</enabled>
+                    <enable_customer_interface>0</enable_customer_interface>
+                    <maximum_of_payment_retry>3</maximum_of_payment_retry>
+                    <payment_cron_expr>00 00 * * *</payment_cron_expr>
+                    <payment_retry_cron_expr>0 */03 * * *</payment_retry_cron_expr>
+                </subscription_payment>
             </upstream_pay>
         </payment>
     </default>

@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace UpStreamPay\Core\Observer;
 
+use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
@@ -50,6 +51,7 @@ class PayInvoiceObserver implements ObserverInterface
         private readonly OrderTransactionsRepositoryInterface $transactionsRepository,
         private readonly LoggerInterface $logger,
         private readonly CancelService $cancelService,
+        private readonly ManagerInterface $eventManager
     ) {
     }
 
@@ -96,6 +98,14 @@ class PayInvoiceObserver implements ObserverInterface
 
                 $this->orderRepository->save($order);
                 $this->invoiceRepository->save($invoice);
+
+                $this->eventManager->dispatch(
+                    'usp_create_subscription_from_invoice',
+                    [
+                        'invoice' => $invoice,
+                        'order' => $order
+                    ]
+                );
             } catch (Throwable $exception) {
                 $this->logger->critical($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
                 $order->addCommentToStatusHistory($exception->getMessage());

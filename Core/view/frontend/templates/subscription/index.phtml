@@ -1,0 +1,132 @@
+<?php
+/**
+ * UpStream Pay
+ *
+ * Copyright (c) 2023 UpStream Pay.
+ * This file is open source and available under the BSD 3 license.
+ * See the LICENSE file for more info.
+ *
+ * Author: Claranet France <info@fr.clara.net>
+ */
+
+/** @var UpStreamPay\Core\Block\Customer\Account\Subscription $block */
+$viewModel = $block->getViewModel();
+/** @var UpStreamPay\Core\ViewModel\Customer\Subscription\Index $viewModel */
+$subscriptions = $viewModel->getSubscriptions();
+?>
+
+<div class="table-subscriptions">
+    <?php if(count($subscriptions) !== 0): ?>
+
+        <?php $subIdentifier = ''; ?>
+        <?php foreach($subscriptions as $subscription): ?>
+        <?php //In case there is a waiting payment, we don't want to display that kind of subscription. ?>
+        <?php if (!$viewModel->isFutureSubscription($subscription) && !$viewModel->isCurrentSubscription($subscription)): ?>
+                <?php continue; ?>
+        <?php endif; ?>
+            <?php if($subIdentifier !== '' && $subIdentifier !== $subscription->getSubscriptionIdentifier()): ?>
+                <hr class="usp-page-separator" />
+            <?php endif; ?>
+            <?php $subIdentifier = $subscription->getSubscriptionIdentifier(); ?>
+
+            <?php if($viewModel->isCurrentSubscription($subscription)): ?>
+                <h3><?= $subscription->getProductName(); ?></h3>
+                <h4><?= $block->escapeHtml(__('Current subscription')) ?></h4>
+                <table class="data table table-subscriptions current">
+                    <caption class="table-caption"><?= $block->escapeHtml(__('My subscriptions')) ?></caption>
+                    <thead>
+                    <tr>
+                        <th scope="col" class="col id"><?= $block->escapeHtml(__('Subscription number')) ?></th>
+                        <th scope="col" class="col date"><?= $block->escapeHtml(__('Product name')) ?></th>
+                        <?= $block->getChildHtml('extra.column.header') ?>
+                        <th scope="col" class="col total"><?= $block->escapeHtml(__('Price')) ?></th>
+                        <th scope="col" class="col status"><?= $block->escapeHtml(__('Start date')) ?></th>
+                        <th scope="col" class="col actions"><?= $block->escapeHtml(__('End date')) ?></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td data-th="<?= $block->escapeHtml(__('Subscription number')) ?>" class="col id">
+                            <?= $subscription->getSubscriptionIdentifier(); ?>
+                        </td>
+                        <td data-th="<?= $block->escapeHtml(__('Product name')) ?>" class="col id">
+                            <?= $subscription->getProductName(); ?>
+                        </td>
+                        <td data-th="<?= $block->escapeHtml(__('Price')) ?>" class="col id">
+                            <?= $viewModel->getFormattedPrice($subscription); ?>
+                        </td>
+                        <td data-th="<?= $block->escapeHtml(__('Start date')) ?>" class="col id">
+                            <?= $block->formatDate($subscription->getStartDate()); ?>
+                        </td>
+                        <td data-th="<?= $block->escapeHtml(__('End date')) ?>" class="col id">
+                            <?= $block->formatDate($subscription->getEndDate()); ?>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            <?php elseif($viewModel->isFutureSubscription($subscription)): ?>
+                <h4><?= $block->escapeHtml(__('Next subscription')) ?></h4>
+                <table class="data table table-subscriptions future">
+                    <caption class="table-caption"><?= $block->escapeHtml(__('My subscriptions')) ?></caption>
+                    <thead>
+                    <tr>
+                        <th scope="col" class="col id"><?= $block->escapeHtml(__('Subscription number')) ?></th>
+                        <th scope="col" class="col date"><?= $block->escapeHtml(__('Product name')) ?></th>
+                        <?= $block->getChildHtml('extra.column.header') ?>
+                        <th scope="col" class="col total"><?= $block->escapeHtml(__('Price')) ?></th>
+                        <th scope="col" class="col status"><?= $block->escapeHtml(__('Start date')) ?></th>
+                        <th scope="col" class="col actions"><?= $block->escapeHtml(__('End date')) ?></th>
+                        <th scope="col" class="col actions"><?= $block->escapeHtml(__('Next payment')) ?></th>
+                        <th scope="col" class="col actions"><?= $block->escapeHtml(__('Action')) ?></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td data-th="<?= $block->escapeHtml(__('Subscription number')) ?>" class="col id">
+                            <?= $subscription->getSubscriptionIdentifier(); ?>
+                        </td>
+                        <td data-th="<?= $block->escapeHtml(__('Product name')) ?>" class="col id">
+                            <?= $subscription->getProductName(); ?>
+                        </td>
+                        <td data-th="<?= $block->escapeHtml(__('Price')) ?>" class="col id">
+                            <?= $viewModel->getFormattedPrice($subscription); ?>
+                        </td>
+                        <td data-th="<?= $block->escapeHtml(__('Start date')) ?>" class="col id">
+                            <?= $block->formatDate($subscription->getStartDate()); ?>
+                        </td>
+                        <td data-th="<?= $block->escapeHtml(__('End date')) ?>" class="col id">
+                            <?= $block->formatDate($subscription->getEndDate()); ?>
+                        </td>
+                        <td data-th="<?= $block->escapeHtml(__('Next Payment')) ?>" class="col id">
+                            <?= $block->formatDate($subscription->getNextPaymentDate()); ?>
+                        </td>
+                        <td data-th="<?= $block->escapeHtml(__('Cancel subscription')) ?>" class="col id">
+                            <button
+                                class="subscription-cancel"
+                                data-id="<?php echo $subscription->getEntityId() ?>"
+                                data-product-name="<?php echo $subscription->getProductName() ?>"
+                                title="<?= $block->escapeHtml(__('Cancel')) ?>"
+                            >
+                                <span><?= $block->escapeHtml(__('Cancel')) ?></span>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            <?php endif; ?>
+        <?php endforeach; ?>
+
+    <?php else: ?>
+        <h2><?= $block->escapeHtml(__('You don\'t have any subscriptions.')) ?></h2>
+    <?php endif; ?>
+</div>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "purseSubscription": {
+                "cancelUrl": "<?php echo $block->getCancelUrl() ?>"
+            }
+        }
+    }
+</script>

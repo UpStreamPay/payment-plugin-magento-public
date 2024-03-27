@@ -25,4 +25,18 @@
     <event name="order_sent_to_purse_event">
         <observer name="set_order_sent_to_purse" instance="UpStreamPay\Core\Observer\SetOrderSentToPurseObserver"/>
     </event>
+
+    <!--    Cancel a payment subscription -->
+    <event name="cancel_purse_subscription">
+        <observer name="cancelPurseSubscription" instance="UpStreamPay\Core\Observer\CancelPurseSubscriptionObserver" />
+    </event>
+    <!-- save a subscription -->
+    <event name="usp_create_subscription_from_invoice">
+        <observer name="upstreampay_save_subscription" instance="UpStreamPay\Core\Observer\SaveSubscriptionObserver" />
+    </event>
+
+    <!--    Trigger the payment of an invoice after it has been saved.-->
+    <event name="sales_order_invoice_save_after">
+        <observer name="upstreampay_invoice_save_after" instance="UpStreamPay\Core\Observer\PayInvoiceObserver" />
+    </event>
 </config>

@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace UpStreamPay\Core\Model\Actions;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\Event\ManagerInterface as EventManager;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Math\FloatComparator;
 use Magento\Payment\Model\InfoInterface;
@@ -25,7 +26,6 @@ use UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface;
 use UpStreamPay\Core\Exception\CaptureErrorException;
 use UpstreamPay\Core\Model\Config;
 use UpStreamPay\Core\Model\OrderTransactions;
-use Magento\Framework\Event\ManagerInterface as EventManager;
 
 /**
  * Class CaptureService
@@ -90,6 +90,11 @@ class CaptureService
 
         //For each capture transaction check the status & determine what to do based on the result.
         foreach ($captureTransactions as $captureTransaction) {
+            if ($captureTransaction->getSubscriptionId() !== null
+                && $captureTransaction->getStatus() === OrderTransactions::ERROR_STATUS) {
+                continue;
+            }
+
             $this->setTransactionId($captureTransaction);
 
             //In case of order action there will be no invoice here after place order.
