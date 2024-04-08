@@ -1,3 +1,15 @@
+# [1.6.0](https://github.com/UpStreamPay/payment-plugin-magento/compare/v1.5.0...v1.6.0) (2024-04-08)
+
+
+### Features
+
+* up-158 ([2346c58](https://github.com/UpStreamPay/payment-plugin-magento/commit/2346c58563f331e216fe90c88eb4ed83e910f0b8))
+* up-158 ([89543c3](https://github.com/UpStreamPay/payment-plugin-magento/commit/89543c3d0f5665f80f2dd755b2053fad0a2ee11a))
+* up-159 ([5f4c955](https://github.com/UpStreamPay/payment-plugin-magento/commit/5f4c9554026afa057ecddbc005495e5c0ae07422))
+* up-161 ([db33089](https://github.com/UpStreamPay/payment-plugin-magento/commit/db33089ef59fc238734bf1838be67b106d9363bf))
+
+
+
 # [1.5.0](https://github.com/UpStreamPay/payment-plugin-magento/compare/v1.4.0...v1.5.0) (2024-03-27)
 
 
