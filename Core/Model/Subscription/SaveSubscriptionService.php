@@ -95,7 +95,7 @@ class SaveSubscriptionService
             $productSubDuration = $product->getData($subscriptionDurationAttrCode);
 
             //In case product is not a subscription, no need to process this item.
-            if (!$product->getData($subscriptionEligibleAttrCode) || !isset($productSubDuration)) {
+            if (!$product->getData($subscriptionEligibleAttrCode) || (!isset($productSubDuration) || $productSubDuration <= 0)) {
                 continue;
             }
 
