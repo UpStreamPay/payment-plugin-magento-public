@@ -1,0 +1,1902 @@
+<?xml version="1.0"?>
+<phpunit xmlns="https://schema.phpunit.de/coverage/1.0">
+  <file name="CancelService.php" path="/app/code/UpStreamPay/Core/Model/Actions">
+    <totals>
+      <lines total="231" comments="63" code="168" executable="91" executed="84" percent="92.31"/>
+      <methods count="4" tested="3" percent="75.00"/>
+      <functions count="0" tested="0" percent="0"/>
+      <classes count="1" tested="0" percent="0.00"/>
+      <traits count="0" tested="0" percent="0"/>
+    </totals>
+    <class name="UpStreamPay\Core\Model\Actions\CancelService" start="34" executable="91" executed="84" crap="14.09">
+      <namespace name="UpStreamPay\Core\Model\Actions"/>
+      <method name="__construct" signature="__construct(UpStreamPay\Client\Model\Client\ClientInterface $client, UpStreamPay\Core\Api\OrderPaymentRepositoryInterface $orderPaymentRepository, UpStreamPay\Core\Model\PaymentFinder\AllTransactionsToCancelFinder $allTransactionsToCancelFinder, UpStreamPay\Core\Model\OrderTransactions $orderTransactions, Psr\Log\LoggerInterface $logger, Magento\Framework\Event\ManagerInterface $eventManager, UpStreamPay\Core\Model\Config $config, Magento\Sales\Api\OrderManagementInterface $orderManagement)" start="46" end="56" crap="1" executable="1" executed="1" coverage="100"/>
+      <method name="execute" signature="execute(Magento\Sales\Api\Data\OrderInterface $order, bool $cancelOrder): void" start="68" end="180" crap="8" executable="73" executed="73" coverage="100"/>
+      <method name="addDebugLog" signature="addDebugLog(Magento\Sales\Api\Data\OrderInterface $order, array $voidResponse): void" start="190" end="203" crap="3" executable="9" executed="9" coverage="100"/>
+      <method name="addManualRefundCommentIfNeeded" signature="addManualRefundCommentIfNeeded(UpStreamPay\Core\Api\Data\OrderTransactionsInterface $refundTransaction, Magento\Sales\Api\Data\OrderInterface $order): void" start="213" end="229" crap="4.68" executable="8" executed="1" coverage="12.5"/>
+    </class>
+    <coverage>
+      <line nr="56">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount &amp; api exception&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction with api exception&quot;"/>
+      </line>
+      <line nr="70">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount &amp; api exception&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction with api exception&quot;"/>
+      </line>
+      <line nr="72">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount &amp; api exception&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction with api exception&quot;"/>
+      </line>
+      <line nr="74">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount &amp; api exception&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction with api exception&quot;"/>
+      </line>
+      <line nr="75">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount &amp; api exception&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction with api exception&quot;"/>
+      </line>
+      <line nr="77">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount &amp; api exception&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction with api exception&quot;"/>
+      </line>
+      <line nr="79">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount &amp; api exception&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction with api exception&quot;"/>
+      </line>
+      <line nr="80">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount &amp; api exception&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction with api exception&quot;"/>
+      </line>
+      <line nr="82">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount &amp; api exception&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction with api exception&quot;"/>
+      </line>
+      <line nr="85">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount &amp; api exception&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction with api exception&quot;"/>
+      </line>
+      <line nr="87">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount &amp; api exception&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction with api exception&quot;"/>
+      </line>
+      <line nr="91">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount &amp; api exception&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+      </line>
+      <line nr="92">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+      </line>
+      <line nr="96">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount &amp; api exception&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+      </line>
+      <line nr="97">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount &amp; api exception&quot;"/>
+      </line>
+      <line nr="99">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount &amp; api exception&quot;"/>
+      </line>
+      <line nr="100">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount &amp; api exception&quot;"/>
+      </line>
+      <line nr="102">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount &amp; api exception&quot;"/>
+      </line>
+      <line nr="103">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount &amp; api exception&quot;"/>
+      </line>
+      <line nr="104">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount &amp; api exception&quot;"/>
+      </line>
+      <line nr="107">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount &amp; api exception&quot;"/>
+      </line>
+      <line nr="108">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount &amp; api exception&quot;"/>
+      </line>
+      <line nr="110">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount &amp; api exception&quot;"/>
+      </line>
+      <line nr="113">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+      </line>
+      <line nr="114">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+      </line>
+      <line nr="115">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+      </line>
+      <line nr="116">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+      </line>
+      <line nr="117">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+      </line>
+      <line nr="120">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+      </line>
+      <line nr="121">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+      </line>
+      <line nr="122">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+      </line>
+      <line nr="123">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+      </line>
+      <line nr="124">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+      </line>
+      <line nr="125">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+      </line>
+      <line nr="126">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+      </line>
+      <line nr="130">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+      </line>
+      <line nr="132">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+      </line>
+      <line nr="133">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+      </line>
+      <line nr="134">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+      </line>
+      <line nr="135">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction with api exception&quot;"/>
+      </line>
+      <line nr="138">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction with api exception&quot;"/>
+      </line>
+      <line nr="139">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction with api exception&quot;"/>
+      </line>
+      <line nr="143">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction with api exception&quot;"/>
+      </line>
+      <line nr="144">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction with api exception&quot;"/>
+      </line>
+      <line nr="146">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction with api exception&quot;"/>
+      </line>
+      <line nr="147">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction with api exception&quot;"/>
+      </line>
+      <line nr="148">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction with api exception&quot;"/>
+      </line>
+      <line nr="151">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction with api exception&quot;"/>
+      </line>
+      <line nr="152">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction with api exception&quot;"/>
+      </line>
+      <line nr="154">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction with api exception&quot;"/>
+      </line>
+      <line nr="158">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+      </line>
+      <line nr="159">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+      </line>
+      <line nr="160">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+      </line>
+      <line nr="161">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+      </line>
+      <line nr="162">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+      </line>
+      <line nr="165">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+      </line>
+      <line nr="167">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+      </line>
+      <line nr="168">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+      </line>
+      <line nr="169">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+      </line>
+      <line nr="170">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+      </line>
+      <line nr="171">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+      </line>
+      <line nr="176">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount &amp; api exception&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction with api exception&quot;"/>
+      </line>
+      <line nr="178">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount &amp; api exception&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction with api exception&quot;"/>
+      </line>
+      <line nr="192">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+      </line>
+      <line nr="193">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+      </line>
+      <line nr="194">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+      </line>
+      <line nr="195">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+      </line>
+      <line nr="196">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+      </line>
+      <line nr="197">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+      </line>
+      <line nr="201">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+      </line>
+      <line nr="219">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+      </line>
+      <line nr="78">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount &amp; api exception&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction with api exception&quot;"/>
+      </line>
+      <line nr="81">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount &amp; api exception&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction with api exception&quot;"/>
+      </line>
+      <line nr="83">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount &amp; api exception&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction with api exception&quot;"/>
+      </line>
+      <line nr="101">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount &amp; api exception&quot;"/>
+      </line>
+      <line nr="105">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount &amp; api exception&quot;"/>
+      </line>
+      <line nr="118">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+      </line>
+      <line nr="127">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with valid refund amount&quot;"/>
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteCancelCapture with data set &quot;One capture transaction with more than allowed refund amount&quot;"/>
+      </line>
+      <line nr="145">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction with api exception&quot;"/>
+      </line>
+      <line nr="149">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction with api exception&quot;"/>
+      </line>
+      <line nr="163">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+      </line>
+      <line nr="172">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+      </line>
+      <line nr="198">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+      </line>
+      <line nr="199">
+        <covered by="Magento\PhpStan\UpStreamPay\Core\Test\Model\Actions\CancelServiceTest::testExecuteAuthorizeCapture with data set &quot;One authorize transaction&quot;"/>
+      </line>
+    </coverage>
+    <source>
+      <line no="1">
+        <token name="T_OPEN_TAG">&lt;?php</token>
+      </line>
+      <line no="2">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="3">
+        <token name="T_DOC_COMMENT"> * UpStream Pay</token>
+      </line>
+      <line no="4">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="5">
+        <token name="T_DOC_COMMENT"> * Copyright (c) 2023 UpStream Pay.</token>
+      </line>
+      <line no="6">
+        <token name="T_DOC_COMMENT"> * This file is open source and available under the BSD 3 license.</token>
+      </line>
+      <line no="7">
+        <token name="T_DOC_COMMENT"> * See the LICENSE file for more info.</token>
+      </line>
+      <line no="8">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="9">
+        <token name="T_DOC_COMMENT"> * Author: Claranet France &lt;info@fr.clara.net&gt;</token>
+      </line>
+      <line no="10">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="11">
+        <token name="T_DECLARE">declare</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">strict_types</token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_LNUMBER">1</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="12"/>
+      <line no="13">
+        <token name="T_NAMESPACE">namespace</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Model\Actions</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="14"/>
+      <line no="15">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Framework\Event\ManagerInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_AS">as</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">EventManager</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="16">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Framework\Exception\LocalizedException</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="17">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Sales\Api\Data\OrderInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="18">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Sales\Api\OrderManagementInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="19">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Psr\Log\LoggerInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="20">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Throwable</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="21">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Client\Model\Client\ClientInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="22">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Api\Data\OrderTransactionsInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="23">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Api\OrderPaymentRepositoryInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="24">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Model\Config</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="25">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Model\Config\Source\Debug</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="26">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Model\OrderTransactions</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="27">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Model\PaymentFinder\AllTransactionsToCancelFinder</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="28"/>
+      <line no="29">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="30">
+        <token name="T_DOC_COMMENT"> * Class CancelService</token>
+      </line>
+      <line no="31">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="32">
+        <token name="T_DOC_COMMENT"> * @package UpStreamPay\Core\Model\Actions</token>
+      </line>
+      <line no="33">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="34">
+        <token name="T_CLASS">class</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">CancelService</token>
+      </line>
+      <line no="35">
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="36">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="37">
+        <token name="T_DOC_COMMENT">     * @param ClientInterface $client</token>
+      </line>
+      <line no="38">
+        <token name="T_DOC_COMMENT">     * @param OrderPaymentRepositoryInterface $orderPaymentRepository</token>
+      </line>
+      <line no="39">
+        <token name="T_DOC_COMMENT">     * @param AllTransactionsToCancelFinder $allTransactionsToCancelFinder</token>
+      </line>
+      <line no="40">
+        <token name="T_DOC_COMMENT">     * @param OrderTransactions $orderTransactions</token>
+      </line>
+      <line no="41">
+        <token name="T_DOC_COMMENT">     * @param LoggerInterface $logger</token>
+      </line>
+      <line no="42">
+        <token name="T_DOC_COMMENT">     * @param EventManager $eventManager</token>
+      </line>
+      <line no="43">
+        <token name="T_DOC_COMMENT">     * @param Config $config</token>
+      </line>
+      <line no="44">
+        <token name="T_DOC_COMMENT">     * @param OrderManagementInterface $orderManagement</token>
+      </line>
+      <line no="45">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="46">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">__construct</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="47">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">ClientInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$client</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="48">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">OrderPaymentRepositoryInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderPaymentRepository</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="49">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">AllTransactionsToCancelFinder</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$allTransactionsToCancelFinder</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="50">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">OrderTransactions</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderTransactions</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="51">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">LoggerInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$logger</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="52">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">EventManager</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$eventManager</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="53">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Config</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$config</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="54">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">OrderManagementInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderManagement</token>
+      </line>
+      <line no="55">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="56">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="57"/>
+      <line no="58">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="59">
+        <token name="T_DOC_COMMENT">     * Refund &amp; void the transactions not used in a paid invoice.</token>
+      </line>
+      <line no="60">
+        <token name="T_DOC_COMMENT">     * Then cancel the invoice &amp; save it.</token>
+      </line>
+      <line no="61">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="62">
+        <token name="T_DOC_COMMENT">     * @param OrderInterface $order</token>
+      </line>
+      <line no="63">
+        <token name="T_DOC_COMMENT">     * @param bool $cancelOrder</token>
+      </line>
+      <line no="64">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="65">
+        <token name="T_DOC_COMMENT">     * @return void</token>
+      </line>
+      <line no="66">
+        <token name="T_DOC_COMMENT">     * @throws LocalizedException</token>
+      </line>
+      <line no="67">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="68">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">execute</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">OrderInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$order</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">bool</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$cancelOrder</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">true</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">void</token>
+      </line>
+      <line no="69">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="70">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$transactionsToCancel</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">allTransactionsToCancelFinder</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">execute</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_INT_CAST">(int)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$order</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getEntityId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="71"/>
+      <line no="72">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_FOREACH">foreach</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$transactionsToCancel</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_AS">as</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$transactionToCancel</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="73">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_DOC_COMMENT">/** @var OrderTransactionsInterface $transaction */</token>
+      </line>
+      <line no="74">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$transactionToCancel</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'transaction'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="75">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$amounToCancel</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$transactionToCancel</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'amountToCancel'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="76"/>
+      <line no="77">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$body</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="78">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'order'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="79">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'amount'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$order</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getBaseGrandTotal</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="80">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'currency_code'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$order</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getGlobalCurrencyCode</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="81">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="82">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'amount'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$amounToCancel</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="83">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="84"/>
+      <line no="85">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$orderPayment</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">orderPaymentRepository</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getById</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getParentPaymentId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="86"/>
+      <line no="87">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getTransactionType</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_IDENTICAL">===</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">OrderTransactions</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">CAPTURE_ACTION</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="88">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_COMMENT">//Verify that we can refund this on the payment.</token>
+      </line>
+      <line no="89">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_COMMENT">//Second safety check to make sure we don't over refund. If we detect an over refund then the amount</token>
+      </line>
+      <line no="90">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_COMMENT">//to refund should be the difference between the total amount &amp; amount refunded.</token>
+      </line>
+      <line no="91">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$orderPayment</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getAmountRefunded</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_PLUS">+</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$amounToCancel</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_GT">&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderPayment</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getAmount</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="92">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$body</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'amount'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderPayment</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getAmount</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_MINUS">-</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderPayment</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getAmountRefunded</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="93">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="94"/>
+      <line no="95">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_TRY">try</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="96">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$refundResponse</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">client</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">refund</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getTransactionId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$body</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="97">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_CURLY">}</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CATCH">catch</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">Throwable</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$exception</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="98">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_COMMENT">//In case of a refund error, try to refund as many transactions as possible.</token>
+      </line>
+      <line no="99">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$errorMessage</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">sprintf</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="100">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Refund for capture transaction %s for amount %s in error because %s,</token>
+      </line>
+      <line no="101">
+        <token name="T_CONSTANT_ENCAPSED_STRING">                        refund it in UpStream admin panel.'</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="102">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getTransactionId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="103">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_VARIABLE">$exception</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getMessage</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="104">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_VARIABLE">$body</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'amount'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+      </line>
+      <line no="105">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="106"/>
+      <line no="107">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">logger</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">critical</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$errorMessage</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="108">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$order</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">addCommentToStatusHistory</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$errorMessage</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="109"/>
+      <line no="110">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CONTINUE">continue</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="111">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="112"/>
+      <line no="113">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$refundTransaction</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">orderTransactions</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">createTransactionFromResponse</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="114">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$refundResponse</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="115">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getOrderId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="116">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getQuoteId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="117">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getParentPaymentId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="118">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="119"/>
+      <line no="120">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$order</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">addCommentToStatusHistory</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">sprintf</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="121">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Transaction %s %s for %s with amount %s in status %s'</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="122">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$refundTransaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getTransactionType</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="123">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$refundTransaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getTransactionId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="124">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$refundTransaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getMethod</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="125">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$refundTransaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getAmount</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="126">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$refundTransaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getStatus</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="127">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="128"/>
+      <line no="129">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_COMMENT">//In case of an error a manual refund must be done.</token>
+      </line>
+      <line no="130">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">addManualRefundCommentIfNeeded</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$refundTransaction</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$order</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="131"/>
+      <line no="132">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$orderPayment</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setAmountRefunded</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$orderPayment</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getAmountRefunded</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_PLUS">+</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$refundTransaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getAmount</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="133">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">orderPaymentRepository</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">save</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$orderPayment</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="134">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">eventManager</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">dispatch</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'payment_usp_write_log'</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'orderPayment'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderPayment</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="135">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_CURLY">}</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_ELSEIF">elseif</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getTransactionType</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_IDENTICAL">===</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">OrderTransactions</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">AUTHORIZE_ACTION</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="136">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_TRY">try</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="137">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_COMMENT">//Void from API.</token>
+      </line>
+      <line no="138">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$voidResponse</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">client</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">void</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getTransactionId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$body</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="139">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_CURLY">}</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CATCH">catch</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">Throwable</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$exception</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="140">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_COMMENT">//an error on the API call has been found, don't block the process. This is not a standard error</token>
+      </line>
+      <line no="141">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_COMMENT">//&amp; it should not happen most of the time. In case it does, try to void as many transactions as</token>
+      </line>
+      <line no="142">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_COMMENT">//we can.</token>
+      </line>
+      <line no="143">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$errorMessage</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">sprintf</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="144">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Void for authorize transaction %s for amount %s is in error because %s,</token>
+      </line>
+      <line no="145">
+        <token name="T_CONSTANT_ENCAPSED_STRING">                        void it in UpStream admin panel.'</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="146">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getTransactionId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="147">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_VARIABLE">$exception</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getMessage</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="148">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_VARIABLE">$body</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'amount'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+      </line>
+      <line no="149">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="150"/>
+      <line no="151">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">logger</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">critical</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$errorMessage</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="152">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$order</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">addCommentToStatusHistory</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$errorMessage</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="153"/>
+      <line no="154">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CONTINUE">continue</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="155">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="156"/>
+      <line no="157">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_COMMENT">//Save the void transaction in DB.</token>
+      </line>
+      <line no="158">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$voidTransaction</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">orderTransactions</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">createTransactionFromResponse</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="159">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$voidResponse</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="160">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getOrderId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="161">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getQuoteId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="162">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getParentPaymentId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="163">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="164"/>
+      <line no="165">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">addDebugLog</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$order</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$voidResponse</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="166"/>
+      <line no="167">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$order</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">addCommentToStatusHistory</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">sprintf</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="168">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Voiding authorize transaction %s for payment %s with void transaction %s'</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="169">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getTransactionId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="170">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getMethod</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="171">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$voidTransaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getTransactionId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="172">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="173">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="174">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="175"/>
+      <line no="176">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$cancelOrder</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="177">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_COMMENT">//Now cancel the order, whatever has been invoiced &amp; paid won't be canceled.</token>
+      </line>
+      <line no="178">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">orderManagement</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">cancel</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$order</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getEntityId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="179">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="180">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="181"/>
+      <line no="182">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="183">
+        <token name="T_DOC_COMMENT">     * Add debug log.</token>
+      </line>
+      <line no="184">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="185">
+        <token name="T_DOC_COMMENT">     * @param OrderInterface $order</token>
+      </line>
+      <line no="186">
+        <token name="T_DOC_COMMENT">     * @param array $voidResponse</token>
+      </line>
+      <line no="187">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="188">
+        <token name="T_DOC_COMMENT">     * @return void</token>
+      </line>
+      <line no="189">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="190">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">addDebugLog</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">OrderInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$order</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_ARRAY">array</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$voidResponse</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">void</token>
+      </line>
+      <line no="191">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="192">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">config</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getDebugMode</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_IDENTICAL">===</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Debug</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">SIMPLE_VALUE</token>
+      </line>
+      <line no="193">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_BOOLEAN_OR">||</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">config</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getDebugMode</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_IDENTICAL">===</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Debug</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">DEBUG_VALUE</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="194">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">logger</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">debug</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="195">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_STRING">sprintf</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="196">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Payment denied for order %s, void transaction response:'</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="197">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$order</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getEntityId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="198">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="199">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="200"/>
+      <line no="201">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">logger</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">debug</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">print_r</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$voidResponse</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">true</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="202">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="203">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="204"/>
+      <line no="205">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="206">
+        <token name="T_DOC_COMMENT">     * Add comment in order in case a manual refund must be done.</token>
+      </line>
+      <line no="207">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="208">
+        <token name="T_DOC_COMMENT">     * @param OrderTransactionsInterface $refundTransaction</token>
+      </line>
+      <line no="209">
+        <token name="T_DOC_COMMENT">     * @param OrderInterface $order</token>
+      </line>
+      <line no="210">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="211">
+        <token name="T_DOC_COMMENT">     * @return void</token>
+      </line>
+      <line no="212">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="213">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">addManualRefundCommentIfNeeded</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="214">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">OrderTransactionsInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$refundTransaction</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="215">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">OrderInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$order</token>
+      </line>
+      <line no="216">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">void</token>
+      </line>
+      <line no="217">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="218">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_COMMENT">//In case of an error a manual refund must be done.</token>
+      </line>
+      <line no="219">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$refundTransaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getStatus</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_IDENTICAL">===</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">OrderTransactions</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">ERROR_STATUS</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="220">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$errorMessage</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">sprintf</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="221">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Transaction refund with ID %s for amount %s is in error, refund it in UpStream admin panel.'</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="222">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$refundTransaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getTransactionId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="223">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$refundTransaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getAmount</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="224">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="225"/>
+      <line no="226">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">logger</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">critical</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$errorMessage</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="227">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$order</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">addCommentToStatusHistory</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$errorMessage</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="228">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="229">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="230">
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="231"/>
+    </source>
+  </file>
+</phpunit>
