@@ -203,6 +203,6 @@ class SubscriptionRetry extends AbstractExtensibleModel implements SubscriptionR
     public function canBeRetried(): bool
     {
         return $this->getRetryStatus() === self::ERROR_STATUS
-            && $this->getNumberOfRetries() < $this->config->getSubscriptionPaymentMaximumPaymentRetry();
+            && $this->getNumberOfRetries() <= $this->config->getSubscriptionPaymentMaximumPaymentRetry();
     }
 }

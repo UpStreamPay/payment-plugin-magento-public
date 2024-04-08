@@ -94,6 +94,11 @@ class SaveSubscriptionService
             $product = $this->productRepository->getById($invoiceItem->getProductId());
             $productSubDuration = $product->getData($subscriptionDurationAttrCode);
 
+            //In case product is not a subscription, no need to process this item.
+            if (!$product->getData($subscriptionEligibleAttrCode) || (!isset($productSubDuration) || $productSubDuration <= 0)) {
+                continue;
+            }
+
             // if simple product, only get baseRowTotalInclTax from invoice
             $baseRowTotalInclTax = (float)$invoiceItem->getBaseRowTotalInclTax();
 
@@ -101,11 +106,6 @@ class SaveSubscriptionService
             if (!$baseRowTotalInclTax || $baseRowTotalInclTax == 0.0) {
                 // Always take the configurable cost
                 $baseRowTotalInclTax = $this->getParentProductPrice($order, $invoice, $invoiceItem->getSku());
-            }
-
-            //In case product is not a subscription, no need to process this item.
-            if (!$product->getData($subscriptionEligibleAttrCode) && !isset($productSubDuration)) {
-                continue;
             }
 
             /* check if there already is a subscription with that order and product */
