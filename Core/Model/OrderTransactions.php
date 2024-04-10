@@ -362,7 +362,9 @@ class OrderTransactions extends AbstractModel implements OrderTransactionsInterf
      */
     public function getSubscriptionId(): ?int
     {
-        return $this->getData(self::SUBSCRIPTION_ID);
+        $subscriptionId = $this->getData(self::SUBSCRIPTION_ID);
+
+        return $subscriptionId !== null ? (int)$subscriptionId : null;
     }
 
     /**
