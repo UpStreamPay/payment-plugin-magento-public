@@ -1,3 +1,12 @@
+# [1.7.0](https://github.com/UpStreamPay/payment-plugin-magento/compare/v1.6.0...v1.7.0) (2024-04-10)
+
+
+### Features
+
+* up-163 ([6988cd7](https://github.com/UpStreamPay/payment-plugin-magento/commit/6988cd7b29774bcfb331a4712adbd93898e900b3))
+
+
+
 # [1.6.0](https://github.com/UpStreamPay/payment-plugin-magento/compare/v1.5.0...v1.6.0) (2024-04-08)
 
 
