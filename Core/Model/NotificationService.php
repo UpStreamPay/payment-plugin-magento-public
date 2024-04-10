@@ -205,6 +205,7 @@ class NotificationService
                     }
                     $this->orderRepository->save($order);
                     $this->invoiceRepository->save($invoice);
+
                     $this->eventManager->dispatch(
                         'usp_create_subscription_from_invoice',
                         [

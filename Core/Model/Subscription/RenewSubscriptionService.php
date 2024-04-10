@@ -84,6 +84,7 @@ class RenewSubscriptionService
                     $subscription->getEntityId()
                 )
             );
+            $this->logger->error($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
             $this->cancelSubscription($subscription, $exception);
 
             return;
@@ -115,6 +116,7 @@ class RenewSubscriptionService
             $this->logger->critical(
                 'The quote could not be created, no payment has been made & the subscription has been canceled.'
             );
+            $this->logger->critical($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
 
             return;
         }
@@ -145,6 +147,7 @@ class RenewSubscriptionService
             $this->logger->critical(
                 'The order could not be created, no payment has been made & the subscription has been canceled.'
             );
+            $this->logger->critical($exception->getMessage(), ['exception' => $exception->getTraceAsString()]);
 
             return;
         }
