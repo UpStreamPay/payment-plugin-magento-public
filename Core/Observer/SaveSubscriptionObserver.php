@@ -72,6 +72,9 @@ class SaveSubscriptionObserver implements ObserverInterface
         $invoice = $observer->getData('invoice');
         /** @var Order $order */
         $order = $observer->getData('order');
+        if (!$order) {
+            $order = $invoice->getOrder();
+        }
 
         try {
             if ($this->config->getSubscriptionPaymentEnabled()) {

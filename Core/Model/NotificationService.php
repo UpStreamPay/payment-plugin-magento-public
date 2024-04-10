@@ -203,9 +203,15 @@ class NotificationService
                     if ($invoice->getIsPaid()) {
                         $invoice->pay();
                     }
-
                     $this->orderRepository->save($order);
                     $this->invoiceRepository->save($invoice);
+                    $this->eventManager->dispatch(
+                        'usp_create_subscription_from_invoice',
+                        [
+                            'invoice' => $invoice,
+                            'order' => $order
+                        ]
+                    );
                 } elseif ($this->config->getPaymentAction() === MethodInterface::ACTION_ORDER
                     && $transaction->getInvoiceId() === null
                     && $order->getStatus() === Order::STATE_PAYMENT_REVIEW) {
