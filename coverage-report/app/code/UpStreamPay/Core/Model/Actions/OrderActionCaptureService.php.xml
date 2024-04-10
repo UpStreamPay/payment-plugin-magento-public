@@ -1,0 +1,2401 @@
+<?xml version="1.0"?>
+<phpunit xmlns="https://schema.phpunit.de/coverage/1.0">
+  <file name="OrderActionCaptureService.php" path="/app/code/UpStreamPay/Core/Model/Actions">
+    <totals>
+      <lines total="279" comments="87" code="192" executable="108" executed="108" percent="100.00"/>
+      <methods count="5" tested="5" percent="100.00"/>
+      <functions count="0" tested="0" percent="0"/>
+      <classes count="1" tested="1" percent="100.00"/>
+      <traits count="0" tested="0" percent="0"/>
+    </totals>
+    <class name="UpStreamPay\Core\Model\Actions\OrderActionCaptureService" start="33" executable="108" executed="108" crap="18">
+      <namespace name="UpStreamPay\Core\Model\Actions"/>
+      <method name="__construct" signature="__construct(UpStreamPay\Core\Model\PaymentFinder\AllTransactionsToCaptureFinder $allTransactionsToCaptureFinder, UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface $orderTransactionsRepository, UpStreamPay\Core\Api\OrderPaymentRepositoryInterface $orderPaymentRepository, UpStreamPay\Client\Model\Client\ClientInterface $client, UpStreamPay\Core\Model\OrderTransactions $orderTransactions, Magento\Framework\Math\FloatComparator $floatComparator)" start="45" end="53" crap="1" executable="1" executed="1" coverage="100"/>
+      <method name="execute" signature="execute(Magento\Payment\Model\InfoInterface $payment, float $amount): Magento\Payment\Model\InfoInterface" start="71" end="188" crap="11" executable="74" executed="74" coverage="100"/>
+      <method name="magentoPaymentHasInvoice" signature="magentoPaymentHasInvoice(Magento\Payment\Model\InfoInterface $payment): bool" start="197" end="203" crap="2" executable="1" executed="1" coverage="100"/>
+      <method name="setTransactionId" signature="setTransactionId(UpStreamPay\Core\Api\Data\OrderTransactionsInterface $transaction): void" start="212" end="217" crap="2" executable="2" executed="2" coverage="100"/>
+      <method name="captureAuthorizeTransaction" signature="captureAuthorizeTransaction(UpStreamPay\Core\Api\Data\OrderTransactionsInterface $transaction, int $orderId, int $invoiceId, array $transactionToUse, Magento\Payment\Model\InfoInterface $payment): UpStreamPay\Core\Api\Data\OrderTransactionsInterface" start="231" end="277" crap="2" executable="30" executed="30" coverage="100"/>
+    </class>
+    <coverage>
+      <line nr="53">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithNullInvoice"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithFinderException"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="76">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithNullInvoice"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithFinderException"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="78">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithNullInvoice"/>
+      </line>
+      <line nr="80">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithNullInvoice"/>
+      </line>
+      <line nr="83">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithFinderException"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="84">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithFinderException"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="85">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithFinderException"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="88">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithFinderException"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="89">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithFinderException"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="93">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithFinderException"/>
+      </line>
+      <line nr="95">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithFinderException"/>
+      </line>
+      <line nr="96">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithFinderException"/>
+      </line>
+      <line nr="98">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithFinderException"/>
+      </line>
+      <line nr="101">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithFinderException"/>
+      </line>
+      <line nr="104">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="106">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="107">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="110">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="111">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+      </line>
+      <line nr="114">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+      </line>
+      <line nr="117">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+      </line>
+      <line nr="118">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+      </line>
+      <line nr="122">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+      </line>
+      <line nr="123">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+      </line>
+      <line nr="124">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+      </line>
+      <line nr="126">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+      </line>
+      <line nr="127">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+      </line>
+      <line nr="129">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+      </line>
+      <line nr="130">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+      </line>
+      <line nr="131">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+      </line>
+      <line nr="134">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="135">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="136">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="143">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="144">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+      </line>
+      <line nr="146">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+      </line>
+      <line nr="147">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+      </line>
+      <line nr="149">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+      </line>
+      <line nr="150">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+      </line>
+      <line nr="151">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+      </line>
+      <line nr="153">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="154">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="155">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="156">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="157">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="158">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="162">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="163">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+      </line>
+      <line nr="164">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+      </line>
+      <line nr="170">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+      </line>
+      <line nr="177">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+      </line>
+      <line nr="179">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+      </line>
+      <line nr="180">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+      </line>
+      <line nr="181">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+      </line>
+      <line nr="182">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+      </line>
+      <line nr="183">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+      </line>
+      <line nr="187">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+      </line>
+      <line nr="202">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithNullInvoice"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithFinderException"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="214">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="215">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="239">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="241">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="242">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="244">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="248">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="249">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="250">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="252">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="253">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="259">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="260">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="261">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="263">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="264">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="265">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="266">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="267">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="268">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="270">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="273">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="276">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="90">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithFinderException"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="91">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithFinderException"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="92">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithFinderException"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="97">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithFinderException"/>
+      </line>
+      <line nr="99">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithFinderException"/>
+      </line>
+      <line nr="128">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+      </line>
+      <line nr="132">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+      </line>
+      <line nr="137">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="138">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="139">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="140">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="141">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="148">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+      </line>
+      <line nr="152">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+      </line>
+      <line nr="159">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="160">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="178">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+      </line>
+      <line nr="184">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithCaptureTransactions with data set &quot;One capture transaction&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+      </line>
+      <line nr="240">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="243">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="245">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="251">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="254">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="255">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="262">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithAuthorizeTransactions with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="269">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+      <line nr="271">
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with success on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with waiting on capture&quot;"/>
+        <covered by="UpStreamPay\Core\Test\Model\Actions\OrderActionCaptureServiceTest::testExecuteWithExceptionOnCapture with data set &quot;One authorize transaction with error on capture&quot;"/>
+      </line>
+    </coverage>
+    <source>
+      <line no="1">
+        <token name="T_OPEN_TAG">&lt;?php</token>
+      </line>
+      <line no="2">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="3">
+        <token name="T_DOC_COMMENT"> * UpStream Pay</token>
+      </line>
+      <line no="4">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="5">
+        <token name="T_DOC_COMMENT"> * Copyright (c) 2023 UpStream Pay.</token>
+      </line>
+      <line no="6">
+        <token name="T_DOC_COMMENT"> * This file is open source and available under the BSD 3 license.</token>
+      </line>
+      <line no="7">
+        <token name="T_DOC_COMMENT"> * See the LICENSE file for more info.</token>
+      </line>
+      <line no="8">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="9">
+        <token name="T_DOC_COMMENT"> * Author: Claranet France &lt;info@fr.clara.net&gt;</token>
+      </line>
+      <line no="10">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="11">
+        <token name="T_DECLARE">declare</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">strict_types</token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_LNUMBER">1</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="12"/>
+      <line no="13">
+        <token name="T_NAMESPACE">namespace</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Model\Actions</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="14"/>
+      <line no="15">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Framework\Exception\LocalizedException</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="16">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Framework\Math\FloatComparator</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="17">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Payment\Model\InfoInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="18">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Throwable</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="19">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Client\Model\Client\ClientInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="20">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Api\Data\OrderTransactionsInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="21">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Api\OrderPaymentRepositoryInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="22">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Api\OrderTransactionsRepositoryInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="23">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Exception\CaptureErrorException</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="24">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Exception\NotEnoughFundException</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="25">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Model\OrderTransactions</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="26">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Model\PaymentFinder\AllTransactionsToCaptureFinder</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="27"/>
+      <line no="28">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="29">
+        <token name="T_DOC_COMMENT"> * Class OrderActionCaptureService</token>
+      </line>
+      <line no="30">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="31">
+        <token name="T_DOC_COMMENT"> * @package UpStreamPay\Core\Model\Actions</token>
+      </line>
+      <line no="32">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="33">
+        <token name="T_CLASS">class</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">OrderActionCaptureService</token>
+      </line>
+      <line no="34">
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="35">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">string</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$upStreamPaySessionId</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">''</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="36"/>
+      <line no="37">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="38">
+        <token name="T_DOC_COMMENT">     * @param AllTransactionsToCaptureFinder $allTransactionsToCaptureFinder</token>
+      </line>
+      <line no="39">
+        <token name="T_DOC_COMMENT">     * @param OrderTransactionsRepositoryInterface $orderTransactionsRepository</token>
+      </line>
+      <line no="40">
+        <token name="T_DOC_COMMENT">     * @param OrderPaymentRepositoryInterface $orderPaymentRepository</token>
+      </line>
+      <line no="41">
+        <token name="T_DOC_COMMENT">     * @param ClientInterface $client</token>
+      </line>
+      <line no="42">
+        <token name="T_DOC_COMMENT">     * @param OrderTransactions $orderTransactions</token>
+      </line>
+      <line no="43">
+        <token name="T_DOC_COMMENT">     * @param FloatComparator $floatComparator</token>
+      </line>
+      <line no="44">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="45">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">__construct</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="46">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">AllTransactionsToCaptureFinder</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$allTransactionsToCaptureFinder</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="47">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">OrderTransactionsRepositoryInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderTransactionsRepository</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="48">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">OrderPaymentRepositoryInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderPaymentRepository</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="49">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">ClientInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$client</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="50">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">OrderTransactions</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderTransactions</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="51">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">FloatComparator</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$floatComparator</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="52">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="53">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="54"/>
+      <line no="55">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="56">
+        <token name="T_DOC_COMMENT">     * Capture the transactions in order to pay the invoice.</token>
+      </line>
+      <line no="57">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="58">
+        <token name="T_DOC_COMMENT">     * When this is called for the first time in admin, the invoice is new &amp; has no entity ID.</token>
+      </line>
+      <line no="59">
+        <token name="T_DOC_COMMENT">     * Because of that we set the invoice to pending payment &amp; we trigger this after the invoice save to have an invoice</token>
+      </line>
+      <line no="60">
+        <token name="T_DOC_COMMENT">     * entity ID.</token>
+      </line>
+      <line no="61">
+        <token name="T_DOC_COMMENT">     * We MUST link every capture transaction to an invoice.</token>
+      </line>
+      <line no="62">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="63">
+        <token name="T_DOC_COMMENT">     * @param InfoInterface $payment</token>
+      </line>
+      <line no="64">
+        <token name="T_DOC_COMMENT">     * @param float $amount</token>
+      </line>
+      <line no="65">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="66">
+        <token name="T_DOC_COMMENT">     * @return InfoInterface</token>
+      </line>
+      <line no="67">
+        <token name="T_DOC_COMMENT">     * @throws CaptureErrorException</token>
+      </line>
+      <line no="68">
+        <token name="T_DOC_COMMENT">     * @throws LocalizedException</token>
+      </line>
+      <line no="69">
+        <token name="T_DOC_COMMENT">     * @throws NotEnoughFundException</token>
+      </line>
+      <line no="70">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="71">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">execute</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">InfoInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$payment</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">float</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$amount</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">InfoInterface</token>
+      </line>
+      <line no="72">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="73">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_COMMENT">//If we have no entity ID on invoice it means it's an invoice not saved yet.</token>
+      </line>
+      <line no="74">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_COMMENT">//This means we are in the middle of creating the invoice. We will wait until the invoice is saved, so we can</token>
+      </line>
+      <line no="75">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_COMMENT">//have an invoice ID. An event will trigger this again after the invoice save.</token>
+      </line>
+      <line no="76">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">magentoPaymentHasInvoice</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$payment</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="77">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_COMMENT">//Transaction is pending for now.</token>
+      </line>
+      <line no="78">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$payment</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setIsTransactionPending</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">true</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="79"/>
+      <line no="80">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$payment</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="81">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="82"/>
+      <line no="83">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$orderId</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_INT_CAST">(int)</token>
+        <token name="T_VARIABLE">$payment</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getOrder</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getEntityId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="84">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$invoiceId</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_INT_CAST">(int)</token>
+        <token name="T_VARIABLE">$payment</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getCreatedInvoice</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getEntityId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="85">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$amountPaid</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DNUMBER">0.00</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="86"/>
+      <line no="87">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_TRY">try</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="88">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$transactionsToUseToPayInvoice</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">allTransactionsToCaptureFinder</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">execute</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="89">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$amount</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="90">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$orderId</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="91">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$invoiceId</token>
+      </line>
+      <line no="92">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="93">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CATCH">catch</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">NotEnoughFundException</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$exception</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="94">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_COMMENT">//This should never happen but just in case.</token>
+      </line>
+      <line no="95">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$errorMessage</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">sprintf</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="96">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'There are been an error while trying to pay the invoice with Id %s because: %s'</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="97">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$invoiceId</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="98">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$exception</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getMessage</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="99">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="100"/>
+      <line no="101">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_THROW">throw</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NEW">new</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">NotEnoughFundException</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$errorMessage</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="102">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="103"/>
+      <line no="104">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_FOREACH">foreach</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$transactionsToUseToPayInvoice</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_AS">as</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$transactionToUse</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="105">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_DOC_COMMENT">/** @var OrderTransactions $transaction */</token>
+      </line>
+      <line no="106">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$transactionToUse</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'transaction'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="107">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setTransactionId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="108"/>
+      <line no="109">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_COMMENT">//Here we have capture or child capture transactions.</token>
+      </line>
+      <line no="110">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getTransactionType</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_NOT_IDENTICAL">!==</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">OrderTransactions</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">AUTHORIZE_ACTION</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="111">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$amountPaid</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_PLUS_EQUAL">+=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getAmount</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="112"/>
+      <line no="113">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_COMMENT">//If the transaction is already linked to the invoice we are trying to pay, don't link it again.</token>
+      </line>
+      <line no="114">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getInvoiceId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_IDENTICAL">===</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">null</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="115">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_COMMENT">//Link the capture transaction to the invoice. This is very important to know what a transaction</token>
+      </line>
+      <line no="116">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_COMMENT">//paid.</token>
+      </line>
+      <line no="117">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setInvoiceId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$invoiceId</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="118">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">orderTransactionsRepository</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">save</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="119"/>
+      <line no="120">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_COMMENT">//Update the amount captured on the payment method. This is very important to know what's left to</token>
+      </line>
+      <line no="121">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_COMMENT">//capture.</token>
+      </line>
+      <line no="122">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$orderPayment</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">orderPaymentRepository</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getById</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getParentPaymentId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="123">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$orderPayment</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setAmountCaptured</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$orderPayment</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getAmountCaptured</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_PLUS">+</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getAmount</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="124">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">orderPaymentRepository</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">save</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$orderPayment</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="125"/>
+      <line no="126">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$payment</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getOrder</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">addCommentToStatusHistory</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">sprintf</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="127">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Paying invoice ID %s with transaction ID %s using method %s with amount %s.'</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="128">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_VARIABLE">$invoiceId</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="129">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getTransactionId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="130">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getMethod</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="131">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getAmount</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="132">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="133">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="134">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_CURLY">}</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_ELSEIF">elseif</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getTransactionType</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_IDENTICAL">===</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">OrderTransactions</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">AUTHORIZE_ACTION</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="135">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$captureTransaction</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">captureAuthorizeTransaction</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="136">
+        <token name="T_WHITESPACE">                     </token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="137">
+        <token name="T_WHITESPACE">                     </token>
+        <token name="T_VARIABLE">$orderId</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="138">
+        <token name="T_WHITESPACE">                     </token>
+        <token name="T_VARIABLE">$invoiceId</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="139">
+        <token name="T_WHITESPACE">                     </token>
+        <token name="T_VARIABLE">$transactionToUse</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="140">
+        <token name="T_WHITESPACE">                     </token>
+        <token name="T_VARIABLE">$payment</token>
+      </line>
+      <line no="141">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="142"/>
+      <line no="143">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$captureTransaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getStatus</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_IDENTICAL">===</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">OrderTransactions</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">SUCCESS_STATUS</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="144">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$amountPaid</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_PLUS_EQUAL">+=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$captureTransaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getAmount</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="145"/>
+      <line no="146">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$payment</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getOrder</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">addCommentToStatusHistory</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">sprintf</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="147">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Paying invoice ID %s with transaction ID %s using method %s with amount %s.'</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="148">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_VARIABLE">$invoiceId</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="149">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_VARIABLE">$captureTransaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getTransactionId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="150">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_VARIABLE">$captureTransaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getMethod</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="151">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_VARIABLE">$captureTransaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getAmount</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="152">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="153">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_CURLY">}</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_ELSEIF">elseif</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$captureTransaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getStatus</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_IDENTICAL">===</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">OrderTransactions</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">ERROR_STATUS</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="154">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$errorMessage</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">sprintf</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="155">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Capture transaction %s with method %s for amount %s is in error for invoice %s.'</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="156">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_VARIABLE">$captureTransaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getTransactionId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="157">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_VARIABLE">$captureTransaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getMethod</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="158">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_VARIABLE">$captureTransaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getAmount</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="159">
+        <token name="T_WHITESPACE">                        </token>
+        <token name="T_VARIABLE">$invoiceId</token>
+      </line>
+      <line no="160">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="161"/>
+      <line no="162">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_THROW">throw</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NEW">new</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">CaptureErrorException</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$errorMessage</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="163">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_CURLY">}</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_ELSEIF">elseif</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$captureTransaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getStatus</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_IDENTICAL">===</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">OrderTransactions</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">WAITING_STATUS</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="164">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$payment</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setIsTransactionPending</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">true</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="165"/>
+      <line no="166">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_COMMENT">//If we detect a waiting, it's very important to stop so that wait for the webhook before</token>
+      </line>
+      <line no="167">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_COMMENT">// continuing. If we don't then the next transaction could be an error, then we would have a</token>
+      </line>
+      <line no="168">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_COMMENT">// transaction in waiting tha't we might have to refund but that we can't refund. So to keep the</token>
+      </line>
+      <line no="169">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_COMMENT">//process simple, we stop for each waiting on the capture.</token>
+      </line>
+      <line no="170">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_BREAK">break</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="171">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="172">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="173">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="174"/>
+      <line no="175">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_COMMENT">//To avoid issue when comparing floats, use built-in magento feature (it uses an epsilon of 0.00001).</token>
+      </line>
+      <line no="176">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_COMMENT">//If both amount match &amp; there has been no error.</token>
+      </line>
+      <line no="177">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">floatComparator</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">equal</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$amountPaid</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$amount</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="178">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$payment</token>
+      </line>
+      <line no="179">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setTransactionId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">upStreamPaySessionId</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOT">.</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'-'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOT">.</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$invoiceId</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="180">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setIsTransactionClosed</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">false</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="181">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setIsTransactionPending</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">false</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="182">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setIsTransactionApproved</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">true</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="183">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setCurrencyCode</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$payment</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getOrder</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getGlobalCurrencyCode</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="184">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="185">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="186"/>
+      <line no="187">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$payment</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="188">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="189"/>
+      <line no="190">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="191">
+        <token name="T_DOC_COMMENT">     * Check if the Magento payment has an invoice linked to it.</token>
+      </line>
+      <line no="192">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="193">
+        <token name="T_DOC_COMMENT">     * @param InfoInterface $payment</token>
+      </line>
+      <line no="194">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="195">
+        <token name="T_DOC_COMMENT">     * @return bool</token>
+      </line>
+      <line no="196">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="197">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">magentoPaymentHasInvoice</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">InfoInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$payment</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">bool</token>
+      </line>
+      <line no="198">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="199">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_COMMENT">//If we have no entity ID on invoice it means it's an invoice not saved yet.</token>
+      </line>
+      <line no="200">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_COMMENT">//This means we are in the middle of creating the invoice. We will wait until the invoice is saved, so we can</token>
+      </line>
+      <line no="201">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_COMMENT">//have an invoice ID. An event will trigger this again after the invoice save.</token>
+      </line>
+      <line no="202">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$payment</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getCreatedInvoice</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_IDENTICAL">===</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">null</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_BOOLEAN_OR">||</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$payment</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getCreatedInvoice</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getEntityId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_IDENTICAL">===</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">null</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="203">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="204"/>
+      <line no="205">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="206">
+        <token name="T_DOC_COMMENT">     * Set the transaction ID used for the magento transaction.</token>
+      </line>
+      <line no="207">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="208">
+        <token name="T_DOC_COMMENT">     * @param OrderTransactionsInterface $transaction</token>
+      </line>
+      <line no="209">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="210">
+        <token name="T_DOC_COMMENT">     * @return void</token>
+      </line>
+      <line no="211">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="212">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">setTransactionId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">OrderTransactionsInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">void</token>
+      </line>
+      <line no="213">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="214">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">upStreamPaySessionId</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_IDENTICAL">===</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">''</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="215">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">upStreamPaySessionId</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getSessionId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="216">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="217">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="218"/>
+      <line no="219">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="220">
+        <token name="T_DOC_COMMENT">     * Capture the given authorize transaction &amp; save it in DB.</token>
+      </line>
+      <line no="221">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="222">
+        <token name="T_DOC_COMMENT">     * @param OrderTransactionsInterface $transaction</token>
+      </line>
+      <line no="223">
+        <token name="T_DOC_COMMENT">     * @param int $orderId</token>
+      </line>
+      <line no="224">
+        <token name="T_DOC_COMMENT">     * @param int $invoiceId</token>
+      </line>
+      <line no="225">
+        <token name="T_DOC_COMMENT">     * @param array $transactionToUse</token>
+      </line>
+      <line no="226">
+        <token name="T_DOC_COMMENT">     * @param InfoInterface $payment</token>
+      </line>
+      <line no="227">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="228">
+        <token name="T_DOC_COMMENT">     * @return OrderTransactionsInterface</token>
+      </line>
+      <line no="229">
+        <token name="T_DOC_COMMENT">     * @throws CaptureErrorException</token>
+      </line>
+      <line no="230">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="231">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">captureAuthorizeTransaction</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="232">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">OrderTransactionsInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="233">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">int</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$orderId</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="234">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">int</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$invoiceId</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="235">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_ARRAY">array</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$transactionToUse</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="236">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_STRING">InfoInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$payment</token>
+      </line>
+      <line no="237">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">OrderTransactionsInterface</token>
+      </line>
+      <line no="238">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="239">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$body</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="240">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'order'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="241">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'amount'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$payment</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getOrder</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getBaseGrandTotal</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="242">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'currency_code'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$payment</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getOrder</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getGlobalCurrencyCode</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="243">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="244">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'amount'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$transactionToUse</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'amountToCapture'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="245">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="246"/>
+      <line no="247">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_TRY">try</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="248">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$response</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">client</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">capture</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getTransactionId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$body</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="249">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$captureTransaction</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">orderTransactions</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">createTransactionFromResponse</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="250">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$response</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="251">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$orderId</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="252">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getQuoteId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="253">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getParentPaymentId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="254">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$invoiceId</token>
+      </line>
+      <line no="255">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="256"/>
+      <line no="257">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_COMMENT">//Update the amount captured on the payment method. This is very important to know what's left to</token>
+      </line>
+      <line no="258">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_COMMENT">//capture.</token>
+      </line>
+      <line no="259">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$orderPayment</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">orderPaymentRepository</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getById</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$captureTransaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getParentPaymentId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="260">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$orderPayment</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setAmountCaptured</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="261">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$orderPayment</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getAmountCaptured</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_PLUS">+</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$captureTransaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getAmount</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="262">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="263">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">orderPaymentRepository</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">save</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$orderPayment</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="264">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CATCH">catch</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">Throwable</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$exception</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="265">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$errorMessage</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">sprintf</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="266">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Error while trying to capture transaction %s for amount %s for invoice %s because %s'</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="267">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$transaction</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getTransactionId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="268">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$transactionToUse</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'amountToCapture'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="269">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$invoiceId</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="270">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$exception</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getMessage</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="271">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="272"/>
+      <line no="273">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_THROW">throw</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NEW">new</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">CaptureErrorException</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$errorMessage</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="274">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="275"/>
+      <line no="276">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$captureTransaction</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="277">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="278">
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="279"/>
+    </source>
+  </file>
+</phpunit>

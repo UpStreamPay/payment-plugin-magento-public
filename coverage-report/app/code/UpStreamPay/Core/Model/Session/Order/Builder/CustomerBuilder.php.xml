@@ -1,0 +1,1160 @@
+<?xml version="1.0"?>
+<phpunit xmlns="https://schema.phpunit.de/coverage/1.0">
+  <file name="CustomerBuilder.php" path="/app/code/UpStreamPay/Core/Model/Session/Order/Builder">
+    <totals>
+      <lines total="136" comments="40" code="96" executable="39" executed="39" percent="100.00"/>
+      <methods count="3" tested="3" percent="100.00"/>
+      <functions count="0" tested="0" percent="0"/>
+      <classes count="1" tested="1" percent="100.00"/>
+      <traits count="0" tested="0" percent="0"/>
+    </totals>
+    <class name="UpStreamPay\Core\Model\Session\Order\Builder\CustomerBuilder" start="34" executable="39" executed="39" crap="12">
+      <namespace name="UpStreamPay\Core\Model\Session\Order\Builder"/>
+      <method name="__construct" signature="__construct(Magento\Customer\Api\GroupRepositoryInterface $groupRepository, Magento\Framework\App\Config\ScopeConfigInterface $config, Magento\Framework\Stdlib\DateTime\TimezoneInterface $timezone, UpStreamPay\Core\Model\Session\Order\BuilderInterface $accountBuilder, UpStreamPay\Core\Model\Session\Order\AddressBuilderInterface $billingAddressBuilder, Magento\Store\Model\StoreManagerInterface $storeManager, UpStreamPay\Core\Model\Config $upStreamPayConfig)" start="45" end="54" crap="1" executable="1" executed="1" coverage="100"/>
+      <method name="execute" signature="execute(Magento\Quote\Api\Data\CartInterface $quote): array" start="67" end="115" crap="8" executable="32" executed="32" coverage="100"/>
+      <method name="setTinData" signature="setTinData(Magento\Customer\Api\Data\CustomerInterface $customer): string" start="122" end="134" crap="3" executable="6" executed="6" coverage="100"/>
+    </class>
+    <coverage>
+      <line nr="54">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteGuest"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomer"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomerBusiness"/>
+      </line>
+      <line nr="69">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteGuest"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomer"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomerBusiness"/>
+      </line>
+      <line nr="71">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteGuest"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomer"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomerBusiness"/>
+      </line>
+      <line nr="72">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteGuest"/>
+      </line>
+      <line nr="74">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomer"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomerBusiness"/>
+      </line>
+      <line nr="75">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomer"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomerBusiness"/>
+      </line>
+      <line nr="76">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomer"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomerBusiness"/>
+      </line>
+      <line nr="78">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomer"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomerBusiness"/>
+      </line>
+      <line nr="81">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomer"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomerBusiness"/>
+      </line>
+      <line nr="82">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomer"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomerBusiness"/>
+      </line>
+      <line nr="83">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomer"/>
+      </line>
+      <line nr="84">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomerBusiness"/>
+      </line>
+      <line nr="85">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomerBusiness"/>
+      </line>
+      <line nr="89">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomer"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomerBusiness"/>
+      </line>
+      <line nr="90">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomer"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomerBusiness"/>
+      </line>
+      <line nr="93">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomer"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomerBusiness"/>
+      </line>
+      <line nr="96">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteGuest"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomer"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomerBusiness"/>
+      </line>
+      <line nr="97">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteGuest"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomer"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomerBusiness"/>
+      </line>
+      <line nr="98">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteGuest"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomer"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomerBusiness"/>
+      </line>
+      <line nr="99">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteGuest"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomer"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomerBusiness"/>
+      </line>
+      <line nr="100">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteGuest"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomer"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomerBusiness"/>
+      </line>
+      <line nr="101">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteGuest"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomer"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomerBusiness"/>
+      </line>
+      <line nr="102">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteGuest"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomer"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomerBusiness"/>
+      </line>
+      <line nr="103">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteGuest"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomer"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomerBusiness"/>
+      </line>
+      <line nr="104">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteGuest"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomer"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomerBusiness"/>
+      </line>
+      <line nr="105">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteGuest"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomer"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomerBusiness"/>
+      </line>
+      <line nr="106">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteGuest"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomer"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomerBusiness"/>
+      </line>
+      <line nr="107">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteGuest"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomer"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomerBusiness"/>
+      </line>
+      <line nr="111">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteGuest"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomer"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomerBusiness"/>
+      </line>
+      <line nr="112">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteGuest"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomer"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomerBusiness"/>
+      </line>
+      <line nr="114">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteGuest"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomer"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomerBusiness"/>
+      </line>
+      <line nr="124">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomer"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomerBusiness"/>
+      </line>
+      <line nr="126">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomer"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomerBusiness"/>
+      </line>
+      <line nr="127">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomer"/>
+      </line>
+      <line nr="128">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomer"/>
+      </line>
+      <line nr="129">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomer"/>
+      </line>
+      <line nr="133">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomerBusiness"/>
+      </line>
+      <line nr="108">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteGuest"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomer"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomerBusiness"/>
+      </line>
+      <line nr="109">
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteGuest"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomer"/>
+        <covered by="UpStreamPay\Core\Test\Model\Session\Order\Builder\CustomerBuilderTest::testExecuteCustomerBusiness"/>
+      </line>
+    </coverage>
+    <source>
+      <line no="1">
+        <token name="T_OPEN_TAG">&lt;?php</token>
+      </line>
+      <line no="2">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="3">
+        <token name="T_DOC_COMMENT"> * UpStream Pay</token>
+      </line>
+      <line no="4">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="5">
+        <token name="T_DOC_COMMENT"> * Copyright (c) 2023 UpStream Pay.</token>
+      </line>
+      <line no="6">
+        <token name="T_DOC_COMMENT"> * This file is open source and available under the BSD 3 license.</token>
+      </line>
+      <line no="7">
+        <token name="T_DOC_COMMENT"> * See the LICENSE file for more info.</token>
+      </line>
+      <line no="8">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="9">
+        <token name="T_DOC_COMMENT"> * Author: Claranet France &lt;info@fr.clara.net&gt;</token>
+      </line>
+      <line no="10">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="11">
+        <token name="T_DECLARE">declare</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">strict_types</token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_LNUMBER">1</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="12"/>
+      <line no="13">
+        <token name="T_NAMESPACE">namespace</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Model\Session\Order\Builder</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="14"/>
+      <line no="15">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Customer\Api\Data\CustomerInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="16">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Customer\Api\GroupRepositoryInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="17">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Directory\Helper\Data</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="18">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Framework\App\Config\ScopeConfigInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="19">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Framework\Exception\LocalizedException</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="20">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Framework\Exception\NoSuchEntityException</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="21">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Framework\Stdlib\DateTime\TimezoneInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="22">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Quote\Api\Data\CartInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="23">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Store\Model\ScopeInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="24">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Magento\Store\Model\StoreManagerInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="25">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Model\Config</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="26">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Model\Session\Order\AddressBuilderInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="27">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">UpStreamPay\Core\Model\Session\Order\BuilderInterface</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="28"/>
+      <line no="29">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="30">
+        <token name="T_DOC_COMMENT"> * Class CustomerBuilder</token>
+      </line>
+      <line no="31">
+        <token name="T_DOC_COMMENT"> *</token>
+      </line>
+      <line no="32">
+        <token name="T_DOC_COMMENT"> * @package UpStreamPay\Core\Model\Session\Order\Builder</token>
+      </line>
+      <line no="33">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="34">
+        <token name="T_CLASS">class</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">CustomerBuilder</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IMPLEMENTS">implements</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">BuilderInterface</token>
+      </line>
+      <line no="35">
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="36">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="37">
+        <token name="T_DOC_COMMENT">     * @param GroupRepositoryInterface $groupRepository</token>
+      </line>
+      <line no="38">
+        <token name="T_DOC_COMMENT">     * @param ScopeConfigInterface $config</token>
+      </line>
+      <line no="39">
+        <token name="T_DOC_COMMENT">     * @param TimezoneInterface $timezone</token>
+      </line>
+      <line no="40">
+        <token name="T_DOC_COMMENT">     * @param BuilderInterface $accountBuilder</token>
+      </line>
+      <line no="41">
+        <token name="T_DOC_COMMENT">     * @param AddressBuilderInterface $billingAddressBuilder</token>
+      </line>
+      <line no="42">
+        <token name="T_DOC_COMMENT">     * @param StoreManagerInterface $storeManager</token>
+      </line>
+      <line no="43">
+        <token name="T_DOC_COMMENT">     * @param Config $upStreamPayConfig</token>
+      </line>
+      <line no="44">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="45">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">__construct</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="46">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">GroupRepositoryInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$groupRepository</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="47">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">ScopeConfigInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$config</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="48">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">TimezoneInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$timezone</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="49">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">BuilderInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$accountBuilder</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="50">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">AddressBuilderInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$billingAddressBuilder</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="51">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">StoreManagerInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$storeManager</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="52">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_READONLY">readonly</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Config</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$upStreamPayConfig</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="53">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="54">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="55"/>
+      <line no="56">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="57">
+        <token name="T_DOC_COMMENT">     * Build customer data for the UpStream Pay order.</token>
+      </line>
+      <line no="58">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="59">
+        <token name="T_DOC_COMMENT">     * @param CartInterface $quote</token>
+      </line>
+      <line no="60">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="61">
+        <token name="T_DOC_COMMENT">     * @return array</token>
+      </line>
+      <line no="62">
+        <token name="T_DOC_COMMENT">     * @throws LocalizedException</token>
+      </line>
+      <line no="63">
+        <token name="T_DOC_COMMENT">     * @throws NoSuchEntityException</token>
+      </line>
+      <line no="64">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="65">
+        <token name="T_DOC_COMMENT">     * @see UpStream Pay documentation regarding all the fields &amp; format.</token>
+      </line>
+      <line no="66">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="67">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">execute</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">CartInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$quote</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_ARRAY">array</token>
+      </line>
+      <line no="68">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="69">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$customerData</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="70"/>
+      <line no="71">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$quote</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getCustomerIsGuest</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="72">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$customerData</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'reference'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'guest-'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOT">.</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$quote</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="73">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_ELSE">else</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="74">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$customer</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$quote</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getCustomer</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="75">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$customerGroup</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">groupRepository</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getById</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$customer</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getGroupId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="76">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$customerDob</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$quote</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getCustomerDob</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="77"/>
+      <line no="78">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$customerData</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'reference'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$customer</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="79"/>
+      <line no="80">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_COMMENT">//Based on Magento default customer groups. In case of custom group, the field is not sent.</token>
+      </line>
+      <line no="81">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$customerGroup</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_BOOLEAN_AND">&amp;&amp;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$customerGroup</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="82">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$customerGroup</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getCode</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_IDENTICAL">===</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'General'</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="83">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$customerData</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'type_code'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'customer'</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="84">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_CURLY">}</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_ELSEIF">elseif</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$customerGroup</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getCode</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_IDENTICAL">===</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Retailer'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_BOOLEAN_OR">||</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$customerGroup</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getCode</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_IDENTICAL">===</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Wholesale'</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="85">
+        <token name="T_WHITESPACE">                    </token>
+        <token name="T_VARIABLE">$customerData</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'type_code'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'business'</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="86">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="87">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="88"/>
+      <line no="89">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$customerDob</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_NOT_IDENTICAL">!==</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">null</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="90">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$customerData</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'birthdate'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">timezone</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">date</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">strtotime</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$customerDob</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">format</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'Y-m-d'</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="91">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="92"/>
+      <line no="93">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$customerData</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'additional_attributes'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'national_identifier'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">setTinData</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$customer</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="94">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="95"/>
+      <line no="96">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$customerData</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'company_name'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$quote</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getBillingAddress</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getCompany</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="97">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$customerData</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'first_name'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$quote</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getBillingAddress</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getFirstname</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="98">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$customerData</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'middle_name'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$quote</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getBillingAddress</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getMiddlename</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="99">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$customerData</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'last_name'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$quote</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getBillingAddress</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getLastname</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="100">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$customerData</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'ip'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$quote</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getRemoteIp</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="101">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$customerData</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'locale_code'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">str_replace</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="102">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'_'</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="103">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'-'</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="104">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">config</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getValue</token>
+        <token name="T_OPEN_BRACKET">(</token>
+      </line>
+      <line no="105">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_STRING">Data</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">XML_PATH_DEFAULT_LOCALE</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="106">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_STRING">ScopeInterface</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">SCOPE_STORE</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="107">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">storeManager</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getStore</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getId</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="108">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="109">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="110"/>
+      <line no="111">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$customerData</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'billing_address'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">billingAddressBuilder</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">execute</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$quote</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="112">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$customerData</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'account'</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">accountBuilder</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">execute</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$quote</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="113"/>
+      <line no="114">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$customerData</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="115">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="116"/>
+      <line no="117">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="118">
+        <token name="T_DOC_COMMENT">     * @param CustomerInterface $customer</token>
+      </line>
+      <line no="119">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="120">
+        <token name="T_DOC_COMMENT">     * @return string</token>
+      </line>
+      <line no="121">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="122">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PRIVATE">private</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">setTinData</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">CustomerInterface</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$customer</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">string</token>
+      </line>
+      <line no="123">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="124">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$tinAttributeCode</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$this</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">upStreamPayConfig</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getCustomerTinAttributeCode</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="125"/>
+      <line no="126">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$tinAttributeCode</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_NOT_IDENTICAL">!==</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">null</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="127">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$tinAttribute</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$customer</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getCustomAttribute</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$tinAttributeCode</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="128">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$tinAttribute</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_IS_NOT_IDENTICAL">!==</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">null</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="129">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$tinAttribute</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">getValue</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="130">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="131">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="132"/>
+      <line no="133">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">''</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="134">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="135">
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="136"/>
+    </source>
+  </file>
+</phpunit>
