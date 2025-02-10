@@ -1,5 +1,4 @@
 name: Deploy plugin
-
 on:
   workflow_dispatch:
     inputs:
@@ -14,7 +13,6 @@ on:
           - test
           - preprod
           - prod
-
 jobs:
   deploy-dev-plugin:
     uses: UpStreamPay/usp-reusable-workflows/.github/workflows/utils-gitflow-deploy-plugin.yaml@v2
@@ -33,7 +31,13 @@ jobs:
       pull-gar-workload-identity-provider: ${{ vars.GCP_DEV_PLUGINS_WORKLOAD_IDENTITY_PROVIDER }}
       push-bucket-service-account: ${{ vars.GCP_DEV_PLUGINS_PUSH_BUCKET_PLUGINS_SA_EMAIL }}
       push-bucket-workload-identity-provider: ${{ vars.GCP_DEV_PLUGINS_WORKLOAD_IDENTITY_PROVIDER }}
-
+  create-github-dev-deployment:
+    runs-on: ubuntu-latest
+    needs: deploy-dev-plugin
+    if: inputs.environment == 'dev'
+    environment: development
+    steps:
+      - run: echo "Creating GitHub deployment for dev environment"
   deploy-test-plugin:
     uses: UpStreamPay/usp-reusable-workflows/.github/workflows/utils-gitflow-deploy-plugin.yaml@v2
     if: inputs.environment == 'test'
@@ -51,7 +55,13 @@ jobs:
       pull-gar-workload-identity-provider: ${{ vars.GCP_DEV_PLUGINS_WORKLOAD_IDENTITY_PROVIDER }}
       push-bucket-service-account: ${{ vars.GCP_TEST_PLUGINS_PUSH_BUCKET_PLUGINS_SA_EMAIL }}
       push-bucket-workload-identity-provider: ${{ vars.GCP_TEST_PLUGINS_WORKLOAD_IDENTITY_PROVIDER }}
-
+  create-github-test-deployment:
+    runs-on: ubuntu-latest
+    needs: deploy-test-plugin
+    if: inputs.environment == 'test'
+    environment: testing
+    steps:
+      - run: echo "Creating GitHub deployment for test environment"
   deploy-preprod-plugin:
     uses: UpStreamPay/usp-reusable-workflows/.github/workflows/utils-gitflow-deploy-plugin.yaml@v2
     if: inputs.environment == 'preprod'
@@ -69,7 +79,13 @@ jobs:
       pull-gar-workload-identity-provider: ${{ vars.GCP_PROD_PLUGINS_WORKLOAD_IDENTITY_PROVIDER }}
       push-bucket-service-account: ${{ vars.GCP_PREPROD_PLUGINS_PUSH_BUCKET_PLUGINS_SA_EMAIL }}
       push-bucket-workload-identity-provider: ${{ vars.GCP_PREPROD_PLUGINS_WORKLOAD_IDENTITY_PROVIDER }}
-
+  create-github-preprod-deployment:
+    runs-on: ubuntu-latest
+    needs: deploy-preprod-plugin
+    if: inputs.environment == 'preprod'
+    environment: staging
+    steps:
+      - run: echo "Creating GitHub deployment for preprod environment"
   deploy-prod-plugin:
     uses: UpStreamPay/usp-reusable-workflows/.github/workflows/utils-gitflow-deploy-plugin.yaml@v2
     if: inputs.environment == 'prod'
@@ -87,3 +103,10 @@ jobs:
       pull-gar-workload-identity-provider: ${{ vars.GCP_PROD_PLUGINS_WORKLOAD_IDENTITY_PROVIDER }}
       push-bucket-service-account: ${{ vars.GCP_PROD_PLUGINS_PUSH_BUCKET_PLUGINS_SA_EMAIL }}
       push-bucket-workload-identity-provider: ${{ vars.GCP_PROD_PLUGINS_WORKLOAD_IDENTITY_PROVIDER }}
+  create-github-prod-deployment:
+    runs-on: ubuntu-latest
+    needs: deploy-prod-plugin
+    if: inputs.environment == 'prod'
+    environment: production
+    steps:
+      - run: echo "Creating GitHub deployment for prod environment"
